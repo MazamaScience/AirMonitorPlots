@@ -18,9 +18,9 @@ addPolygon(x = 0, y = 0, sides = 72, radius = 1, rotation = 0,
 
 \item{rotation}{amount to rotate the polygon in radians}
 
-\item{border}{border color (see `code{?polygon}`)}
+\item{border}{border color (see \code{?polygon})}
 
-\item{col}{fill color (see `code{?polygon}`)}
+\item{col}{fill color (see \code{?polygon})}
 
 \item{...}{additional arguments to be passed to \code{polygon()}}
 }

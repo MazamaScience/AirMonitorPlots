@@ -7,8 +7,8 @@
 #' @param sides number of sides
 #' @param radius radius
 #' @param rotation amount to rotate the polygon in radians
-#' @param border border color (see `code{?polygon}`)
-#' @param col fill color (see `code{?polygon}`)
+#' @param border border color (see \code{?polygon})
+#' @param col fill color (see \code{?polygon})
 #' @param ... additional arguments to be passed to \code{polygon()}
 #' @description Add a multi-sided polygon to a plot.
 #' @examples
