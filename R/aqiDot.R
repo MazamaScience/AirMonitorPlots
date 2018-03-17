@@ -31,10 +31,10 @@ addPolygon <- function(x = 0,
                        ...) {
 
   # TODO:  Handle vector arguments
-  
-  xx <- x + radius * cos(rotation + 2 * pi * (1:(sides+1))/sides)
-  yy <- y + radius * sin(rotation + 2 * pi * (1:(sides+1))/sides)
-  
-  polygon(xx, yy, border=border, col=col, ...)
-  
+
+  xx <- x + radius * cos(rotation + 2 * pi * (1:(sides + 1)) / sides)
+  yy <- y + radius * sin(rotation + 2 * pi * (1:(sides + 1)) / sides)
+
+  polygon(xx, yy, border = border, col = col, ...)
+
 }
