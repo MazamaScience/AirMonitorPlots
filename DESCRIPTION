@@ -4,7 +4,7 @@ Version: 0.1.0
 Title: Plot Utilities for the PWFSLSmoke Package
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
-    person("Pease", "Spencer", email="spencerpease618@gmail.com ", role=c("aut"))
+    person("Pease", "Spencer", email="spencer.p.816@gmail.com ", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
     Spencer Pease [aut],
@@ -16,7 +16,7 @@ Imports:
 Suggests:
     knitr
 Description: Plot utilities for the PWFSLSmoke package.
-License: GPL-2
+License: GPL-3
 VignetteBuilder: knitr
 Repository: CRAN
 LazyData: true
