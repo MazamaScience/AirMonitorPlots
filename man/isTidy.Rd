@@ -7,8 +7,12 @@
 isTidy(data = NULL)
 }
 \arguments{
-\item{data}{Data to interrogate}
+\item{data}{Data to validate.}
 }
 \value{
-True if the data is in a recognized 'Tidy' format, otherwise False
+True if the data is in a recognized 'Tidy' format, otherwise False.
+}
+\description{
+Verifies that the given data can be treated as 'tidy'-formatted
+    `ws_monitor` data.
 }

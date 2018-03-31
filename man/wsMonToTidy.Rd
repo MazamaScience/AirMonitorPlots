@@ -7,10 +7,14 @@
 wsMonToTidy(data = NULL)
 }
 \arguments{
-\item{data}{Data to convert}
+\item{data}{Data to convert.}
 }
 \value{
-'Tidy' formatted `ws_monitor` data
+'Tidy' formatted `ws_monitor` data.
+}
+\description{
+Changes write-optomized `ws_monitor` formatted data into a
+    read-optomized 'tidy' format.
 }
 \examples{
 

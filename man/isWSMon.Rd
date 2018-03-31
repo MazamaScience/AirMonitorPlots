@@ -7,8 +7,12 @@
 isWSMon(data = NULL)
 }
 \arguments{
-\item{data}{Data to interrogate}
+\item{data}{Data to validate.}
 }
 \value{
-True if the data is of class `ws_monitor`, otherwise False
+True if the data is of class `ws_monitor`, otherwise False.
+}
+\description{
+Verifies that the given data can be treated as a `ws_monitor`
+    object.
 }
