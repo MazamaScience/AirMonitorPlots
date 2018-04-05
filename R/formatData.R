@@ -11,7 +11,7 @@ isWSMon <- function(data = NULL) {
     stop("Data parameter cannot be NULL")
   }
 
-  class(data)[1] == "ws_monitor"
+  "ws_monitor" %in% class(data)
 }
 
 
@@ -35,7 +35,7 @@ isTidy <- function(data = NULL) {
     "telemetryAggregator", "telemetryUnitID"
   )
 
-  tidy <- (class(data) == c("tbl_df", "tbl", "data.frame") &&
+  tidy <- (all(c("tbl_df", "tbl", "data.frame") %in% class(data)) &&
            all(columns %in% colnames(data)))
 
   tidy
@@ -50,6 +50,10 @@ isTidy <- function(data = NULL) {
 #' @return 'Tidy' formatted `ws_monitor` data.
 #'
 #' @export
+#' @importFrom magrittr '%>%'
+#' @importFrom rlang .data
+#' @import dplyr
+#' @import PWFSLSmoke
 #'
 #' @examples
 #'
@@ -59,7 +63,7 @@ wsMonToTidy <- function(data = NULL) {
     monData <- tibble::as_tibble(data[["data"]])
 
     tidyData <-  monData %>%
-      tidyr::gather(monitorID, pm25, -datetime) %>%
+      tidyr::gather("monitorID", "pm25", -.data$datetime) %>%
       dplyr::inner_join(monMeta, by = "monitorID")
 
   } else if (isTidy(data)) {

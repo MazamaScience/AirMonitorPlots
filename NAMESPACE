@@ -2,4 +2,8 @@
 
 export(addPolygon)
 export(wsMonToTidy)
+import(PWFSLSmoke)
+import(dplyr)
 import(graphics)
+importFrom(magrittr,'%>%')
+importFrom(rlang,.data)
