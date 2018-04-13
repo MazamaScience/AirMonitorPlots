@@ -9,11 +9,14 @@ library(ggthemes)
 
 # load data
 
-# yakimaMonitors <- c("530770016_01", "530770009_01",
-#                     "530770015_01", "530770005_01")
-yakimaMonitors <- c("530770009_01")
+santaMariaMonitors <- c("060831008_01",
+                        "060792004_01",
+                        "060792006_01",
+                        "060832004_01",
+                        "060798002_01")
+
 recentData <- airnow_loadLatest() %>%
-  monitor_subset(monitorIDs = yakimaMonitors)
+  monitor_subset(monitorIDs = santaMariaMonitors)
 
 recentDaily <- recentData %>%
   monitor_dailyStatistic()
@@ -34,8 +37,18 @@ dailyData <- wsMonToTidy(recentDaily) %>%
 
 # define scales
 
-colorScale <- AQI$colors
-names(colorScale) <- AQI$names
+aqiNames <- AQI$names
+
+aqiActions <- c(
+  'None.',
+  'Unusually sensitive individuals should consider limiting prolonged or heavy exertion.',
+  'People within Sensitive Groups should reduce prolonged or heavy outdoor exertion.',
+  'People within Sensitive Groups should avoid all physical outdoor activity.',
+  'Everyone should avoid prolonged or heavy exertion.',
+  'Everyone should avoid any outdoor activity.'
+)
+
+aqiColors <- AQI$colors
 
 # plot data
 
@@ -44,32 +57,60 @@ summaryPlot <-
          aes(x = datetime,
              y = pm25,
              fill = aqiCategory)) +
+  # used to align axes
   geom_col(data = dailyData,
            width = 86400,
-           alpha = .4,
-           color = "#2b2b2b",
-           size = .2) +
+           alpha = 0) +
   geom_col(data = hourlyData,
-           width = 3600 * .75) +
+           aes(color = aqiCategory),
+           width = 3600 * .45,
+           size = 0) +
+  geom_col(data = dailyData,
+           width = 86400,
+           alpha = 0.3,
+           color = "black",
+           size = .2) +
   facet_wrap(~ siteName,
-             ncol = 2) +
-  scale_fill_manual(values = colorScale,
-                    breaks = rev(names(colorScale)), # low values on the bottom
-                    drop = FALSE) +
+             ncol = 1) +
+  scale_fill_manual(values = aqiColors,
+                    labels = aqiNames,
+                    drop = FALSE,
+                    guide = guide_legend(order = 1,
+                                         override.aes = list(alpha = 1,
+                                                             color = NA))) +
+  scale_color_manual(name = "Recommended Actions",
+                     values = aqiColors,
+                     labels = aqiActions,
+                     drop = FALSE,
+                     guide = guide_legend(order = 2,
+                                          override.aes = list(color = NA,
+                                                              fill = NA))) +
   scale_x_datetime(date_breaks = "1 day",
-                   #date_minor_breaks = "12 hours",
                    date_labels = '%b %d',
                    expand = c(0, 0)) +
   labs(title = expression(paste("Daily and Hourly ", "PM"[2.5], " Levels")),
-       x = "Date",
+       x = "Date (midnight to midnight)",
        y = expression(paste("PM"[2.5] * " (", mu, "g/m"^3 * ")")),
        fill = "AQI Category") +
   theme_minimal() +
   theme(strip.background = element_rect(fill = "#E0E0E0"),
+
         panel.background = element_rect(color = "black"),
-        panel.grid.major = element_line(linetype = 1, color = 'gray75'),
-        panel.grid.major.x = element_blank(),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_line(linetype = 2, color = 'gray65'),
-        axis.text.x = element_text(angle = 45, hjust = 1))
+
+        legend.position = "top",
+        legend.justification = c(1, 1),
+        legend.direction = "vertical",
+        legend.box.background = element_rect(color = "black"),
+
+        plot.title = element_text(size = 24),
+        axis.title = element_text(size = 18),
+        axis.text.x = element_text(size = 12, angle = 30, hjust = 1),
+        axis.text.y = element_text(size = 12),
+        strip.text = element_text(size = 14),
+        legend.title = element_text(size = 12),
+        legend.text = element_text(size = 10)
+  )
 
 summaryPlot
