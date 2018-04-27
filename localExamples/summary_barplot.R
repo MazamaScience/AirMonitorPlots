@@ -7,6 +7,7 @@ library(PWFSLSmokePlots)
 # load data
 
 data <- airnow_loadLatest()
+
 santaMariaMonitors <- c(
   "060831008_01",
   "060792006_01",
