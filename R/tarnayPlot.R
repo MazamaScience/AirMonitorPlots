@@ -58,20 +58,20 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
 
   tarnayPlot <-
     ggplot(dailyData,
-           aes(x = ~ datetime, y = ~ pm25,
-               fill = ~ aqiCategory)) +
-    # used to align axes
-    geom_col(width = 86400,
-             alpha = 0) +
+      aes_(x = ~ datetime, y = ~ pm25,
+        fill = ~ aqiCategory)) +
+    geom_col( # used to align axes
+      width = 86400,
+      alpha = 0) +
     geom_col(data = hourlyData,
-             aes(color = ~ aqiCategory),
-             width = 3600 * .45,
-             size = 0) +
+      aes_(color = ~ aqiCategory), # needed for legend
+      width = 3600 * .45,
+      size = 0) +
     geom_col(data = dailyData,
-             width = 86400,
-             alpha = 0.3,
-             color = "black",
-             size = .2) +
+      width = 86400,
+      alpha = 0.3,
+      color = "black",
+      size = .2) +
     facet_wrap(~ siteName, ncol = columns) +
     scale_fill_manual(
       name = "AQI Category",
