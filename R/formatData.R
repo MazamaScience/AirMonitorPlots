@@ -15,30 +15,34 @@ isWSMon <- function(data = NULL) {
 }
 
 
-#' @title Check if Data has a 'Tidy' Format
-#' @description Verifies that the given data can be treated as 'tidy'-formatted
-#'     `ws_monitor` data.
+#' @title Check if data is tidy-formatted ws_monitor data
+#'
+#' @description
+#' Verifies that the given data can be treated as tidy-formatted "ws_monitor"
+#' data. This is done by verifying that the data is a tibble data.frame object
+#' with columns for information in all `ws_monitor` objects.
 #'
 #' @param data Data to validate.
+#'
 #' @return True if the data is in a recognized 'Tidy' format, otherwise False.
 #'
-isTidy <- function(data = NULL) {
+monitor_isTidy <- function(data = NULL) {
+
   if (is.null(data)) {
     stop("Data parameter cannot be NULL")
   }
 
-  columns <- c(
-    "datetime", "monitorID", "pm25", "longitude", "latitude",
-    "elevation", "timezone", "countryCode", "stateCode", "siteName",
-    "agencyName", "countyName", "msaName", "monitorType", "siteID",
-    "instrumentID", "aqsID", "pwfslID", "pwfslDataIngestSource",
-    "telemetryAggregator", "telemetryUnitID"
+  requiredColumns <- c(
+    "datetime", "monitorID", "pm25", "longitude", "latitude", "elevation",
+    "timezone", "countryCode", "stateCode"
   )
 
-  tidy <- (all(c("tbl_df", "tbl", "data.frame") %in% class(data)) &&
-           all(columns %in% colnames(data)))
+  isTidy <- (
+    all(c("tbl_df", "tbl", "data.frame") %in% class(data)) &&
+    all(requiredColumns %in% colnames(data))
+  )
 
-  tidy
+  return(isTidy)
 }
 
 
