@@ -1,20 +1,3 @@
-
-#' @title Check if Data has `ws_monitor` Format
-#' @description Verifies that the given data can be treated as a `ws_monitor`
-#'     object.
-#'
-#' @param data Data to validate.
-#' @return True if the data is of class `ws_monitor`, otherwise False.
-#'
-isWSMon <- function(data = NULL) {
-  if (is.null(data)) {
-    stop("Data parameter cannot be NULL")
-  }
-
-  "ws_monitor" %in% class(data)
-}
-
-
 #' @title Check if data is tidy-formatted ws_monitor data
 #'
 #' @description
