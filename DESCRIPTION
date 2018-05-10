@@ -14,7 +14,7 @@ Depends:
     dplyr,
     ggplot2,
     magrittr,
-    PWFSLSmoke (>= 1.0.10)
+    PWFSLSmoke (>= 1.0.20)
 Imports:
     rlang,
     tibble,
