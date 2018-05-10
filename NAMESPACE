@@ -2,7 +2,8 @@
 
 export(addPolygon)
 export(createTarnayPlot)
-export(wsMonToTidy)
+export(monitor_isTidy)
+export(monitor_toTidy)
 import(PWFSLSmoke)
 import(dplyr)
 import(ggplot2)
