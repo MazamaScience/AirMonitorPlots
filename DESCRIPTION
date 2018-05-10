@@ -13,7 +13,7 @@ Depends:
     R (>= 3.1.0),
     dplyr,
     magrittr,
-    PWFSLSmoke (>= 1.0.10)
+    PWFSLSmoke (>= 1.0.20)
 Imports:
     rlang,
     tibble,
