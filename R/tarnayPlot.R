@@ -15,6 +15,7 @@
 #'
 createTarnayPlot <- function(monitors, data, columns = 1) {
 
+  #TODO: use  ws_monitor data
   data <- data %>%
     monitor_subset(monitorIDs = monitors)
 
@@ -26,7 +27,7 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
       aqiCategory = cut(
         .data$pm25,
         AQI$breaks_24,
-        include.lowest = T,
+        include.lowest = TRUE,
         labels = AQI$names))
 
   dailyData <- data %>%
@@ -36,7 +37,7 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
       aqiCategory = cut(
         .data$pm25,
         AQI$breaks_24,
-        include.lowest = T,
+        include.lowest = TRUE,
         labels = AQI$names))
 
   # define scales
