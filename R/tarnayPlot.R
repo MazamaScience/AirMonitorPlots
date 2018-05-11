@@ -1,12 +1,16 @@
-#' @title Create a summary barplot with multiple bar types
-#' @description Creates a faceted barplot with multiple column types and
-#'     one or more monitor IDs.
+#' @title Create a Tarnay plot for many monitors
+#'
+#' @description
+#' Create a timeseries barplot showing PM2.5 data for the given monitors. The
+#' overall plot is faceted by monitor, and each facet has two sets of columns:
+#' one for daily levels, and one for hourly levels.
 #'
 #' @param monitors Monitor ID(s) to create plot for.
-#' @param data Data used to create plot.
+#' @param data Data used to create plot (NOTE: currently must be a `ws_monitor`
+#'   object).
 #' @param columns Number of columns the faceted plot should have (default 1).
 #'
-#' @return A `ggplot` barplot of the given monitors and data.
+#' @return A **ggplot** plot of the given monitors and data.
 #'
 #' @import ggplot2
 #' @export
@@ -15,14 +19,20 @@
 #'
 createTarnayPlot <- function(monitors, data, columns = 1) {
 
-  #TODO: use  ws_monitor data
-  data <- data %>%
+  # TODO: make function work with tidy monitor data
+  ##      Need to implement a `monitor_dailyStatistic()` function for tidy
+  ##      monitor data
+  if (!monitor_isMonitor(data)) {
+    stop("This function can currently only take in a `ws_monitor` object")
+  }
+
+  monData <- data %>%
     monitor_subset(monitorIDs = monitors)
 
   # make data tidy
 
-  hourlyData <- data %>%
-    wsMonToTidy() %>%
+  hourlyData <- monData %>%
+    monitor_toTidy() %>%
     mutate(
       aqiCategory = cut(
         .data$pm25,
@@ -30,9 +40,9 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
         include.lowest = TRUE,
         labels = AQI$names))
 
-  dailyData <- data %>%
+  dailyData <- monData %>%
     monitor_dailyStatistic() %>%
-    wsMonToTidy() %>%
+    monitor_toTidy() %>%
     mutate(
       aqiCategory = cut(
         .data$pm25,
@@ -43,20 +53,13 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
   # define scales
 
   aqiNames <- AQI$names
-
-  aqiActions <- c(
-    'None.',
-    'Unusually sensitive individuals should consider limiting prolonged or heavy exertion.',
-    'People within Sensitive Groups should reduce prolonged or heavy outdoor exertion.',
-    'People within Sensitive Groups should avoid all physical outdoor activity.',
-    'Everyone should avoid prolonged or heavy exertion.',
-    'Everyone should avoid any outdoor activity.'
-  )
-
+  aqiActions <- AQI$actions
   aqiColors <- AQI$colors
 
   # plot data
 
+  # TODO: create new ggplot stat object to handle daily data computation
+  # TODO: add ability to create plot with either raw hourly data or nowcast
   tarnayPlot <-
     ggplot(dailyData,
       aes_(x = ~ datetime, y = ~ pm25,
@@ -74,6 +77,9 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
       color = "black",
       size = .2) +
     facet_wrap(~ siteName, ncol = columns) +
+
+    # TODO: combine AQI text into single scale
+    # TODO: make legend scale with plot size
     scale_fill_manual(
       name = "AQI Category",
       values = aqiColors,
@@ -94,10 +100,15 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
       date_breaks = "1 day",
       date_labels = '%b %d',
       expand = c(0, 0)) +
+
+    # TODO: make labels a parameter
+    # TODO: make labels scale with plot size
     labs(
       title = expression(paste("Daily and Hourly ", "PM"[2.5], " Levels")),
       x = "Date (midnight to midnight)",
       y = expression(paste("PM"[2.5] * " (", mu, "g/m"^3 * ")"))) +
+
+    # TODO: Create theme object that can be used across the package
     theme_minimal() +
     theme(
       strip.background = element_rect(fill = "#E0E0E0"),

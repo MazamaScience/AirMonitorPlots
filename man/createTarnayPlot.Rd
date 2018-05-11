@@ -2,23 +2,25 @@
 % Please edit documentation in R/tarnayPlot.R
 \name{createTarnayPlot}
 \alias{createTarnayPlot}
-\title{Create a summary barplot with multiple bar types}
+\title{Create a Tarnay plot for many monitors}
 \usage{
 createTarnayPlot(monitors, data, columns = 1)
 }
 \arguments{
 \item{monitors}{Monitor ID(s) to create plot for.}
 
-\item{data}{Data used to create plot.}
+\item{data}{Data used to create plot (NOTE: currently must be a `ws_monitor`
+object).}
 
 \item{columns}{Number of columns the faceted plot should have (default 1).}
 }
 \value{
-A `ggplot` barplot of the given monitors and data.
+A **ggplot** plot of the given monitors and data.
 }
 \description{
-Creates a faceted barplot with multiple column types and
-    one or more monitor IDs.
+Create a timeseries barplot showing PM2.5 data for the given monitors. The
+overall plot is faceted by monitor, and each facet has two sets of columns:
+one for daily levels, and one for hourly levels.
 }
 \examples{
 
