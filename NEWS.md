@@ -4,6 +4,10 @@
 Plot utilities for the PWFSLSmoke package.
 ```
 
+## Version 0.3.0 -- Tarnay Plot
+
+Added the first plot function: the Tarnay plot. This plot is a timeseries barplot showing PM2.5 data for the given monitors. The overall plot is faceted by monitor, and each facet has two sets of columns: one for daily levels, and one for hourly levels.
+
 ## Version 0.2.1 -- Data Ingesting
 
 * Removed `isWSMon()`
