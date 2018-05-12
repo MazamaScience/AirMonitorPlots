@@ -4,7 +4,8 @@
 \alias{createTarnayPlot}
 \title{Create a Tarnay plot for many monitors}
 \usage{
-createTarnayPlot(monitors, data, columns = 1)
+createTarnayPlot(monitors, data, columns = 1, title = NULL, xLabel = NULL,
+  yLabel = NULL)
 }
 \arguments{
 \item{monitors}{Monitor ID(s) to create plot for.}
@@ -13,6 +14,14 @@ createTarnayPlot(monitors, data, columns = 1)
 object).}
 
 \item{columns}{Number of columns the faceted plot should have (default 1).}
+
+\item{title}{The title of the plot. Defaults to specifying the types of
+data present in the plot.}
+
+\item{xLabel}{The x-axis label of the plot. Defaults to years present in
+data.}
+
+\item{yLabel}{The y-axis label of the plot. Defaults to PM2.5.}
 }
 \value{
 A **ggplot** plot of the given monitors and data.
