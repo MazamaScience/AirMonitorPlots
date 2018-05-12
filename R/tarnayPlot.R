@@ -9,6 +9,11 @@
 #' @param data Data used to create plot (NOTE: currently must be a `ws_monitor`
 #'   object).
 #' @param columns Number of columns the faceted plot should have (default 1).
+#' @param title The title of the plot. Defaults to specifying the types of
+#'   data present in the plot.
+#' @param xLabel The x-axis label of the plot. Defaults to years present in
+#'   data.
+#' @param yLabel The y-axis label of the plot. Defaults to PM2.5.
 #'
 #' @return A **ggplot** plot of the given monitors and data.
 #'
@@ -17,7 +22,13 @@
 #'
 #' @examples
 #'
-createTarnayPlot <- function(monitors, data, columns = 1) {
+createTarnayPlot <- function(monitors,
+                             data,
+                             columns = 1,
+                             title = NULL,
+                             xLabel = NULL,
+                             yLabel = NULL) {
+
 
   # TODO: make function work with tidy monitor data
   ##      Need to implement a `monitor_dailyStatistic()` function for tidy
@@ -26,10 +37,10 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
     stop("This function can currently only take in a `ws_monitor` object")
   }
 
+  # Set up data
+
   monData <- data %>%
     monitor_subset(monitorIDs = monitors)
-
-  # make data tidy
 
   hourlyData <- monData %>%
     monitor_toTidy() %>%
@@ -49,6 +60,21 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
         AQI$breaks_24,
         include.lowest = TRUE,
         labels = AQI$names))
+
+  # Set up parameters
+  if (is.null(title)) {
+    title <- expression(paste("Daily and Hourly ", "PM"[2.5], " Levels"))
+  }
+
+  if (is.null(xLabel)) {
+    xLabel <- paste(
+      unique(lubridate::year(dailyData$datetime)),
+      collapse = ", ")
+  }
+
+  if (is.null(yLabel)) {
+    yLabel <- expression(paste("PM"[2.5] * " (", mu, "g/m"^3 * ")"))
+  }
 
   # define scales
 
@@ -104,9 +130,9 @@ createTarnayPlot <- function(monitors, data, columns = 1) {
     # TODO: make labels a parameter
     # TODO: make labels scale with plot size
     labs(
-      title = expression(paste("Daily and Hourly ", "PM"[2.5], " Levels")),
-      x = "Date (midnight to midnight)",
-      y = expression(paste("PM"[2.5] * " (", mu, "g/m"^3 * ")"))) +
+      title = title,
+      x = xLabel,
+      y = yLabel) +
 
     # TODO: Create theme object that can be used across the package
     theme_minimal() +
