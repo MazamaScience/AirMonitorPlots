@@ -29,15 +29,7 @@ createTarnayPlot <- function(monitors,
                              xLabel = NULL,
                              yLabel = NULL) {
 
-  # TODO: make function work with tidy monitor data
-  ##      Need to implement a `monitor_dailyStatistic()` function for tidy
-  ##      monitor data
-  if (!monitor_isMonitor(data)) {
-    stop("This function can currently only take in a `ws_monitor` object")
-  }
-
-  monData <- data %>%
-    monitor_subset(monitorIDs = monitors)
+  # Validate data
 
   # TODO: make function work with tidy monitor data
   ##      Need to implement a `monitor_dailyStatistic()` function for tidy
