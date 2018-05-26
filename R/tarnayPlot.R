@@ -27,9 +27,11 @@ createTarnayPlot <- function(monitors,
                              columns = 1,
                              title = NULL,
                              xLabel = NULL,
-                             yLabel = NULL) {
+                             yLabel = NULL,
+                             includeDaily = TRUE,
+                             hourlyType = "nowcast") {
 
-  # Validate data
+  # Validate data -------------------------------------------------------------
 
   # TODO: make function work with tidy monitor data
   ##      Need to implement a `monitor_dailyStatistic()` function for tidy
@@ -38,31 +40,76 @@ createTarnayPlot <- function(monitors,
     stop("This function can currently only take in a `ws_monitor` object")
   }
 
-  # Set up data
+  availableHourlyTypes <- c("nowcast", "raw", "none")
+  if (!(hourlyType %in% availableHourlyTypes)) {
+    stop(
+      paste0(
+        hourlyType, " is not a posible hourly data type. \n",
+        "Please choose from: ", paste0(availableHourlyTypes, collapse = ", ")
+      )
+    )
+
+  }
+
+  # Set up data ---------------------------------------------------------------
 
   monData <- data %>%
     monitor_subset(monitorIDs = monitors)
 
-  hourlyData <- monData %>%
-    monitor_toTidy() %>%
-    mutate(
-      aqiCategory = cut(
-        .data$pm25,
-        AQI$breaks_24,
-        include.lowest = TRUE,
-        labels = AQI$names))
+  # Calculate daily data (or none)
+  if (includeDaily) {
 
-  dailyData <- monData %>%
-    monitor_dailyStatistic() %>%
-    monitor_toTidy() %>%
-    mutate(
-      aqiCategory = cut(
-        .data$pm25,
-        AQI$breaks_24,
-        include.lowest = TRUE,
-        labels = AQI$names))
+    dailyData <- monData %>%
+      monitor_dailyStatistic() %>%
+      monitor_toTidy() %>%
+      mutate(
+        aqiCategory = cut(
+          .data$pm25,
+          AQI$breaks_24,
+          include.lowest = TRUE,
+          labels = AQI$names))
 
-  # Set up parameters
+  } else {
+
+    dailyData <- NULL
+  }
+
+  # Calculate the appropriate hourly values (or none)
+  if (hourlyType != "none") {
+
+    if (hourlyType == "nowcast") {
+
+      hourlyData <- monData %>%
+        monitor_nowcast() %>%
+        monitor_toTidy() %>%
+        mutate(
+          aqiCategory = cut(
+            .data$pm25,
+            AQI$breaks_24,
+            include.lowest = TRUE,
+            labels = AQI$names))
+
+    # hourlyType == "raw"
+    } else {
+
+      hourlyData <- monData %>%
+        monitor_toTidy() %>%
+        mutate(
+          aqiCategory = cut(
+            .data$pm25,
+            AQI$breaks_24,
+            include.lowest = TRUE,
+            labels = AQI$names))
+    }
+
+  } else {
+
+    hourlyData <- NULL
+  }
+
+
+  # Set up labels -------------------------------------------------------------
+
   if (is.null(title)) {
     title <- expression(paste("Daily and Hourly ", "PM"[2.5], " Levels"))
   }
@@ -77,13 +124,13 @@ createTarnayPlot <- function(monitors,
     yLabel <- expression(paste("PM"[2.5] * " (", mu, "g/m"^3 * ")"))
   }
 
-  # define scales
+  # Define scales -------------------------------------------------------------
 
   aqiNames <- AQI$names
   aqiActions <- AQI$actions
   aqiColors <- AQI$colors
 
-  # plot data
+  # Plot data -----------------------------------------------------------------
 
   # TODO: create new ggplot stat object to handle daily data computation
   # TODO: add ability to create plot with either raw hourly data or nowcast
@@ -160,5 +207,5 @@ createTarnayPlot <- function(monitors,
       legend.text = element_text(size = 10)
     )
 
-  tarnayPlot
+  return(tarnayPlot)
 }
