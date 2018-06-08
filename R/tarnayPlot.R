@@ -120,7 +120,7 @@ createTarnayPlot <- function(monitors,
     }
 
     if (hourlyType == "nowcast") {
-      hourlyPart <- "Hourly (Nowcast)"
+      hourlyPart <- "Hourly (NowCast)"
     } else if (hourlyType == "raw") {
       hourlyPart <- "Hourly (raw)"
     } else {
@@ -138,9 +138,11 @@ createTarnayPlot <- function(monitors,
   }
 
   if (is.null(xLabel)) {
-    xLabel <- paste(
+    yearPart <- paste(
       unique(lubridate::year(dailyData$datetime)),
       collapse = ", ")
+
+    xLabel <- paste0("Date, midnight to midnight (", yearPart, ")")
   }
 
   if (is.null(yLabel)) {
@@ -185,7 +187,7 @@ createTarnayPlot <- function(monitors,
     # TODO: combine AQI text into single scale
     # TODO: make legend scale with plot size
     scale_fill_manual(
-      name = "AQI Category",
+      name = "Daily Air Quality Index (24 hr AQI)",
       values = aqiColors,
       labels = aqiNames,
       drop = FALSE,
@@ -193,7 +195,7 @@ createTarnayPlot <- function(monitors,
         order = 1,
         override.aes = list(alpha = 1, color = NA))) +
     scale_color_manual(
-      name = "Recommended Actions",
+      name = "Hourly NowCast (actions to protect yourself)",
       values = aqiColors,
       labels = aqiActions,
       drop = FALSE,
