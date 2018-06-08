@@ -28,6 +28,7 @@ createTarnayPlot <- function(monitors,
                              title = NULL,
                              xLabel = NULL,
                              yLabel = NULL,
+                             includeLink = TRUE,
                              includeDaily = TRUE,
                              hourlyType = "nowcast") {
 
@@ -124,6 +125,13 @@ createTarnayPlot <- function(monitors,
     yLabel <- expression(paste("PM"[2.5] * " (", mu, "g/m"^3 * ")"))
   }
 
+  if (includeLink) {
+    caption <-
+      "Learn more about AQI at: airnow.gov/index.cfm?action=aqibasics.aqi"
+  } else {
+    caption <- NULL
+  }
+
   # Define scales -------------------------------------------------------------
 
   aqiNames <- AQI$names
@@ -180,7 +188,8 @@ createTarnayPlot <- function(monitors,
     labs(
       title = title,
       x = xLabel,
-      y = yLabel) +
+      y = yLabel,
+      caption = caption) +
 
     # TODO: Create theme object that can be used across the package
     theme_minimal() +
