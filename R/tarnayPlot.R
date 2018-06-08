@@ -112,7 +112,29 @@ createTarnayPlot <- function(monitors,
   # Set up labels -------------------------------------------------------------
 
   if (is.null(title)) {
-    title <- expression(paste("Daily and Hourly ", "PM"[2.5], " Levels"))
+
+    if (includeDaily) {
+      dailyPart <- "Daily (AQI)"
+    } else {
+      dailyPart <- NULL
+    }
+
+    if (hourlyType == "nowcast") {
+      hourlyPart <- "Hourly (Nowcast)"
+    } else if (hourlyType == "raw") {
+      hourlyPart <- "Hourly (raw)"
+    } else {
+      hourlyPart <- NULL
+    }
+
+    if (includeDaily && hourlyType != "none") {
+      titlePart <- paste(dailyPart, hourlyPart, sep = " and ")
+    } else {
+      titlePart <- paste0(dailyPart, hourlyPart)
+    }
+
+    title <- bquote(.(titlePart) ~ PM[2.5] ~ "Levels")
+
   }
 
   if (is.null(xLabel)) {
