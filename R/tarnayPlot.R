@@ -170,14 +170,12 @@ createTarnayPlot <- function(monitors,
     ggplot(dailyData,
       aes_(x = ~ datetime, y = ~ pm25,
         fill = ~ aqiCategory)) +
-    geom_col( # used to align axes
-      width = 86400,
-      alpha = 0) +
     geom_col(data = hourlyData,
       aes_(color = ~ aqiCategory), # needed for legend
       width = 3600 * .45,
       size = 0) +
     geom_col(data = dailyData,
+      aes_(x = ~ datetime + lubridate::dhours(12)),
       width = 86400,
       alpha = 0.3,
       color = "black",
@@ -203,7 +201,16 @@ createTarnayPlot <- function(monitors,
         order = 2,
         override.aes = list(color = NA, fill = NA))) +
     scale_x_datetime(
-      date_breaks = "1 day",
+      breaks = unique(
+        lubridate::floor_date(
+          dailyData$datetime,
+          unit = "day")
+        ) + lubridate::dhours(12),
+      minor_breaks = unique(
+        lubridate::floor_date(
+          dailyData$datetime,
+          unit = "day")
+        ),
       date_labels = '%b %d',
       expand = c(0, 0)) +
 
