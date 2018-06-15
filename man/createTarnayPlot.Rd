@@ -5,7 +5,7 @@
 \title{Create a Tarnay plot for many monitors}
 \usage{
 createTarnayPlot(monitors, data, columns = 1, title = NULL, xLabel = NULL,
-  yLabel = NULL)
+  yLabel = NULL, includeLink = TRUE, hourlyType = "nowcast")
 }
 \arguments{
 \item{monitors}{Monitor ID(s) to create plot for.}
@@ -22,6 +22,13 @@ data present in the plot.}
 data.}
 
 \item{yLabel}{The y-axis label of the plot. Defaults to PM2.5.}
+
+\item{includeLink}{Option to include a link to an AQI explainer at the bottom
+of the plot (default `TRUE`).}
+
+\item{hourlyType}{The type of hourly data to include in the plot. The options
+include "nowcast" (hourly nowcast values), "raw" (raw hourly values), or
+"none" (no hourly data at all) (default "nowcast").}
 }
 \value{
 A **ggplot** plot of the given monitors and data.

@@ -14,6 +14,11 @@
 #' @param xLabel The x-axis label of the plot. Defaults to years present in
 #'   data.
 #' @param yLabel The y-axis label of the plot. Defaults to PM2.5.
+#' @param includeLink Option to include a link to an AQI explainer at the bottom
+#'   of the plot (default `TRUE`).
+#' @param hourlyType The type of hourly data to include in the plot. The options
+#'   include "nowcast" (hourly nowcast values), "raw" (raw hourly values), or
+#'   "none" (no hourly data at all) (default "nowcast").
 #'
 #' @return A **ggplot** plot of the given monitors and data.
 #'
@@ -29,7 +34,6 @@ createTarnayPlot <- function(monitors,
                              xLabel = NULL,
                              yLabel = NULL,
                              includeLink = TRUE,
-                             includeDaily = TRUE,
                              hourlyType = "nowcast") {
 
   # Validate data -------------------------------------------------------------
@@ -58,6 +62,8 @@ createTarnayPlot <- function(monitors,
     monitor_subset(monitorIDs = monitors)
 
   # Calculate daily data (or none)
+  # TODO: Add ability to include only hourly values (no daily)
+  includeDaily <- TRUE
   if (includeDaily) {
 
     dailyData <- monData %>%
