@@ -228,30 +228,40 @@ createTarnayPlot <- function(monitors,
       y = yLabel,
       caption = caption) +
 
-    # TODO: Create theme object that can be used across the package
-    theme_minimal() +
-    theme(
-      strip.background = element_rect(fill = "#E0E0E0"),
-
-      panel.background = element_rect(color = "black"),
-      panel.grid.major.x = element_blank(),
-      panel.grid.minor.x = element_line(linetype = 3, color = 'gray70'),
-      panel.grid.major.y = element_line(linetype = 3, color = 'gray40'),
-      panel.grid.minor.y = element_blank(),
-
-      legend.position = "top",
-      legend.justification = c(1, 1),
-      legend.direction = "vertical",
-      legend.box.background = element_rect(color = "black"),
-
-      plot.title = element_text(size = 24),
-      axis.title = element_text(size = 18),
-      axis.text.x = element_text(size = 12, angle = 30, hjust = 1),
-      axis.text.y = element_text(size = 12),
-      strip.text = element_text(size = 14),
-      legend.title = element_text(size = 12),
-      legend.text = element_text(size = 10)
-    )
+    theme_mazamaBar(base_size = 12)
 
   return(tarnayPlot)
+}
+
+theme_mazamaBar <- function(base_size = 11, base_family = "") {
+
+  # TODO: Create theme object that can be used across the package
+  ggplot2::theme_minimal(
+    base_size = base_size,
+    base_family = base_family
+  ) +
+
+  ggplot2::theme(
+    strip.background = element_rect(fill = "#E0E0E0"),
+
+    panel.background = element_rect(color = "black"),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_line(linetype = 3, color = 'gray70'),
+    panel.grid.major.y = element_line(linetype = 3, color = 'gray40'),
+    panel.grid.minor.y = element_blank(),
+
+    legend.position = "top",
+    legend.justification = c(1, 1),
+    legend.direction = "vertical",
+    legend.box.background = element_rect(color = "black"),
+
+    plot.title = element_text(size = rel(2)),
+    axis.title = element_text(size = rel(1.5)),
+    axis.text.x = element_text(size = rel(1), angle = 30, hjust = 1),
+    axis.text.y = element_text(size = rel(1)),
+    strip.text = element_text(size = rel(1.2)),
+    legend.title = element_text(size = rel(1)),
+    legend.text = element_text(size = rel(.75))
+  )
+
 }
