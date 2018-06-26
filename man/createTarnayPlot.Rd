@@ -5,7 +5,8 @@
 \title{Create a Tarnay plot for many monitors}
 \usage{
 createTarnayPlot(monitors, data, columns = 1, title = NULL, xLabel = NULL,
-  yLabel = NULL, includeLink = TRUE, hourlyType = "nowcast")
+  yLabel = NULL, includeLink = TRUE, hourlyType = "nowcast",
+  colorScale = "epa_aqi")
 }
 \arguments{
 \item{monitors}{Monitor ID(s) to create plot for.}
@@ -29,6 +30,9 @@ of the plot (default `TRUE`).}
 \item{hourlyType}{The type of hourly data to include in the plot. The options
 include "nowcast" (hourly nowcast values), "raw" (raw hourly values), or
 "none" (no hourly data at all) (default "nowcast").}
+
+\item{colorScale}{The ordered color pallete used to represent each AQI
+category. Currently defaults to (and only accepts) "epa_aqi".}
 }
 \value{
 A **ggplot** plot of the given monitors and data.

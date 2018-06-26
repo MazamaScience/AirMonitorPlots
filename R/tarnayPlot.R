@@ -19,6 +19,8 @@
 #' @param hourlyType The type of hourly data to include in the plot. The options
 #'   include "nowcast" (hourly nowcast values), "raw" (raw hourly values), or
 #'   "none" (no hourly data at all) (default "nowcast").
+#' @param colorScale The ordered color pallete used to represent each AQI
+#'   category. Currently defaults to (and only accepts) "epa_aqi".
 #'
 #' @return A **ggplot** plot of the given monitors and data.
 #'
@@ -34,7 +36,8 @@ createTarnayPlot <- function(monitors,
                              xLabel = NULL,
                              yLabel = NULL,
                              includeLink = TRUE,
-                             hourlyType = "nowcast") {
+                             hourlyType = "nowcast",
+                             colorScale = "epa_aqi") {
 
   # Validate data -------------------------------------------------------------
 
@@ -166,7 +169,14 @@ createTarnayPlot <- function(monitors,
 
   aqiNames <- AQI$names
   aqiActions <- AQI$actions
-  aqiColors <- AQI$colors
+
+  if (colorScale == "epa_aqi") {
+    aqiColors <- AQI$colors
+  } else {
+    message("Color scale not recognized: ", colorScale,
+            ". Defaulting to EPA AQI colors.")
+    aqiColors <- AQI$colors
+  }
 
   # Plot data -----------------------------------------------------------------
 
