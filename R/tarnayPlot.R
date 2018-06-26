@@ -262,10 +262,12 @@ theme_mazamaBar <- function(base_size = 11, base_family = "") {
     legend.spacing = unit(0.1, "cm"),
 
     plot.title = element_text(size = rel(2)),
-    axis.title = element_text(size = rel(1.5)),
+    axis.title = element_text(size = rel(1.4)),
+    axis.title.x = element_text(size = rel(.9)),
+    axis.title.y = element_text(size = rel(.9)),
     axis.text.x = element_text(size = rel(1), angle = 30, hjust = 1),
     axis.text.y = element_text(size = rel(1)),
-    strip.text = element_text(size = rel(1.2)),
+    strip.text = element_text(size = rel(1)),
     legend.title = element_text(size = rel(1)),
     legend.text = element_text(size = rel(.7))
   )
