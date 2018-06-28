@@ -8,7 +8,7 @@ library(PWFSLSmokePlots)
 
 data <- airnow_loadLatest()
 
-santaMariaMonitors <- c(
+monitors <- c(
   "060831008_01",
   "060792006_01",
   "060832004_01",
@@ -18,5 +18,12 @@ santaMariaMonitors <- c(
 
 # create plot
 
-tplot <- createTarnayPlot(monitors = santaMariaMonitors, data = data)
-tplot
+p <- createTarnayPlot(monitors = monitors, data = data, includeThirdCol = TRUE)
+p
+
+# save some plots
+
+ggsave("~/Downloads/thirdcol_sq8_dpi100_sc100.png", plot = p,
+       dpi = 100,
+       width = 8, height = 8,
+       scale = 1)
