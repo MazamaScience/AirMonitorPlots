@@ -37,7 +37,8 @@ createTarnayPlot <- function(monitors,
                              yLabel = NULL,
                              includeLink = TRUE,
                              hourlyType = "nowcast",
-                             colorScale = "epa_aqi") {
+                             colorScale = "epa_aqi",
+                             includeThirdCol = FALSE) {
 
   # Validate data -------------------------------------------------------------
 
@@ -216,6 +217,7 @@ createTarnayPlot <- function(monitors,
       guide = guide_legend(
         order = 2,
         override.aes = list(color = NA, fill = NA))) +
+
     scale_x_datetime(
       breaks = unique(
         lubridate::floor_date(
@@ -227,7 +229,7 @@ createTarnayPlot <- function(monitors,
           dailyData$datetime,
           unit = "day")
         ),
-      date_labels = '%b %d',
+      date_labels = "%b %d",
       expand = c(0, 0)) +
 
     # TODO: make labels a parameter
@@ -239,6 +241,28 @@ createTarnayPlot <- function(monitors,
       caption = caption) +
 
     theme_mazamaBar(base_size = 12)
+
+  if (includeThirdCol) {
+    tarnayPlot <- tarnayPlot +
+      geom_point(data = dailyData,
+                 aes_(x = ~ datetime + lubridate::dhours(12),
+                      shape = ~ aqiCategory),
+                 alpha = 0) +
+      scale_shape_manual(
+        values = c(6:11),
+        name = "Standard Advice",
+        labels = c(
+          "Tempus vitae molestie Convallis curabitur vestibulum",
+          "Justo rutrum A ut arcu felis eget litora libero",
+          "ligula morbi vestibulum eu tellus vel consectetur",
+          "congue. Ultricies et commodo amet accumsan nunc eget",
+          "mattis tincidunt nonummy donec viverra sed nec iaculis",
+          "consectetuer lectus dictum. Velit iaculis a"
+        ),
+        drop = FALSE,
+        na.translate = FALSE) +
+      theme(legend.text = element_text(size = rel(.5)))
+  }
 
   return(tarnayPlot)
 }
