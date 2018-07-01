@@ -168,6 +168,8 @@ createTarnayPlot <- function(monitors,
 
   # Define scales -------------------------------------------------------------
 
+  ## color scale
+
   aqiNames <- AQI$names
   aqiActions <- AQI$actions
 
@@ -177,6 +179,24 @@ createTarnayPlot <- function(monitors,
     message("Color scale not recognized: ", colorScale,
             ". Defaulting to EPA AQI colors.")
     aqiColors <- AQI$colors
+  }
+
+  ## time scale
+
+  minDate <- lubridate::as_datetime(min(dailyData$datetime))
+  maxDate <- lubridate::as_datetime(max(dailyData$datetime))
+
+  timeSpan <- lubridate::as.interval(maxDate - minDate, minDate)
+  numDays <- timeSpan %/% lubridate::days(1)
+
+  if (numDays <= 14) {
+    timeScale <- "day"
+  } else if (numDays <= 30) {
+    timeScale <- "2 days"
+  } else if (numDays <= 150) {
+    timeScale <- "week"
+  } else {
+    timeScale <- "month"
   }
 
   # Plot data -----------------------------------------------------------------
@@ -195,8 +215,8 @@ createTarnayPlot <- function(monitors,
       aes_(x = ~ datetime + lubridate::dhours(12)),
       width = 86400,
       alpha = 0.3,
-      color = "black",
-      size = .2) +
+      color = "grey20",
+      size = .1) +
     facet_wrap(~ siteName, ncol = columns) +
 
     # TODO: combine AQI text into single scale
@@ -222,7 +242,7 @@ createTarnayPlot <- function(monitors,
       breaks = unique(
         lubridate::floor_date(
           dailyData$datetime,
-          unit = "day")
+          unit = timeScale)
         ) + lubridate::dhours(12),
       minor_breaks = unique(
         lubridate::floor_date(

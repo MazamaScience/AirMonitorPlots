@@ -33,7 +33,7 @@ theme_mazamaBar <- function(base_size = 11, base_family = "") {
       panel.grid.major.y = element_line(linetype = 3, color = 'gray40'),
       panel.grid.minor.y = element_blank(),
 
-      axis.ticks.y = element_line(colour = "grey20"),
+      axis.ticks = element_line(colour = "grey20"),
       axis.ticks.length = unit(half_line/4, "pt"),
 
       legend.position = "top",
@@ -48,7 +48,7 @@ theme_mazamaBar <- function(base_size = 11, base_family = "") {
       axis.title.y = element_text(size = rel(.9)),
       axis.text.x = element_text(size = rel(1), angle = 30, hjust = 1),
       axis.text.y = element_text(size = rel(1)),
-      strip.text = element_text(size = rel(1)),
+      strip.text = element_text(size = rel(.9)),
       legend.title = element_text(size = rel(1)),
       legend.text = element_text(size = rel(.7))
     )
