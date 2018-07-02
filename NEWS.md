@@ -3,10 +3,20 @@
 ```
 Plot utilities for the PWFSLSmoke package.
 ```
+## Version 0.3.2 -- daily-hourly barplot refinements
 
-## Version 0.3.1 -- Tarnay Plot refinements
+This release focuses on refining the visual aesthetics of the daily-hourly-barplot:
 
-Addresses the following issues regarding the "Tarnay" plot:
+- Refactored the plot theme into its own function
+- tweaked the theme style
+- make the x-axis labeling reactive to the date range of the data
+-  introduce the option to include a third column in the legend
+   - currently a work in progress (is off by default)
+   - contains only dummy text
+
+## Version 0.3.1 -- daily-hourly barplot refinements
+
+Addresses the following issues regarding the daily-hourly bar plot:
 
 - Add control over hourly data calculation
 - Fix bug where daily and hourly data were misaligned
@@ -14,9 +24,11 @@ Addresses the following issues regarding the "Tarnay" plot:
 - Make plot title reactive to the data being plotted
 - Add an option to include a footnote caption linking to an AQI explainer
 
-## Version 0.3.0 -- Tarnay Plot
+## Version 0.3.0 -- daily-hourly barplot
 
-Added the first plot function: the Tarnay plot. This plot is a timeseries barplot showing PM2.5 data for the given monitors. The overall plot is faceted by monitor, and each facet has two sets of columns: one for daily levels, and one for hourly levels.
+Added the first plot function: the "daily-hourly barplot". THis is  a timeseries barplot showing PM2.5 data for
+the given monitors. The overall plot is faceted by monitor, and each facet has two sets of columns: one for
+daily levels, and one for hourly levels.
 
 ## Version 0.2.1 -- Data Ingesting
 
