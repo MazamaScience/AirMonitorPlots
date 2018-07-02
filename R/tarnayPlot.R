@@ -19,6 +19,10 @@
 #' @param hourlyType The type of hourly data to include in the plot. The options
 #'   include "nowcast" (hourly nowcast values), "raw" (raw hourly values), or
 #'   "none" (no hourly data at all) (default "nowcast").
+#' @param colorScale The ordered color pallete used to represent each AQI
+#'   category. Currently defaults to (and only accepts) "epa_aqi".
+#' @param includeThirdCol Option to include a third column in the legend.
+#'   Currently in testing (default `False`).
 #'
 #' @return A **ggplot** plot of the given monitors and data.
 #'
@@ -34,7 +38,9 @@ createTarnayPlot <- function(monitors,
                              xLabel = NULL,
                              yLabel = NULL,
                              includeLink = TRUE,
-                             hourlyType = "nowcast") {
+                             hourlyType = "nowcast",
+                             colorScale = "epa_aqi",
+                             includeThirdCol = FALSE) {
 
   # Validate data -------------------------------------------------------------
 
@@ -164,9 +170,36 @@ createTarnayPlot <- function(monitors,
 
   # Define scales -------------------------------------------------------------
 
+  ## color scale
+
   aqiNames <- AQI$names
   aqiActions <- AQI$actions
-  aqiColors <- AQI$colors
+
+  if (colorScale == "epa_aqi") {
+    aqiColors <- AQI$colors
+  } else {
+    message("Color scale not recognized: ", colorScale,
+            ". Defaulting to EPA AQI colors.")
+    aqiColors <- AQI$colors
+  }
+
+  ## time scale
+
+  minDate <- lubridate::as_datetime(min(dailyData$datetime))
+  maxDate <- lubridate::as_datetime(max(dailyData$datetime))
+
+  timeSpan <- lubridate::as.interval(maxDate - minDate, minDate)
+  numDays <- timeSpan %/% lubridate::days(1)
+
+  if (numDays <= 14) {
+    timeScale <- "day"
+  } else if (numDays <= 30) {
+    timeScale <- "2 days"
+  } else if (numDays <= 150) {
+    timeScale <- "week"
+  } else {
+    timeScale <- "month"
+  }
 
   # Plot data -----------------------------------------------------------------
 
@@ -184,14 +217,14 @@ createTarnayPlot <- function(monitors,
       aes_(x = ~ datetime + lubridate::dhours(12)),
       width = 86400,
       alpha = 0.3,
-      color = "black",
-      size = .2) +
+      color = "grey20",
+      size = .1) +
     facet_wrap(~ siteName, ncol = columns) +
 
     # TODO: combine AQI text into single scale
     # TODO: make legend scale with plot size
     scale_fill_manual(
-      name = "Daily Air Quality Index (24 hr AQI)",
+      name = "Daily Air Quality Index (24hr AQI)",
       values = aqiColors,
       labels = aqiNames,
       drop = FALSE,
@@ -206,18 +239,19 @@ createTarnayPlot <- function(monitors,
       guide = guide_legend(
         order = 2,
         override.aes = list(color = NA, fill = NA))) +
+
     scale_x_datetime(
       breaks = unique(
         lubridate::floor_date(
           dailyData$datetime,
-          unit = "day")
+          unit = timeScale)
         ) + lubridate::dhours(12),
       minor_breaks = unique(
         lubridate::floor_date(
           dailyData$datetime,
           unit = "day")
         ),
-      date_labels = '%b %d',
+      date_labels = "%b %d",
       expand = c(0, 0)) +
 
     # TODO: make labels a parameter
@@ -228,30 +262,29 @@ createTarnayPlot <- function(monitors,
       y = yLabel,
       caption = caption) +
 
-    # TODO: Create theme object that can be used across the package
-    theme_minimal() +
-    theme(
-      strip.background = element_rect(fill = "#E0E0E0"),
+    theme_mazamaBar(base_size = 12)
 
-      panel.background = element_rect(color = "black"),
-      panel.grid.major.x = element_blank(),
-      panel.grid.minor.x = element_line(linetype = 3, color = 'gray70'),
-      panel.grid.major.y = element_line(linetype = 3, color = 'gray40'),
-      panel.grid.minor.y = element_blank(),
-
-      legend.position = "top",
-      legend.justification = c(1, 1),
-      legend.direction = "vertical",
-      legend.box.background = element_rect(color = "black"),
-
-      plot.title = element_text(size = 24),
-      axis.title = element_text(size = 18),
-      axis.text.x = element_text(size = 12, angle = 30, hjust = 1),
-      axis.text.y = element_text(size = 12),
-      strip.text = element_text(size = 14),
-      legend.title = element_text(size = 12),
-      legend.text = element_text(size = 10)
-    )
+  if (includeThirdCol) {
+    tarnayPlot <- tarnayPlot +
+      geom_point(data = dailyData,
+                 aes_(x = ~ datetime + lubridate::dhours(12),
+                      shape = ~ aqiCategory),
+                 alpha = 0) +
+      scale_shape_manual(
+        values = c(6:11),
+        name = "Standard Advice",
+        labels = c(
+          "Tempus vitae molestie Convallis curabitur vestibulum",
+          "Justo rutrum A ut arcu felis eget litora libero",
+          "ligula morbi vestibulum eu tellus vel consectetur",
+          "congue. Ultricies et commodo amet accumsan nunc eget",
+          "mattis tincidunt nonummy donec viverra sed nec iaculis",
+          "consectetuer lectus dictum. Velit iaculis a"
+        ),
+        drop = FALSE,
+        na.translate = FALSE) +
+      theme(legend.text = element_text(size = rel(.5)))
+  }
 
   return(tarnayPlot)
 }

@@ -6,9 +6,13 @@ library(PWFSLSmokePlots)
 
 # load data
 
-data <- airnow_loadLatest()
+data_latest <- airnow_loadLatest()
+data_2017 <- airnow_load()
 
-santaMariaMonitors <- c(
+data <- data_latest
+#data <- monitor_subset(data_2017, tlim = c(20170101, 20171231))
+
+monitors <- c(
   "060831008_01",
   "060792006_01",
   "060832004_01",
@@ -18,5 +22,5 @@ santaMariaMonitors <- c(
 
 # create plot
 
-tplot <- createTarnayPlot(monitors = santaMariaMonitors, data = data)
-tplot
+p <- createTarnayPlot(monitors = monitors, data = data)
+p
