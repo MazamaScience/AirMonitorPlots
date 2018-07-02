@@ -21,6 +21,8 @@
 #'   "none" (no hourly data at all) (default "nowcast").
 #' @param colorScale The ordered color pallete used to represent each AQI
 #'   category. Currently defaults to (and only accepts) "epa_aqi".
+#' @param includeThirdCol Option to include a third column in the legend.
+#'   Currently in testing (default `False`).
 #'
 #' @return A **ggplot** plot of the given monitors and data.
 #'
