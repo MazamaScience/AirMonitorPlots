@@ -30,7 +30,16 @@
 #' @export
 #'
 #' @examples
-#'
+#' SF_IDs <- c("060010011_01","060010013_01","060010012_01","060750005_01")
+#' SF_daily <- loadDaily() %>% monitor_subset(monitorIDs = SF_IDs)
+#' SF_latest <- loadLatest() %>% monitor_subset(monitorIDs = SF_IDs)
+#' SF_full <- monitor_join(SF_daily, SF_latest)
+#' today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
+#' now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
+#' starttime <- today - lubridate::ddays(4)
+#' SF_4day <- monitor_subset(SF_full, tlim=c(starttime, now))
+#' createTarnayPlot(SF_IDs, SF_4day)
+
 createTarnayPlot <- function(monitors,
                              data,
                              columns = 1,
