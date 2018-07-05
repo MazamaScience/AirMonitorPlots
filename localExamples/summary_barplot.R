@@ -33,6 +33,8 @@ data_2017_sub_utc <- monitor_subset(
 
 p1 <- createTarnayPlot(monitors = monitors, data = data_2017, tlim = c(20171201, 20171207))
 p2 <- createTarnayPlot(monitors = monitors, data = data_2017_sub)
-p2 <- createTarnayPlot(monitors = monitors, data = data_2017_sub_utc)
-p3 <- createTarnayPlot(monitors = monitors, data = data_latest)
+p3 <- createTarnayPlot(monitors = monitors, data = data_2017_sub, tlim = c(20171201, 20171207))
+p4 <- createTarnayPlot(monitors = monitors, data = data_2017_sub_utc)
+p5 <- createTarnayPlot(monitors = monitors, data = data_2017_sub_utc, tlim = c(20171201, 20171207))
+p6 <- createTarnayPlot(monitors = monitors, data = data_latest)
 
