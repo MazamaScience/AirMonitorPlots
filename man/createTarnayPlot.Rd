@@ -4,15 +4,19 @@
 \alias{createTarnayPlot}
 \title{Create a Tarnay plot for many monitors}
 \usage{
-createTarnayPlot(monitors, data, columns = 1, title = NULL, xLabel = NULL,
-  yLabel = NULL, includeLink = TRUE, hourlyType = "nowcast",
-  colorScale = "epa_aqi", includeThirdCol = FALSE)
+createTarnayPlot(monitors, data, tlim = NULL, columns = 1, title = NULL,
+  xLabel = NULL, yLabel = NULL, includeLink = TRUE,
+  hourlyType = "nowcast", colorScale = "epa_aqi", includeThirdCol = FALSE)
 }
 \arguments{
 \item{monitors}{Monitor ID(s) to create plot for.}
 
 \item{data}{Data used to create plot (NOTE: currently must be a `ws_monitor`
 object).}
+
+\item{tlim}{Time range to subset the data by. Can either be a
+cahracter/numeric vector in form of 'yyyymmdd', or a POSIXct object.
+Defaults to `NULL` (no subsetting).}
 
 \item{columns}{Number of columns the faceted plot should have (default 1).}
 
@@ -46,5 +50,13 @@ overall plot is faceted by monitor, and each facet has two sets of columns:
 one for daily levels, and one for hourly levels.
 }
 \examples{
-
+SF_IDs <- c("060010011_01","060010013_01","060010012_01","060750005_01")
+SF_daily <- loadDaily() \%>\% monitor_subset(monitorIDs = SF_IDs)
+SF_latest <- loadLatest() \%>\% monitor_subset(monitorIDs = SF_IDs)
+SF_full <- monitor_join(SF_daily, SF_latest)
+today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
+now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
+starttime <- today - lubridate::ddays(4)
+SF_4day <- monitor_subset(SF_full, tlim=c(starttime, now))
+createTarnayPlot(SF_IDs, SF_4day)
 }

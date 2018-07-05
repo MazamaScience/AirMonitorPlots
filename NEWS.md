@@ -3,6 +3,13 @@
 ```
 Plot utilities for the PWFSLSmoke package.
 ```
+
+## Version 0.3.3 -- daily-hourly barplot refinements
+
+This release tweaks the calculation of NowCast in the daily-hourly-barplot:
+
+- add the option to subset data with `tlim` argument (allows for proper NowCast calculation)
+
 ## Version 0.3.2 -- daily-hourly barplot refinements
 
 This release focuses on refining the visual aesthetics of the daily-hourly-barplot:

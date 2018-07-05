@@ -81,12 +81,12 @@ createTarnayPlot <- function(monitors,
 
   timezone <- data$meta$timezone[1]
 
-  if (is(tlim, "numeric") || is(tlim, "character")) {
+  if ( is.numeric(tlim) || is.character(tlim) ) {
     tlim <- lubridate::ymd(tlim, tz = timezone) %>%
       lubridate::with_tz(tzone = "UTC")
-  } else if (is(tlim, "POSIXct")) {
+  } else if ( lubridate::is.POSIXct(tlim) ) {
     tlim <- lubridate::with_tz(tlim, tzone = "UTC")
-  } else if (!is(tlim, "NULL")) {
+  } else if ( !is.null(tlim) ) {
     stop(paste0(
       "Argument 'tlim' must be a numeric/charcter vector of the form yyyymmdd",
       "or of class POSIXct."))
