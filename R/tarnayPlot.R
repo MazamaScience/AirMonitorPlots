@@ -8,6 +8,9 @@
 #' @param monitors Monitor ID(s) to create plot for.
 #' @param data Data used to create plot (NOTE: currently must be a `ws_monitor`
 #'   object).
+#' @param tlim Time range to subset the data by. Can either be a
+#'   cahracter/numeric vector in form of 'yyyymmdd', or a POSIXct object.
+#'   Defaults to `NULL` (no subsetting).
 #' @param columns Number of columns the faceted plot should have (default 1).
 #' @param title The title of the plot. Defaults to specifying the types of
 #'   data present in the plot.
@@ -42,6 +45,7 @@
 
 createTarnayPlot <- function(monitors,
                              data,
+                             tlim = NULL,
                              columns = 1,
                              title = NULL,
                              xLabel = NULL,
@@ -73,8 +77,27 @@ createTarnayPlot <- function(monitors,
 
   # Set up data ---------------------------------------------------------------
 
+  ## Get time limits
+
+  timezone <- data$meta$timezone[1]
+
+  if (is(tlim, "numeric") || is(tlim, "character")) {
+    tlim <- lubridate::ymd(tlim, tz = timezone) %>%
+      lubridate::with_tz(tzone = "UTC")
+  } else if (is(tlim, "POSIXct")) {
+    tlim <- lubridate::with_tz(tlim, tzone = "UTC")
+  } else if (!is(tlim, "NULL")) {
+    stop(paste0(
+      "Argument 'tlim' must be a numeric/charcter vector of the form yyyymmdd",
+      "or of class POSIXct."))
+  }
+
+  ## Get monitors
+
   monData <- data %>%
     monitor_subset(monitorIDs = monitors)
+
+  ## Transform data
 
   # Calculate daily data (or none)
   # TODO: Add ability to include only hourly values (no daily)
@@ -83,6 +106,7 @@ createTarnayPlot <- function(monitors,
 
     dailyData <- monData %>%
       monitor_dailyStatistic() %>%
+      monitor_subset(tlim = tlim) %>%
       monitor_toTidy() %>%
       mutate(
         aqiCategory = cut(
@@ -102,7 +126,8 @@ createTarnayPlot <- function(monitors,
     if (hourlyType == "nowcast") {
 
       hourlyData <- monData %>%
-        monitor_nowcast() %>%
+        monitor_nowcast(includeShortTerm = TRUE) %>%
+        monitor_subset(tlim = tlim) %>%
         monitor_toTidy() %>%
         mutate(
           aqiCategory = cut(
@@ -115,6 +140,7 @@ createTarnayPlot <- function(monitors,
     } else {
 
       hourlyData <- monData %>%
+        monitor_subset(tlim = tlim) %>%
         monitor_toTidy() %>%
         mutate(
           aqiCategory = cut(
