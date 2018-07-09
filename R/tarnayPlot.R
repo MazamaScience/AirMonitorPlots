@@ -77,13 +77,19 @@ createTarnayPlot <- function(monitors,
 
   # Set up data ---------------------------------------------------------------
 
+  ## Get monitors
+
+  monData <- data %>%
+    monitor_subset(monitorIDs = monitors)
+
   ## Get time limits
 
-  timezone <- data$meta$timezone[1]
+  timezone <- monData$meta$timezone[1]
 
   if ( is.numeric(tlim) || is.character(tlim) ) {
     tlim <- lubridate::ymd(tlim, tz = timezone) %>%
       lubridate::with_tz(tzone = "UTC")
+    tlim[2] <- tlim[2] - lubridate::hours(1)
   } else if ( lubridate::is.POSIXct(tlim) ) {
     tlim <- lubridate::with_tz(tlim, tzone = "UTC")
   } else if ( !is.null(tlim) ) {
@@ -91,11 +97,6 @@ createTarnayPlot <- function(monitors,
       "Argument 'tlim' must be a numeric/charcter vector of the form yyyymmdd",
       "or of class POSIXct."))
   }
-
-  ## Get monitors
-
-  monData <- data %>%
-    monitor_subset(monitorIDs = monitors)
 
   ## Transform data
 
