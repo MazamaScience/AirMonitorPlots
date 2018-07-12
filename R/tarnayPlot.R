@@ -77,13 +77,19 @@ createTarnayPlot <- function(monitors,
 
   # Set up data ---------------------------------------------------------------
 
+  ## Get monitors
+
+  monData <- data %>%
+    monitor_subset(monitorIDs = monitors)
+
   ## Get time limits
 
-  timezone <- data$meta$timezone[1]
+  timezone <- monData$meta$timezone[1]
 
   if ( is.numeric(tlim) || is.character(tlim) ) {
     tlim <- lubridate::ymd(tlim, tz = timezone) %>%
       lubridate::with_tz(tzone = "UTC")
+    tlim[2] <- tlim[2] - lubridate::hours(1)
   } else if ( lubridate::is.POSIXct(tlim) ) {
     tlim <- lubridate::with_tz(tlim, tzone = "UTC")
   } else if ( !is.null(tlim) ) {
@@ -91,11 +97,6 @@ createTarnayPlot <- function(monitors,
       "Argument 'tlim' must be a numeric/charcter vector of the form yyyymmdd",
       "or of class POSIXct."))
   }
-
-  ## Get monitors
-
-  monData <- data %>%
-    monitor_subset(monitorIDs = monitors)
 
   ## Transform data
 
@@ -236,6 +237,28 @@ createTarnayPlot <- function(monitors,
     timeScale <- "month"
   }
 
+  ## datetime vector for date labels
+
+  if (is.null(hourlyData)) {
+    datetimeValues <- dailyData$datetime
+  } else {
+    datetimeValues <- hourlyData$datetime
+  }
+
+  datetimeValues <- datetimeValues %>% lubridate::with_tz(tzone = timezone)
+
+  datetimeLabelsMajor <- unique(
+    lubridate::floor_date(
+      datetimeValues,
+      unit = timeScale)
+  ) + lubridate::dhours(12)
+
+  datetimeLabelsMinor <- unique(
+    lubridate::floor_date(
+      datetimeValues,
+      unit = "day")
+  )
+
   # Plot data -----------------------------------------------------------------
 
   # TODO: create new ggplot stat object to handle daily data computation
@@ -265,6 +288,7 @@ createTarnayPlot <- function(monitors,
       drop = FALSE,
       guide = guide_legend(
         order = 1,
+        reverse = TRUE,
         override.aes = list(alpha = 1, color = NA))) +
     scale_color_manual(
       name = "Hourly NowCast (actions to protect yourself)",
@@ -273,19 +297,12 @@ createTarnayPlot <- function(monitors,
       drop = FALSE,
       guide = guide_legend(
         order = 2,
+        reverse = TRUE,
         override.aes = list(color = NA, fill = NA))) +
 
     scale_x_datetime(
-      breaks = unique(
-        lubridate::floor_date(
-          dailyData$datetime,
-          unit = timeScale)
-        ) + lubridate::dhours(12),
-      minor_breaks = unique(
-        lubridate::floor_date(
-          dailyData$datetime,
-          unit = "day")
-        ),
+      breaks = datetimeLabelsMajor,
+      minor_breaks = datetimeLabelsMinor,
       date_labels = "%b %d",
       expand = c(0, 0)) +
 
