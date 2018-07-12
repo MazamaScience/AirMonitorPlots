@@ -288,6 +288,7 @@ createTarnayPlot <- function(monitors,
       drop = FALSE,
       guide = guide_legend(
         order = 1,
+        reverse = TRUE,
         override.aes = list(alpha = 1, color = NA))) +
     scale_color_manual(
       name = "Hourly NowCast (actions to protect yourself)",
@@ -296,6 +297,7 @@ createTarnayPlot <- function(monitors,
       drop = FALSE,
       guide = guide_legend(
         order = 2,
+        reverse = TRUE,
         override.aes = list(color = NA, fill = NA))) +
 
     scale_x_datetime(
