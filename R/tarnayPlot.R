@@ -237,6 +237,28 @@ createTarnayPlot <- function(monitors,
     timeScale <- "month"
   }
 
+  ## datetime vector for date labels
+
+  if (is.null(hourlyData)) {
+    datetimeValues <- dailyData$datetime
+  } else {
+    datetimeValues <- hourlyData$datetime
+  }
+
+  datetimeValues <- datetimeValues %>% lubridate::with_tz(tzone = timezone)
+
+  datetimeLabelsMajor <- unique(
+    lubridate::floor_date(
+      datetimeValues,
+      unit = timeScale)
+  ) + lubridate::dhours(12)
+
+  datetimeLabelsMinor <- unique(
+    lubridate::floor_date(
+      datetimeValues,
+      unit = "day")
+  )
+
   # Plot data -----------------------------------------------------------------
 
   # TODO: create new ggplot stat object to handle daily data computation
@@ -277,16 +299,8 @@ createTarnayPlot <- function(monitors,
         override.aes = list(color = NA, fill = NA))) +
 
     scale_x_datetime(
-      breaks = unique(
-        lubridate::floor_date(
-          dailyData$datetime,
-          unit = timeScale)
-        ) + lubridate::dhours(12),
-      minor_breaks = unique(
-        lubridate::floor_date(
-          dailyData$datetime,
-          unit = "day")
-        ),
+      breaks = datetimeLabelsMajor,
+      minor_breaks = datetimeLabelsMinor,
       date_labels = "%b %d",
       expand = c(0, 0)) +
 
