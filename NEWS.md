@@ -3,6 +3,9 @@
 ```
 Plot utilities for the PWFSLSmoke package.
 ```
+## Version 0.3.4 
+
+  * added windBarbs function 
 
 ## Version 0.3.3 -- daily-hourly barplot refinements
 

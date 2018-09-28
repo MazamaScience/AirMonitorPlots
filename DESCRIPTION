@@ -1,6 +1,6 @@
 Type: Package
 Package: PWFSLSmokePlots
-Version: 0.3.3
+Version: 0.3.4
 Title: Plot Utilities for the PWFSLSmoke Package
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
