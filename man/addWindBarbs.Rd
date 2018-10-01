@@ -19,7 +19,7 @@ addWindBarbs(x, y, speed, dir, circleSize = 1,
 
 \item{circleSize}{size of the circle}
 
-\item{circleFill}{circle fill color (currently not supported)}
+\item{circleFill}{circle fill color}
 
 \item{lineCol}{line color (currently not supported)}
 
@@ -36,6 +36,6 @@ Add a multi-sided polygon to a plot.
 maps::map('state', "washington")
 x <- c(-121, -122)
 y <- c(47.676057, 47)
-addWindBarbs(x, y, speed = c(2,195), dir = c(45, 90), lwd = 2, circleSize = 1, barbSize = 1.5, extraBarbLength = .5)
+addWindBarbs(x, y, speed = c(2,65), dir = c(45, 67), circleSize = 1.8)
 }
 \keyword{plotting}

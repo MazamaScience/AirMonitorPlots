@@ -16,8 +16,7 @@
 #' maps::map('state', "washington")
 #' x <- c(-121, -122)
 #' y <- c(47.676057, 47)
-#' addWindBarbs(x, y, speed = c(2,65), dir = c(45, 67), circleSize = 1.8)
-
+#' addWindBarbs(x, y, speed = c(45,65), dir = c(45, 67), circleSize = 1.8, circleFill = c('orange', 'blue'))
 
 addWindBarbs <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transparent', lineCol = 1, extraBarbLength = 0, barbSize = 1, ...) {
   
@@ -44,7 +43,7 @@ addWindBarbs <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transpa
   lineCol <- rep_len(lineCol, length.out = vectorLength)
   
   for (i in 1:vectorLength) {
-    addWindBarb(x[i], y[i], speed[i], dir[i], circleSize, circleFill, lineCol, extraBarbLength, barbSize, ...)
+    addWindBarb(x[i], y[i], speed[i], dir[i], circleSize[i], circleFill[i], lineCol[i], extraBarbLength, barbSize, ...)
   }
   
   

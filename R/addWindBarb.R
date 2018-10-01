@@ -10,7 +10,7 @@
 #' @param extraBarbLength add length to barbs
 #' @param barbSize size of the barb 
 #' @param ... additional arguments to be passed to \code{lines}
-#' @description Add a multi-sided polygon to a plot.
+#' @description Add a wind barb to the plot. Used internally in \link{addWindBarbs}
 #' @examples
 #' maps::map('state', "washington")
 #' x <- c(-121, -122)

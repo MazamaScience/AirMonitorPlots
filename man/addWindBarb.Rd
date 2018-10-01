@@ -30,7 +30,7 @@ addWindBarb(x, y, speed, dir, circleSize = 1,
 \item{...}{additional arguments to be passed to \code{lines}}
 }
 \description{
-Add a multi-sided polygon to a plot.
+Add a wind barb to the plot. Used internally in \link{addWindBarbs}
 }
 \examples{
 maps::map('state', "washington")
