@@ -4,9 +4,10 @@
 \alias{createTarnayPlot}
 \title{Create a Tarnay plot for many monitors}
 \usage{
-createTarnayPlot(monitors, data, tlim = NULL, columns = 1, title = NULL,
-  xLabel = NULL, yLabel = NULL, includeLink = TRUE,
-  hourlyType = "nowcast", colorScale = "epa_aqi", includeThirdCol = FALSE)
+createTarnayPlot(monitors, data, tlim = NULL, columns = 1,
+  title = NULL, xLabel = NULL, yLabel = NULL, includeLink = TRUE,
+  hourlyType = "nowcast", colorScale = "epa_aqi",
+  includeThirdCol = FALSE)
 }
 \arguments{
 \item{monitors}{Monitor ID(s) to create plot for.}
@@ -58,5 +59,10 @@ today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day'
 now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
 starttime <- today - lubridate::ddays(4)
 SF_4day <- monitor_subset(SF_full, tlim=c(starttime, now))
+
+# Create plot using pre subset data
 createTarnayPlot(SF_IDs, SF_4day)
+
+# Create plot using data subset by function
+createTarnayPlot(SF_IDs, SF_full, tlim = c(starttime, now))
 }
