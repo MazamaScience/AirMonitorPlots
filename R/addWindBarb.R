@@ -47,23 +47,23 @@ addWindBarb <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transpar
   
   polygon(xx, yy, col = circleFill, border = lineCol, ...)
   
-  # If speed is less than 5 knots, only plot the circle
+  
+  # The baseline barb length will be 1/4 inch
+  lx <- xpi / 4 * barbSize
+  ly <- ypi / 4 * barbSize
+  
+  # Get starting and ending points for barb
+  xs <- x+rx*cos(rad)
+  ys <- y+rx*sin(rad)
+  xe <- xs+(lx + extraBarbLength*lx)*cos(rad)
+  ye <- ys+(ly + extraBarbLength*ly)*sin(rad)
+  
+  # Plot the line
+  lines(c(xs, xe), c(ys, ye), col = lineCol, ...)
+  
+  
+  # If speed is less than 5 knots, only plot the line
   if (speed >= 5) {
-    # The baseline barb length will be 1/4 inch
-    lx <- xpi / 4 * barbSize
-    ly <- ypi / 4 * barbSize
-    
-    # Get starting and ending points for barb
-    xs <- x+rx*cos(rad)
-    ys <- y+rx*sin(rad)
-    xe <- xs+(lx + extraBarbLength*lx)*cos(rad)
-    ye <- ys+(ly + extraBarbLength*ly)*sin(rad)
-    
-    # Plot the line
-    lines(c(xs, xe), c(ys, ye), col = lineCol, ...)
-    
-    
-    
     # Add flags
     # flag angle 
     fa <- rad + 75*pi/180
