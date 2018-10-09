@@ -4,9 +4,10 @@
 \alias{createTarnayPlot}
 \title{Create a Tarnay plot for many monitors}
 \usage{
-createTarnayPlot(monitors, data, tlim = NULL, columns = 1, title = NULL,
-  xLabel = NULL, yLabel = NULL, includeLink = TRUE,
-  hourlyType = "nowcast", colorScale = "epa_aqi", includeThirdCol = FALSE)
+createTarnayPlot(monitors, data, tlim = NULL, columns = 1,
+  title = NULL, xLabel = NULL, yLabel = NULL, includeLink = TRUE,
+  hourlyType = "nowcast", colorScale = "epa_aqi",
+  includeThirdCol = FALSE)
 }
 \arguments{
 \item{monitors}{Monitor ID(s) to create plot for.}
