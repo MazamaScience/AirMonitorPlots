@@ -32,10 +32,4 @@ addWindBarb(x, y, speed, dir, circleSize = 1,
 \description{
 Add a wind barb to the plot. Used internally in \link{addWindBarbs}
 }
-\examples{
-maps::map('state', "washington")
-x <- c(-121, -122)
-y <- c(47.676057, 47)
-wind_barb(x, y, speed = 125, dir = 45, lwd = 2, circleSize = .5, barbSize = 1.5)
-}
 \keyword{plotting}

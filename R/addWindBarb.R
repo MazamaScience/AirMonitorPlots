@@ -12,10 +12,6 @@
 #' @param ... additional arguments to be passed to \code{lines}
 #' @description Add a wind barb to the plot. Used internally in \link{addWindBarbs}
 #' @examples
-#' maps::map('state', "washington")
-#' x <- -121
-#' y <- 47
-#' addWindBarb(x, y, speed = 0, dir = 45)
 
 
 addWindBarb <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transparent', lineCol = 1, extraBarbLength = 0, barbSize = 1, ...) {
