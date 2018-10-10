@@ -1,6 +1,6 @@
 library(PWFSLSmokePlots)
 
-makeAnnotatedClock <- function(monitors, monitorID, date) {
+makeAnnotatedClock_fan <- function(monitors, monitorID, date) {
   endDate <- date + 24 * 60 * 60 - 1
   
   monitor <- monitor_subset(monitors, monitorIDs = c(monitorID), 
@@ -39,12 +39,18 @@ makeAnnotatedClock <- function(monitors, monitorID, date) {
   h <- c(pal(dailyMean))
   face = data.frame(x, y)
   
+  dayFan <- data.frame(c(sunrisePercent), c(sunsetPercent))
+  names(dayFan) <- c("ymin", "ymax")
+  
+  
   clock <- ggplot(data) +
+    geom_point(data = face, size = 140, color = "black", aes(x = x, y = y)) +
+    geom_rect(data = dayFan, aes(fill = "powderblue", ymin = ymin, ymax = ymax, xmin = 0, xmax = 4.5)) +
     geom_point(data = face, size = 53, color = "black", aes(x = x, y = y)) +
     geom_rect(aes(fill = hue, ymin = ymin, ymax = ymax, xmin = 2.5, xmax = 4)) +
-    annotate("segment", x = 0, y = sunrisePercent, xend = 4.5, yend = sunrisePercent, color = "black", size = 1.6) +
+    #annotate("segment", x = 0, y = sunrisePercent, xend = 4.5, yend = sunrisePercent, color = "black", size = 1.6) +
     annotate("text", x = 5.5, y = sunrisePercent, label = sunriseDisplay, color = "slategray", size = 4) +
-    annotate("segment", x = 0, y = sunsetPercent, xend = 4.5, yend = sunsetPercent, color = "black", size = 1.6) +
+    #annotate("segment", x = 0, y = sunsetPercent, xend = 4.5, yend = sunsetPercent, color = "black", size = 1.6) +
     annotate("text", x = 5.5, y = sunsetPercent, label = sunsetDisplay, color = "slategray", size = 4) +
     geom_point(data = face, size = 50, color = pal(dailyMean), aes(x = x, y = y)) +
     annotate("text", x = 0, y = .5, label = dailyMean, color = "black", size = 16) +
