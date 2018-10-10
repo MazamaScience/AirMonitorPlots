@@ -36,6 +36,6 @@ Add a multi-sided polygon to a plot.
 maps::map('state', "washington")
 x <- c(-121, -122)
 y <- c(47.676057, 47)
-addWindBarbs(x, y, speed = c(2,65), dir = c(45, 67), circleSize = 1.8)
+addWindBarbs(x, y, speed = c(45,65), dir = c(45, 67), circleSize = 1.8, circleFill = c('orange', 'blue'))
 }
 \keyword{plotting}
