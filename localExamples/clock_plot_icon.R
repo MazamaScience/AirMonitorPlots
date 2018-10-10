@@ -21,7 +21,7 @@ makeClock <- function(monitors, monitorID, date) {
   
   # For bottom gap between the start and end of the day
   gap <- 0.1
-  thetaOffset <- pi + (2 * pi) * (1 - (1 / (1 + gap))) / 2# * (2 - (1 / (1 + gap)))
+  thetaOffset <- pi + (2 * pi) * (1 - (1 / (1 + gap))) / 2
   
   x <- c(0)
   y <- c(0)
@@ -29,14 +29,10 @@ makeClock <- function(monitors, monitorID, date) {
   face = data.frame(x, y)
   
   clock <- ggplot(data) +
-    #annotate("segment", x = 0, y = 0.25 * 1 / (1 + gap), xend = 4.5, yend = 0.25 * 1 / (1 + gap), color = "slategray", size = 1.5) +
-    #annotate("segment", x = 0, y = 1 - 0.25 * 1 / (1 + gap), xend = 4.5, yend = 1 - 0.25 * 1 / (1 + gap), color = "slategray", size = 1.5) +
-    geom_point(data = face, size = 150, color = "black", aes(x = x, y = y)) +
+    geom_point(data = face, size = 170, color = "black", aes(x = x, y = y)) +
     geom_rect(aes(fill = hue, ymin = ymin, ymax = ymax, xmin = 1.5, xmax = 4)) +
-    #geom_point(data = face, size = 65, color = pal(avg), aes(x = x, y = y)) +
-    #annotate("text", x = 0, y = .5, label = avg, color = "black", size = 26) +
     coord_polar(theta = 'y', direction = 1, start = thetaOffset) +
-    xlim(0, 5) +
+    xlim(0, 4.5) +
     ylim(0, 1 + gap) +
     theme(panel.grid = element_blank()) +
     theme(axis.title = element_blank()) +
