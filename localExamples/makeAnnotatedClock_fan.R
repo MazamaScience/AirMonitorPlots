@@ -7,7 +7,12 @@ makeAnnotatedClock_fan <- function(monitors, monitorID, date) {
                             tlim = c(date, endDate))
   data <- monitor$data
   names(data) <- c("datetime", "pm25")
-  dailyMean <- round(mean(data$pm25), digits = 0)
+  dailyMean <- round(mean(data$pm25, na.rm = TRUE), digits = 0)
+  
+  ti <- timeInfo(date, 
+                 monitor$meta$longitude,
+                 monitor$meta$latitude,
+                 monitor$meta$timezone)
   
   # Define AQI palette
   pal <- leaflet::colorBin(palette = AQI$colors, 
@@ -25,8 +30,8 @@ makeAnnotatedClock_fan <- function(monitors, monitorID, date) {
   thetaOffset <- pi + (2 * pi) * (1 - (1 / (1 + gap))) / 2
   
   # Formatting the sunrise and sunset time of day
-  sunriseTime <- as.POSIXct("2017-08-30 6:25:00")
-  sunsetTime <- as.POSIXct("2017-08-30 19:52:00")
+  sunriseTime <- ti$sunrise
+  sunsetTime <- ti$sunset
   sunriseTOD <- difftime(sunriseTime, date, units = "hours")
   sunsetTOD <- difftime(sunsetTime, date, units = "hours")
   sunrisePercent <- sunriseTOD / 24
