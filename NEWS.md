@@ -15,6 +15,7 @@ Plot Utilities for the PWFSLSmoke Package
  * removed `~Tidy()` functions in favor of those in *PWFSLSmoke*
  * exporting "%>%" as part of the package
  * updated DESCRIPTION file 
+ * wind barbs grow in length between zero and 5 knots
 
 ## Version 0.3 -- daily-hourly barplot
 

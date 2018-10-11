@@ -14,7 +14,7 @@ dailyHourlyBarplot(ws_monitor, monitorIDs = NULL, tlim = NULL,
 
 \item{monitorIDs}{Optional vector of monitor IDs used to filter the data.}
 
-\item{tlim}{Optional vector with start and endd times. Can either be a
+\item{tlim}{Optional vector with start and end times. Can either be a
 character/numeric vector in form of 'yyyymmdd', or a POSIXct object.
 Defaults to `NULL` (no subsetting).}
 

@@ -7,7 +7,7 @@
 #'
 #' @param ws_monitor \emph{ws_monitor} object.
 #' @param monitorIDs Optional vector of monitor IDs used to filter the data.
-#' @param tlim Optional vector with start and endd times. Can either be a
+#' @param tlim Optional vector with start and end times. Can either be a
 #'   character/numeric vector in form of 'yyyymmdd', or a POSIXct object.
 #'   Defaults to `NULL` (no subsetting).
 #' @param columns Number of columns the faceted plot should have (default 1).
