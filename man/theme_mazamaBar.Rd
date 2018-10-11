@@ -18,6 +18,3 @@ A **ggplot** theme
 Applies a theme to a **ggplot** plot object. This is a minimal theme tailored
 for faceted bar plots.
 }
-\examples{
-
-}

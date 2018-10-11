@@ -1,5 +1,6 @@
-#' @keywords plotting
-#' @title Add wind barbs to a map
+#' @keywords internal
+#' @import graphics
+#' @title Add wind barb to a map
 #' @param x longitude
 #' @param y latitude
 #' @param speed wind speed in knots 
@@ -11,17 +12,23 @@
 #' @param barbSize size of the barb 
 #' @param ... additional arguments to be passed to \code{lines}
 #' @description Add a wind barb to the plot. Used internally in \link{addWindBarbs}
-#' @examples
-#' maps::map('state', "washington")
-#' x <- -121
-#' y <- 47
-#' addWindBarb(x, y, speed = 0, dir = 45)
+#' @references \url{https://commons.wikimedia.org/wiki/Wind_speed}
 
+# NOTE:  This is a non-exported function so we cant have an @example
+# maps::map('state', "washington")
+# addWindBarb(-122, 47, speed = 125, dir = 45,
+#             circleSize = 1, barbSize = 1.5, lwd = 2)
 
-addWindBarb <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transparent', lineCol = 1, extraBarbLength = 0, barbSize = 1, ...) {
-  
-  
-  # https://commons.wikimedia.org/wiki/Wind_speed
+addWindBarb <- function(x, 
+                        y,
+                        speed,
+                        dir,
+                        circleSize = 1,
+                        circleFill = 'transparent',
+                        lineCol = 1,
+                        extraBarbLength = 0,
+                        barbSize = 1,
+                        ...) {
   
   # Wind direction is measured in degrees clockwise from north
   # We want to convert into counter-clockwise from east
@@ -46,7 +53,7 @@ addWindBarb <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transpar
   yy <- y + ry*sin(theta)
   
   polygon(xx, yy, col = circleFill, border = lineCol, ...)
-  
+
   # Only add barb if speed > 0
   if ( speed > 0 ) {
     # The baseline barb length will be 1/4 inch
@@ -71,7 +78,7 @@ addWindBarb <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transpar
       # Add flags
       # flag angle 
       fa <- rad + 75*pi/180
-      
+
       # 5 knots
       # start at 5/6 of the way up the barb
       # length is 1/4 of the barb length
@@ -87,7 +94,7 @@ addWindBarb <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transpar
         
       }
       
-      
+
       # 10 knots
       # start at end of barb
       # length is 1/2 of barb length
@@ -153,7 +160,7 @@ addWindBarb <- function(x, y, speed, dir, circleSize = 1, circleFill = 'transpar
   }
   
   
-  
+
   
   
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/addWindBarb.R
 \name{addWindBarb}
 \alias{addWindBarb}
-\title{Add wind barbs to a map}
+\title{Add wind barb to a map}
 \usage{
 addWindBarb(x, y, speed, dir, circleSize = 1,
   circleFill = "transparent", lineCol = 1, extraBarbLength = 0,
@@ -32,10 +32,7 @@ addWindBarb(x, y, speed, dir, circleSize = 1,
 \description{
 Add a wind barb to the plot. Used internally in \link{addWindBarbs}
 }
-\examples{
-maps::map('state', "washington")
-x <- c(-121, -122)
-y <- c(47.676057, 47)
-wind_barb(x, y, speed = 125, dir = 45, lwd = 2, circleSize = .5, barbSize = 1.5)
+\references{
+\url{https://commons.wikimedia.org/wiki/Wind_speed}
 }
-\keyword{plotting}
+\keyword{internal}
