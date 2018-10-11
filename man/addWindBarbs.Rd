@@ -13,9 +13,9 @@ addWindBarbs(x, y, speed, dir, circleSize = 1,
 
 \item{y}{vector of latitudes}
 
-\item{speed}{wind speed in knots (Doesn't currently support vectorized wind speed)}
+\item{speed}{vector of wind speeds in knots}
 
-\item{dir}{wind direction in degrees clockwise from north}
+\item{dir}{wind directions in degrees clockwise from north}
 
 \item{circleSize}{size of the circle}
 
@@ -36,6 +36,10 @@ Add a multi-sided polygon to a plot.
 maps::map('state', "washington")
 x <- c(-121, -122)
 y <- c(47.676057, 47)
-addWindBarbs(x, y, speed = c(2,65), dir = c(45, 67), circleSize = 1.8)
+addWindBarbs(x, y, speed = c(45,65), dir = c(45, 67),
+             circleSize = 1.8, circleFill = c('orange', 'blue'))
+}
+\references{
+https://commons.wikimedia.org/wiki/Wind_speed
 }
 \keyword{plotting}

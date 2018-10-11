@@ -1,30 +1,35 @@
 Type: Package
 Package: PWFSLSmokePlots
-Version: 0.3.4
+Version: 0.4.0
 Title: Plot Utilities for the PWFSLSmoke Package
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
+    person("Helen", "Miller", email="helen@ohana.org", role=c("aut")),
     person("Spencer", "Pease", email="spencer.p.816@gmail.com ", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
+    Helen Miller [aut],
     Spencer Pease [aut]
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 Depends:
-    R (>= 3.1.0),
+    R (>= 3.3.0),
+    PWFSLSmoke (>= 1.0.33)
+Imports:
     dplyr,
     ggplot2,
-    magrittr,
-    PWFSLSmoke (>= 1.0.20)
-Imports:
     lubridate,
-    rlang,
-    tibble,
-    tidyr
+    magrittr
 Suggests:
-    knitr
+    knitr,
+    maps,
+    markdown,
+    testthat
 Description: Plot utilities for the PWFSLSmoke package.
 License: GPL-3 | file LICENSE
 VignetteBuilder: knitr
 Repository: CRAN
+URL: https://github.com/MazamaScience/PWFSLSmokePlots
+BugReports: https://github.com/MazamaScience/PWFSLSmokePlots/issues
+Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0

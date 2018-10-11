@@ -1,5 +1,5 @@
 #' @keywords plotting
-#' @import graphics
+#' @importFrom graphics polygon
 #' @export
 #' @title Add a Colored Polygon to a Plot
 #' @param x x location of center
@@ -16,9 +16,9 @@
 #' plot(1:6, rep(0,6), xlim=c(-1,7), ylim=c(-1,3),
 #'     axes=FALSE, xlab='', ylab='', col='transparent')
 #' for (i in 1:6) {
-#'   addPolygon(i, 2, 72, 0.4, 0, col=AQI$colors[i])
-#'   addPolygon(i, 1, 4, 0.4, pi/4, co=AQI$colors[i])
-#'   addPolygon(i, 0, 3, 0.4, pi/2, col=AQI$colors[i])
+#'   addPolygon(i, 2, 72, 0.4, 0, col=PWFSLSmoke::AQI$colors[i])
+#'   addPolygon(i, 1, 4, 0.4, pi/4, co=PWFSLSmoke::AQI$colors[i])
+#'   addPolygon(i, 0, 3, 0.4, pi/2, col=PWFSLSmoke::AQI$colors[i])
 #' }
 
 addPolygon <- function(x = 0,

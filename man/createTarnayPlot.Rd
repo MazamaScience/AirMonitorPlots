@@ -2,7 +2,7 @@
 % Please edit documentation in R/tarnayPlot.R
 \name{createTarnayPlot}
 \alias{createTarnayPlot}
-\title{Create a Tarnay plot for many monitors}
+\title{Create a Daily-Hourly plot for many monitors}
 \usage{
 createTarnayPlot(monitors, data, tlim = NULL, columns = 1,
   title = NULL, xLabel = NULL, yLabel = NULL, includeLink = TRUE,
@@ -16,7 +16,7 @@ createTarnayPlot(monitors, data, tlim = NULL, columns = 1,
 object).}
 
 \item{tlim}{Time range to subset the data by. Can either be a
-cahracter/numeric vector in form of 'yyyymmdd', or a POSIXct object.
+character/numeric vector in form of 'yyyymmdd', or a POSIXct object.
 Defaults to `NULL` (no subsetting).}
 
 \item{columns}{Number of columns the faceted plot should have (default 1).}
@@ -29,14 +29,14 @@ data.}
 
 \item{yLabel}{The y-axis label of the plot. Defaults to PM2.5.}
 
-\item{includeLink}{Option to include a link to an AQI explainer at the bottom
+\item{includeLink}{Option to include a link to an AQI help page at the bottom
 of the plot (default `TRUE`).}
 
 \item{hourlyType}{The type of hourly data to include in the plot. The options
 include "nowcast" (hourly nowcast values), "raw" (raw hourly values), or
 "none" (no hourly data at all) (default "nowcast").}
 
-\item{colorScale}{The ordered color pallete used to represent each AQI
+\item{colorScale}{The ordered color palette used to represent each AQI
 category. Currently defaults to (and only accepts) "epa_aqi".}
 
 \item{includeThirdCol}{Option to include a third column in the legend.
@@ -46,23 +46,7 @@ Currently in testing (default `False`).}
 A **ggplot** plot of the given monitors and data.
 }
 \description{
-Create a timeseries barplot showing PM2.5 data for the given monitors. The
+Create a time series barplot showing PM2.5 data for the given monitors. The
 overall plot is faceted by monitor, and each facet has two sets of columns:
 one for daily levels, and one for hourly levels.
-}
-\examples{
-SF_IDs <- c("060010011_01","060010013_01","060010012_01","060750005_01")
-SF_daily <- loadDaily() \%>\% monitor_subset(monitorIDs = SF_IDs)
-SF_latest <- loadLatest() \%>\% monitor_subset(monitorIDs = SF_IDs)
-SF_full <- monitor_join(SF_daily, SF_latest)
-today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
-now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
-starttime <- today - lubridate::ddays(4)
-SF_4day <- monitor_subset(SF_full, tlim=c(starttime, now))
-
-# Create plot using pre subset data
-createTarnayPlot(SF_IDs, SF_4day)
-
-# Create plot using data subset by function
-createTarnayPlot(SF_IDs, SF_full, tlim = c(starttime, now))
 }
