@@ -3,11 +3,13 @@ Package: PWFSLSmokePlots
 Version: 0.4.0
 Title: Plot Utilities for the PWFSLSmoke Package
 Authors@R: c(
-    person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
+    person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
+    person("Tate", "Brasel", email="tatebrasel6@gmail.com ", role=c("aut")),
     person("Helen", "Miller", email="helen@ohana.org", role=c("aut")),
     person("Spencer", "Pease", email="spencer.p.816@gmail.com ", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
+    Tate Brasel [aut],
     Helen Miller [aut],
     Spencer Pease [aut]
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
@@ -17,6 +19,7 @@ Depends:
 Imports:
     dplyr,
     ggplot2,
+    leaflet,
     lubridate,
     magrittr
 Suggests:

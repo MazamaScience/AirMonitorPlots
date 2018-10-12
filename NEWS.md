@@ -8,6 +8,11 @@ Plot Utilities for the PWFSLSmoke Package
 
 ## Version 0.4 -- package best practices
 
+### Version 0.4.1 
+
+ * added `clockPlot()` function
+ * added `aqiPalette()` function and unit test
+ 
 ### Version 0.4.0 
 
  * added unit test for `dailyHourlyBarplot()`
