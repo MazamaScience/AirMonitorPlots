@@ -268,7 +268,7 @@ dailyHourlyBarplot <- function(ws_monitor,
   
   # TODO: create new ggplot stat object to handle daily data computation
   # TODO: add ability to create plot with either raw hourly data or nowcast
-  tarnayPlot <-
+  dailyHourlyPlot <-
     ggplot(dailyData,
            aes_(x = ~ datetime, y = ~ pm25,
                 fill = ~ aqiCategory)) +
@@ -322,7 +322,7 @@ dailyHourlyBarplot <- function(ws_monitor,
     theme_mazamaBar(base_size = 12)
   
   if (includeThirdCol) {
-    tarnayPlot <- tarnayPlot +
+    dailyHourlyPlot <- dailyHourlyPlot +
       geom_point(data = dailyData,
                  aes_(x = ~ datetime + lubridate::dhours(12),
                       shape = ~ aqiCategory),
@@ -343,6 +343,6 @@ dailyHourlyBarplot <- function(ws_monitor,
       theme(legend.text = element_text(size = rel(.5)))
   }
   
-  return(tarnayPlot)
+  return(dailyHourlyPlot)
   
 }
