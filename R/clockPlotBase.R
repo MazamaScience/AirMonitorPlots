@@ -8,14 +8,13 @@
 #' @param ws_monitor \emph{ws_monitor} object.
 #' @param monitorID Monitor ID of interest.
 #' @param startdate Desired start date (integer or character in Ymd format).
-#' @param style Plot style one of \code{icon|fan}.
+#' @param style Plot style one of \code{base|icon}.
 #' @param centerColor Color used for the center of the circle.
 #' @param gapFraction Fraction of the circle used as the day boundary gap.
 #' @param dataRadii Inner and outer radii for the data portion of the plot [0:1]. 
 #'
 #' @return A **ggplot** plot object with a "clock plot" for a single monitor.
 #'
-#' @importFrom stats lag
 #' @export
 #' @examples
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
@@ -24,27 +23,28 @@
 #' clockPlotBase(ws_monitor, monitorID, startdate, "icon")
 
 
-# For debugging
-if (FALSE) {
-  
-  # Carmel Valley
-  ws_monitor <- PWFSLSmoke::Carmel_Valley
-  monitorID <- "060530002_01"
-  startdate <- "2016-08-07"
-  style <- "icon"
-  centerColor <- "black"
-  gapFraction <- 1/25
-  dataRadii <- c(0.3, 1.0)
-  
-}
-
 clockPlotBase <- function(ws_monitor,
                           monitorID = NULL,
                           startdate = NULL,
                           style = 'icon',
                           centerColor = "black",
                           gapFraction = 1/25,
-                          dataRadii = c(0.4,1.0)) {
+                          dataRadii = c(0.5,1.0)) {
+  
+  # For debugging --------------------------------------------------------------
+  
+  if (FALSE) {
+    
+    # Carmel Valley
+    ws_monitor <- PWFSLSmoke::Carmel_Valley
+    monitorID <- "060530002_01"
+    startdate <- "2016-08-07"
+    style <- "icon"
+    centerColor <- "black"
+    gapFraction <- 1/25
+    dataRadii <- c(0.3, 1.0)
+    
+  }
   
   # Validate arguments ---------------------------------------------------------
   
@@ -64,7 +64,7 @@ clockPlotBase <- function(ws_monitor,
     }
   }
   
-  validStyles <- c("icon","fan")
+  validStyles <- c("base", "icon")
   if ( !is.null(style) && !(style %in% validStyles) ) {
     stop(
       paste0(
@@ -113,7 +113,6 @@ clockPlotBase <- function(ws_monitor,
   
   # Plot data ------------------------------------------------------------------
   
-  # colors
   colorPalette <- aqiPalette("aqi")
   
   clockData <- mon$data
@@ -133,37 +132,39 @@ clockPlotBase <- function(ws_monitor,
   # For bottom gap between the start and end of the day
   thetaOffset <- pi + (2 * pi) * gapFraction / 2
   
-  # NOTE:  Suppress ggplot "already present" messages
-  suppressMessages({
+  # Create the plot ------------------------------------------------------------
+  
+  clockPlotBase <- ggplot(clockData) +
     
-    clockPlotBase <- ggplot(clockData) +
-      
-      # filled center
-      geom_rect(data = filledCenterData,
-                aes(ymin = 0.0, 
-                    ymax = 1.0, 
-                    xmin = 0.0, 
-                    xmax = 1.0),
-                fill = centerColor) +
-      coord_polar(theta = 'y', direction = 1, start = thetaOffset) +
-      
-      # colored hour segments
-      geom_rect(aes(ymin = 0.0, 
-                    ymax = 1.0, 
-                    xmin = dataRadii[1], 
-                    xmax = dataRadii[2]),
-                fill = clockData$color,
-                color = 'NA') + # setting border color doesn't seem to work
-      coord_polar(theta = 'y', direction = 1, start = thetaOffset) +
-      xlim(0, 1) +
-      ylim(0, 1)
-      
-  })
-
+    # filled center
+    geom_rect(
+      data = filledCenterData,
+      aes(
+        ymin = 0.0, 
+        ymax = 1.0, 
+        xmin = 0.0, 
+        xmax = 1.0),
+      fill = centerColor) +
+    
+    # colored hour segments
+    geom_rect(
+      aes(
+        ymin = ymin, 
+        ymax = ymax, 
+        xmin = dataRadii[1], 
+        xmax = dataRadii[2]),
+      fill = clockData$color,
+      color = clockData$color) +
+    
+    # polar coordinate system
+    coord_polar(theta = 'y', direction = 1, start = thetaOffset) +
+    xlim(0, 1) +
+    ylim(0, 1)
+  
   if ( style == "icon" ) {
     
+    # Remove all plot decorations
     clockPlotBase <- clockPlotBase + 
-      # remove all plot decorations
       theme(panel.background = element_rect(fill = "transparent", colour = NA)) +
       theme(plot.background = element_rect(fill = "transparent", colour = NA)) +
       theme(panel.grid = element_blank()) +
@@ -173,7 +174,6 @@ clockPlotBase <- function(ws_monitor,
       theme(legend.position = "none")
     
   }
-  
   
   return(clockPlotBase)
   
