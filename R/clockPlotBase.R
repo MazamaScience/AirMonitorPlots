@@ -78,8 +78,7 @@ clockPlotBase <- function(ws_monitor,
   
   # Subset based on monitorID
   
-  mon <- ws_monitor %>%
-    monitor_subset(monitorIDs = monitorID)
+  mon <- monitor_subset(ws_monitor, monitorIDs = monitorID)
   
   # Subset based on startdate
   
