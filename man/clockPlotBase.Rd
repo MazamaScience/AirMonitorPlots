@@ -4,27 +4,31 @@
 \alias{clockPlotBase}
 \title{Create a Clock plot for a single monitor}
 \usage{
-clockPlotBase(ws_monitor, monitorID = NULL, startdate = NULL,
-  style = "icon", centerColor = "black", gapFraction = 1/25,
-  dataRadii = c(0.5, 1))
+clockPlotBase(ws_monitor, startdate = NULL, centerColor = "black",
+  gapFraction = 1/25, plotRadius = 1, dataRadii = c(0.5, 1),
+  shadedNight = FALSE, solarLabels = FALSE)
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object.}
 
-\item{monitorID}{Monitor ID of interest.}
-
 \item{startdate}{Desired start date (integer or character in Ymd format).}
-
-\item{style}{Plot style one of \code{base|icon}.}
 
 \item{centerColor}{Color used for the center of the circle.}
 
 \item{gapFraction}{Fraction of the circle used as the day boundary gap.}
 
+\item{plotRadius}{Full radius of the plot.}
+
 \item{dataRadii}{Inner and outer radii for the data portion of the plot [0:1].}
+
+\item{shadedNight}{Add nighttime shading.}
+
+\item{solarLabels}{Add sunrise/sunset labels.}
 }
 \value{
 A **ggplot** plot object with a "clock plot" for a single monitor.
+
+Room for annotations can be created by setting \code{plotRadius = 1.2}.
 }
 \description{
 Create a "clock plot" showing PM2.5 data for a single day for the given 
@@ -33,7 +37,6 @@ bar colored for each hour of the local time day.
 }
 \examples{
 ws_monitor <- PWFSLSmoke::Carmel_Valley
-monitorID <- ws_monitor$meta$monitorID[1]
 startdate <- "2016-08-07"
-clockPlotBase(ws_monitor, monitorID, startdate, "icon")
+clockPlotBase(ws_monitor, startdate)
 }
