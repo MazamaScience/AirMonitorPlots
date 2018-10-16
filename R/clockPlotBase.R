@@ -34,6 +34,7 @@
 clockPlotBase <- function(ws_monitor,
                           startdate = NULL,
                           enddate = NULL,
+                          title = "",
                           centerColor = "black",
                           gapFraction = 1/25,
                           plotRadius = 1.0,
@@ -269,8 +270,8 @@ clockPlotBase <- function(ws_monitor,
   
   # Add plot title
   clockPlotBase <- clockPlotBase +
-    ggtitle(paste0(startdate, " to ", enddate)) +
-    theme(plot.title = element_text(color = "gray30", size = 18, hjust = 0.5))
+    ggtitle(title) +
+    theme(plot.title = element_text(color = "gray30", size = 20, hjust = 0.5))
   
   
   return(clockPlotBase)
