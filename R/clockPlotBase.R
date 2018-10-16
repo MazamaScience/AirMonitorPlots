@@ -57,7 +57,7 @@ clockPlotBase <- function(ws_monitor,
     dataRadii <- c(0.5, 1.0)
     shadedNight <- TRUE
     solarLabels <- FALSE
-
+    
   }
   
   # Validate arguments ---------------------------------------------------------
@@ -75,7 +75,7 @@ clockPlotBase <- function(ws_monitor,
   if ( is.null(startdate) && is.null(enddate) ) {
     stop("Required parameters 'startdate' and/or 'enddate' must be defined.")
   }
-    
+  
   # Set up style ---------------------------------------------------------------
   
   if ( shadedNight ) {
@@ -116,10 +116,31 @@ clockPlotBase <- function(ws_monitor,
     
     # TODO:  } else if ( is.null(startdate) && !is.null(enddate) ) {
     
-    # TODO:  } else if ( !is.null(startdate) && !is.null(enddate) ) {
+  } else if ( !is.null(startdate) && !is.null(enddate) ) {
+    
+    if ( is.numeric(startdate) || is.character(startdate) ) {
+      startdate <- lubridate::ymd(startdate, tz = timezone)
+    } else if ( lubridate::is.POSIXct(startdate) ) {
+      startdate <- lubridate::force_tz(startdate, tzone = timezone)
+    } else if ( !is.null(startdate) ) {
+      stop(paste0(
+        "Required parameter 'startdate' must be integer or character",
+        " in Ymd format or of class POSIXct."))
+    }
+    
+    if ( is.numeric(enddate) || is.character(enddate) ) {
+      enddate <- lubridate::ymd(enddate, tz = timezone)
+    } else if ( lubridate::is.POSIXct(enddate) ) {
+      enddate <- lubridate::force_tz(enddate, tzone = timezone)
+    } else if ( !is.null(enddate) ) {
+      stop(paste0(
+        "Required parameter 'enddate' must be integer or character",
+        " in Ymd format or of class POSIXct."))
+    }
+    enddate <- enddate + lubridate::dhours(23)
     
   }
-
+  
   mon <- monitor_subset(ws_monitor, tlim=c(startdate,enddate))
   
   # Solar data -----------------------------------------------------------------
@@ -134,7 +155,7 @@ clockPlotBase <- function(ws_monitor,
   sunriseFraction <- sunriseHours * (1 - gapFraction) / 24
   sunsetHours <- as.numeric(difftime(ti$sunset, startdate, units = "hours"))
   sunsetFraction <- sunsetHours * (1 - gapFraction) / 24
-
+  
   shadedNightData <- data.frame(
     xmin = c(0,0),
     xmax = c(plotRadius,plotRadius),
@@ -151,18 +172,25 @@ clockPlotBase <- function(ws_monitor,
   
   # Clock data -----------------------------------------------------------------
   
-  # TODO:  create multi-day averages for each hour when startdate != enddate
-  
-  # Sanity check
-  hours <- lubridate::hour(lubridate::with_tz(mon$data$datetime, tz=timezone))
-  if ( !all(hours == 0:23) ) {
-    stop("'datetime' hours are not 0:23")
+  if (startdate == enddate) {
+    stop("'startdate' and 'enddate' cannot be equal")
   }
-
-  clockData <- data.frame(
-    hour = 0:23,
+  
+  # Load hourly PM 2.5 data
+  hours <- lubridate::hour(lubridate::with_tz(mon$data$datetime, tz=timezone))
+  hourData <- data.frame(
+    hour = hours,
     pm25 = mon$data[,2]
   )
+
+  # Group readings by hour, then take the average reading of each hour
+  clockData <- group_by(hourData, hour) %>%
+    summarise(pm25 = mean(pm25, na.rm = TRUE))
+  
+  # Sanity check
+  if ( !all(clockData$hour == 0:23) ) {
+    stop("'datetime' hours are not 0:23")
+  }
   
   # Define the start, end, and color of each period
   clockData$fraction = (1 - gapFraction) / 24
@@ -189,7 +217,7 @@ clockPlotBase <- function(ws_monitor,
     coord_polar(theta = 'y', direction = 1, start = thetaOffset) +
     xlim(0, plotRadius) +
     ylim(0, 1) + 
-  
+    
     # filled center
     geom_rect(
       aes(
@@ -210,7 +238,7 @@ clockPlotBase <- function(ws_monitor,
         xmax = dataRadii[2]),
       fill = clockData$color,
       color = clockData$color)
-    
+  
   # solar labels
   if ( solarLabels ) {
     
@@ -227,7 +255,7 @@ clockPlotBase <- function(ws_monitor,
                label = sunsetText,
                color = solarLabelColor, 
                size = solarLabelSize)
-      
+    
   }
   
   # Remove all plot decorations
@@ -238,6 +266,11 @@ clockPlotBase <- function(ws_monitor,
     theme(axis.title = element_blank()) +
     theme(axis.text = element_blank()) +
     theme(axis.ticks = element_blank())
+  
+  # Add plot title
+  clockPlotBase <- clockPlotBase +
+    ggtitle(paste0(startdate, " to ", enddate)) +
+    theme(plot.title = element_text(color = "gray30", size = 18, hjust = 0.5))
   
   
   return(clockPlotBase)
