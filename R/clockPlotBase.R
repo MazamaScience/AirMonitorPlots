@@ -5,19 +5,25 @@
 #' monitors. A colored bar curves around in a clockwise manner with 12/4 of the
 #' bar colored for each hour of the local time day.
 #' 
-#' @param ws_monitor \emph{ws_monitor} object.
-#' @param startdate Desired start date (integer or character in Ymd format).
+#' @param ws_monitor \emph{ws_monitor} object containing a single monitor.
+#' @param startdate Desired start date (integer or character in Ymd format 
+#'        or \code{POSIXct}).
+#' @param enddate Desired end date (integer or character in Ymd format
+#'        or \code{POSIXct}).
 #' @param centerColor Color used for the center of the circle.
 #' @param gapFraction Fraction of the circle used as the day boundary gap.
 #' @param plotRadius Full radius of the plot. 
 #' @param dataRadii Inner and outer radii for the data portion of the plot [0:1]. 
 #' @param shadedNight Add nighttime shading.
 #' @param solarLabels Add sunrise/sunset labels.
+#' @param colorPalette Palette function to convert monitor values into colors.
+#'
+#' Room for annotations can be created by setting \code{plotRadius = 1.2}.
+#' 
+#' TODO:  More documentation
 #'
 #' @return A **ggplot** plot object with a "clock plot" for a single monitor.
 #' 
-#' Room for annotations can be created by setting \code{plotRadius = 1.2}.
-#'
 #' @export
 #' @examples
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
@@ -27,12 +33,14 @@
 
 clockPlotBase <- function(ws_monitor,
                           startdate = NULL,
+                          enddate = NULL,
                           centerColor = "black",
                           gapFraction = 1/25,
                           plotRadius = 1.0,
                           dataRadii = c(0.5,1.0),
                           shadedNight = FALSE,
-                          solarLabels = FALSE) {
+                          solarLabels = FALSE,
+                          colorPalette = aqiPalette("aqi")) {
   
   
   # For debugging --------------------------------------------------------------
@@ -42,73 +50,79 @@ clockPlotBase <- function(ws_monitor,
     # Carmel Valley
     ws_monitor <- PWFSLSmoke::Carmel_Valley
     startdate <- "2016-08-07"
+    enddate <- NULL
     centerColor <- "black"
     gapFraction <- 1/25
     plotRadius <- 1.2
     dataRadii <- c(0.5, 1.0)
     shadedNight <- TRUE
     solarLabels <- FALSE
-    centerAvg <- FALSE
-    
+
   }
   
   # Validate arguments ---------------------------------------------------------
   
   if ( !monitor_isMonitor(ws_monitor) ) {
-    stop("Argument 'ws_monitor' is not a valid ws_monitor object")
+    stop("Required parameter 'ws_monitor' is not a valid ws_monitor object")
   } else if ( monitor_isEmpty(ws_monitor) ) {
-    stop("Argument 'ws_monitor' is empty.")
+    stop("Required parameter 'ws_monitor' is empty.")
   }
   
-  if ( nrow(ws_monitor$meta) == 1 ) {
-    monitorID <- ws_monitor$meta$monitorID[1]
-  } else {
-    stop("Argument 'ws_monitor' must contain only one monitor.")
+  if ( ! nrow(ws_monitor$meta) == 1 ) {
+    stop("Required parameter 'ws_monitor' must contain only one monitor.")
   }
   
+  if ( is.null(startdate) && is.null(enddate) ) {
+    stop("Required parameters 'startdate' and/or 'enddate' must be defined.")
+  }
+    
   # Set up style ---------------------------------------------------------------
   
-  colorPalette <- aqiPalette("aqi")
-  
   if ( shadedNight ) {
-    shadedNightColor <- adjustcolor("black", 0.1)
+    shadedNightColor <- "gray90"
   } else {
     shadedNightColor <- "transparent"
   }
   
-  solarTickColor <- "gray50"
-  solarTickSize <- 1
   solarLabelColor <- "black"
   solarLabelSize <- 4
   
+  # For bottom gap between the start and end of the day
+  thetaOffset <- pi + (2 * pi) * (gapFraction / 2)
   
-  # Set up data ----------------------------------------------------------------
+  # Time limits ----------------------------------------------------------------
   
-  # TODO:  Allow for time chunking (3 or 4 hr chunks with uniform values) or
-  # TODO:  smoothing (using monitor_nowcast()?)
+  # Subset based on startdate and enddate
   
-  # Subset based on monitorID
+  timezone <- ws_monitor$meta$timezone[1]
   
-  mon <- monitor_subset(ws_monitor, monitorIDs = monitorID)
+  # TODO:  code to handle three options:
+  # TODO:  1) startdate defined, enddate == NULL
+  # TODO:  2) startdate == NULL, enddate defined
+  # TODO:  3) both defined
   
-  # Subset based on startdate
-  
-  timezone <- mon$meta$timezone[1]
-  
-  if ( is.numeric(startdate) || is.character(startdate) ) {
-    startdate <- lubridate::ymd(startdate, tz = timezone)
-  } else if ( lubridate::is.POSIXct(startdate) ) {
-    startdate <- lubridate::force_tz(startdate, tzone = timezone)
-  } else if ( !is.null(startdate) ) {
-    stop(paste0(
-      "Argument 'startdate' must be a numeric/charcter vector",
-      " of the form yyyymmdd or of class POSIXct."))
+  if ( !is.null(startdate) && is.null(enddate) ) {
+    
+    if ( is.numeric(startdate) || is.character(startdate) ) {
+      startdate <- lubridate::ymd(startdate, tz = timezone)
+    } else if ( lubridate::is.POSIXct(startdate) ) {
+      startdate <- lubridate::force_tz(startdate, tzone = timezone)
+    } else if ( !is.null(startdate) ) {
+      stop(paste0(
+        "Required parameter 'startdate' must be integer or character",
+        " in Ymd format or of class POSIXct."))
+    }
+    enddate <- startdate + lubridate::dhours(23)
+    
+    # TODO:  } else if ( is.null(startdate) && !is.null(enddate) ) {
+    
+    # TODO:  } else if ( !is.null(startdate) && !is.null(enddate) ) {
+    
   }
-  enddate <- startdate + lubridate::dhours(23)
+
+  mon <- monitor_subset(ws_monitor, tlim=c(startdate,enddate))
   
-  mon <- monitor_subset(mon, tlim=c(startdate,enddate))
-  
-  dailyMean <- round(mean(mon$data[,2], na.rm = TRUE), digits = 0)
+  # Solar data -----------------------------------------------------------------
   
   ti <- timeInfo(startdate,
                  mon$meta$longitude,
@@ -120,27 +134,13 @@ clockPlotBase <- function(ws_monitor,
   sunriseFraction <- sunriseHours * (1 - gapFraction) / 24
   sunsetHours <- as.numeric(difftime(ti$sunset, startdate, units = "hours"))
   sunsetFraction <- sunsetHours * (1 - gapFraction) / 24
-  
-  clockData <- mon$data
-  names(clockData) <- c("datetime", "pm25")
-  
-  # Define the start, end, and color of each period
-  clockData$fraction = (1 - gapFraction) / 24
-  clockData$ymax = cumsum(clockData$fraction)
-  clockData$ymin <- c(0, lag(clockData$ymax)[-1])
-  clockData$color = colorPalette(clockData$pm25)
-  
+
   shadedNightData <- data.frame(
     xmin = c(0,0),
     xmax = c(plotRadius,plotRadius),
     ymin = c(0,sunsetFraction),
     ymax = c(sunriseFraction,1.0)
   )
-  
-  # For bottom gap between the start and end of the day
-  thetaOffset <- pi + (2 * pi) * gapFraction / 2
-  
-  # Set up labels --------------------------------------------------------------
   
   sunriseText <- paste0("Sunrise\n",
                         lubridate::hour(ti$sunrise), ":",
@@ -149,25 +149,31 @@ clockPlotBase <- function(ws_monitor,
                        lubridate::hour(ti$sunset), ":",
                        lubridate::minute(ti$sunset))
   
+  # Clock data -----------------------------------------------------------------
+  
+  # TODO:  create multi-day averages for each hour when startdate != enddate
+  
+  # Sanity check
+  hours <- lubridate::hour(lubridate::with_tz(mon$data$datetime, tz=timezone))
+  if ( !all(hours == 0:23) ) {
+    stop("'datetime' hours are not 0:23")
+  }
+
+  clockData <- data.frame(
+    hour = 0:23,
+    pm25 = mon$data[,2]
+  )
+  
+  # Define the start, end, and color of each period
+  clockData$fraction = (1 - gapFraction) / 24
+  clockData$ymax = cumsum(clockData$fraction)
+  clockData$ymin <- c(0, lag(clockData$ymax)[-1])
+  clockData$color = colorPalette(clockData$pm25)
+  
   # Plot data ------------------------------------------------------------------
   
   clockPlotBase <- ggplot() +
     
-    # filled center
-    geom_rect(
-      aes(
-        xmin = 0.0,
-        xmax = 1.0,
-        ymin = 0.0,
-        ymax = 1.0
-      ),
-      fill = centerColor) +
-
-    # polar coordinate system
-    coord_polar(theta = 'y', direction = 1, start = thetaOffset) +
-    xlim(0, plotRadius) +
-    ylim(0, 1) + 
-  
     # add shaded night
     geom_rect(
       data = shadedNightData,
@@ -178,6 +184,21 @@ clockPlotBase <- function(ws_monitor,
         ymax = ymax
       ),
       fill = shadedNightColor) +
+    
+    # polar coordinate system
+    coord_polar(theta = 'y', direction = 1, start = thetaOffset) +
+    xlim(0, plotRadius) +
+    ylim(0, 1) + 
+  
+    # filled center
+    geom_rect(
+      aes(
+        xmin = 0.0,
+        xmax = 1.0,
+        ymin = 0.0,
+        ymax = 1.0
+      ),
+      fill = centerColor) +
     
     # add colored hour segments
     geom_rect(
@@ -194,18 +215,18 @@ clockPlotBase <- function(ws_monitor,
   if ( solarLabels ) {
     
     clockPlotBase <- clockPlotBase +
-      # annotate("segment", x = dataRadii[2], xend = 0.90*plotRadius, 
-      #          y = sunriseFraction, yend = sunriseFraction,
-      #          color = solarTickColor, size = solarTickSize) +
-      annotate("text", x = 1.0*plotRadius, y = sunriseFraction,
+      annotate("text",
+               x = 1.0*plotRadius,
+               y = sunriseFraction,
                label = sunriseText,
-               color = solarLabelColor, size = solarLabelSize) +
-      # annotate("segment", x = dataRadii[2], xend = 0.90*plotRadius, 
-      #          y = sunsetFraction, yend = sunsetFraction, 
-      #          color = solarTickColor, size = solarTickSize) +
-      annotate("text", x = 1.0*plotRadius, y = sunsetFraction, 
+               color = solarLabelColor, 
+               size = solarLabelSize) +
+      annotate("text", 
+               x = 1.0*plotRadius, 
+               y = sunsetFraction, 
                label = sunsetText,
-               color = solarLabelColor, size = solarLabelSize)
+               color = solarLabelColor, 
+               size = solarLabelSize)
       
   }
   

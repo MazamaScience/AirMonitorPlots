@@ -10,7 +10,9 @@ Plot Utilities for the PWFSLSmoke Package
 
 ### Version 0.4.1 
 
+ * added `monitor_getDailyMean()` function
  * added `clockPlot()` function
+ * added `clockPlotBase()` function
  * added `aqiPalette()` function and unit test
  
 ### Version 0.4.0 

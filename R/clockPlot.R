@@ -7,7 +7,10 @@
 #' 
 #' @param ws_monitor \emph{ws_monitor} object.
 #' @param monitorID Monitor ID of interest.
-#' @param startdate Desired start date (integer or character in Ymd format).
+#' @param startdate Desired start date (integer or character in Ymd format
+#'        or \code{POSIXct}).
+#' @param enddate Desired end date (integer or character in Ymd format
+#'        or \code{POSIXct}).
 #' @param style Plot style one of \code{base|icon|icon_fan|full|full_fan}.
 #' @param centerColor Color used for the center of the circle.
 #'
@@ -24,6 +27,7 @@
 clockPlot <- function(ws_monitor,
                       monitorID = NULL,
                       startdate = NULL,
+                      enddate = NULL,
                       style = "icon",
                       centerColor = "transparent") {
   
@@ -36,10 +40,10 @@ clockPlot <- function(ws_monitor,
     ws_monitor <- PWFSLSmoke::Carmel_Valley
     monitorID <- "060530002_01"
     startdate <- "2016-08-07"
+    enddate <- NULL
+    style <- "icon"
     centerColor <- "black"
-    gapFraction <- 1/25
-    dataRadii <- c(0.3, 1.0)
-    
+
   }
   
   # Validate arguments ---------------------------------------------------------
@@ -58,9 +62,11 @@ clockPlot <- function(ws_monitor,
     } else if ( !monitorID %in% ws_monitor$meta$monitorID ) {
       stop(paste0("Monitor ", monitorID, " is not found in 'ws_monitor'"))
     }
+    ws_monitor <- monitor_subset(ws_monitor, monitorIDs = monitorID)
   }
   
-  validStyles <- c("base", "icon", "icon_fan", "full", "full_fan")
+  validStyles <- c("base", "icon", "icon_fan",
+                   "full", "full_fan", "full_avg", "full_fan_avg")
   if ( !is.null(style) && !(style %in% validStyles) ) {
     stop(
       paste0(
@@ -70,41 +76,9 @@ clockPlot <- function(ws_monitor,
     )
   }
   
-  # # Set up data ----------------------------------------------------------------
-  # 
-  # # Subset based on monitorID
-  # 
-  # mon <- monitor_subset(ws_monitor, monitorIDs = monitorID)
-  # 
-  # # Subset based on startdate
-  # 
-  # timezone <- mon$meta$timezone[1]
-  # 
-  # if ( is.numeric(startdate) || is.character(startdate) ) {
-  #   startdate <- lubridate::ymd(startdate, tz = timezone)
-  # } else if ( lubridate::is.POSIXct(startdate) ) {
-  #   startdate <- lubridate::force_tz(startdate, tzone = timezone)
-  # } else if ( !is.null(startdate) ) {
-  #   stop(paste0(
-  #     "Argument 'startdate' must be a numeric/charcter vector",
-  #     " of the form yyyymmdd or of class POSIXct."))
-  # }
-  # enddate <- startdate + lubridate::dhours(23)
-  # 
-  # mon <- monitor_subset(mon, tlim=c(startdate,enddate))
-  # 
-  # dailyMean <- round(mean(mon$data[,2], na.rm = TRUE), digits = 0)
-  # 
-  # ti <- timeInfo(startdate, 
-  #                mon$meta$longitude,
-  #                mon$meta$latitude,
-  #                mon$meta$timezone)
-  # 
-  # # Formatting the sunrise and sunset time of day
-  # sunriseFraction <- as.numeric(difftime(ti$sunrise, startdate, units = "hours")) / 24
-  # sunsetFraction <- as.numeric(difftime(ti$sunset, startdate, units = "hours")) / 24
-  # sunriseText <- paste0("Sunrise\n", lubridate::hour(ti$sunrise), ":", lubridate::minute(sunriseTime))
-  # sunsetText <- paste0("Sunset\n", lubridate::hour(ti$sunset), ":", lubridate::minute(sunsetTime))
+  # Set up style ---------------------------------------------------------------
+  
+  centerTextSize = 16
   
   # Create the plot ------------------------------------------------------------
   
@@ -146,6 +120,7 @@ clockPlot <- function(ws_monitor,
     
     clockPlotBase <- clockPlotBase(ws_monitor,
                                    startdate,
+                                   enddate = NULL,
                                    centerColor = centerColor,
                                    gapFraction = 1/25,
                                    plotRadius = 1,
@@ -166,6 +141,7 @@ clockPlot <- function(ws_monitor,
     
     clockPlotBase <- clockPlotBase(ws_monitor,
                                    startdate,
+                                   enddate = NULL,
                                    centerColor = centerColor,
                                    gapFraction = 1/25,
                                    plotRadius = plotRadius,
@@ -187,6 +163,7 @@ clockPlot <- function(ws_monitor,
     
     clockPlotBase <- clockPlotBase(ws_monitor,
                                    startdate,
+                                   enddate = NULL,
                                    centerColor = centerColor,
                                    gapFraction = 1/25,
                                    plotRadius = plotRadius,
@@ -197,6 +174,30 @@ clockPlot <- function(ws_monitor,
     
   }
   
+  # Add a colored circle with last daily mean
+  if ( stringr::str_detect(style, "avg$") ) {
+    
+    dailyMean <- monitor_getDailyMean(ws_monitor, startdate = startdate)
+    
+    clockPlotBase <- clockPlotBase +
+
+      # colored center (slightly smaller than filled center)
+      geom_rect(
+        aes(
+          xmin = 0.0,
+          xmax = 0.45,
+          ymin = 0.0,
+          ymax = 1.0
+        ),
+        fill = aqiPalette("aqi")(dailyMean)) +
+      
+      annotate("text", x = 0, y = .5,
+               label = round(dailyMean, digits=0),
+               color = "black", size = centerTextSize)
+      
+      
+      
+  }
   
   return(clockPlotBase)
   

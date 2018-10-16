@@ -5,14 +5,18 @@
 \title{Create a Clock plot for a single monitor}
 \usage{
 clockPlot(ws_monitor, monitorID = NULL, startdate = NULL,
-  style = "icon", centerColor = "transparent")
+  enddate = NULL, style = "icon", centerColor = "transparent")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object.}
 
 \item{monitorID}{Monitor ID of interest.}
 
-\item{startdate}{Desired start date (integer or character in Ymd format).}
+\item{startdate}{Desired start date (integer or character in Ymd format
+or \code{POSIXct}).}
+
+\item{enddate}{Desired end date (integer or character in Ymd format
+or \code{POSIXct}).}
 
 \item{style}{Plot style one of \code{base|icon|icon_fan|full|full_fan}.}
 
