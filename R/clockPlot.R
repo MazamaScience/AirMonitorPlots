@@ -120,7 +120,7 @@ clockPlot <- function(ws_monitor,
     
     clockPlotBase <- clockPlotBase(ws_monitor,
                                    startdate,
-                                   enddate = NULL,
+                                   enddate,
                                    centerColor = centerColor,
                                    gapFraction = 1/25,
                                    plotRadius = 1,
@@ -141,7 +141,7 @@ clockPlot <- function(ws_monitor,
     
     clockPlotBase <- clockPlotBase(ws_monitor,
                                    startdate,
-                                   enddate = NULL,
+                                   enddate,
                                    centerColor = centerColor,
                                    gapFraction = 1/25,
                                    plotRadius = plotRadius,
@@ -163,7 +163,7 @@ clockPlot <- function(ws_monitor,
     
     clockPlotBase <- clockPlotBase(ws_monitor,
                                    startdate,
-                                   enddate = NULL,
+                                   enddate,
                                    centerColor = centerColor,
                                    gapFraction = 1/25,
                                    plotRadius = plotRadius,
@@ -177,7 +177,7 @@ clockPlot <- function(ws_monitor,
   # Add a colored circle with last daily mean
   if ( stringr::str_detect(style, "avg$") ) {
     
-    dailyMean <- monitor_getDailyMean(ws_monitor, startdate = startdate)
+    dailyMean <- monitor_getDailyMean(ws_monitor, startdate = startdate, enddate = enddate)
     
     clockPlotBase <- clockPlotBase +
 
