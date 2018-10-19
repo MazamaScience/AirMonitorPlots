@@ -97,38 +97,21 @@ clockPlotBase <- function(ws_monitor,
   
   timezone <- ws_monitor$meta$timezone[1]
   
-  # TODO:  code to handle three options:
-  # TODO:  1) startdate defined, enddate == NULL
-  # TODO:  2) startdate == NULL, enddate defined
-  # TODO:  3) both defined
+  # If a startdate argument was passed, make sure it converts to a valid datetime
+  if ( !is.null(startdate) ) {
+    if ( is.numeric(startdate) || is.character(startdate) ) {
+      startdate <- lubridate::ymd(startdate, tz = timezone)
+    } else if ( lubridate::is.POSIXct(startdate) ) {
+      startdate <- lubridate::force_tz(startdate, tzone = timezone)
+    } else if ( !is.null(startdate) ) {
+      stop(paste0(
+        "Required parameter 'startdate' must be integer or character",
+        " in Ymd format or of class POSIXct."))
+    }
+  }
   
-  if ( !is.null(startdate) && is.null(enddate) ) {
-    
-    if ( is.numeric(startdate) || is.character(startdate) ) {
-      startdate <- lubridate::ymd(startdate, tz = timezone)
-    } else if ( lubridate::is.POSIXct(startdate) ) {
-      startdate <- lubridate::force_tz(startdate, tzone = timezone)
-    } else if ( !is.null(startdate) ) {
-      stop(paste0(
-        "Required parameter 'startdate' must be integer or character",
-        " in Ymd format or of class POSIXct."))
-    }
-    enddate <- startdate + lubridate::dhours(23)
-    
-    # TODO:  } else if ( is.null(startdate) && !is.null(enddate) ) {
-    
-  } else if ( !is.null(startdate) && !is.null(enddate) ) {
-    
-    if ( is.numeric(startdate) || is.character(startdate) ) {
-      startdate <- lubridate::ymd(startdate, tz = timezone)
-    } else if ( lubridate::is.POSIXct(startdate) ) {
-      startdate <- lubridate::force_tz(startdate, tzone = timezone)
-    } else if ( !is.null(startdate) ) {
-      stop(paste0(
-        "Required parameter 'startdate' must be integer or character",
-        " in Ymd format or of class POSIXct."))
-    }
-    
+  # If an enddate argument was passed, make sure it converts to a valid datetime
+  if ( !is.null(enddate) ) {
     if ( is.numeric(enddate) || is.character(enddate) ) {
       enddate <- lubridate::ymd(enddate, tz = timezone)
     } else if ( lubridate::is.POSIXct(enddate) ) {
@@ -138,8 +121,16 @@ clockPlotBase <- function(ws_monitor,
         "Required parameter 'enddate' must be integer or character",
         " in Ymd format or of class POSIXct."))
     }
+  }
+  
+  # TODO: What should startdate/enddate default to in these 3 contexts?
+  
+  if ( !is.null(startdate) && is.null(enddate) ) {
+    enddate <- startdate + lubridate::dhours(23)
+  } else if ( is.null(startdate) && !is.null(enddate) ) {
+    startdate <- enddate - lubridate::dhours(23)
+  } else if ( !is.null(startdate) && !is.null(enddate) ) {
     enddate <- enddate + lubridate::dhours(23)
-    
   }
   
   mon <- monitor_subset(ws_monitor, tlim=c(startdate,enddate))
