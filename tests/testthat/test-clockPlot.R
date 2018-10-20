@@ -16,5 +16,7 @@ test_that("arguments are validated", {
   ws_monitor <- PWFSLSmoke::Carmel_Valley
   expect_error(clockPlot(ws_monitor, style = "invalid_style"))
   expect_error(clockPlot(ws_monitor, style = "fffulllfffannnaaavggg"))
-
+  
+  # Invalid center color
+  expect_error(clockPlot(ws_monitor, style = "base", centerColor = "invalid color"))
 })

@@ -21,4 +21,7 @@ test_that("arguments are validated", {
   expect_error(clockPlotBase(ws_monitor, startdate = TRUE))
   expect_error(clockPlotBase(ws_monitor, enddate = FALSE))
   expect_error(clockPlotBase(ws_monitor, startdate = FALSE, enddate = TRUE))
+  
+  # Invalid color palette
+  expect_error(clockPlotBase(ws_monitor, startdate = "2016-08-09", colorPalette = "Not a palette"))
 })
