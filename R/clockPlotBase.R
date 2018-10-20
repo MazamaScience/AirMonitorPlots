@@ -123,12 +123,11 @@ clockPlotBase <- function(ws_monitor,
     }
   }
   
-  # TODO: What should startdate/enddate default to in these 3 contexts?
-  
   if ( !is.null(startdate) && is.null(enddate) ) {
     enddate <- startdate + lubridate::dhours(23)
   } else if ( is.null(startdate) && !is.null(enddate) ) {
-    startdate <- enddate - lubridate::dhours(23)
+    startdate <- enddate
+    enddate <- enddate + lubridate::dhours(23)
   } else if ( !is.null(startdate) && !is.null(enddate) ) {
     enddate <- enddate + lubridate::dhours(23)
   }
@@ -252,8 +251,8 @@ clockPlotBase <- function(ws_monitor,
   
   # Remove all plot decorations
   clockPlotBase <- clockPlotBase +
-    theme(panel.background = element_rect(fill = "transparent", colour = NA)) +
-    theme(plot.background = element_rect(fill = "transparent", colour = NA)) +
+    theme(panel.background = element_rect(fill = "transparent", color = NA)) +
+    theme(plot.background = element_rect(fill = "transparent", color = NA)) +
     theme(panel.grid = element_blank()) +
     theme(axis.title = element_blank()) +
     theme(axis.text = element_blank()) +
