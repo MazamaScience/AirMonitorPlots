@@ -65,6 +65,23 @@ clockPlot <- function(ws_monitor,
     ws_monitor <- monitor_subset(ws_monitor, monitorIDs = monitorID)
   }
   
+  # TODO: Accept any variation of style with no required order
+  # For example, these should all be valid:
+  #
+  # "base"
+  # "icon"
+  # "icon_fan"
+  # "fan_icon"
+  # "full"
+  # "full_fan"
+  # "fan_full"
+  # "full_avg"
+  # "avg_full"
+  # "full_fan_avg"
+  # "fan_full_avg"
+  # "avg_fan_full"
+  # ...etc
+  
   validStyles <- c("base", "icon", "icon_fan",
                    "full", "full_fan", "full_avg", "full_fan_avg")
   if ( !is.null(style) && !(style %in% validStyles) ) {
@@ -116,7 +133,7 @@ clockPlot <- function(ws_monitor,
   #       axis.ticks = element_blank(),
   #       legend.position = "none")
   
-  if ( stringr::str_detect(style, "^base") ) {
+  if ( stringr::str_detect(style, "base") ) {
     
     clockPlotBase <- clockPlotBase(ws_monitor,
                                    startdate,
@@ -129,7 +146,7 @@ clockPlot <- function(ws_monitor,
                                    solarLabels = FALSE)
     
     
-  } else if ( stringr::str_detect(style, "^icon") ) {
+  } else if ( stringr::str_detect(style, "icon") ) {
     
     if ( style == "icon" ) {
       plotRadius <- 1.0
@@ -150,8 +167,7 @@ clockPlot <- function(ws_monitor,
                                    solarLabels = FALSE)
     
     
-  } else if ( stringr::str_detect(style, "^full") ) {
-    
+  } else if ( stringr::str_detect(style, "full") ) {
     
     if ( style == "full" ) {
       plotRadius <- 1.2
@@ -175,7 +191,7 @@ clockPlot <- function(ws_monitor,
   }
   
   # Add a colored circle with last daily mean
-  if ( stringr::str_detect(style, "avg$") ) {
+  if ( stringr::str_detect(style, "avg") ) {
     
     dailyMean <- monitor_getDailyMean(ws_monitor, startdate = startdate, enddate = enddate)
     
@@ -194,7 +210,6 @@ clockPlot <- function(ws_monitor,
       annotate("text", x = 0, y = .5,
                label = round(dailyMean, digits=0),
                color = "black", size = centerTextSize)
-      
       
       
   }

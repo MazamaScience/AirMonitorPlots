@@ -20,4 +20,5 @@ test_that("arguments are validated", {
   # Start/end dates must be numeric or character type in Ymd format, or a POSIXct object
   expect_error(clockPlotBase(ws_monitor, startdate = TRUE))
   expect_error(clockPlotBase(ws_monitor, enddate = FALSE))
+  expect_error(clockPlotBase(ws_monitor, startdate = FALSE, enddate = TRUE))
 })
