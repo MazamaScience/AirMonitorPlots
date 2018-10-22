@@ -29,7 +29,7 @@ clockPlot <- function(ws_monitor,
                       startdate = NULL,
                       enddate = NULL,
                       style = "icon",
-                      centerColor = "transparent") {
+                      centerColor = "black") {
   
   
   # For debugging --------------------------------------------------------------

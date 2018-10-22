@@ -1,6 +1,6 @@
 Type: Package
 Package: PWFSLSmokePlots
-Version: 0.4.1
+Version: 0.4.2
 Title: Plot Utilities for the PWFSLSmoke Package
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
@@ -20,7 +20,10 @@ Depends:
 Imports:
     dplyr,
     leaflet,
-    lubridate
+    lubridate,
+    rlang,
+    stringr,
+    magrittr
 Suggests:
     knitr,
     maps,

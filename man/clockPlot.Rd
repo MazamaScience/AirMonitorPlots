@@ -5,7 +5,7 @@
 \title{Create a Clock plot for a single monitor}
 \usage{
 clockPlot(ws_monitor, monitorID = NULL, startdate = NULL,
-  enddate = NULL, style = "icon", centerColor = "transparent")
+  enddate = NULL, style = "icon", centerColor = "black")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object.}

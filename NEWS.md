@@ -8,6 +8,10 @@ Plot Utilities for the PWFSLSmoke Package
 
 ## Version 0.4 -- package best practices
 
+### Version 0.4.2
+
+ * updated for latest devtools package
+
 ### Version 0.4.1 
 
  * added `monitor_getDailyMean()` function

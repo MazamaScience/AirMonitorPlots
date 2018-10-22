@@ -11,6 +11,7 @@
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param centerColor Color used for the center of the circle.
+#' @param title Optional title for the plot.
 #' @param gapFraction Fraction of the circle used as the day boundary gap.
 #' @param plotRadius Full radius of the plot. 
 #' @param dataRadii Inner and outer radii for the data portion of the plot [0:1]. 
@@ -24,6 +25,8 @@
 #'
 #' @return A **ggplot** plot object with a "clock plot" for a single monitor.
 #' 
+#' @importFrom rlang .data
+#' @import dplyr
 #' @export
 #' @examples
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
@@ -175,8 +178,8 @@ clockPlotBase <- function(ws_monitor,
   )
 
   # Group readings by hour, then take the average reading of each hour
-  clockData <- group_by(hourData, hour) %>%
-    summarise(pm25 = mean(pm25, na.rm = TRUE))
+  clockData <- group_by(hourData, .data$hour) %>%
+    summarise(pm25 = mean(.data$pm25, na.rm = TRUE))
   
   # Sanity check
   if ( !all(clockData$hour == 0:23) ) {
@@ -197,10 +200,10 @@ clockPlotBase <- function(ws_monitor,
     geom_rect(
       data = shadedNightData,
       aes(
-        xmin = xmin,
-        xmax = xmax,
-        ymin = ymin,
-        ymax = ymax
+        xmin = .data$xmin,
+        xmax = .data$xmax,
+        ymin = .data$ymin,
+        ymax = .data$ymax
       ),
       fill = shadedNightColor) +
     
@@ -223,8 +226,8 @@ clockPlotBase <- function(ws_monitor,
     geom_rect(
       data = clockData,
       aes(
-        ymin = ymin,
-        ymax = ymax,
+        ymin = .data$ymin,
+        ymax = .data$ymax,
         xmin = dataRadii[1],
         xmax = dataRadii[2]),
       fill = clockData$color,

@@ -5,9 +5,9 @@
 \title{Create a Clock plot for a single monitor}
 \usage{
 clockPlotBase(ws_monitor, startdate = NULL, enddate = NULL,
-  centerColor = "black", gapFraction = 1/25, plotRadius = 1,
-  dataRadii = c(0.5, 1), shadedNight = FALSE, solarLabels = FALSE,
-  colorPalette = aqiPalette("aqi"))
+  title = "", centerColor = "black", gapFraction = 1/25,
+  plotRadius = 1, dataRadii = c(0.5, 1), shadedNight = FALSE,
+  solarLabels = FALSE, colorPalette = aqiPalette("aqi"))
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object containing a single monitor.}
@@ -17,6 +17,8 @@ or \code{POSIXct}).}
 
 \item{enddate}{Desired end date (integer or character in Ymd format
 or \code{POSIXct}).}
+
+\item{title}{Optional title for the plot.}
 
 \item{centerColor}{Color used for the center of the circle.}
 
