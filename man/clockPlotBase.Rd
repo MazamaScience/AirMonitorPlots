@@ -5,9 +5,10 @@
 \title{Create a Clock plot for a single monitor}
 \usage{
 clockPlotBase(ws_monitor, startdate = NULL, enddate = NULL,
-  title = "", centerColor = "black", gapFraction = 1/25,
-  plotRadius = 1, dataRadii = c(0.5, 1), shadedNight = FALSE,
-  solarLabels = FALSE, colorPalette = aqiPalette("aqi"))
+  title = "", centerColor = "black", gapColor = "black",
+  gapFraction = 1/25, plotRadius = 1, dataRadii = c(0.5, 1),
+  shadedNight = FALSE, hoursPerTick = NULL, solarLabels = FALSE,
+  colorPalette = aqiPalette("aqi"))
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object containing a single monitor.}
@@ -22,6 +23,8 @@ or \code{POSIXct}).}
 
 \item{centerColor}{Color used for the center of the circle.}
 
+\item{gapColor}{Color used for the day-break gap.}
+
 \item{gapFraction}{Fraction of the circle used as the day boundary gap.}
 
 \item{plotRadius}{Full radius of the plot.}
@@ -29,6 +32,8 @@ or \code{POSIXct}).}
 \item{dataRadii}{Inner and outer radii for the data portion of the plot [0:1].}
 
 \item{shadedNight}{Add nighttime shading.}
+
+\item{hoursPerTick}{Add tick marks every # hours. Defaults to no ticks.}
 
 \item{solarLabels}{Add sunrise/sunset labels.}
 

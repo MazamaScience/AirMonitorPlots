@@ -34,5 +34,8 @@ bar colored for each hour of the local time day.
 ws_monitor <- PWFSLSmoke::Carmel_Valley
 monitorID <- ws_monitor$meta$monitorID[1]
 startdate <- "2016-08-07"
-clockPlot(ws_monitor, monitorID, startdate, style = "icon")
+clockPlot(ws_monitor, monitorID, 
+          startdate = "2016-08-07",
+          enddate = "2016-08-09",
+          style = "full_fan_avg")
 }

@@ -21,7 +21,10 @@
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' monitorID <- ws_monitor$meta$monitorID[1]
 #' startdate <- "2016-08-07"
-#' clockPlot(ws_monitor, monitorID, startdate, style = "icon")
+#' clockPlot(ws_monitor, monitorID, 
+#'           startdate = "2016-08-07",
+#'           enddate = "2016-08-09",
+#'           style = "full_fan_avg")
 
 
 clockPlot <- function(ws_monitor,
@@ -139,7 +142,7 @@ clockPlot <- function(ws_monitor,
                                    startdate,
                                    enddate,
                                    centerColor = centerColor,
-                                   gapFraction = 1/25,
+                                   gapFraction = 1/15,
                                    plotRadius = 1,
                                    dataRadii = c(0.5,1),
                                    shadedNight = FALSE,
@@ -160,7 +163,7 @@ clockPlot <- function(ws_monitor,
                                    startdate,
                                    enddate,
                                    centerColor = centerColor,
-                                   gapFraction = 1/25,
+                                   gapFraction = 1/15,
                                    plotRadius = plotRadius,
                                    dataRadii = c(0.5,1),
                                    shadedNight = shadedNight,
@@ -181,10 +184,11 @@ clockPlot <- function(ws_monitor,
                                    startdate,
                                    enddate,
                                    centerColor = centerColor,
-                                   gapFraction = 1/25,
+                                   gapFraction = 1/15,
                                    plotRadius = plotRadius,
                                    dataRadii = c(0.5,1),
                                    shadedNight = shadedNight,
+                                   hoursPerTick = 3,
                                    solarLabels = TRUE)
     
     
