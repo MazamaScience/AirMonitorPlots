@@ -10,11 +10,14 @@
 #'        or \code{POSIXct}).
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
-#' @param centerColor Color used for the center of the circle.
+#' @param title Optional title for the plot.
 #' @param gapFraction Fraction of the circle used as the day boundary gap.
+#' @param centerColor Color used for the center of the circle.
+#' @param gapColor Color used for the day-break gap.
 #' @param plotRadius Full radius of the plot. 
 #' @param dataRadii Inner and outer radii for the data portion of the plot [0:1]. 
 #' @param shadedNight Add nighttime shading.
+#' @param hoursPerTick Add tick marks every # hours. Defaults to no ticks.
 #' @param solarLabels Add sunrise/sunset labels.
 #' @param colorPalette Palette function to convert monitor values into colors.
 #'
@@ -24,6 +27,8 @@
 #'
 #' @return A **ggplot** plot object with a "clock plot" for a single monitor.
 #' 
+#' @importFrom rlang .data
+#' @import dplyr
 #' @export
 #' @examples
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
@@ -36,10 +41,12 @@ clockPlotBase <- function(ws_monitor,
                           enddate = NULL,
                           title = "",
                           centerColor = "black",
+                          gapColor = "black",
                           gapFraction = 1/25,
                           plotRadius = 1.0,
                           dataRadii = c(0.5,1.0),
                           shadedNight = FALSE,
+                          hoursPerTick = NULL,
                           solarLabels = FALSE,
                           colorPalette = aqiPalette("aqi")) {
   
@@ -56,8 +63,10 @@ clockPlotBase <- function(ws_monitor,
     gapFraction <- 1/25
     plotRadius <- 1.2
     dataRadii <- c(0.5, 1.0)
+    hoursPerTick = 3
     shadedNight <- TRUE
     solarLabels <- FALSE
+    colorPalette <- aqiPalette("aqi")
     
   }
   
@@ -87,6 +96,11 @@ clockPlotBase <- function(ws_monitor,
   
   solarLabelColor <- "black"
   solarLabelSize <- 4
+  tickColor <- "black"
+  tickLength <- 0.05 * plotRadius
+  tickSize <- 0.5
+  tickLabelSize = 4
+  tickLabelColor = "black"
   
   # For bottom gap between the start and end of the day
   thetaOffset <- pi + (2 * pi) * (gapFraction / 2)
@@ -175,8 +189,8 @@ clockPlotBase <- function(ws_monitor,
   )
 
   # Group readings by hour, then take the average reading of each hour
-  clockData <- group_by(hourData, hour) %>%
-    summarise(pm25 = mean(pm25, na.rm = TRUE))
+  clockData <- group_by(hourData, .data$hour) %>%
+    summarise(pm25 = mean(.data$pm25, na.rm = TRUE))
   
   # Sanity check
   if ( !all(clockData$hour == 0:23) ) {
@@ -189,6 +203,17 @@ clockPlotBase <- function(ws_monitor,
   clockData$ymin <- c(0, lag(clockData$ymax)[-1])
   clockData$color = colorPalette(clockData$pm25)
   
+  # Tick marks
+  tickCount <- round(24/hoursPerTick) + 1
+  tickData <- data.frame(
+    x = rep(dataRadii[2] - (0.5*tickLength), tickCount),
+    xend = rep(dataRadii[2] + (0.5*tickLength), tickCount),
+    y = seq(0, (1-gapFraction), length.out = tickCount),
+    yend = seq(0, (1-gapFraction), length.out = tickCount),
+    label_x = rep(dataRadii[2] + 1.0*tickLength, tickCount),
+    hour = as.character(c("",seq(hoursPerTick,(24-hoursPerTick),hoursPerTick),""))
+  )
+  
   # Plot data ------------------------------------------------------------------
   
   clockPlotBase <- ggplot() +
@@ -197,10 +222,10 @@ clockPlotBase <- function(ws_monitor,
     geom_rect(
       data = shadedNightData,
       aes(
-        xmin = xmin,
-        xmax = xmax,
-        ymin = ymin,
-        ymax = ymax
+        xmin = .data$xmin,
+        xmax = .data$xmax,
+        ymin = .data$ymin,
+        ymax = .data$ymax
       ),
       fill = shadedNightColor) +
     
@@ -223,12 +248,52 @@ clockPlotBase <- function(ws_monitor,
     geom_rect(
       data = clockData,
       aes(
-        ymin = ymin,
-        ymax = ymax,
+        ymin = .data$ymin,
+        ymax = .data$ymax,
         xmin = dataRadii[1],
         xmax = dataRadii[2]),
       fill = clockData$color,
-      color = clockData$color)
+      color = clockData$color) +
+  
+  # day-break wedge
+  geom_rect(
+    aes(
+      xmin = dataRadii[1],
+      xmax = plotRadius,
+      ymin = 1 - gapFraction,
+      ymax = 1.0
+    ),
+    fill = centerColor,
+    color = centerColor)
+  
+  # tick marks  
+  if ( !is.null(hoursPerTick) ) {
+    
+    clockPlotBase <- clockPlotBase +
+      geom_segment(
+        data = tickData,
+        aes(
+          x = .data$x,
+          xend = .data$xend,
+          y = .data$y,
+          yend = .data$yend
+        ),
+        color = solarLabelColor,
+        size = tickSize
+      ) + 
+      
+      geom_text(
+        data = tickData,
+        aes(
+          x = .data$label_x,
+          y = .data$y,
+          label = .data$hour
+        ),
+        color = tickColor,
+        size = tickLabelSize
+      )
+    
+  }
   
   # solar labels
   if ( solarLabels ) {
