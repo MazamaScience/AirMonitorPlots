@@ -187,7 +187,7 @@ clockPlotBase <- function(ws_monitor,
     hour = hours,
     pm25 = mon$data[,2]
   )
-
+  
   # Group readings by hour, then take the average reading of each hour
   clockData <- group_by(hourData, .data$hour) %>%
     summarise(pm25 = mean(.data$pm25, na.rm = TRUE))
@@ -204,15 +204,17 @@ clockPlotBase <- function(ws_monitor,
   clockData$color = colorPalette(clockData$pm25)
   
   # Tick marks
-  tickCount <- round(24/hoursPerTick) + 1
-  tickData <- data.frame(
-    x = rep(dataRadii[2] - (0.5*tickLength), tickCount),
-    xend = rep(dataRadii[2] + (0.5*tickLength), tickCount),
-    y = seq(0, (1-gapFraction), length.out = tickCount),
-    yend = seq(0, (1-gapFraction), length.out = tickCount),
-    label_x = rep(dataRadii[2] + 1.0*tickLength, tickCount),
-    hour = as.character(c("",seq(hoursPerTick,(24-hoursPerTick),hoursPerTick),""))
-  )
+  if ( !is.null(hoursPerTick) ) {
+    tickCount <- round(24/hoursPerTick) + 1
+    tickData <- data.frame(
+      x = rep(dataRadii[2] - (0.5*tickLength), tickCount),
+      xend = rep(dataRadii[2] + (0.5*tickLength), tickCount),
+      y = seq(0, (1-gapFraction), length.out = tickCount),
+      yend = seq(0, (1-gapFraction), length.out = tickCount),
+      label_x = rep(dataRadii[2] + 1.0*tickLength, tickCount),
+      hour = as.character(c("",seq(hoursPerTick,(24-hoursPerTick),hoursPerTick),""))
+    )
+  }
   
   # Plot data ------------------------------------------------------------------
   
@@ -254,17 +256,17 @@ clockPlotBase <- function(ws_monitor,
         xmax = dataRadii[2]),
       fill = clockData$color,
       color = clockData$color) +
-  
-  # day-break wedge
-  geom_rect(
-    aes(
-      xmin = dataRadii[1],
-      xmax = plotRadius,
-      ymin = 1 - gapFraction,
-      ymax = 1.0
-    ),
-    fill = centerColor,
-    color = centerColor)
+    
+    # day-break wedge
+    geom_rect(
+      aes(
+        xmin = dataRadii[1],
+        xmax = plotRadius,
+        ymin = 1 - gapFraction,
+        ymax = 1.0
+      ),
+      fill = centerColor,
+      color = centerColor)
   
   # tick marks  
   if ( !is.null(hoursPerTick) ) {
