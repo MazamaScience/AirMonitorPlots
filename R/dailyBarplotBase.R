@@ -10,9 +10,14 @@
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param colorPalette Palette function to convert monitor values into colors.
+#' @param title Optional title.
+#' @param ylim Y-axis limits.
+#' @param borderColor Border color for individual bars.
+#' @param borderSize Border size for individual bars.
 #'
 #' @return A **ggplot** plot object with a daily bar plot for a single monitor.
-#' 
+#'
+#' @importFrom rlang .data
 #' @export
 #' @examples
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
@@ -25,9 +30,9 @@ dailyBarplotBase <- function(ws_monitor,
                              enddate = NULL,
                              colorPalette = aqiPalette("aqi"),
                              title = "",
-                             yLimits = NULL,
-                             barOutlineColor = "black",
-                             barOutlineSize = 1.0) {
+                             ylim = NULL,
+                             borderColor = "black",
+                             borderSize = 1.0) {
   
   # Validate arguments ---------------------------------------------------------
   
@@ -123,8 +128,8 @@ dailyBarplotBase <- function(ws_monitor,
     stop("Missing readings inside date range")
   }
   
-  if (is.null(yLimits) ) {
-    yLimits = c(0, max(dailyData$pm25, na.rm = TRUE))
+  if (is.null(ylim) ) {
+    ylim = c(0, max(dailyData$pm25, na.rm = TRUE))
   }
   
   # Plot data ------------------------------------------------------------------
@@ -134,11 +139,11 @@ dailyBarplotBase <- function(ws_monitor,
     # Add daily statistic bars
     geom_bar(data = dailyData,
              aes(
-              x = datetime,
-              y = pm25
+              x = .data$datetime,
+              y = .data$pm25
              ),
              fill = dailyData$color,
-             color = barOutlineColor,
+             color = borderColor,
              stat = "identity")
     
     # Remove plot decorations
@@ -153,7 +158,7 @@ dailyBarplotBase <- function(ws_monitor,
     theme(axis.text.x = element_text(size = xAxisTextSize, angle = 45, vjust = 0.5)) + 
     scale_x_datetime(date_breaks = tickPeriod, date_labels = "%b %d") +
     ylab("PM2.5 (\u00b5g/m3)") +
-    ylim(yLimits)
+    ylim(ylim)
     
     # Add plot title
     dailyBarplotBase <- dailyBarplotBase +
@@ -161,6 +166,7 @@ dailyBarplotBase <- function(ws_monitor,
     theme(plot.title = element_text(color = "gray30", size = plotTitleSize, hjust = 0.5))
 
   return(dailyBarplotBase)
+    
 }
 
 
