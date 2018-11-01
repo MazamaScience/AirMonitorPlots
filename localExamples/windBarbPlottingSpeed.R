@@ -22,9 +22,7 @@ benchmark(
 
 maps::map('state', xlim = c(-123, -113), ylim = c(33, 43))
 benchmark(
-  {
     addWindBarbs(longitude, latitude, speed, dir)
-  }
 )
 #                                            test replications elapsed relative user.self sys.self user.child sys.child
 # 1 addWindBarbs(longitude, latitude, speed, dir)          100   4.392        1      6.38    0.091          0         0
