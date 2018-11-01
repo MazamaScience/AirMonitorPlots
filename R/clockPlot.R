@@ -5,26 +5,58 @@
 #' monitors. A colored bar curves around in a clockwise manner with 12/4 of the
 #' bar colored for each hour of the local time day.
 #' 
+#' This function presents a simplified interface to \code{\link{clockPlotBase}}
+#' and collections common options into a set of named styles. Currently 
+#' supported styles consist of a \emph{base} style followed by one or more 
+#' \emph{options} separated by underscores.
+#' 
+#' The style \emph{base} must be one of:
+#' \itemize{
+#' \item{\code{icon} -- no annotations}
+#' \item{\code{full} -- fully annotated}
+#' }
+#' 
+#' Style \emph{options} include:
+#' \itemize{
+#' \item{\code{fan} -- show nighttime shading}
+#' \item{\code{avg} -- display center dot with yesterday average AQI color}
+#' }
+#' 
+#' The returned object may be further amended with **ggplot** elements.
+#' 
+#' @details Dates are interpreted to be in monitor local time.
+#' 
+#' If either \code{starttime} or \code{endtime} is \code{NULL}, the plot will
+#' represent a single day. If the specified time range covers multiple days, the
+#' hourly bars will represent time-of-day averages while the center dot will 
+#' show the average associated with the last day in the time range.
+#' 
 #' @param ws_monitor \emph{ws_monitor} object.
 #' @param monitorID Monitor ID of interest.
 #' @param startdate Desired start date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
-#' @param style Plot style one of \code{base|icon|icon_fan|full|full_fan}.
+#' @param style Plot style as described below.
 #' @param centerColor Color used for the center of the circle.
+#' @param labelScale Scale factor applied to labels.
+#' @param title Optional title for the plot.
 #'
 #' @return A **ggplot** plot object with a "clock plot" for a single monitor.
 #'
+#' @seealso \code{\link{clockPlotBase}}
+#' 
 #' @export
 #' @examples
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' monitorID <- ws_monitor$meta$monitorID[1]
-#' startdate <- "2016-08-07"
-#' clockPlot(ws_monitor, monitorID, 
-#'           startdate = "2016-08-07",
-#'           enddate = "2016-08-09",
-#'           style = "full_fan_avg")
+#' mon <- PWFSLSmoke::Carmel_Valley
+#' id <- mon$meta$monitorID[1]
+#' start <- "2016-08-07"
+#' end <- "2016-08-09"
+#' icon <- clockPlot(mon, id, start, end, "icon",
+#'                   title = "icon")
+#' full <- clockPlot(mon, id, start, end, "full_fan_avg", "white",
+#'                   title = "full_fan_avg")
+#' gridExtra::grid.arrange(icon, full, nrow = 1)
 
 
 clockPlot <- function(ws_monitor,
@@ -32,7 +64,9 @@ clockPlot <- function(ws_monitor,
                       startdate = NULL,
                       enddate = NULL,
                       style = "icon",
-                      centerColor = "black") {
+                      centerColor = "black",
+                      labelScale = 1.0,
+                      title = "") {
   
   
   # For debugging --------------------------------------------------------------
@@ -46,7 +80,7 @@ clockPlot <- function(ws_monitor,
     enddate <- NULL
     style <- "icon"
     centerColor <- "black"
-
+    
   }
   
   # Validate arguments ---------------------------------------------------------
@@ -68,95 +102,49 @@ clockPlot <- function(ws_monitor,
     ws_monitor <- monitor_subset(ws_monitor, monitorIDs = monitorID)
   }
   
-  # TODO: Accept any variation of style with no required order
-  # For example, these should all be valid:
-  #
-  # "base"
-  # "icon"
-  # "icon_fan"
-  # "fan_icon"
-  # "full"
-  # "full_fan"
-  # "fan_full"
-  # "full_avg"
-  # "avg_full"
-  # "full_fan_avg"
-  # "fan_full_avg"
-  # "avg_fan_full"
-  # ...etc
+  # Accept any variation of style options with no required order
+  validStyleBase <- c("icon", "full")
+  validStyleOptions <- c("fan", "avg")
+  styleParts <- unlist(stringr::str_split(style, "_"))
+  styleBase <- styleParts[1]
+  styleOptions <- styleParts[-1]
   
-  validStyles <- c("base", "icon", "icon_fan",
-                   "full", "full_fan", "full_avg", "full_fan_avg")
-  if ( !is.null(style) && !(style %in% validStyles) ) {
+  if ( !styleBase %in% validStyleBase ) {
     stop(
       paste0(
-        "'", style, "' is not a valid 'style' \n",
-        "Please choose from: ", paste0(validStyles, collapse = ", ")
+        "Invalid style: \"", styleBase, "\". ",
+        "The 'style' argument must begin with one of: \"", 
+        paste0(validStyleBase, collapse = "|"), "\""
       )
     )
   }
   
+  for ( option in styleOptions ) {
+    if ( !option %in% validStyleOptions ) {
+      stop(
+        paste0(
+          "Invalid style option: \"", option, "\". ",
+          "The following 'style' argument options are supported: \"", 
+          paste0(validStyleOptions, collapse = "|"), "\""
+        )
+      )
+    }
+  }
+  
   # Set up style ---------------------------------------------------------------
   
-  centerTextSize = 16
+  centerTextSize = 16 * labelScale
   
   # Create the plot ------------------------------------------------------------
   
-  # clockPlot <- clockPlotBase(ws_monitor,
-  #                            monitorID,
-  #                            startdate,
-  #                            style,
-  #                            centerColor = "transparent",
-  #                            gapFraction = 1/25,
-  #                            plotRadius = 1.2,
-  #                            dataRadii = c(0,1)) +
-  # 
-  # annotate("segment", x = 0, xend = plotRadius, y = sunriseFraction, yend = sunriseFraction, color = "black", size = 1.6) +
-  # annotate("text", x = 1.1, y = sunriseFraction, label = sunriseText, color = "slategray", size = 4) +
-  # annotate("segment", x = 0, xend = plotRadius, y = sunsetFraction, yend = sunsetFraction, color = "black", size = 1.6) +
-  # annotate("text", x = 1.1, y = sunsetFraction, label = sunsetText, color = "slategray", size = 4) +
-  # 
-  # # filled center
-  # geom_rect(
-  #   aes(
-  #     ymin = 0.0,
-  #     ymax = 1.0,
-  #     xmin = 0.0,
-  #     xmax = 0.4),
-  #   fill = "red") +
-  # 
-  # annotate("text", x = 0, y = .5, label = dailyMean, color = "black", size = 16) +
-  # # annotate("text", x = 0.85, y = .5, label = paste0(startdate, ", ", mon$meta$siteName), color = "black", size = 5) +
-  # 
-  # ggtitle(paste0(startdate, ", ", mon$meta$siteName)) +
-  # 
-  # theme(panel.grid = element_blank(),
-  #       axis.title = element_blank(),
-  #       axis.text = element_blank(), 
-  #       axis.ticks = element_blank(),
-  #       legend.position = "none")
-  
-  if ( stringr::str_detect(style, "base") ) {
+  if ( styleBase == "icon" ) {
     
-    clockPlotBase <- clockPlotBase(ws_monitor,
-                                   startdate,
-                                   enddate,
-                                   centerColor = centerColor,
-                                   gapFraction = 1/15,
-                                   plotRadius = 1,
-                                   dataRadii = c(0.5,1),
-                                   shadedNight = FALSE,
-                                   solarLabels = FALSE)
-    
-    
-  } else if ( stringr::str_detect(style, "icon") ) {
-    
-    if ( style == "icon" ) {
+    if ( "fan" %in% styleOptions ) {
+      plotRadius <- 1.4
+      shadedNight <- TRUE
+    } else {
       plotRadius <- 1.0
       shadedNight <- FALSE
-    } else {
-      plotRadius <- 1.2
-      shadedNight <- TRUE
     }
     
     clockPlotBase <- clockPlotBase(ws_monitor,
@@ -167,17 +155,20 @@ clockPlot <- function(ws_monitor,
                                    plotRadius = plotRadius,
                                    dataRadii = c(0.5,1),
                                    shadedNight = shadedNight,
-                                   solarLabels = FALSE)
+                                   hoursPerTick = NULL,
+                                   solarLabels = FALSE,
+                                   labelScale = labelScale,
+                                   title = title)
     
     
-  } else if ( stringr::str_detect(style, "full") ) {
+  } else if ( stringr::str_detect(style, "^full") ) {
     
-    if ( style == "full" ) {
-      plotRadius <- 1.2
-      shadedNight <- FALSE
+    if ( "fan" %in% styleOptions ) {
+      plotRadius <- 1.4
+      shadedNight <- TRUE
     } else {
       plotRadius <- 1.2
-      shadedNight <- TRUE
+      shadedNight <- FALSE
     }
     
     clockPlotBase <- clockPlotBase(ws_monitor,
@@ -189,18 +180,25 @@ clockPlot <- function(ws_monitor,
                                    dataRadii = c(0.5,1),
                                    shadedNight = shadedNight,
                                    hoursPerTick = 3,
-                                   solarLabels = TRUE)
+                                   solarLabels = TRUE,
+                                   labelScale = labelScale,
+                                   title = title)
     
     
   }
   
-  # Add a colored circle with last daily mean
-  if ( stringr::str_detect(style, "avg") ) {
+  # Add a colored circle with last daily mean ----------------------------------
+  
+  if ( "avg" %in% styleOptions ) {
     
-    dailyMean <- monitor_getDailyMean(ws_monitor, startdate = startdate, enddate = enddate)
+    # Get the last full daily mean
+    dailyMeans <- monitor_getDailyMean(ws_monitor, 
+                                       startdate = startdate, 
+                                       enddate = enddate)
+    dailyMean <- dailyMeans[length(dailyMeans)] # most efficient technique
     
     clockPlotBase <- clockPlotBase +
-
+      
       # colored center (slightly smaller than filled center)
       geom_rect(
         aes(
@@ -211,11 +209,14 @@ clockPlot <- function(ws_monitor,
         ),
         fill = aqiPalette("aqi")(dailyMean)) +
       
-      annotate("text", x = 0, y = .5,
-               label = round(dailyMean, digits=0),
-               color = "black", size = centerTextSize)
-      
-      
+      if ( styleBase == "full" ) {
+        annotate("text", x = 0, y = .5,
+                 label = round(dailyMean, digits=0),
+                 color = "black",
+                 size = centerTextSize)
+      }
+    
+    
   }
   
   return(clockPlotBase)

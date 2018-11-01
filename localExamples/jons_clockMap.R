@@ -1,7 +1,7 @@
 library(leaflet)
 library(PWFSLSmokePlots)
 
-airnow <- airnow_load(2018, 8)
+airnow <- airnow_loadAnnual(2018)
 
 monitors <- monitor_subset(airnow, stateCodes = 'WA', tlim=c(20180815,20180901))
 
@@ -13,7 +13,7 @@ i <- 1
 for (monitorID in monitorIDs) {
   
   filename <- paste0(monitorID, "_clockIcon.png")
-  png(filename, 48, 48, bg="transparent")
+  png(filename, 64, 64, bg="transparent")
   result <- try({
     print( clockPlot(monitors, 
                      monitorID, 

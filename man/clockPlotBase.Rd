@@ -2,13 +2,13 @@
 % Please edit documentation in R/clockPlotBase.R
 \name{clockPlotBase}
 \alias{clockPlotBase}
-\title{Create a Clock plot for a single monitor}
+\title{Base clock plot function}
 \usage{
 clockPlotBase(ws_monitor, startdate = NULL, enddate = NULL,
-  title = "", centerColor = "black", gapColor = "black",
-  gapFraction = 1/25, plotRadius = 1, dataRadii = c(0.5, 1),
-  shadedNight = FALSE, hoursPerTick = NULL, solarLabels = FALSE,
-  colorPalette = aqiPalette("aqi"))
+  centerColor = "black", gapColor = "black", gapFraction = 1/15,
+  plotRadius = 1, dataRadii = c(0.5, 1), shadedNight = FALSE,
+  hoursPerTick = NULL, solarLabels = FALSE,
+  colorPalette = aqiPalette("aqi"), labelScale = 1, title = "")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object containing a single monitor.}
@@ -18,8 +18,6 @@ or \code{POSIXct}).}
 
 \item{enddate}{Desired end date (integer or character in Ymd format
 or \code{POSIXct}).}
-
-\item{title}{Optional title for the plot.}
 
 \item{centerColor}{Color used for the center of the circle.}
 
@@ -37,11 +35,11 @@ or \code{POSIXct}).}
 
 \item{solarLabels}{Add sunrise/sunset labels.}
 
-\item{colorPalette}{Palette function to convert monitor values into colors.
+\item{colorPalette}{Palette function to convert monitor values into colors.}
 
-Room for annotations can be created by setting \code{plotRadius = 1.2}.
+\item{labelScale}{Scale factor applied to labels.}
 
-TODO:  More documentation}
+\item{title}{Optional title for the plot.}
 }
 \value{
 A **ggplot** plot object with a "clock plot" for a single monitor.
@@ -50,9 +48,17 @@ A **ggplot** plot object with a "clock plot" for a single monitor.
 Create a "clock plot" showing PM2.5 data for a single day for the given 
 monitors. A colored bar curves around in a clockwise manner with 12/4 of the
 bar colored for each hour of the local time day.
+
+This function will typically be called from \code{\link{clockPlot}} which
+presents a simplified interface.
+
+Room for annotations can be created by setting \code{plotRadius = 1.2}.
 }
 \examples{
 ws_monitor <- PWFSLSmoke::Carmel_Valley
 startdate <- "2016-08-07"
 clockPlotBase(ws_monitor, startdate)
+}
+\seealso{
+\code{\link{clockPlot}}
 }

@@ -19,6 +19,7 @@ Depends:
     PWFSLSmoke (>= 1.1.10)
 Imports:
     dplyr,
+    gridExtra,
     leaflet,
     lubridate,
     rlang,

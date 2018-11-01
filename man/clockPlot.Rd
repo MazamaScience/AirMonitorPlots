@@ -5,7 +5,8 @@
 \title{Create a Clock plot for a single monitor}
 \usage{
 clockPlot(ws_monitor, monitorID = NULL, startdate = NULL,
-  enddate = NULL, style = "icon", centerColor = "black")
+  enddate = NULL, style = "icon", centerColor = "black",
+  labelScale = 1, title = "")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object.}
@@ -18,9 +19,13 @@ or \code{POSIXct}).}
 \item{enddate}{Desired end date (integer or character in Ymd format
 or \code{POSIXct}).}
 
-\item{style}{Plot style one of \code{base|icon|icon_fan|full|full_fan}.}
+\item{style}{Plot style as described below.}
 
 \item{centerColor}{Color used for the center of the circle.}
+
+\item{labelScale}{Scale factor applied to labels.}
+
+\item{title}{Optional title for the plot.}
 }
 \value{
 A **ggplot** plot object with a "clock plot" for a single monitor.
@@ -29,13 +34,45 @@ A **ggplot** plot object with a "clock plot" for a single monitor.
 Create a "clock plot" showing PM2.5 data for a single day for the given 
 monitors. A colored bar curves around in a clockwise manner with 12/4 of the
 bar colored for each hour of the local time day.
+
+This function presents a simplified interface to \code{\link{clockPlotBase}}
+and collections common options into a set of named styles. Currently 
+supported styles consist of a \emph{base} style followed by one or more 
+\emph{options} separated by underscores.
+
+The style \emph{base} must be one of:
+\itemize{
+\item{\code{icon} -- no annotations}
+\item{\code{full} -- fully annotated}
+}
+
+Style \emph{options} include:
+\itemize{
+\item{\code{fan} -- show nighttime shading}
+\item{\code{avg} -- display center dot with yesterday average AQI color}
+}
+
+The returned object may be further amended with **ggplot** elements.
+}
+\details{
+Dates are interpreted to be in monitor local time.
+
+If either \code{starttime} or \code{endtime} is \code{NULL}, the plot will
+represent a single day. If the specified time range covers multiple days, the
+hourly bars will represent time-of-day averages while the center dot will 
+show the average associated with the last day in the time range.
 }
 \examples{
-ws_monitor <- PWFSLSmoke::Carmel_Valley
-monitorID <- ws_monitor$meta$monitorID[1]
-startdate <- "2016-08-07"
-clockPlot(ws_monitor, monitorID, 
-          startdate = "2016-08-07",
-          enddate = "2016-08-09",
-          style = "full_fan_avg")
+mon <- PWFSLSmoke::Carmel_Valley
+id <- mon$meta$monitorID[1]
+start <- "2016-08-07"
+end <- "2016-08-09"
+icon <- clockPlot(mon, id, start, end, "icon",
+                  title = "icon")
+full <- clockPlot(mon, id, start, end, "full_fan_avg", "white",
+                  title = "full_fan_avg")
+gridExtra::grid.arrange(icon, full, nrow = 1)
+}
+\seealso{
+\code{\link{clockPlotBase}}
 }

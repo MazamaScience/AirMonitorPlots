@@ -1,7 +1,17 @@
+# PWFSLSmokePlots 0.4.4
+
+Adding standard plotd used in the 
+[USFS Montoring site](https://tools.airfire.org/monitoring/v4).
+
+ * added `dailyBarplot()` and `dailyBarplotBase()`
+ * added `timeseriesPlot()` and `timeseriesPlotBase()`
+ * improvements to `clockPlot()` and `clockPlotBase()`
+ * now importing **gridExtra**
+
 # PWFSLSmokePlots 0.4.3
 
 Moving all base plot related code from **PWFSLSmokePlot** to **PWFSLSmoke** so
-that all functionality in the former is pursely **ggplot2** based.
+that all functionality in the former is purely **ggplot2** based.
 
  * removed `addPolygon()`, `addWindBarb() and `addWindBarbs()`
  * removed `aqiPalette()`
