@@ -38,6 +38,9 @@ dailyBarplotBase <- function(ws_monitor,
                              borderSize = 1.0,
                              currentNowcast = NULL,
                              currentPrediction = NULL,
+                             showAQIStackedBars = FALSE,
+                             showAQILines = FALSE,
+                             showAQILegend = FALSE,
                              title = "") {
   
   # For debugging --------------------------------------------------------------
@@ -47,13 +50,16 @@ dailyBarplotBase <- function(ws_monitor,
     # Carmel Valley
     ws_monitor <- PWFSLSmoke::Carmel_Valley
     startdate <- "2016-07-01"
-    enddate <- "2016-09-01"
+    enddate <- "2016-08-28"
     colorPalette <- aqiPalette("aqi")
     ylimStyle <- "pwfsl"
     borderColor <- "black"
     borderSize <- 1
     currentNowcast <- 52
     currentPrediction <- 48
+    showAQIStackedBars <- TRUE
+    showAQILines <- TRUE
+    showAQILegend <- FALSE
     title <- ""
     
   }
@@ -119,7 +125,7 @@ dailyBarplotBase <- function(ws_monitor,
   } else if ( !is.null(startdate) && !is.null(enddate) ) {
     enddate <- enddate + lubridate::dhours(23)
   }
-
+  
   dayCount <- as.integer(difftime(enddate, startdate, units = "days"))
   
   # Choose tickPeriod
@@ -138,8 +144,8 @@ dailyBarplotBase <- function(ws_monitor,
   mon <- monitor_subset(ws_monitor, tlim=c(startdate,enddate))
   
   # Barplot data ---------------------------------------------------------------
-
-  dailyData <- PWFSLSmoke::monitor_dailyStatistic(mon)$data
+  
+  dailyData <- monitor_dailyStatistic(mon)$data
   names(dailyData) <- c("datetime", "pm25")
   
   # Add currentNowcast
@@ -153,11 +159,8 @@ dailyBarplotBase <- function(ws_monitor,
   # Color
   dailyData$color = colorPalette(dailyData$pm25)
   
-  # if ( any(is.na(dailyData$pm25)) ) {
-  #   warning("Missing readings inside date range") #TODO:  fix this
-  # }
+  # Axis limits ----------------------------------------------------------------
   
-  # Y-axis limits
   if ( ylimStyle == "pwfsl" ) {
     # Well defined y-axis limits for visual stability
     ylo <- 0
@@ -179,19 +182,72 @@ dailyBarplotBase <- function(ws_monitor,
     } else {
       yhi <- 1.05 * ymax
     }
-    ylim <- c(ylo, yhi)
   } else {
     # Standard y-axis limits
-    ylim = c(0, max(1.1*dailyData$pm25, na.rm = TRUE))
+    ylo <- 0
+    yhi <- max(1.05*dailyData$pm25, na.rm = TRUE)
+  }
+  ylim <- c(ylo, yhi)
+  
+  # Extend X a little
+  xRangeSecs <- as.numeric(difftime(enddate, startdate, timezone, units = "secs"))
+  xAxisExtension <- 0.02 * xRangeSecs
+  xlim <- c(startdate, enddate)
+  
+  # AQI Stacked bars -----------------------------------------------------------
+  
+  if ( showAQIStackedBars ) {
+    
+    # Get bar width
+    width <- 0.01 * xRangeSecs
+    right <- startdate - lubridate::dseconds(xAxisExtension) 
+    left <- right - lubridate::dseconds(width)
+    
+    # Modify xlim
+    xlim <- c(left, enddate)
+    
+    # Create data
+    aqiStackedBarsData <- data.frame(
+      xmin = rep(left, 6),
+      xmax = rep(right, 6),
+      ymin = c(ylo, AQI$breaks_24[2:6]),
+      ymax = c(AQI$breaks_24[2:6], 1e6)
+    )
+    # Last bar must top out at yhi
+    aqiStackedBarsData <- aqiStackedBarsData %>%
+      dplyr::filter(.data$ymin < yhi)
+    barCount <- nrow(aqiStackedBarsData)
+    aqiStackedBarsData$ymax[barCount] <- yhi
+    aqiStackedBarsColors <- AQI$colors[1:barCount]
+    
   }
   
-  # Plot data ------------------------------------------------------------------
+  
+  # Create plot ----------------------------------------------------------------
   
   base_family <- ""
   base_size <- 11 # DELETEME
   half_line <- base_size/2 # DELEMTE
   
-  dailyBarplotBase <- ggplot() +
+  dailyBarplotBase <- ggplot()
+  
+  if ( showAQIStackedBars ) {
+    
+    dailyBarplotBase <- dailyBarplotBase + 
+      # Add AQI stacked bars
+      geom_rect(
+        data = aqiStackedBarsData,
+        aes(
+          xmin = .data$xmin,
+          xmax = .data$xmax,
+          ymin = .data$ymin,
+          ymax = .data$ymax
+        ),
+        fill = aqiStackedBarsColors)
+    
+  }
+  
+  dailyBarplotBase <- dailyBarplotBase + 
     
     # Add daily statistic bars
     geom_bar(
@@ -211,11 +267,13 @@ dailyBarplotBase <- function(ws_monitor,
     # Y limits with no extra space below zero
     scale_y_continuous(
       limits = ylim,
-      expand = c(0,.05)
+      expand = c(0,0)
     ) +
     
     # Add x- and y-axes
     scale_x_datetime(
+      limits = xlim,
+      expand = c(0,0),
       date_breaks = tickPeriod, 
       date_labels = "%b %d"
     ) +

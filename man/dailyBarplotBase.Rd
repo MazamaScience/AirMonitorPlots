@@ -7,7 +7,8 @@
 dailyBarplotBase(ws_monitor, startdate = NULL, enddate = NULL,
   colorPalette = aqiPalette("aqi"), ylimStyle = "auto",
   borderColor = "black", borderSize = 1, currentNowcast = NULL,
-  currentPrediction = NULL, title = "")
+  currentPrediction = NULL, showAQIStackedBars = FALSE,
+  showAQILines = FALSE, showAQILegend = FALSE, title = "")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object containing a single monitor.}

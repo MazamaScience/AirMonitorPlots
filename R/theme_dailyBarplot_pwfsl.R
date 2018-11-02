@@ -14,8 +14,8 @@
 #' @import ggplot2
 #' @export
 
-theme_dailyBarplot_monitoring <- function(base_size = 11,
-                                          base_family = "") {
+theme_dailyBarplot_pwfsl <- function(base_size = 11,
+                                     base_family = "") {
   
   theme_classic(
     base_size = base_size,

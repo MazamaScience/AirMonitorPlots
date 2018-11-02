@@ -44,7 +44,7 @@
 #' end2 <- "2015-11-01"
 #' dbp1 <- dailyBarplot(NW, start1, end1, "pwfsl",
 #'                      monitorID = "160690014_01",
-#'                      title = "Ruebens, Idaho\n201")
+#'                      title = "Ruebens, Idaho\n2015")
 #' dbp2 <- dailyBarplot(NW, start2, end2, "month",
 #'                      monitorID = "160690014_01",
 #'                      title = "Ruebens, Idaho\n2015")
@@ -156,10 +156,15 @@ dailyBarplot <- function(ws_monitor,
   ylimStyle <- "auto"
   borderColor <- "black"
   borderSize <- 0.5
-  
+  showAQIStackedBars <- FALSE
+  showAQILines <- FALSE
+  showAQILegend <- FALSE
+
   if ( style == "pwfsl" ) {
     
     ylimStyle <- "pwfsl" # well defined limits for visual stability
+    showAQIStackedBars <- TRUE
+    showAQILines <- FALSE
     
   } else if ( style == "week" ) {
     
@@ -183,6 +188,9 @@ dailyBarplot <- function(ws_monitor,
     borderSize = borderSize,
     currentNowcast = currentNowcast,
     currentPrediction = currentPrediction,
+    showAQIStackedBars = showAQIStackedBars,
+    showAQILines = showAQILines,
+    showAQILegend = showAQILegend,
     title = title
   )
   
@@ -191,16 +199,24 @@ dailyBarplot <- function(ws_monitor,
   if ( style == "pwfsl" ) {
     
     dailyBarplotBase <- dailyBarplotBase + 
-      theme_dailyBarplot_monitoring()
+      theme_dailyBarplot_pwfsl()
     
   } else {
     
     dailyBarplotBase <- dailyBarplotBase + 
-      theme_dailyBarplot_monitoring()
+      theme_dailyBarplot_pwfsl()
     
   }
   
   # Additional data-dependent theming ------------------------------------------
+  
+  # Remove the Y-axis line 
+  if ( showAQIStackedBars ) {
+    dailyBarplotBase <- dailyBarplotBase +
+      theme(
+        axis.line.y = element_blank()
+      )
+  }
   
   # Tilt X-axis labels and add tick marks for > 7 days
   if ( dayCount > 7 )

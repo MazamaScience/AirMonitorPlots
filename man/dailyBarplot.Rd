@@ -59,7 +59,7 @@ start2 <- "2015-06-01"
 end2 <- "2015-11-01"
 dbp1 <- dailyBarplot(NW, start1, end1, "pwfsl",
                      monitorID = "160690014_01",
-                     title = "Ruebens, Idaho\\n201")
+                     title = "Ruebens, Idaho\\n2015")
 dbp2 <- dailyBarplot(NW, start2, end2, "month",
                      monitorID = "160690014_01",
                      title = "Ruebens, Idaho\\n2015")
