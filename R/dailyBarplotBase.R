@@ -10,10 +10,14 @@
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param colorPalette Palette function to convert monitor values into colors.
-#' @param title Optional title.
 #' @param ylim Y-axis limits.
 #' @param borderColor Border color for individual bars.
 #' @param borderSize Border size for individual bars.
+#' @param currentNowcast Real-time current Nowcast value -- for use in plots 
+#' presented in the PWFSL monitoring site.
+#' @param currentPrediction Real-time current prediction for today's daily 
+#' average -- for use in plots presented in the PWFSL monitoring site.
+#' @param title Optional title.
 #'
 #' @return A **ggplot** plot object with a daily bar plot for a single monitor.
 #'
@@ -29,15 +33,35 @@ dailyBarplotBase <- function(ws_monitor,
                              startdate = NULL,
                              enddate = NULL,
                              colorPalette = aqiPalette("aqi"),
-                             title = "",
                              ylim = NULL,
                              borderColor = "black",
-                             borderSize = 1.0) {
+                             borderSize = 1.0,
+                             currentNowcast = NULL,
+                             currentPrediction = NULL,
+                             title = "") {
+  
+  # For debugging --------------------------------------------------------------
+  
+  if (FALSE) {
+    
+    # Carmel Valley
+    ws_monitor <- PWFSLSmoke::Carmel_Valley
+    startdate <- "2016-08-05"
+    enddate <- "2016-08-12"
+    colorPalette <- aqiPalette("aqi")
+    ylim <- NULL
+    borderColor <- "black"
+    borderSize <- 1
+    currentNowcast <- 52
+    currentPrediction <- 48
+    title <- ""
+    
+  }
   
   # Validate arguments ---------------------------------------------------------
   
   if ( !monitor_isMonitor(ws_monitor) ) {
-    stop("Required parameter 'ws_monitor' is not a valid ws_monitor object")
+    stop("Required parameter 'ws_monitor' is not a valid ws_monitor object.")
   } else if ( monitor_isEmpty(ws_monitor) ) {
     stop("Required parameter 'ws_monitor' is empty.")
   }
@@ -50,22 +74,12 @@ dailyBarplotBase <- function(ws_monitor,
     stop("Required parameters 'startdate' and/or 'enddate' must be defined.")
   }
   
+  if ( startdate == enddate ) {
+    stop("'startdate' and 'enddate' cannot be equal.")
+  }
+  
   # Set up style ---------------------------------------------------------------
   
-  plotTitleSize = 20
-  xAxisTextSize <- 10
-  
-  tickPeriod = "days"
-  dayDiff <- difftime(enddate, startdate, units = "days")
-  if (dayDiff >= 0 && dayDiff <= 7) {
-    tickPeriod = "days"
-  } else if (dayDiff <= 21) {
-    tickPeriod = "3 days"
-  } else if (dayDiff <= 60) {
-    tickPeriod = "weeks"
-  } else {
-    tickPeriod = "months"
-  }
   
   # Time limits ----------------------------------------------------------------
   
@@ -105,68 +119,85 @@ dailyBarplotBase <- function(ws_monitor,
   } else if ( !is.null(startdate) && !is.null(enddate) ) {
     enddate <- enddate + lubridate::dhours(23)
   }
+
+  dayCount <- as.integer(difftime(enddate, startdate, units = "days"))
+  
+  # Choose tickPeriod
+  tickPeriod = "days"
+  if ( dayCount >= 0 && dayCount <= 7 ) {
+    tickPeriod = "days"
+  } else if ( dayCount <= 21 ) {
+    tickPeriod = "3 days"
+  } else if ( dayCount <= 60 ) {
+    tickPeriod = "weeks"
+  } else {
+    tickPeriod = "months"
+  }
   
   # Subset based on startdate and enddate
   mon <- monitor_subset(ws_monitor, tlim=c(startdate,enddate))
   
-  # AQIBar data -----------------------------------------------------------------
-  
-  AQIBar <- data.frame(PWFSLSmoke::AQI$breaks_24)
-  names(AQIBar) <- c("aqi")
-  
   # Barplot data ---------------------------------------------------------------
-  
-  if ( startdate == enddate ) {
-    stop("'startdate' and 'enddate' cannot be equal")
-  }
   
   dailyData <- PWFSLSmoke::monitor_dailyStatistic(mon)$data
   names(dailyData) <- c("datetime", "pm25")
+  
+  # Add currentNowcast
+  if ( !is.null(currentNowcast) ) {
+    nowcastDate <- lubridate::floor_date(enddate, "days") + lubridate::ddays(1)
+    nextRow <- nrow(dailyData) + 1
+    dailyData[nextRow,"datetime"] <- nowcastDate
+    dailyData[nextRow,"pm25"] <- currentNowcast
+  }
+  
   dailyData$color = colorPalette(dailyData$pm25)
   
   if ( any(is.na(dailyData$pm25)) ) {
-    stop("Missing readings inside date range")
+    warning("Missing readings inside date range")
   }
   
-  if (is.null(ylim) ) {
-    ylim = c(0, max(dailyData$pm25, na.rm = TRUE))
+  if ( is.null(ylim) ) {
+    ylim = c(0, max(1.1*dailyData$pm25, na.rm = TRUE))
   }
   
   # Plot data ------------------------------------------------------------------
   
-  dailyBarplotBase <- ggplot() +
+  base_family <- ""
+  base_size <- 11 # DELETEME
+  half_line <- base_size/2 # DELEMTE
   
+  dailyBarplotBase <- ggplot() +
+    
     # Add daily statistic bars
-    geom_bar(data = dailyData,
-             aes(
-              x = .data$datetime,
-              y = .data$pm25
-             ),
-             fill = dailyData$color,
-             color = borderColor,
-             stat = "identity")
+    geom_bar(
+      data = dailyData,
+      aes(
+        x = .data$datetime,
+        y = .data$pm25
+      ),
+      fill = dailyData$color,
+      color = borderColor,
+      stat = "identity"
+    ) +
     
-    # Remove plot decorations
-    dailyBarplotBase <- dailyBarplotBase +
-    theme(panel.background = element_rect(fill = "transparent", color = NA)) +
-    theme(plot.background = element_rect(fill = "transparent", color = NA)) +
-    theme(panel.grid = element_blank()) +
-    theme(axis.title.x = element_blank())
+    # Y limits with no extra space below zero
+    scale_y_continuous(
+      limits = ylim,
+      expand = c(0,.05)
+    ) +
     
-    # Style text and tickmarks
-    dailyBarplotBase <- dailyBarplotBase +
-    theme(axis.text.x = element_text(size = xAxisTextSize, angle = 45, vjust = 0.5)) + 
-    scale_x_datetime(date_breaks = tickPeriod, date_labels = "%b %d") +
+    # Add x- and y-axes
+    scale_x_datetime(
+      date_breaks = tickPeriod, 
+      date_labels = "%b %d"
+    ) +
     ylab("PM2.5 (\u00b5g/m3)") +
-    ylim(ylim)
     
-    # Add plot title
-    dailyBarplotBase <- dailyBarplotBase +
-    ggtitle(title) +
-    theme(plot.title = element_text(color = "gray30", size = plotTitleSize, hjust = 0.5))
-
+    # Title
+    ggtitle(title)
+  
   return(dailyBarplotBase)
-    
+  
 }
 
 

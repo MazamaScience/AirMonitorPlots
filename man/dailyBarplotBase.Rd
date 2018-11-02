@@ -5,8 +5,9 @@
 \title{Create a daily bar plot for a single monitor}
 \usage{
 dailyBarplotBase(ws_monitor, startdate = NULL, enddate = NULL,
-  colorPalette = aqiPalette("aqi"), title = "", ylim = NULL,
-  borderColor = "black", borderSize = 1)
+  colorPalette = aqiPalette("aqi"), ylim = NULL,
+  borderColor = "black", borderSize = 1, currentNowcast = NULL,
+  currentPrediction = NULL, title = "")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object containing a single monitor.}
@@ -19,13 +20,19 @@ or \code{POSIXct}).}
 
 \item{colorPalette}{Palette function to convert monitor values into colors.}
 
-\item{title}{Optional title.}
-
 \item{ylim}{Y-axis limits.}
 
 \item{borderColor}{Border color for individual bars.}
 
 \item{borderSize}{Border size for individual bars.}
+
+\item{currentNowcast}{Real-time current Nowcast value -- for use in plots 
+presented in the PWFSL monitoring site.}
+
+\item{currentPrediction}{Real-time current prediction for today's daily 
+average -- for use in plots presented in the PWFSL monitoring site.}
+
+\item{title}{Optional title.}
 }
 \value{
 A **ggplot** plot object with a daily bar plot for a single monitor.

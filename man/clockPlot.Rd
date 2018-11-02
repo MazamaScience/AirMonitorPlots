@@ -36,7 +36,7 @@ monitors. A colored bar curves around in a clockwise manner with 12/4 of the
 bar colored for each hour of the local time day.
 
 This function presents a simplified interface to \code{\link{clockPlotBase}}
-and collections common options into a set of named styles. Currently 
+and collects common options into a set of named styles. Currently 
 supported styles consist of a \emph{base} style followed by one or more 
 \emph{options} separated by underscores.
 
