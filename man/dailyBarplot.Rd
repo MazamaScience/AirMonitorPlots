@@ -4,14 +4,12 @@
 \alias{dailyBarplot}
 \title{Create a daily barplot for a single monitor}
 \usage{
-dailyBarplot(ws_monitor, monitorID = NULL, startdate = NULL,
-  enddate = NULL, style = "monitoring", currentNowcast = NULL,
+dailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
+  style = "pwfsl", monitorID = NULL, currentNowcast = NULL,
   currentPrediction = NULL, title = "")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object.}
-
-\item{monitorID}{Monitor ID of interest.}
 
 \item{startdate}{Desired start date (integer or character in Ymd format
 or \code{POSIXct}).}
@@ -20,6 +18,9 @@ or \code{POSIXct}).}
 or \code{POSIXct}).}
 
 \item{style}{Plot style.}
+
+\item{monitorID}{Monitor ID of interest. Required if \code{ws_monitor} 
+contains more than one monitor.}
 
 \item{currentNowcast}{Real-time current Nowcast value -- for use in plots 
 presented in the PWFSL monitoring site.}
@@ -40,7 +41,7 @@ and collects common options into a set of named styles.
 
 Current styles include:
 \itemize{
-\item{\code{monitoring} -- used in the PWFSL monitoring site. Best for 1-2
+\item{\code{pwfsl} -- used in the PWFSL monitoring site. Best for 1-2
 weeks of data.}
 }
 
@@ -51,23 +52,18 @@ Daily averages are calculated from midnight-to-midnight in monitor
 local time.
 }
 \examples{
-mon <- PWFSLSmoke::Carmel_Valley
-id <- mon$meta$monitorID[1]
-start1 <- "2016-06-01"
-start2 <- "2016-07-01"
-start3 <- "2016-08-01"
-end1 <- "2016-08-08"
-end2 <- "2016-08-15"
-end3 <- "2016-08-25"
-dbp1 <- dailyBarplot(mon, id, start3, end1, "monitoring",
-                     title = "Carmel Valley\\n2016")
-dbp2 <- dailyBarplot(mon, id, start3, end2, "monitoring",
-                     title = "Carmel Valley\\n2016")
-dbp3 <- dailyBarplot(mon, id, start2, end2, "monitoring",
-                     title = "Carmel Valley\\n2016")
-dbp4 <- dailyBarplot(mon, id, start1, end3, "monitoring",
-                     title = "Carmel Valley\\n2016")
-gridExtra::grid.arrange(dbp1, dbp2, dbp3, dbp4, nrow = 2)
+NW <- PWFSLSmoke::Northwest_Megafires
+start1 <- "2015-08-20"
+end1 <- "2015-08-27"
+start2 <- "2015-06-01"
+end2 <- "2015-11-01"
+dbp1 <- dailyBarplot(NW, start1, end1, "pwfsl",
+                     monitorID = "160690014_01",
+                     title = "Ruebens, Idaho\\n201")
+dbp2 <- dailyBarplot(NW, start2, end2, "month",
+                     monitorID = "160690014_01",
+                     title = "Ruebens, Idaho\\n2015")
+gridExtra::grid.arrange(dbp1, dbp2, nrow = 1)
 }
 \seealso{
 \code{\link{dailyBarplotBase}}

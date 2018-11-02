@@ -10,7 +10,7 @@
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param colorPalette Palette function to convert monitor values into colors.
-#' @param ylim Y-axis limits.
+#' @param ylimStyle Style of y-axis limits. One of \code{auto|pwfsl}.
 #' @param borderColor Border color for individual bars.
 #' @param borderSize Border size for individual bars.
 #' @param currentNowcast Real-time current Nowcast value -- for use in plots 
@@ -33,7 +33,7 @@ dailyBarplotBase <- function(ws_monitor,
                              startdate = NULL,
                              enddate = NULL,
                              colorPalette = aqiPalette("aqi"),
-                             ylim = NULL,
+                             ylimStyle = "auto",
                              borderColor = "black",
                              borderSize = 1.0,
                              currentNowcast = NULL,
@@ -46,10 +46,10 @@ dailyBarplotBase <- function(ws_monitor,
     
     # Carmel Valley
     ws_monitor <- PWFSLSmoke::Carmel_Valley
-    startdate <- "2016-08-05"
-    enddate <- "2016-08-12"
+    startdate <- "2016-07-01"
+    enddate <- "2016-09-01"
     colorPalette <- aqiPalette("aqi")
-    ylim <- NULL
+    ylimStyle <- "pwfsl"
     borderColor <- "black"
     borderSize <- 1
     currentNowcast <- 52
@@ -138,7 +138,7 @@ dailyBarplotBase <- function(ws_monitor,
   mon <- monitor_subset(ws_monitor, tlim=c(startdate,enddate))
   
   # Barplot data ---------------------------------------------------------------
-  
+
   dailyData <- PWFSLSmoke::monitor_dailyStatistic(mon)$data
   names(dailyData) <- c("datetime", "pm25")
   
@@ -150,13 +150,38 @@ dailyBarplotBase <- function(ws_monitor,
     dailyData[nextRow,"pm25"] <- currentNowcast
   }
   
+  # Color
   dailyData$color = colorPalette(dailyData$pm25)
   
-  if ( any(is.na(dailyData$pm25)) ) {
-    warning("Missing readings inside date range")
-  }
+  # if ( any(is.na(dailyData$pm25)) ) {
+  #   warning("Missing readings inside date range") #TODO:  fix this
+  # }
   
-  if ( is.null(ylim) ) {
+  # Y-axis limits
+  if ( ylimStyle == "pwfsl" ) {
+    # Well defined y-axis limits for visual stability
+    ylo <- 0
+    ymax <- max( dailyData$pm25, na.rm = TRUE )
+    if ( ymax <= 50 ) {
+      yhi <- 50
+    } else if ( ymax <= 100 ) {
+      yhi <- 100
+    } else if ( ymax <= 200 ) {
+      yhi <- 200
+    } else if ( ymax <= 400 ) {
+      yhi <- 400
+    } else if ( ymax <= 600 )  {
+      yhi <- 600
+    } else if ( ymax <= 1000 )  {
+      yhi <- 1000
+    } else if ( ymax <= 1500 )  {
+      yhi <- 1500
+    } else {
+      yhi <- 1.05 * ymax
+    }
+    ylim <- c(ylo, yhi)
+  } else {
+    # Standard y-axis limits
     ylim = c(0, max(1.1*dailyData$pm25, na.rm = TRUE))
   }
   
@@ -171,9 +196,12 @@ dailyBarplotBase <- function(ws_monitor,
     # Add daily statistic bars
     geom_bar(
       data = dailyData,
+      # See https://www.aj2duncan.com/blog/missing-data-ggplot2-barplots/
+      position = position_dodge(preserve = 'single'), # don't drop missing values
       aes(
         x = .data$datetime,
-        y = .data$pm25
+        y = .data$pm25#,
+        #fill = .data$color
       ),
       fill = dailyData$color,
       color = borderColor,

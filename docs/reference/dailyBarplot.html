@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a Clock plot for a single monitor — clockPlot • PWFSLSmokePlots</title>
+<title>Create a daily barplot for a single monitor — dailyBarplot • PWFSLSmokePlots</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,23 +30,14 @@
 
 
 
-<meta property="og:title" content="Create a Clock plot for a single monitor — clockPlot" />
+<meta property="og:title" content="Create a daily barplot for a single monitor — dailyBarplot" />
 
-<meta property="og:description" content="Create a &quot;clock plot&quot; showing PM2.5 data for a single day for the given 
-monitors. A colored bar curves around in a clockwise manner with 12/4 of the
-bar colored for each hour of the local time day.
-This function presents a simplified interface to clockPlotBase
-and collects common options into a set of named styles. Currently 
-supported styles consist of a base style followed by one or more 
-options separated by underscores.
-The style base must be one of:
-icon -- no annotations
-full -- fully annotated
-" />
-
-<meta property="og:description" content="Style options include:
-fan -- show nighttime shading
-avg -- display center dot with yesterday average AQI color
+<meta property="og:description" content="Create a daily average barplot of PM2.5 values at a location.
+This function presents a simplified interface to dailyBarplotBase
+and collects common options into a set of named styles.
+Current styles include:
+pwfsl -- used in the PWFSL monitoring site. Best for 1-2
+weeks of data.
 " />
 
 <meta property="og:description" content="The returned object may be further amended with **ggplot** elements." />
@@ -117,37 +108,28 @@ avg -- display center dot with yesterday average AQI color
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a Clock plot for a single monitor</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/clockPlot.R'><code>R/clockPlot.R</code></a></small>
-    <div class="hidden name"><code>clockPlot.Rd</code></div>
+    <h1>Create a daily barplot for a single monitor</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/dailyBarplot.R'><code>R/dailyBarplot.R</code></a></small>
+    <div class="hidden name"><code>dailyBarplot.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create a "clock plot" showing PM2.5 data for a single day for the given 
-monitors. A colored bar curves around in a clockwise manner with 12/4 of the
-bar colored for each hour of the local time day.</p>
-<p>This function presents a simplified interface to <code><a href='clockPlotBase.html'>clockPlotBase</a></code>
-and collects common options into a set of named styles. Currently 
-supported styles consist of a <em>base</em> style followed by one or more 
-<em>options</em> separated by underscores.</p>
-<p>The style <em>base</em> must be one of:</p><ul>
-<li><p><code>icon</code> -- no annotations</p></li>
-<li><p><code>full</code> -- fully annotated</p></li>
-</ul>
-
-    <p>Style <em>options</em> include:</p><ul>
-<li><p><code>fan</code> -- show nighttime shading</p></li>
-<li><p><code>avg</code> -- display center dot with yesterday average AQI color</p></li>
+    <p>Create a daily average barplot of PM2.5 values at a location.</p>
+<p>This function presents a simplified interface to <code><a href='dailyBarplotBase.html'>dailyBarplotBase</a></code>
+and collects common options into a set of named styles.</p>
+<p>Current styles include:</p><ul>
+<li><p><code>pwfsl</code> -- used in the PWFSL monitoring site. Best for 1-2
+weeks of data.</p></li>
 </ul>
 
     <p>The returned object may be further amended with **ggplot** elements.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>clockPlot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"icon"</span>, <span class='kw'>centerColor</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>labelScale</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>dailyBarplot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"pwfsl"</span>, <span class='kw'>currentNowcast</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>currentPrediction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,15 +154,17 @@ or <code>POSIXct</code>).</p></td>
     </tr>
     <tr>
       <th>style</th>
-      <td><p>Plot style as described below.</p></td>
+      <td><p>Plot style.</p></td>
     </tr>
     <tr>
-      <th>centerColor</th>
-      <td><p>Color used for the center of the circle.</p></td>
+      <th>currentNowcast</th>
+      <td><p>Real-time current Nowcast value -- for use in plots 
+presented in the PWFSL monitoring site.</p></td>
     </tr>
     <tr>
-      <th>labelScale</th>
-      <td><p>Scale factor applied to labels.</p></td>
+      <th>currentPrediction</th>
+      <td><p>Real-time current prediction for today's daily 
+average -- for use in plots presented in the PWFSL monitoring site.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -190,31 +174,30 @@ or <code>POSIXct</code>).</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A **ggplot** plot object with a "clock plot" for a single monitor.</p>
+    <p>A **ggplot** plot object with a "daily barplot" for a single monitor.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Dates are interpreted to be in monitor local time.</p>
-<p>If either <code>starttime</code> or <code>endtime</code> is <code>NULL</code>, the plot will
-represent a single day. If the specified time range covers multiple days, the
-hourly bars will represent time-of-day averages while the center dot will 
-show the average associated with the last day in the time range.</p>
+    <p>Daily averages are calculated from midnight-to-midnight in monitor 
+local time.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='clockPlotBase.html'>clockPlotBase</a></code></p></div>
+    <div class='dont-index'><p><code><a href='dailyBarplotBase.html'>dailyBarplotBase</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>mon</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>
 <span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='no'>mon</span>$<span class='no'>meta</span>$<span class='no'>monitorID</span>[<span class='fl'>1</span>]
-<span class='no'>start</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-07"</span>
-<span class='no'>end</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-09"</span>
-<span class='no'>icon</span> <span class='kw'>&lt;-</span> <span class='fu'>clockPlot</span>(<span class='no'>mon</span>, <span class='no'>id</span>, <span class='no'>start</span>, <span class='no'>end</span>, <span class='st'>"icon"</span>,
-                  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"icon"</span>)
-<span class='no'>full</span> <span class='kw'>&lt;-</span> <span class='fu'>clockPlot</span>(<span class='no'>mon</span>, <span class='no'>id</span>, <span class='no'>start</span>, <span class='no'>end</span>, <span class='st'>"full_fan_avg"</span>, <span class='st'>"white"</span>,
-                  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"full_fan_avg"</span>)
-<span class='kw pkg'>gridExtra</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob'>grid.arrange</a></span>(<span class='no'>icon</span>, <span class='no'>full</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='clockPlot-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>start1</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-01"</span>
+<span class='no'>start2</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-07-01"</span>
+<span class='no'>end1</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-08"</span>
+<span class='no'>end2</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-09-01"</span>
+<span class='no'>dbp1</span> <span class='kw'>&lt;-</span> <span class='fu'>dailyBarplot</span>(<span class='no'>mon</span>, <span class='no'>id</span>, <span class='no'>start1</span>, <span class='no'>end1</span>, <span class='st'>"pwfsl"</span>,
+                     <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Carmel Valley\n2016"</span>)
+<span class='no'>dbp2</span> <span class='kw'>&lt;-</span> <span class='fu'>dailyBarplot</span>(<span class='no'>mon</span>, <span class='no'>id</span>, <span class='no'>start2</span>, <span class='no'>end2</span>, <span class='st'>"month"</span>,
+                     <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Carmel Valley\n2016"</span>)
+<span class='kw pkg'>gridExtra</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob'>grid.arrange</a></span>(<span class='no'>dbp1</span>, <span class='no'>dbp2</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_bar).</span></div><div class='img'><img src='dailyBarplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

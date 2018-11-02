@@ -5,7 +5,7 @@
 \title{Create a daily bar plot for a single monitor}
 \usage{
 dailyBarplotBase(ws_monitor, startdate = NULL, enddate = NULL,
-  colorPalette = aqiPalette("aqi"), ylim = NULL,
+  colorPalette = aqiPalette("aqi"), ylimStyle = "auto",
   borderColor = "black", borderSize = 1, currentNowcast = NULL,
   currentPrediction = NULL, title = "")
 }
@@ -20,7 +20,7 @@ or \code{POSIXct}).}
 
 \item{colorPalette}{Palette function to convert monitor values into colors.}
 
-\item{ylim}{Y-axis limits.}
+\item{ylimStyle}{Style of y-axis limits. One of \code{auto|pwfsl}.}
 
 \item{borderColor}{Border color for individual bars.}
 

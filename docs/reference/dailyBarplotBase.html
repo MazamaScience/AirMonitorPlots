@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Base clock plot function — clockPlotBase • PWFSLSmokePlots</title>
+<title>Create a daily bar plot for a single monitor — dailyBarplotBase • PWFSLSmokePlots</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,14 +30,10 @@
 
 
 
-<meta property="og:title" content="Base clock plot function — clockPlotBase" />
+<meta property="og:title" content="Create a daily bar plot for a single monitor — dailyBarplotBase" />
 
-<meta property="og:description" content="Create a &quot;clock plot&quot; showing PM2.5 data for a single day for the given 
-monitors. A colored bar curves around in a clockwise manner with 12/4 of the
-bar colored for each hour of the local time day.
-This function will typically be called from clockPlot which
-presents a simplified interface.
-Room for annotations can be created by setting plotRadius = 1.2." />
+<meta property="og:description" content="Create a bar plot showing daily average PM2.5 data over a period for the given 
+monitor. Colored bars represent the PM2.5 readings for each day." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,27 +101,22 @@ Room for annotations can be created by setting plotRadius = 1.2." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Base clock plot function</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/clockPlotBase.R'><code>R/clockPlotBase.R</code></a></small>
-    <div class="hidden name"><code>clockPlotBase.Rd</code></div>
+    <h1>Create a daily bar plot for a single monitor</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/dailyBarplotBase.R'><code>R/dailyBarplotBase.R</code></a></small>
+    <div class="hidden name"><code>dailyBarplotBase.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create a "clock plot" showing PM2.5 data for a single day for the given 
-monitors. A colored bar curves around in a clockwise manner with 12/4 of the
-bar colored for each hour of the local time day.</p>
-<p>This function will typically be called from <code><a href='clockPlot.html'>clockPlot</a></code> which
-presents a simplified interface.</p>
-<p>Room for annotations can be created by setting <code>plotRadius = 1.2</code>.</p>
+    <p>Create a bar plot showing daily average PM2.5 data over a period for the given 
+monitor. Colored bars represent the PM2.5 readings for each day.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>clockPlotBase</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>centerColor</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>gapColor</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>gapFraction</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>15</span>,
-  <span class='kw'>plotRadius</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dataRadii</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.5</span>, <span class='fl'>1</span>), <span class='kw'>shadedNight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>hoursPerTick</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>solarLabels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>colorPalette</span> <span class='kw'>=</span> <span class='fu'>aqiPalette</span>(<span class='st'>"aqi"</span>), <span class='kw'>labelScale</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>dailyBarplotBase</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colorPalette</span> <span class='kw'>=</span> <span class='fu'>aqiPalette</span>(<span class='st'>"aqi"</span>), <span class='kw'>ylimStyle</span> <span class='kw'>=</span> <span class='st'>"auto"</span>,
+  <span class='kw'>borderColor</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>borderSize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>currentNowcast</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>currentPrediction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,64 +136,47 @@ or <code>POSIXct</code>).</p></td>
 or <code>POSIXct</code>).</p></td>
     </tr>
     <tr>
-      <th>centerColor</th>
-      <td><p>Color used for the center of the circle.</p></td>
-    </tr>
-    <tr>
-      <th>gapColor</th>
-      <td><p>Color used for the day-break gap.</p></td>
-    </tr>
-    <tr>
-      <th>gapFraction</th>
-      <td><p>Fraction of the circle used as the day boundary gap.</p></td>
-    </tr>
-    <tr>
-      <th>plotRadius</th>
-      <td><p>Full radius of the plot.</p></td>
-    </tr>
-    <tr>
-      <th>dataRadii</th>
-      <td><p>Inner and outer radii for the data portion of the plot [0:1].</p></td>
-    </tr>
-    <tr>
-      <th>shadedNight</th>
-      <td><p>Add nighttime shading.</p></td>
-    </tr>
-    <tr>
-      <th>hoursPerTick</th>
-      <td><p>Add tick marks every # hours. Defaults to no ticks.</p></td>
-    </tr>
-    <tr>
-      <th>solarLabels</th>
-      <td><p>Add sunrise/sunset labels.</p></td>
-    </tr>
-    <tr>
       <th>colorPalette</th>
       <td><p>Palette function to convert monitor values into colors.</p></td>
     </tr>
     <tr>
-      <th>labelScale</th>
-      <td><p>Scale factor applied to labels.</p></td>
+      <th>ylimStyle</th>
+      <td><p>Style of y-axis limits. One of <code>auto|pwfsl</code>.</p></td>
+    </tr>
+    <tr>
+      <th>borderColor</th>
+      <td><p>Border color for individual bars.</p></td>
+    </tr>
+    <tr>
+      <th>borderSize</th>
+      <td><p>Border size for individual bars.</p></td>
+    </tr>
+    <tr>
+      <th>currentNowcast</th>
+      <td><p>Real-time current Nowcast value -- for use in plots 
+presented in the PWFSL monitoring site.</p></td>
+    </tr>
+    <tr>
+      <th>currentPrediction</th>
+      <td><p>Real-time current prediction for today's daily 
+average -- for use in plots presented in the PWFSL monitoring site.</p></td>
     </tr>
     <tr>
       <th>title</th>
-      <td><p>Optional title for the plot.</p></td>
+      <td><p>Optional title.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A **ggplot** plot object with a "clock plot" for a single monitor.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='clockPlot.html'>clockPlot</a></code></p></div>
+    <p>A **ggplot** plot object with a daily bar plot for a single monitor.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>
-<span class='no'>startdate</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-07"</span>
-<span class='fu'>clockPlotBase</span>(<span class='no'>ws_monitor</span>, <span class='no'>startdate</span>)</div><div class='img'><img src='clockPlotBase-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>startdate</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-5"</span>
+<span class='no'>enddate</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-19"</span>
+<span class='fu'>dailyBarplotBase</span>(<span class='no'>ws_monitor</span>, <span class='no'>startdate</span>, <span class='no'>enddate</span>)</div><div class='img'><img src='dailyBarplotBase-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -210,8 +184,6 @@ or <code>POSIXct</code>).</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

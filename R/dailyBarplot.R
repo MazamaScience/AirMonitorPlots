@@ -8,7 +8,7 @@
 #' 
 #' Current styles include:
 #' \itemize{
-#' \item{\code{monitoring} -- used in the PWFSL monitoring site. Best for 1-2
+#' \item{\code{pwfsl} -- used in the PWFSL monitoring site. Best for 1-2
 #' weeks of data.}
 #' }
 #' 
@@ -18,12 +18,13 @@
 #' local time.
 #' 
 #' @param ws_monitor \emph{ws_monitor} object.
-#' @param monitorID Monitor ID of interest.
 #' @param startdate Desired start date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param style Plot style.
+#' @param monitorID Monitor ID of interest. Required if \code{ws_monitor} 
+#' contains more than one monitor.
 #' @param currentNowcast Real-time current Nowcast value -- for use in plots 
 #' presented in the PWFSL monitoring site.
 #' @param currentPrediction Real-time current prediction for today's daily 
@@ -36,29 +37,24 @@
 #' 
 #' @export
 #' @examples
-#' mon <- PWFSLSmoke::Carmel_Valley
-#' id <- mon$meta$monitorID[1]
-#' start1 <- "2016-06-01"
-#' start2 <- "2016-07-01"
-#' start3 <- "2016-08-01"
-#' end1 <- "2016-08-08"
-#' end2 <- "2016-08-15"
-#' end3 <- "2016-08-25"
-#' dbp1 <- dailyBarplot(mon, id, start3, end1, "monitoring",
-#'                      title = "Carmel Valley\n2016")
-#' dbp2 <- dailyBarplot(mon, id, start3, end2, "monitoring",
-#'                      title = "Carmel Valley\n2016")
-#' dbp3 <- dailyBarplot(mon, id, start2, end2, "monitoring",
-#'                      title = "Carmel Valley\n2016")
-#' dbp4 <- dailyBarplot(mon, id, start1, end3, "monitoring",
-#'                      title = "Carmel Valley\n2016")
-#' gridExtra::grid.arrange(dbp1, dbp2, dbp3, dbp4, nrow = 2)
+#' NW <- PWFSLSmoke::Northwest_Megafires
+#' start1 <- "2015-08-20"
+#' end1 <- "2015-08-27"
+#' start2 <- "2015-06-01"
+#' end2 <- "2015-11-01"
+#' dbp1 <- dailyBarplot(NW, start1, end1, "pwfsl",
+#'                      monitorID = "160690014_01",
+#'                      title = "Ruebens, Idaho\n201")
+#' dbp2 <- dailyBarplot(NW, start2, end2, "month",
+#'                      monitorID = "160690014_01",
+#'                      title = "Ruebens, Idaho\n2015")
+#' gridExtra::grid.arrange(dbp1, dbp2, nrow = 1)
 
 dailyBarplot <- function(ws_monitor,
-                         monitorID = NULL,
                          startdate = NULL,
                          enddate = NULL,
-                         style = "monitoring",
+                         style = "pwfsl",
+                         monitorID = NULL,
                          currentNowcast = NULL,
                          currentPrediction = NULL,
                          title = "") {
@@ -70,10 +66,12 @@ dailyBarplot <- function(ws_monitor,
     
     # Carmel Valley
     ws_monitor <- PWFSLSmoke::Carmel_Valley
-    monitorID <- "060530002_01"
     startdate <- "2016-08-01"
     enddate <- "2016-08-15"
-    style <- "monitoring"
+    style <- "pwfsl"
+    monitorID <- "060530002_01"
+    currentNowcast <- NULL
+    currentPrediction <- NULL
     title <- "Carmel Valley"
     
   }
@@ -97,9 +95,8 @@ dailyBarplot <- function(ws_monitor,
     ws_monitor <- monitor_subset(ws_monitor, monitorIDs = monitorID)
   }
   
-  # Accept any variation of style options with no required order
-  validStyles <- c("monitoring")
-  
+  # Style
+  validStyles <- c("pwfsl", "week", "month")
   if ( !style %in% validStyles ) {
     stop(
       paste0(
@@ -148,20 +145,30 @@ dailyBarplot <- function(ws_monitor,
   } else if ( !is.null(startdate) && !is.null(enddate) ) {
     enddate <- enddate + lubridate::dhours(23)
   }
-
+  
   dayCount <- as.integer(difftime(enddate, startdate, units = "days"))
   
   # Set up style ---------------------------------------------------------------
   
   base_size <- 11
   
-  if ( style == "monitoring" ) {
+  colorPalette <- aqiPalette("aqi")
+  ylimStyle <- "auto"
+  borderColor <- "black"
+  borderSize <- 0.5
+  
+  if ( style == "pwfsl" ) {
     
-    colorPalette <- aqiPalette("aqi")
-    ylim <- NULL
-    borderColor <- "black"
-    borderSize <- 0.5
-
+    ylimStyle <- "pwfsl" # well defined limits for visual stability
+    
+  } else if ( style == "week" ) {
+    
+    # No changes
+    
+  } else if ( style == "month" ) {
+    
+    borderColor <- "transparent" # lots of lines leave no room for borders
+    
   }
   
   # Create the plot ------------------------------------------------------------
@@ -171,7 +178,7 @@ dailyBarplot <- function(ws_monitor,
     startdate,
     enddate,
     colorPalette = colorPalette,
-    ylim = ylim,
+    ylimStyle = ylimStyle,
     borderColor = borderColor,
     borderSize = borderSize,
     currentNowcast = currentNowcast,
@@ -181,7 +188,12 @@ dailyBarplot <- function(ws_monitor,
   
   # Apply the appropriate theme ------------------------------------------------
   
-  if ( style == "monitoring" ) {
+  if ( style == "pwfsl" ) {
+    
+    dailyBarplotBase <- dailyBarplotBase + 
+      theme_dailyBarplot_monitoring()
+    
+  } else {
     
     dailyBarplotBase <- dailyBarplotBase + 
       theme_dailyBarplot_monitoring()
@@ -192,7 +204,7 @@ dailyBarplot <- function(ws_monitor,
   
   # Tilt X-axis labels and add tick marks for > 7 days
   if ( dayCount > 7 )
-  dailyBarplotBase <- dailyBarplotBase +
+    dailyBarplotBase <- dailyBarplotBase +
     theme(
       axis.ticks.x = element_line(),
       axis.text.x = element_text(
@@ -202,7 +214,7 @@ dailyBarplot <- function(ws_monitor,
         hjust = 1
       )
     )
-
+  
   return(dailyBarplotBase)
   
 }
