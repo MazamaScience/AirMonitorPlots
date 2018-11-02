@@ -31,29 +31,22 @@
 #' average -- for use in plots presented in the PWFSL monitoring site.
 #' @param title Optional title for the plot.
 #'
-#' @return A **ggplot** plot object with a "daily barplot" for a single monitor.
+#' @return A `ggplot` plot object with a "daily barplot" for a single monitor.
 #'
 #' @seealso \code{\link{dailyBarplotBase}}
 #' 
 #' @export
 #' @examples
 #' NW <- PWFSLSmoke::Northwest_Megafires
-#' start1 <- "2015-08-20"
-#' end1 <- "2015-08-27"
-#' start2 <- "2015-06-01"
-#' end2 <- "2015-11-01"
-#' dbp1 <- dailyBarplot(NW, start1, end1, "pwfsl",
-#'                      monitorID = "160690014_01",
-#'                      title = "Ruebens, Idaho\n2015")
-#' dbp2 <- dailyBarplot(NW, start2, end2, "month",
-#'                      monitorID = "160690014_01",
-#'                      title = "Ruebens, Idaho\n2015")
-#' gridExtra::grid.arrange(dbp1, dbp2, nrow = 1)
+#' dailyBarplot(NW, "2015-07-01", "2015-10-01",
+#'              style = "month",
+#'              monitorID = "160690014_01",
+#'              title = "Daily Average PM2.5\nRuebens, Idaho")
 
 dailyBarplot <- function(ws_monitor,
                          startdate = NULL,
                          enddate = NULL,
-                         style = "pwfsl",
+                         style = NULL,
                          monitorID = NULL,
                          currentNowcast = NULL,
                          currentPrediction = NULL,
@@ -64,20 +57,21 @@ dailyBarplot <- function(ws_monitor,
   
   if (FALSE) {
     
-    # Carmel Valley
-    ws_monitor <- PWFSLSmoke::Carmel_Valley
-    startdate <- "2016-08-01"
-    enddate <- "2016-08-15"
+    # Ruebens, ID
+    ws_monitor <- PWFSLSmoke::Northwest_Megafires
+    startdate <- "2015-08-20"
+    enddate <- "2015-08-26"
     style <- "pwfsl"
-    monitorID <- "060530002_01"
+    monitorID <- "160690014_01"
     currentNowcast <- NULL
     currentPrediction <- NULL
-    title <- "Carmel Valley"
+    title <- "Ruebens, ID"
     
   }
   
   # Validate arguments ---------------------------------------------------------
   
+  # ws_monitor
   if ( !monitor_isMonitor(ws_monitor) ) {
     stop("Argument 'ws_monitor' is not a valid ws_monitor object")
   } else if ( monitor_isEmpty(ws_monitor) ) {
@@ -95,23 +89,37 @@ dailyBarplot <- function(ws_monitor,
     ws_monitor <- monitor_subset(ws_monitor, monitorIDs = monitorID)
   }
   
-  # Style
+  # startdate
+  if ( is.null(startdate) ) {
+    startdate <- lubridate::floor_date(min(ws_monitor$data$datetime),
+                                       unit = "days")
+  }
+  
+  # enddate 
+  if ( is.null(enddate) ) {
+    enddate <- lubridate::floor_date(max(ws_monitor$data$datetime),
+                                     unit = "days")
+  }
+  
+  # style
   validStyles <- c("pwfsl", "week", "month")
-  if ( !style %in% validStyles ) {
-    stop(
-      paste0(
-        "Invalid style: \"", style, "\". ",
-        "The following styles are supported: \"", 
-        paste0(validStyles, sep = "|"), "\""
+  if ( !is.null(style) ) {
+    if ( !style %in% validStyles ) {
+      stop(
+        paste0(
+          "Invalid style: \"", style, "\". ",
+          "The following styles are supported: \"", 
+          paste0(validStyles, sep = "|"), "\""
+        )
       )
-    )
+    }
   }
   
   # Time limits ----------------------------------------------------------------
   
   timezone <- ws_monitor$meta$timezone[1]
   
-  # If a startdate argument was passed, make sure it converts to a valid datetime
+  # handle various startdates
   if ( !is.null(startdate) ) {
     if ( is.numeric(startdate) || is.character(startdate) ) {
       startdate <- lubridate::ymd(startdate, tz = timezone)
@@ -124,7 +132,7 @@ dailyBarplot <- function(ws_monitor,
     }
   }
   
-  # If an enddate argument was passed, make sure it converts to a valid datetime
+  # handle various enddates
   if ( !is.null(enddate) ) {
     if ( is.numeric(enddate) || is.character(enddate) ) {
       enddate <- lubridate::ymd(enddate, tz = timezone)
@@ -137,16 +145,17 @@ dailyBarplot <- function(ws_monitor,
     }
   }
   
-  if ( !is.null(startdate) && is.null(enddate) ) {
-    enddate <- startdate + lubridate::dhours(23)
-  } else if ( is.null(startdate) && !is.null(enddate) ) {
-    startdate <- enddate
-    enddate <- enddate + lubridate::dhours(23)
-  } else if ( !is.null(startdate) && !is.null(enddate) ) {
-    enddate <- enddate + lubridate::dhours(23)
-  }
+  # We will include the complete 'enddate' day
+  dayCount <- as.integer(difftime(enddate, startdate, units = "days")) + 1
   
-  dayCount <- as.integer(difftime(enddate, startdate, units = "days"))
+  # Auto-style
+  if ( is.null(style) ) {
+    if ( dayCount <= 21 ) {
+      style = "week"
+    } else {
+      style = "month"
+    }
+  }
   
   # Set up style ---------------------------------------------------------------
   
@@ -159,12 +168,13 @@ dailyBarplot <- function(ws_monitor,
   showAQIStackedBars <- FALSE
   showAQILines <- FALSE
   showAQILegend <- FALSE
-
+  dateFormat <- "%b %d"
+  
   if ( style == "pwfsl" ) {
     
     ylimStyle <- "pwfsl" # well defined limits for visual stability
     showAQIStackedBars <- TRUE
-    showAQILines <- FALSE
+    showAQILines <- TRUE
     
   } else if ( style == "week" ) {
     
@@ -191,6 +201,7 @@ dailyBarplot <- function(ws_monitor,
     showAQIStackedBars = showAQIStackedBars,
     showAQILines = showAQILines,
     showAQILegend = showAQILegend,
+    dateFormat = dateFormat,
     title = title
   )
   

@@ -22,7 +22,7 @@
 #' \item{\code{avg} -- display center dot with yesterday average AQI color}
 #' }
 #' 
-#' The returned object may be further amended with **ggplot** elements.
+#' The returned object may be further amended with `ggplot` elements.
 #' 
 #' @details Dates are interpreted to be in monitor local time.
 #' 
@@ -42,7 +42,7 @@
 #' @param labelScale Scale factor applied to labels.
 #' @param title Optional title for the plot.
 #'
-#' @return A **ggplot** plot object with a "clock plot" for a single monitor.
+#' @return A `ggplot` plot object with a "clock plot" for a single monitor.
 #'
 #' @seealso \code{\link{clockPlotBase}}
 #' 

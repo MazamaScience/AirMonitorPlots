@@ -19,4 +19,5 @@ test_that("arguments are validated", {
   
   # Invalid center color
   expect_error(clockPlot(ws_monitor, style = "base", centerColor = "invalid color"))
+  
 })

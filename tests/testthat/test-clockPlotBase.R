@@ -24,4 +24,5 @@ test_that("arguments are validated", {
   
   # Invalid color palette
   expect_error(clockPlotBase(ws_monitor, startdate = "2016-08-09", colorPalette = "Not a palette"))
+  
 })

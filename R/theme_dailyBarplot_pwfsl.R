@@ -44,7 +44,7 @@ theme_dailyBarplot_pwfsl <- function(base_size = 11,
       #axis.ticks.y = element_blank(),
       axis.text.y = element_text(
         size = 1.0 * base_size,
-        margin = margin(r = 1.0 * base_size)
+        margin = margin(r = 0.5 * base_size)
       ),
       
       # X-axis

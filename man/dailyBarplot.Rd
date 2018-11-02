@@ -5,7 +5,7 @@
 \title{Create a daily barplot for a single monitor}
 \usage{
 dailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
-  style = "pwfsl", monitorID = NULL, currentNowcast = NULL,
+  style = NULL, monitorID = NULL, currentNowcast = NULL,
   currentPrediction = NULL, title = "")
 }
 \arguments{
@@ -31,7 +31,7 @@ average -- for use in plots presented in the PWFSL monitoring site.}
 \item{title}{Optional title for the plot.}
 }
 \value{
-A **ggplot** plot object with a "daily barplot" for a single monitor.
+A `ggplot` plot object with a "daily barplot" for a single monitor.
 }
 \description{
 Create a daily average barplot of PM2.5 values at a location.
@@ -53,17 +53,10 @@ local time.
 }
 \examples{
 NW <- PWFSLSmoke::Northwest_Megafires
-start1 <- "2015-08-20"
-end1 <- "2015-08-27"
-start2 <- "2015-06-01"
-end2 <- "2015-11-01"
-dbp1 <- dailyBarplot(NW, start1, end1, "pwfsl",
-                     monitorID = "160690014_01",
-                     title = "Ruebens, Idaho\\n2015")
-dbp2 <- dailyBarplot(NW, start2, end2, "month",
-                     monitorID = "160690014_01",
-                     title = "Ruebens, Idaho\\n2015")
-gridExtra::grid.arrange(dbp1, dbp2, nrow = 1)
+dailyBarplot(NW, "2015-07-01", "2015-10-01",
+             style = "month",
+             monitorID = "160690014_01",
+             title = "Daily Average PM2.5\\nRuebens, Idaho")
 }
 \seealso{
 \code{\link{dailyBarplotBase}}

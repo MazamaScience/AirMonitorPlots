@@ -127,8 +127,8 @@ weeks of data.</p></li>
     
     </div>
 
-    <pre class="usage"><span class='fu'>dailyBarplot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"pwfsl"</span>, <span class='kw'>currentNowcast</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>dailyBarplot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>style</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>currentNowcast</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>currentPrediction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -137,10 +137,6 @@ weeks of data.</p></li>
     <tr>
       <th>ws_monitor</th>
       <td><p><em>ws_monitor</em> object.</p></td>
-    </tr>
-    <tr>
-      <th>monitorID</th>
-      <td><p>Monitor ID of interest.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -155,6 +151,11 @@ or <code>POSIXct</code>).</p></td>
     <tr>
       <th>style</th>
       <td><p>Plot style.</p></td>
+    </tr>
+    <tr>
+      <th>monitorID</th>
+      <td><p>Monitor ID of interest. Required if <code>ws_monitor</code> 
+contains more than one monitor.</p></td>
     </tr>
     <tr>
       <th>currentNowcast</th>
@@ -174,7 +175,7 @@ average -- for use in plots presented in the PWFSL monitoring site.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A **ggplot** plot object with a "daily barplot" for a single monitor.</p>
+    <p>A `ggplot` plot object with a "daily barplot" for a single monitor.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -187,17 +188,11 @@ local time.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mon</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>
-<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='no'>mon</span>$<span class='no'>meta</span>$<span class='no'>monitorID</span>[<span class='fl'>1</span>]
-<span class='no'>start1</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-01"</span>
-<span class='no'>start2</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-07-01"</span>
-<span class='no'>end1</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-08"</span>
-<span class='no'>end2</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-09-01"</span>
-<span class='no'>dbp1</span> <span class='kw'>&lt;-</span> <span class='fu'>dailyBarplot</span>(<span class='no'>mon</span>, <span class='no'>id</span>, <span class='no'>start1</span>, <span class='no'>end1</span>, <span class='st'>"pwfsl"</span>,
-                     <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Carmel Valley\n2016"</span>)
-<span class='no'>dbp2</span> <span class='kw'>&lt;-</span> <span class='fu'>dailyBarplot</span>(<span class='no'>mon</span>, <span class='no'>id</span>, <span class='no'>start2</span>, <span class='no'>end2</span>, <span class='st'>"month"</span>,
-                     <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Carmel Valley\n2016"</span>)
-<span class='kw pkg'>gridExtra</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob'>grid.arrange</a></span>(<span class='no'>dbp1</span>, <span class='no'>dbp2</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_bar).</span></div><div class='img'><img src='dailyBarplot-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>NW</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/PWFSLSmoke/topics/Northwest_Megafires'>Northwest_Megafires</a></span>
+<span class='fu'>dailyBarplot</span>(<span class='no'>NW</span>, <span class='st'>"2015-07-01"</span>, <span class='st'>"2015-10-01"</span>,
+             <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"month"</span>,
+             <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"160690014_01"</span>,
+             <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Daily Average PM2.5\nRuebens, Idaho"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 10 rows containing missing values (geom_bar).</span></div><div class='img'><img src='dailyBarplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

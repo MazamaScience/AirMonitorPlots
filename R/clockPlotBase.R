@@ -27,7 +27,7 @@
 #' @param labelScale Scale factor applied to labels.
 #' @param title Optional title for the plot.
 #'
-#' @return A **ggplot** plot object with a "clock plot" for a single monitor.
+#' @return A `ggplot` plot object with a "clock plot" for a single monitor.
 #' 
 #' @seealso \code{\link{clockPlot}}
 #' 

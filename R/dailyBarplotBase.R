@@ -17,15 +17,21 @@
 #' presented in the PWFSL monitoring site.
 #' @param currentPrediction Real-time current prediction for today's daily 
 #' average -- for use in plots presented in the PWFSL monitoring site.
+#' @param showAQIStackedBars Logical specifying whether to show stacked AQI
+#' color bars on the left.
+#' @param showAQILines Logical specifying whether to show AQI color lines.
+#' @param showAQILegend Logical specifying whether to show an AQI legend.
+#' @param dateFormat Format for x-axis dates. Used for \code{date_labels}
+#' argument to \code{scale_x_datetime}.
 #' @param title Optional title.
 #'
-#' @return A **ggplot** plot object with a daily bar plot for a single monitor.
+#' @return A `ggplot` plot object with a daily bar plot for a single monitor.
 #'
 #' @importFrom rlang .data
 #' @export
 #' @examples
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' startdate <- "2016-08-5"
+#' startdate <- "2016-08-05"
 #' enddate <- "2016-08-19"
 #' dailyBarplotBase(ws_monitor, startdate, enddate)
 
@@ -41,6 +47,7 @@ dailyBarplotBase <- function(ws_monitor,
                              showAQIStackedBars = FALSE,
                              showAQILines = FALSE,
                              showAQILegend = FALSE,
+                             dateFormat = "%b %d",
                              title = "") {
   
   # For debugging --------------------------------------------------------------
@@ -55,8 +62,8 @@ dailyBarplotBase <- function(ws_monitor,
     ylimStyle <- "pwfsl"
     borderColor <- "black"
     borderSize <- 1
-    currentNowcast <- 52
-    currentPrediction <- 48
+    currentNowcast <- NULL
+    currentPrediction <- NULL
     showAQIStackedBars <- TRUE
     showAQILines <- TRUE
     showAQILegend <- FALSE
@@ -77,21 +84,18 @@ dailyBarplotBase <- function(ws_monitor,
   }
   
   if ( is.null(startdate) && is.null(enddate) ) {
-    stop("Required parameters 'startdate' and/or 'enddate' must be defined.")
+    stop("Required parameters 'startdate' and 'enddate' must be defined.")
   }
   
   if ( startdate == enddate ) {
     stop("'startdate' and 'enddate' cannot be equal.")
   }
   
-  # Set up style ---------------------------------------------------------------
-  
-  
   # Time limits ----------------------------------------------------------------
   
   timezone <- ws_monitor$meta$timezone[1]
-  
-  # If a startdate argument was passed, make sure it converts to a valid datetime
+
+  # handle various startdates
   if ( !is.null(startdate) ) {
     if ( is.numeric(startdate) || is.character(startdate) ) {
       startdate <- lubridate::ymd(startdate, tz = timezone)
@@ -104,7 +108,7 @@ dailyBarplotBase <- function(ws_monitor,
     }
   }
   
-  # If an enddate argument was passed, make sure it converts to a valid datetime
+  # handle various enddates
   if ( !is.null(enddate) ) {
     if ( is.numeric(enddate) || is.character(enddate) ) {
       enddate <- lubridate::ymd(enddate, tz = timezone)
@@ -117,31 +121,26 @@ dailyBarplotBase <- function(ws_monitor,
     }
   }
   
-  if ( !is.null(startdate) && is.null(enddate) ) {
-    enddate <- startdate + lubridate::dhours(23)
-  } else if ( is.null(startdate) && !is.null(enddate) ) {
-    startdate <- enddate
-    enddate <- enddate + lubridate::dhours(23)
-  } else if ( !is.null(startdate) && !is.null(enddate) ) {
-    enddate <- enddate + lubridate::dhours(23)
-  }
+  # We will include the complete 'enddate' day
+  dayCount <- as.integer(difftime(enddate, startdate, units = "days")) + 1
   
-  dayCount <- as.integer(difftime(enddate, startdate, units = "days"))
-  
-  # Choose tickPeriod
-  tickPeriod = "days"
-  if ( dayCount >= 0 && dayCount <= 7 ) {
-    tickPeriod = "days"
+  # Choose date_breaks
+  if ( dayCount >= 0 && dayCount <= 9 ) {
+    date_breaks = "1 days"
   } else if ( dayCount <= 21 ) {
-    tickPeriod = "3 days"
+    date_breaks = "3 days"
   } else if ( dayCount <= 60 ) {
-    tickPeriod = "weeks"
+    date_breaks = "1 weeks"
+  } else if ( dayCount <= 120 ) {
+    date_breaks = "2 weeks"
   } else {
-    tickPeriod = "months"
+    date_breaks = "1 months"
   }
   
   # Subset based on startdate and enddate
-  mon <- monitor_subset(ws_monitor, tlim=c(startdate,enddate))
+  mon <- monitor_subset(ws_monitor,
+                        tlim = c(startdate, enddate + lubridate::dhours(23)),
+                        timezone = timezone)
   
   # Barplot data ---------------------------------------------------------------
   
@@ -150,7 +149,7 @@ dailyBarplotBase <- function(ws_monitor,
   
   # Add currentNowcast
   if ( !is.null(currentNowcast) ) {
-    nowcastDate <- lubridate::floor_date(enddate, "days") + lubridate::ddays(1)
+    nowcastDate <- enddate + lubridate::ddays(1)
     nextRow <- nrow(dailyData) + 1
     dailyData[nextRow,"datetime"] <- nowcastDate
     dailyData[nextRow,"pm25"] <- currentNowcast
@@ -187,28 +186,26 @@ dailyBarplotBase <- function(ws_monitor,
     ylo <- 0
     yhi <- max(1.05*dailyData$pm25, na.rm = TRUE)
   }
-  ylim <- c(ylo, yhi)
-  
-  # Extend X a little
+
+  # NOTE:  X-axis must be extended to fit the first and last bars.
+  # NOTE:  Then a little bit more for style.
   xRangeSecs <- as.numeric(difftime(enddate, startdate, timezone, units = "secs"))
-  xAxisExtension <- 0.02 * xRangeSecs
-  xlim <- c(startdate, enddate)
-  
+  marginSecs <- 0.02 * xRangeSecs
+  xlo <- startdate - lubridate::ddays(0.5) - lubridate::dseconds(marginSecs)
+  xhi <- enddate + lubridate::ddays(0.5) + lubridate::dseconds(marginSecs)
+
   # AQI Stacked bars -----------------------------------------------------------
   
   if ( showAQIStackedBars ) {
     
     # Get bar width
     width <- 0.01 * xRangeSecs
-    right <- startdate - lubridate::dseconds(xAxisExtension) 
-    left <- right - lubridate::dseconds(width)
-    
-    # Modify xlim
-    xlim <- c(left, enddate)
-    
+    right <- xlo - lubridate::dseconds(marginSecs) 
+    xlo <- right - lubridate::dseconds(width)
+
     # Create data
     aqiStackedBarsData <- data.frame(
-      xmin = rep(left, 6),
+      xmin = rep(xlo, 6),
       xmax = rep(right, 6),
       ymin = c(ylo, AQI$breaks_24[2:6]),
       ymax = c(AQI$breaks_24[2:6], 1e6)
@@ -219,6 +216,19 @@ dailyBarplotBase <- function(ws_monitor,
     barCount <- nrow(aqiStackedBarsData)
     aqiStackedBarsData$ymax[barCount] <- yhi
     aqiStackedBarsColors <- AQI$colors[1:barCount]
+    
+  }
+  
+  if ( showAQILines ) {
+    
+    # Create data
+    aqiStackedLinesData <- data.frame(
+      x = rep(xlo, 5),
+      xend = rep(xhi, 5),
+      y = c(AQI$breaks_24[2:6]),
+      yend = c(AQI$breaks_24[2:6])
+    )
+    aqiLinesColors <- AQI$colors[2:6]
     
   }
   
@@ -234,7 +244,7 @@ dailyBarplotBase <- function(ws_monitor,
   if ( showAQIStackedBars ) {
     
     dailyBarplotBase <- dailyBarplotBase + 
-      # Add AQI stacked bars
+      
       geom_rect(
         data = aqiStackedBarsData,
         aes(
@@ -243,7 +253,25 @@ dailyBarplotBase <- function(ws_monitor,
           ymin = .data$ymin,
           ymax = .data$ymax
         ),
-        fill = aqiStackedBarsColors)
+        fill = aqiStackedBarsColors
+      )
+    
+  }
+  
+  if ( showAQILines ) {
+    
+    dailyBarplotBase <- dailyBarplotBase + 
+      
+      geom_segment(
+        data = aqiStackedLinesData,
+        aes(
+          x = .data$x,
+          xend = .data$xend,
+          y = .data$y,
+          yend = .data$yend
+        ),
+        color = aqiLinesColors
+      )  
     
   }
   
@@ -264,18 +292,18 @@ dailyBarplotBase <- function(ws_monitor,
       stat = "identity"
     ) +
     
-    # Y limits with no extra space below zero
-    scale_y_continuous(
-      limits = ylim,
-      expand = c(0,0)
-    ) +
-    
     # Add x- and y-axes
     scale_x_datetime(
-      limits = xlim,
+      limits = c(xlo,xhi),
       expand = c(0,0),
-      date_breaks = tickPeriod, 
-      date_labels = "%b %d"
+      date_breaks = date_breaks, 
+      date_labels = dateFormat
+    ) +
+    
+    # Y limits with no extra space below zero
+    scale_y_continuous(
+      limits = c(ylo,yhi),
+      expand = c(0,0)
     ) +
     ylab("PM2.5 (\u00b5g/m3)") +
     

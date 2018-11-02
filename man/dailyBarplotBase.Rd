@@ -8,7 +8,8 @@ dailyBarplotBase(ws_monitor, startdate = NULL, enddate = NULL,
   colorPalette = aqiPalette("aqi"), ylimStyle = "auto",
   borderColor = "black", borderSize = 1, currentNowcast = NULL,
   currentPrediction = NULL, showAQIStackedBars = FALSE,
-  showAQILines = FALSE, showAQILegend = FALSE, title = "")
+  showAQILines = FALSE, showAQILegend = FALSE,
+  dateFormat = "\%b \%d", title = "")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object containing a single monitor.}
@@ -33,10 +34,20 @@ presented in the PWFSL monitoring site.}
 \item{currentPrediction}{Real-time current prediction for today's daily 
 average -- for use in plots presented in the PWFSL monitoring site.}
 
+\item{showAQIStackedBars}{Logical specifying whether to show stacked AQI
+color bars on the left.}
+
+\item{showAQILines}{Logical specifying whether to show AQI color lines.}
+
+\item{showAQILegend}{Logical specifying whether to show an AQI legend.}
+
+\item{dateFormat}{Format for x-axis dates. Used for \code{date_labels}
+argument to \code{scale_x_datetime}.}
+
 \item{title}{Optional title.}
 }
 \value{
-A **ggplot** plot object with a daily bar plot for a single monitor.
+A `ggplot` plot object with a daily bar plot for a single monitor.
 }
 \description{
 Create a bar plot showing daily average PM2.5 data over a period for the given 
@@ -44,7 +55,7 @@ monitor. Colored bars represent the PM2.5 readings for each day.
 }
 \examples{
 ws_monitor <- PWFSLSmoke::Carmel_Valley
-startdate <- "2016-08-5"
+startdate <- "2016-08-05"
 enddate <- "2016-08-19"
 dailyBarplotBase(ws_monitor, startdate, enddate)
 }

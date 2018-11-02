@@ -42,7 +42,7 @@ or \code{POSIXct}).}
 \item{title}{Optional title for the plot.}
 }
 \value{
-A **ggplot** plot object with a "clock plot" for a single monitor.
+A `ggplot` plot object with a "clock plot" for a single monitor.
 }
 \description{
 Create a "clock plot" showing PM2.5 data for a single day for the given 

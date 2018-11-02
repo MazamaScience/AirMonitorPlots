@@ -28,7 +28,7 @@ or \code{POSIXct}).}
 \item{title}{Optional title for the plot.}
 }
 \value{
-A **ggplot** plot object with a "clock plot" for a single monitor.
+A `ggplot` plot object with a "clock plot" for a single monitor.
 }
 \description{
 Create a "clock plot" showing PM2.5 data for a single day for the given 
@@ -52,7 +52,7 @@ Style \emph{options} include:
 \item{\code{avg} -- display center dot with yesterday average AQI color}
 }
 
-The returned object may be further amended with **ggplot** elements.
+The returned object may be further amended with `ggplot` elements.
 }
 \details{
 Dates are interpreted to be in monitor local time.
