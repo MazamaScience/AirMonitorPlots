@@ -55,11 +55,11 @@ dailyBarplotBase <- function(ws_monitor,
     enddate <- "2016-08-28"
     colorPalette <- aqiPalette("aqi")
     ylimStyle <- "pwfsl"
+    aqiStyle <- "bars_lines"
     borderColor <- "black"
     borderSize <- 1
     currentNowcast <- NULL
     currentPrediction <- NULL
-    aqiStyle <- "bars_lines"
     title <- ""
     
   }
@@ -133,12 +133,12 @@ dailyBarplotBase <- function(ws_monitor,
     date_breaks = "1 months"
   }
   
+  # Barplot data ---------------------------------------------------------------
+  
   # Subset based on startdate and enddate
   mon <- monitor_subset(ws_monitor,
                         tlim = c(startdate, enddate + lubridate::dhours(23)),
                         timezone = timezone)
-  
-  # Barplot data ---------------------------------------------------------------
   
   dailyData <- monitor_dailyStatistic(mon)$data
   names(dailyData) <- c("datetime", "pm25")
@@ -190,17 +190,14 @@ dailyBarplotBase <- function(ws_monitor,
   xlo <- startdate - lubridate::ddays(0.5) - lubridate::dseconds(marginSecs)
   xhi <- enddate + lubridate::ddays(0.5) + lubridate::dseconds(marginSecs)
   
-  # Make room for stacked bars
+  # AQI annotation styling
   if ( !is.null(aqiStyle) ) {
+    aqiLineSize <- 0.5     # horizontal lines
+    aqiBarWidth <- 0.01    # stacked bars
     if ( stringr::str_detect(aqiStyle, "bars") ) {
-      
       # Set bar width and move xlo to accommodate barWidth and some extra space
-      aqiBarWidth <- 0.01
       widthSecs <- aqiBarWidth * xRangeSecs
       xlo <- xlo - (3 * lubridate::dseconds(widthSecs))
-      
-      # Horizontal line size
-      aqiLineSize <- 0.5
     }
   }
   
@@ -210,11 +207,11 @@ dailyBarplotBase <- function(ws_monitor,
   base_size <- 11 # DELETEME
   half_line <- base_size/2 # DELEMTE
   
-  ggPlotBase <- ggplot()
+  ggplotBase <- ggplot()
   
   if ( !is.null(aqiStyle) ) {
-    ggPlotBase <- aqiAnnotation(
-      ggPlotBase, 
+    ggplotBase <- aqiAnnotation(
+      ggplotBase, 
       xlo, 
       xhi, 
       ylo, 
@@ -225,7 +222,7 @@ dailyBarplotBase <- function(ws_monitor,
     )
   }
   
-  ggPlotBase <- ggPlotBase + 
+  ggplotBase <- ggplotBase + 
     
     # Add daily statistic bars
     geom_bar(
@@ -259,7 +256,9 @@ dailyBarplotBase <- function(ws_monitor,
     # Title
     ggtitle(title)
   
-  return(ggPlotBase)
+  # Return ---------------------------------------------------------------------
+  
+  return(ggplotBase)
   
 }
 

@@ -1,24 +1,16 @@
-#' @title Create a daily barplot for a single monitor
+#' @title Create a timeseries plot for a single monitor
 #'
 #' @description
-#' Create a daily average barplot of PM2.5 values at a location.
+#' Create a  timeseries plot of PM2.5 values at a location.
 #' 
-#' This function presents a simplified interface to \code{\link{ggplotBase}}
-#' and collects common options into a set of named styles.
+#' This function presents a simplified interface to 
+#' \code{\link{timeseriesplotBase}} and collects common options into a set of 
+#' named styles.
 #' 
 #' Current styles include:
 #' \itemize{
 #' \item{\code{pwfsl} -- used in the PWFSL monitoring site. Best for 1-2
 #' weeks of data.}
-#' }
-#' 
-#' The \code{aqiStyle} parameter controls AQI color annotations and can only
-#' contain one ore more of the following options separated by underscores:
-#' 
-#' \itemize{
-#' \item{\code{bars} -- stacked color bars}
-#' \item{\code{lines} -- colored lines}
-#' \item{\code{labels} -- AQI labels}
 #' }
 #' 
 #' The returned object may be further amended with **ggplot** elements.
@@ -35,10 +27,6 @@
 #' @param aqiStyle AQI style to add AQI color bars, lines and labels.
 #' @param monitorID Monitor ID of interest. Required if \code{ws_monitor} 
 #' contains more than one monitor.
-#' @param currentNowcast Real-time current Nowcast value -- for use in plots 
-#' presented in the PWFSL monitoring site.
-#' @param currentPrediction Real-time current prediction for today's daily 
-#' average -- for use in plots presented in the PWFSL monitoring site.
 #' @param title Optional title for the plot.
 #'
 #' @return A `ggplot` plot object with a "daily barplot" for a single monitor.
@@ -48,20 +36,18 @@
 #' @export
 #' @examples
 #' NW <- PWFSLSmoke::Northwest_Megafires
-#' dailyBarplot(NW, "2015-07-01", "2015-10-01",
-#'              style = "month",
-#'              monitorID = "160690014_01",
-#'              title = "Daily Average PM2.5\nRuebens, Idaho")
+#' timeseriesPlot(NW, "2015-07-01", "2015-10-01",
+#'                style = "pwfsl",
+#'                monitorID = "160690014_01",
+#'                title = "Daily Average PM2.5\nRuebens, Idaho")
 
-dailyBarplot <- function(ws_monitor,
-                         startdate = NULL,
-                         enddate = NULL,
-                         style = NULL,
-                         aqiStyle = NULL,
-                         monitorID = NULL,
-                         currentNowcast = NULL,
-                         currentPrediction = NULL,
-                         title = "") {
+timeseriesPlot <- function(ws_monitor,
+                           startdate = NULL,
+                           enddate = NULL,
+                           style = NULL,
+                           aqiStyle = NULL,
+                           monitorID = NULL,
+                           title = "") {
   
   
   # For debugging --------------------------------------------------------------
@@ -73,9 +59,8 @@ dailyBarplot <- function(ws_monitor,
     startdate <- "2015-08-20"
     enddate <- "2015-08-26"
     style <- "pwfsl"
+    aqiStyle <- "bars_lines"
     monitorID <- "160690014_01"
-    currentNowcast <- NULL
-    currentPrediction <- NULL
     title <- "Ruebens, ID"
     
   }
@@ -113,7 +98,7 @@ dailyBarplot <- function(ws_monitor,
   }
   
   # style
-  validStyles <- c("pwfsl", "week", "month")
+  validStyles <- c("pwfsl")
   if ( !is.null(style) ) {
     if ( !style %in% validStyles ) {
       stop(
@@ -125,7 +110,7 @@ dailyBarplot <- function(ws_monitor,
       )
     }
   }
-
+  
   if ( is.null(aqiStyle) ) {
     # Default to no aqiStyle
     aqiStyle <- ""
@@ -216,17 +201,13 @@ dailyBarplot <- function(ws_monitor,
   
   # Create the plot ------------------------------------------------------------
   
-  ggplotBase <- dailyBarplotBase(
+  ggplotBase <- timeseriesPlotBase(
     ws_monitor,
     startdate,
     enddate,
     colorPalette = colorPalette,
     ylimStyle = ylimStyle,
     aqiStyle = aqiStyle,
-    borderColor = borderColor,
-    borderSize = borderSize,
-    currentNowcast = currentNowcast,
-    currentPrediction = currentPrediction,
     dateFormat = dateFormat,
     title = title
   )
