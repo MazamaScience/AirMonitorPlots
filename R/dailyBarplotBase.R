@@ -11,16 +11,13 @@
 #'        or \code{POSIXct}).
 #' @param colorPalette Palette function to convert monitor values into colors.
 #' @param ylimStyle Style of y-axis limits. One of \code{auto|pwfsl}.
+#' @param aqiStyle AQI style to add AQI color bars, lines and labels.
 #' @param borderColor Border color for individual bars.
 #' @param borderSize Border size for individual bars.
 #' @param currentNowcast Real-time current Nowcast value -- for use in plots 
 #' presented in the PWFSL monitoring site.
 #' @param currentPrediction Real-time current prediction for today's daily 
 #' average -- for use in plots presented in the PWFSL monitoring site.
-#' @param showAQIStackedBars Logical specifying whether to show stacked AQI
-#' color bars on the left.
-#' @param showAQILines Logical specifying whether to show AQI color lines.
-#' @param showAQILegend Logical specifying whether to show an AQI legend.
 #' @param dateFormat Format for x-axis dates. Used for \code{date_labels}
 #' argument to \code{scale_x_datetime}.
 #' @param title Optional title.
@@ -40,13 +37,11 @@ dailyBarplotBase <- function(ws_monitor,
                              enddate = NULL,
                              colorPalette = aqiPalette("aqi"),
                              ylimStyle = "auto",
+                             aqiStyle = NULL,
                              borderColor = "black",
                              borderSize = 1.0,
                              currentNowcast = NULL,
                              currentPrediction = NULL,
-                             showAQIStackedBars = FALSE,
-                             showAQILines = FALSE,
-                             showAQILegend = FALSE,
                              dateFormat = "%b %d",
                              title = "") {
   
@@ -64,9 +59,7 @@ dailyBarplotBase <- function(ws_monitor,
     borderSize <- 1
     currentNowcast <- NULL
     currentPrediction <- NULL
-    showAQIStackedBars <- TRUE
-    showAQILines <- TRUE
-    showAQILegend <- FALSE
+    aqiStyle <- "bars_lines"
     title <- ""
     
   }
@@ -91,10 +84,13 @@ dailyBarplotBase <- function(ws_monitor,
     stop("'startdate' and 'enddate' cannot be equal.")
   }
   
+  # NOTE:  Other parameters are not validated as that is the job of the 
+  # NOTE:  calling function.
+  
   # Time limits ----------------------------------------------------------------
   
   timezone <- ws_monitor$meta$timezone[1]
-
+  
   # handle various startdates
   if ( !is.null(startdate) ) {
     if ( is.numeric(startdate) || is.character(startdate) ) {
@@ -186,52 +182,27 @@ dailyBarplotBase <- function(ws_monitor,
     ylo <- 0
     yhi <- max(1.05*dailyData$pm25, na.rm = TRUE)
   }
-
+  
   # NOTE:  X-axis must be extended to fit the first and last bars.
   # NOTE:  Then a little bit more for style.
   xRangeSecs <- as.numeric(difftime(enddate, startdate, timezone, units = "secs"))
   marginSecs <- 0.02 * xRangeSecs
   xlo <- startdate - lubridate::ddays(0.5) - lubridate::dseconds(marginSecs)
   xhi <- enddate + lubridate::ddays(0.5) + lubridate::dseconds(marginSecs)
-
-  # AQI Stacked bars -----------------------------------------------------------
   
-  if ( showAQIStackedBars ) {
-    
-    # Get bar width
-    width <- 0.01 * xRangeSecs
-    right <- xlo - lubridate::dseconds(marginSecs) 
-    xlo <- right - lubridate::dseconds(width)
-
-    # Create data
-    aqiStackedBarsData <- data.frame(
-      xmin = rep(xlo, 6),
-      xmax = rep(right, 6),
-      ymin = c(ylo, AQI$breaks_24[2:6]),
-      ymax = c(AQI$breaks_24[2:6], 1e6)
-    )
-    # Last bar must top out at yhi
-    aqiStackedBarsData <- aqiStackedBarsData %>%
-      dplyr::filter(.data$ymin < yhi)
-    barCount <- nrow(aqiStackedBarsData)
-    aqiStackedBarsData$ymax[barCount] <- yhi
-    aqiStackedBarsColors <- AQI$colors[1:barCount]
-    
+  # Make room for stacked bars
+  if ( !is.null(aqiStyle) ) {
+    if ( stringr::str_detect(aqiStyle, "bars") ) {
+      
+      # Set bar width and move xlo to accommodate barWidth and some extra space
+      aqiBarWidth <- 0.01
+      widthSecs <- aqiBarWidth * xRangeSecs
+      xlo <- xlo - (3 * lubridate::dseconds(widthSecs))
+      
+      # Horizontal line size
+      aqiLineSize <- 0.5
+    }
   }
-  
-  if ( showAQILines ) {
-    
-    # Create data
-    aqiStackedLinesData <- data.frame(
-      x = rep(xlo, 5),
-      xend = rep(xhi, 5),
-      y = c(AQI$breaks_24[2:6]),
-      yend = c(AQI$breaks_24[2:6])
-    )
-    aqiLinesColors <- AQI$colors[2:6]
-    
-  }
-  
   
   # Create plot ----------------------------------------------------------------
   
@@ -239,43 +210,22 @@ dailyBarplotBase <- function(ws_monitor,
   base_size <- 11 # DELETEME
   half_line <- base_size/2 # DELEMTE
   
-  dailyBarplotBase <- ggplot()
+  ggPlotBase <- ggplot()
   
-  if ( showAQIStackedBars ) {
-    
-    dailyBarplotBase <- dailyBarplotBase + 
-      
-      geom_rect(
-        data = aqiStackedBarsData,
-        aes(
-          xmin = .data$xmin,
-          xmax = .data$xmax,
-          ymin = .data$ymin,
-          ymax = .data$ymax
-        ),
-        fill = aqiStackedBarsColors
-      )
-    
+  if ( !is.null(aqiStyle) ) {
+    ggPlotBase <- aqiAnnotation(
+      ggPlotBase, 
+      xlo, 
+      xhi, 
+      ylo, 
+      yhi, 
+      aqiStyle, 
+      aqiBarWidth,
+      aqiLineSize
+    )
   }
   
-  if ( showAQILines ) {
-    
-    dailyBarplotBase <- dailyBarplotBase + 
-      
-      geom_segment(
-        data = aqiStackedLinesData,
-        aes(
-          x = .data$x,
-          xend = .data$xend,
-          y = .data$y,
-          yend = .data$yend
-        ),
-        color = aqiLinesColors
-      )  
-    
-  }
-  
-  dailyBarplotBase <- dailyBarplotBase + 
+  ggPlotBase <- ggPlotBase + 
     
     # Add daily statistic bars
     geom_bar(
@@ -284,8 +234,7 @@ dailyBarplotBase <- function(ws_monitor,
       position = position_dodge(preserve = 'single'), # don't drop missing values
       aes(
         x = .data$datetime,
-        y = .data$pm25#,
-        #fill = .data$color
+        y = .data$pm25
       ),
       fill = dailyData$color,
       color = borderColor,
@@ -310,7 +259,7 @@ dailyBarplotBase <- function(ws_monitor,
     # Title
     ggtitle(title)
   
-  return(dailyBarplotBase)
+  return(ggPlotBase)
   
 }
 

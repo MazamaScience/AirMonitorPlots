@@ -6,9 +6,8 @@
 \usage{
 dailyBarplotBase(ws_monitor, startdate = NULL, enddate = NULL,
   colorPalette = aqiPalette("aqi"), ylimStyle = "auto",
-  borderColor = "black", borderSize = 1, currentNowcast = NULL,
-  currentPrediction = NULL, showAQIStackedBars = FALSE,
-  showAQILines = FALSE, showAQILegend = FALSE,
+  aqiStyle = NULL, borderColor = "black", borderSize = 1,
+  currentNowcast = NULL, currentPrediction = NULL,
   dateFormat = "\%b \%d", title = "")
 }
 \arguments{
@@ -24,6 +23,8 @@ or \code{POSIXct}).}
 
 \item{ylimStyle}{Style of y-axis limits. One of \code{auto|pwfsl}.}
 
+\item{aqiStyle}{AQI style to add AQI color bars, lines and labels.}
+
 \item{borderColor}{Border color for individual bars.}
 
 \item{borderSize}{Border size for individual bars.}
@@ -33,13 +34,6 @@ presented in the PWFSL monitoring site.}
 
 \item{currentPrediction}{Real-time current prediction for today's daily 
 average -- for use in plots presented in the PWFSL monitoring site.}
-
-\item{showAQIStackedBars}{Logical specifying whether to show stacked AQI
-color bars on the left.}
-
-\item{showAQILines}{Logical specifying whether to show AQI color lines.}
-
-\item{showAQILegend}{Logical specifying whether to show an AQI legend.}
 
 \item{dateFormat}{Format for x-axis dates. Used for \code{date_labels}
 argument to \code{scale_x_datetime}.}

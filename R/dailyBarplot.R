@@ -12,6 +12,15 @@
 #' weeks of data.}
 #' }
 #' 
+#' The \code{aqiStyle} parameter controls AQI color annotations and can only
+#' contain one ore more of the following options separated by underscores:
+#' 
+#' \itemize{
+#' \item{\code{bars} -- stacked color bars}
+#' \item{\code{lines} -- colored lines}
+#' \item{\code{labels} -- AQI labels}
+#' }
+#' 
 #' The returned object may be further amended with **ggplot** elements.
 #' 
 #' @details Daily averages are calculated from midnight-to-midnight in monitor 
@@ -23,6 +32,7 @@
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param style Plot style.
+#' @param aqiStyle AQI style to add AQI color bars, lines and labels.
 #' @param monitorID Monitor ID of interest. Required if \code{ws_monitor} 
 #' contains more than one monitor.
 #' @param currentNowcast Real-time current Nowcast value -- for use in plots 
@@ -47,6 +57,7 @@ dailyBarplot <- function(ws_monitor,
                          startdate = NULL,
                          enddate = NULL,
                          style = NULL,
+                         aqiStyle = NULL,
                          monitorID = NULL,
                          currentNowcast = NULL,
                          currentPrediction = NULL,
@@ -114,6 +125,27 @@ dailyBarplot <- function(ws_monitor,
       )
     }
   }
+
+  if ( is.null(aqiStyle) ) {
+    # Default to no aqiStyle
+    aqiStyle <- ""
+  } else {
+    # Accept any variation of style options with no required order
+    validAqiStyleOptions <- c("bars", "lines")
+    aqiStyleOptions <- unlist(stringr::str_split(aqiStyle, "_"))
+    
+    for ( option in aqiStyleOptions ) {
+      if ( !option %in% validAqiStyleOptions ) {
+        stop(
+          paste0(
+            "Invalid style option: \"", option, "\". ",
+            "The following 'aqiStyle' argument options are supported: \"", 
+            paste0(validAqiStyleOptions, collapse = "|"), "\""
+          )
+        )
+      }
+    }
+  } 
   
   # Time limits ----------------------------------------------------------------
   
@@ -165,16 +197,12 @@ dailyBarplot <- function(ws_monitor,
   ylimStyle <- "auto"
   borderColor <- "black"
   borderSize <- 0.5
-  showAQIStackedBars <- FALSE
-  showAQILines <- FALSE
-  showAQILegend <- FALSE
   dateFormat <- "%b %d"
   
   if ( style == "pwfsl" ) {
     
     ylimStyle <- "pwfsl" # well defined limits for visual stability
-    showAQIStackedBars <- TRUE
-    showAQILines <- TRUE
+    aqiStyle <- ifelse(aqiStyle == "", "bars_lines", aqiStyle)
     
   } else if ( style == "week" ) {
     
@@ -194,13 +222,11 @@ dailyBarplot <- function(ws_monitor,
     enddate,
     colorPalette = colorPalette,
     ylimStyle = ylimStyle,
+    aqiStyle = aqiStyle,
     borderColor = borderColor,
     borderSize = borderSize,
     currentNowcast = currentNowcast,
     currentPrediction = currentPrediction,
-    showAQIStackedBars = showAQIStackedBars,
-    showAQILines = showAQILines,
-    showAQILegend = showAQILegend,
     dateFormat = dateFormat,
     title = title
   )
@@ -221,8 +247,8 @@ dailyBarplot <- function(ws_monitor,
   
   # Additional data-dependent theming ------------------------------------------
   
-  # Remove the Y-axis line 
-  if ( showAQIStackedBars ) {
+  # Remove the Y-axis line if AQI stacked bars are shown
+  if ( "bars" %in% aqiStyle ) {
     dailyBarplotBase <- dailyBarplotBase +
       theme(
         axis.line.y = element_blank()

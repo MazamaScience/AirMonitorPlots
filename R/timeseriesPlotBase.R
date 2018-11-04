@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Create a timeseries plot with points or lines showing PM2.5 data over a 
-#' period for one or more monitors in a \eph{ws_monitor} object.
+#' period for one or more monitors in a \emph{ws_monitor} object.
 #' 
 #' @param ws_monitor \emph{ws_monitor} object.
 #' @param startdate Desired start date (integer or character in Ymd format 
@@ -23,22 +23,17 @@
 #'
 #' @importFrom rlang .data
 #' @export
-#' @examples
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' startdate <- "2016-08-05"
-#' enddate <- "2016-08-19"
-#' timeseriesPlotBase(ws_monitor, startdate, enddate)
 
 timeseriesPlotBase <- function(ws_monitor,
-                             startdate = NULL,
-                             enddate = NULL,
-                             colorPalette = aqiPalette("aqi"),
-                             ylimStyle = "auto",
-                             showAQIStackedBars = FALSE,
-                             showAQILines = FALSE,
-                             showAQILegend = FALSE,
-                             dateFormat = "%b %d",
-                             title = "") {
+                               startdate = NULL,
+                               enddate = NULL,
+                               colorPalette = aqiPalette("aqi"),
+                               ylimStyle = "auto",
+                               showAQIStackedBars = FALSE,
+                               showAQILines = FALSE,
+                               showAQILegend = FALSE,
+                               dateFormat = "%b %d",
+                               title = "") {
   
   # For debugging --------------------------------------------------------------
   
@@ -80,7 +75,7 @@ timeseriesPlotBase <- function(ws_monitor,
   # TODO:  The "pwfsl" style should be for single monitors only
   
   timezone <- ws_monitor$meta$timezone[1]
-
+  
   # handle various startdates
   if ( !is.null(startdate) ) {
     if ( is.numeric(startdate) || is.character(startdate) ) {
@@ -139,10 +134,10 @@ timeseriesPlotBase <- function(ws_monitor,
   # Everything on the same plot
   ggplot(tidyData, 
          aes(
-           datetime, 
-           value
-           )
-         ) + 
+           .data$datetime, 
+           .data$value
+         )
+  ) + 
     geom_point(
       shape = "square",
       alpha = 0.1,
@@ -156,7 +151,7 @@ timeseriesPlotBase <- function(ws_monitor,
   #   stat_smooth() +
   #   facet_wrap(~variable)
   # 
-
+  
   
   
   
@@ -193,14 +188,14 @@ timeseriesPlotBase <- function(ws_monitor,
     ylo <- 0
     yhi <- max(1.05*dailyData$pm25, na.rm = TRUE)
   }
-
+  
   # NOTE:  X-axis must be extended to fit the first and last bars.
   # NOTE:  Then a little bit more for style.
   xRangeSecs <- as.numeric(difftime(enddate, startdate, timezone, units = "secs"))
   marginSecs <- 0.02 * xRangeSecs
   xlo <- startdate - lubridate::ddays(0.5) - lubridate::dseconds(marginSecs)
   xhi <- enddate + lubridate::ddays(0.5) + lubridate::dseconds(marginSecs)
-
+  
   # AQI Stacked bars -----------------------------------------------------------
   
   if ( showAQIStackedBars ) {
@@ -209,7 +204,7 @@ timeseriesPlotBase <- function(ws_monitor,
     width <- 0.01 * xRangeSecs
     right <- xlo - lubridate::dseconds(marginSecs) 
     xlo <- right - lubridate::dseconds(width)
-
+    
     # Create data
     aqiStackedBarsData <- data.frame(
       xmin = rep(xlo, 6),
@@ -248,74 +243,74 @@ timeseriesPlotBase <- function(ws_monitor,
   
   timeseriesPlotBase <- ggplot()
   
-  if ( showAQIStackedBars ) {
-    
-    timeseriesPlotBase <- timeseriesPlotBase + 
-      
-      geom_rect(
-        data = aqiStackedBarsData,
-        aes(
-          xmin = .data$xmin,
-          xmax = .data$xmax,
-          ymin = .data$ymin,
-          ymax = .data$ymax
-        ),
-        fill = aqiStackedBarsColors
-      )
-    
-  }
-  
-  if ( showAQILines ) {
-    
-    timeseriesPlotBase <- timeseriesPlotBase + 
-      
-      geom_segment(
-        data = aqiStackedLinesData,
-        aes(
-          x = .data$x,
-          xend = .data$xend,
-          y = .data$y,
-          yend = .data$yend
-        ),
-        color = aqiLinesColors
-      )  
-    
-  }
-  
-  timeseriesPlotBase <- timeseriesPlotBase + 
-    
-    # Add daily statistic bars
-    geom_bar(
-      data = dailyData,
-      # See https://www.aj2duncan.com/blog/missing-data-ggplot2-barplots/
-      position = position_dodge(preserve = 'single'), # don't drop missing values
-      aes(
-        x = .data$datetime,
-        y = .data$pm25#,
-        #fill = .data$color
-      ),
-      fill = dailyData$color,
-      color = borderColor,
-      stat = "identity"
-    ) +
-    
-    # Add x- and y-axes
-    scale_x_datetime(
-      limits = c(xlo,xhi),
-      expand = c(0,0),
-      date_breaks = date_breaks, 
-      date_labels = dateFormat
-    ) +
-    
-    # Y limits with no extra space below zero
-    scale_y_continuous(
-      limits = c(ylo,yhi),
-      expand = c(0,0)
-    ) +
-    ylab("PM2.5 (\u00b5g/m3)") +
-    
-    # Title
-    ggtitle(title)
+  # if ( showAQIStackedBars ) {
+  #   
+  #   timeseriesPlotBase <- timeseriesPlotBase + 
+  #     
+  #     geom_rect(
+  #       data = aqiStackedBarsData,
+  #       aes(
+  #         xmin = .data$xmin,
+  #         xmax = .data$xmax,
+  #         ymin = .data$ymin,
+  #         ymax = .data$ymax
+  #       ),
+  #       fill = aqiStackedBarsColors
+  #     )
+  #   
+  # }
+  # 
+  # if ( showAQILines ) {
+  #   
+  #   timeseriesPlotBase <- timeseriesPlotBase + 
+  #     
+  #     geom_segment(
+  #       data = aqiStackedLinesData,
+  #       aes(
+  #         x = .data$x,
+  #         xend = .data$xend,
+  #         y = .data$y,
+  #         yend = .data$yend
+  #       ),
+  #       color = aqiLinesColors
+  #     )  
+  #   
+  # }
+  # 
+  # timeseriesPlotBase <- timeseriesPlotBase + 
+  #   
+  #   # Add daily statistic bars
+  #   geom_bar(
+  #     data = dailyData,
+  #     # See https://www.aj2duncan.com/blog/missing-data-ggplot2-barplots/
+  #     position = position_dodge(preserve = 'single'), # don't drop missing values
+  #     aes(
+  #       x = .data$datetime,
+  #       y = .data$pm25#,
+  #       #fill = .data$color
+  #     ),
+  #     fill = dailyData$color,
+  #     color = borderColor,
+  #     stat = "identity"
+  #   ) +
+  #   
+  #   # Add x- and y-axes
+  #   scale_x_datetime(
+  #     limits = c(xlo,xhi),
+  #     expand = c(0,0),
+  #     date_breaks = date_breaks, 
+  #     date_labels = dateFormat
+  #   ) +
+  #   
+  #   # Y limits with no extra space below zero
+  #   scale_y_continuous(
+  #     limits = c(ylo,yhi),
+  #     expand = c(0,0)
+  #   ) +
+  #   ylab("PM2.5 (\u00b5g/m3)") +
+  #   
+  #   # Title
+  #   ggtitle(title)
   
   return(timeseriesPlotBase)
   

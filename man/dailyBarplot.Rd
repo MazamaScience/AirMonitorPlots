@@ -5,8 +5,8 @@
 \title{Create a daily barplot for a single monitor}
 \usage{
 dailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
-  style = NULL, monitorID = NULL, currentNowcast = NULL,
-  currentPrediction = NULL, title = "")
+  style = NULL, aqiStyle = NULL, monitorID = NULL,
+  currentNowcast = NULL, currentPrediction = NULL, title = "")
 }
 \arguments{
 \item{ws_monitor}{\emph{ws_monitor} object.}
@@ -18,6 +18,8 @@ or \code{POSIXct}).}
 or \code{POSIXct}).}
 
 \item{style}{Plot style.}
+
+\item{aqiStyle}{AQI style to add AQI color bars, lines and labels.}
 
 \item{monitorID}{Monitor ID of interest. Required if \code{ws_monitor} 
 contains more than one monitor.}
@@ -43,6 +45,15 @@ Current styles include:
 \itemize{
 \item{\code{pwfsl} -- used in the PWFSL monitoring site. Best for 1-2
 weeks of data.}
+}
+
+The \code{aqiStyle} parameter controls AQI color annotations and can only
+contain one ore more of the following options separated by underscores:
+
+\itemize{
+\item{\code{bars} -- stacked color bars}
+\item{\code{lines} -- colored lines}
+\item{\code{labels} -- AQI labels}
 }
 
 The returned object may be further amended with **ggplot** elements.
