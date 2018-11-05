@@ -4,7 +4,7 @@
 #' Create a  timeseries plot of PM2.5 values at a location.
 #' 
 #' This function presents a simplified interface to 
-#' \code{\link{timeseriesplotBase}} and collects common options into a set of 
+#' \code{\link{timeseriesPlotBase}} and collects common options into a set of 
 #' named styles.
 #' 
 #' Current styles include:
@@ -31,12 +31,12 @@
 #'
 #' @return A `ggplot` plot object with a "daily barplot" for a single monitor.
 #'
-#' @seealso \code{\link{ggplotBase}}
+#' @seealso \code{\link{timeseriesPlotBase}}
 #' 
 #' @export
 #' @examples
 #' NW <- PWFSLSmoke::Northwest_Megafires
-#' timeseriesPlot(NW, "2015-07-01", "2015-10-01",
+#' timeseriesPlot(NW, "2015-08-01", "2015-08-14",
 #'                style = "pwfsl",
 #'                monitorID = "160690014_01",
 #'                title = "Daily Average PM2.5\nRuebens, Idaho")
@@ -165,15 +165,6 @@ timeseriesPlot <- function(ws_monitor,
   # We will include the complete 'enddate' day
   dayCount <- as.integer(difftime(enddate, startdate, units = "days")) + 1
   
-  # Auto-style
-  if ( is.null(style) ) {
-    if ( dayCount <= 21 ) {
-      style = "week"
-    } else {
-      style = "month"
-    }
-  }
-  
   # Set up style ---------------------------------------------------------------
   
   base_size <- 11
@@ -217,12 +208,12 @@ timeseriesPlot <- function(ws_monitor,
   if ( style == "pwfsl" ) {
     
     ggplotBase <- ggplotBase + 
-      theme_dailyBarplot_pwfsl()
+      theme_timeseriesPlot_pwfsl()
     
   } else {
     
     ggplotBase <- ggplotBase + 
-      theme_dailyBarplot_pwfsl()
+      theme_timeseriesPlot_pwfsl()
     
   }
   
@@ -240,7 +231,7 @@ timeseriesPlot <- function(ws_monitor,
   if ( dayCount > 7 )
     ggplotBase <- ggplotBase +
     theme(
-      axis.ticks.x = element_line(),
+      ###axis.ticks.x = element_line(),
       axis.text.x = element_text(
         size = 1.0 * base_size,
         margin = margin(t = 0.50 * base_size),

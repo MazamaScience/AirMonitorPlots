@@ -3,7 +3,7 @@
 #' @description
 #' Create a daily average barplot of PM2.5 values at a location.
 #' 
-#' This function presents a simplified interface to \code{\link{ggplotBase}}
+#' This function presents a simplified interface to \code{\link{dailyBarplotBase}}
 #' and collects common options into a set of named styles.
 #' 
 #' Current styles include:
@@ -43,7 +43,7 @@
 #'
 #' @return A `ggplot` plot object with a "daily barplot" for a single monitor.
 #'
-#' @seealso \code{\link{ggplotBase}}
+#' @seealso \code{\link{dailyBarplotBase}}
 #' 
 #' @export
 #' @examples

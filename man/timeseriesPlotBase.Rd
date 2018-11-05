@@ -40,3 +40,10 @@ A `ggplot` plot object with a daily bar plot for a single monitor.
 Create a timeseries plot with points or lines showing PM2.5 data over a 
 period for one or more monitors in a \emph{ws_monitor} object.
 }
+\examples{
+ws_monitor <- PWFSLSmoke::Carmel_Valley
+startdate <- "2016-07-25"
+enddate <- "2016-08-03"
+timeseriesPlotBase(ws_monitor, startdate, enddate,
+                   title = "Carmel Valley\\n2016")
+}

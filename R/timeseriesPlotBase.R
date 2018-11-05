@@ -22,6 +22,7 @@
 #'
 #' @importFrom rlang .data
 #' @export
+#' @examples
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' startdate <- "2016-07-25"
 #' enddate <- "2016-08-03"
@@ -111,17 +112,24 @@ timeseriesPlotBase <- function(ws_monitor,
   # We will include the complete 'enddate' day
   dayCount <- as.integer(difftime(enddate, startdate, units = "days")) + 1
   
-  # Choose date_breaks
+  # Choose date_breaks and minor_breaks
+  s <- startdate
+  e <- enddate + lubridate::ddays(1) # full 24 hours of enddate
   if ( dayCount >= 0 && dayCount <= 9 ) {
-    date_breaks = "1 days"
+    breaks <- seq(s, e, by = "1 day")
+    minor_breaks <- seq(s, e, by = "3 hours")
   } else if ( dayCount <= 21 ) {
-    date_breaks = "3 days"
+    breaks <- seq(s, e, by = "3 days")
+    minor_breaks <- seq(s, e, by = "6 hours")
   } else if ( dayCount <= 60 ) {
-    date_breaks = "1 weeks"
+    breaks <- seq(s, e, by = "1 week")
+    minor_breaks <- seq(s, e, by = "1 day")
   } else if ( dayCount <= 120 ) {
-    date_breaks = "2 weeks"
+    breaks <- seq(s, e, by = "2 weeks")
+    minor_breaks <- seq(s, e, by = "1 day")
   } else {
-    date_breaks = "1 months"
+    breaks <- seq(s, e, by = "1 month")
+    minor_breaks <- seq(s, e, by = "1 week")
   }
   
   # Timeseries data ------------------------------------------------------------
@@ -188,15 +196,15 @@ timeseriesPlotBase <- function(ws_monitor,
   } else {
     # Standard y-axis limits
     ylo <- 0
-    yhi <- max(1.05*tidyData$value, na.rm = TRUE)
+    yhi <- max(1.00*tidyData$value, na.rm = TRUE)
   }
   
-  # NOTE:  X-axis must be extended to fit the first and last bars.
+  # NOTE:  X-axis must be extended to fit the complete last day.
   # NOTE:  Then a little bit more for style.
   xRangeSecs <- as.numeric(difftime(enddate, startdate, timezone, units = "secs"))
   marginSecs <- 0.02 * xRangeSecs
-  xlo <- startdate - lubridate::ddays(0.5) - lubridate::dseconds(marginSecs)
-  xhi <- enddate + lubridate::ddays(0.5) + lubridate::dseconds(marginSecs)
+  xlo <- startdate - lubridate::dseconds(marginSecs)
+  xhi <- enddate + lubridate::ddays(1) + lubridate::dseconds(marginSecs)
   
   # AQI annotation styling
   if ( !is.null(aqiStyle) ) {
@@ -267,15 +275,16 @@ timeseriesPlotBase <- function(ws_monitor,
     # Add x- and y-axes
     scale_x_datetime(
       limits = c(xlo,xhi),
-      ###expand = c(0,0),
-      date_breaks = date_breaks,
+      expand = c(0,0.05),
+      breaks = breaks,
+      minor_breaks = minor_breaks,
       date_labels = dateFormat
     ) +
     
     # Y limits with no extra space below zero
     scale_y_continuous(
-      limits = c(ylo,yhi)#,
-      ###expand = c(0,0)
+      limits = c(ylo,yhi),
+      expand = c(0.05,0)
     ) +
     ylab("PM2.5 (\u00b5g/m3)") +
     

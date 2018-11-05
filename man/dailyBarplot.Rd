@@ -38,7 +38,7 @@ A `ggplot` plot object with a "daily barplot" for a single monitor.
 \description{
 Create a daily average barplot of PM2.5 values at a location.
 
-This function presents a simplified interface to \code{\link{ggplotBase}}
+This function presents a simplified interface to \code{\link{dailyBarplotBase}}
 and collects common options into a set of named styles.
 
 Current styles include:
@@ -70,5 +70,5 @@ dailyBarplot(NW, "2015-07-01", "2015-10-01",
              title = "Daily Average PM2.5\\nRuebens, Idaho")
 }
 \seealso{
-\code{\link{ggplotBase}}
+\code{\link{dailyBarplotBase}}
 }
