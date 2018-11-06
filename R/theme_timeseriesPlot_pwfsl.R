@@ -49,7 +49,7 @@ theme_timeseriesPlot_pwfsl <- function(base_size = 11,
       # X-axis
       ###axis.line.x = element_blank(),
       axis.title.x = element_blank(),
-      axis.ticks.x = element_blank(),
+      ###axis.ticks.x = element_blank(),
       axis.text.x = element_text(
         size = 1.0 * base_size,
         margin = margin(t = 1.0 * base_size)

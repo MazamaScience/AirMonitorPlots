@@ -274,11 +274,12 @@ timeseriesPlotBase <- function(ws_monitor,
     
     # Add x- and y-axes
     scale_x_datetime(
+      timezone = timezone,
       limits = c(xlo,xhi),
       expand = c(0,0.05),
       breaks = breaks,
       minor_breaks = minor_breaks,
-      date_labels = dateFormat
+      date_labels = "%b %d"
     ) +
     
     # Y limits with no extra space below zero

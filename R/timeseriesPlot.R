@@ -55,13 +55,18 @@ timeseriesPlot <- function(ws_monitor,
   if (FALSE) {
     
     # Ruebens, ID
-    ws_monitor <- PWFSLSmoke::Northwest_Megafires
-    startdate <- "2015-08-20"
-    enddate <- "2015-08-26"
+    ws_monitor <- monitor_loadLatest()
+    startdate <- "2018-10-30"
+    enddate <- "2018-11-05"
     style <- "pwfsl"
     aqiStyle <- "bars_lines"
-    monitorID <- "160690014_01"
-    title <- "Ruebens, ID"
+    monitorID <- "060290014_01"
+    title <- "Hourly PM2.5 Values and NowCast\nSite: Bakersfield - California Ave"
+
+    timeseriesPlot(ws_monitor, "2018-10-30", "2018-11-05",
+                   style = "pwfsl",
+                   monitorID = "060290014_01",
+                   title = "Hourly PM2.5 Values and NowCast\nSite: Bakersfield - California Ave")   
     
   }
   
