@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Theme for "monitoring site" daily barplots — theme_dailyBarplot_pwfsl • PWFSLSmokePlots</title>
+<title>Add AQI annotations an existing ggplot — aqiAnnotation • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,12 +37,17 @@
 
 
 
-<meta property="og:title" content="Theme for "monitoring site" daily barplots — theme_dailyBarplot_pwfsl" />
+<meta property="og:title" content="Add AQI annotations an existing ggplot — aqiAnnotation" />
 
-<meta property="og:description" content="Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the `dailyBarplot()` function and
-generates plots suitable for the PWFSL monitoring site. It is suited to
-display of 1-4 weeks of data." />
+<meta property="og:description" content="Adds AQI annotations to an existing ggplot. The style parameter
+must contain one ore more of the following options separated by underscores:
+
+bars -- stacked color bars
+lines -- colored lines
+labels -- AQI labels
+" />
+
+<meta property="og:description" content="The returned object may be further amended with `ggplot` elements." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -114,38 +119,68 @@ display of 1-4 weeks of data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Theme for "monitoring site" daily barplots</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/theme_dailyBarplot_pwfsl.R'><code>R/theme_dailyBarplot_pwfsl.R</code></a></small>
-    <div class="hidden name"><code>theme_dailyBarplot_pwfsl.Rd</code></div>
+    <h1>Add AQI annotations an existing ggplot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/aqiAnnotation.R'><code>R/aqiAnnotation.R</code></a></small>
+    <div class="hidden name"><code>aqiAnnotation.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the `dailyBarplot()` function and
-generates plots suitable for the PWFSL monitoring site. It is suited to
-display of 1-4 weeks of data.</p>
+    <p>Adds AQI annotations to an existing <code>ggplot</code>. The <code>style</code> parameter
+must contain one ore more of the following options separated by underscores:</p>
+<ul>
+<li><p><code>bars</code> -- stacked color bars</p></li>
+<li><p><code>lines</code> -- colored lines</p></li>
+<li><p><code>labels</code> -- AQI labels</p></li>
+</ul>
+
+    <p>The returned object may be further amended with `ggplot` elements.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>theme_dailyBarplot_pwfsl</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>base_family</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>aqiAnnotation</span>(<span class='no'>gg</span>, <span class='no'>xlo</span>, <span class='no'>xhi</span>, <span class='no'>ylo</span>, <span class='no'>yhi</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"bars_lines"</span>,
+  <span class='kw'>barWidth</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>lineSize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>base_size</th>
-      <td><p>Base font size.</p></td>
+      <th>gg</th>
+      <td><p><code>ggplot</code> object.</p></td>
     </tr>
     <tr>
-      <th>base_family</th>
-      <td><p>Base font family.</p></td>
+      <th>xlo</th>
+      <td><p>Left edge of the plot as a <code>POSIXct</code> value.</p></td>
+    </tr>
+    <tr>
+      <th>xhi</th>
+      <td><p>Right edge of the plot as a <code>POSIXct</code> value.</p></td>
+    </tr>
+    <tr>
+      <th>ylo</th>
+      <td><p>Bottom edge of the plot as a <code>numeric</code> value.</p></td>
+    </tr>
+    <tr>
+      <th>yhi</th>
+      <td><p>Top edge of the plot as a <code>numeric</code> value.</p></td>
+    </tr>
+    <tr>
+      <th>style</th>
+      <td><p>Annotation style as described below.</p></td>
+    </tr>
+    <tr>
+      <th>barWidth</th>
+      <td><p>Width of stacked bars as a percentage of the X axis.</p></td>
+    </tr>
+    <tr>
+      <th>lineSize</th>
+      <td><p>Size of horizontal lines.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A **ggplot** theme</p>
+    <p>A `ggplot` plot object with AQI annotations.</p>
     
 
   </div>

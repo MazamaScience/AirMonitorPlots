@@ -1,4 +1,4 @@
-# PWFSLSmokePlots R Package
+# <img src="logo.png" align="left" style="padding-right:20px;"/> PWFSLSmokePlots R Package
 
 ```
 Plot utilities for the PWFSLSmoke package.

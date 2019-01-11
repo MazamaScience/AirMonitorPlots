@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Theme for "monitoring site" daily barplots — theme_dailyBarplot_pwfsl • PWFSLSmokePlots</title>
+<title>Create a timeseries plot for one or more monitors — timeseriesPlotBase • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,12 +37,10 @@
 
 
 
-<meta property="og:title" content="Theme for "monitoring site" daily barplots — theme_dailyBarplot_pwfsl" />
+<meta property="og:title" content="Create a timeseries plot for one or more monitors — timeseriesPlotBase" />
 
-<meta property="og:description" content="Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the `dailyBarplot()` function and
-generates plots suitable for the PWFSL monitoring site. It is suited to
-display of 1-4 weeks of data." />
+<meta property="og:description" content="Create a timeseries plot with points or lines showing PM2.5 data over a 
+period for one or more monitors in a ws_monitor object." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -114,40 +112,82 @@ display of 1-4 weeks of data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Theme for "monitoring site" daily barplots</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/theme_dailyBarplot_pwfsl.R'><code>R/theme_dailyBarplot_pwfsl.R</code></a></small>
-    <div class="hidden name"><code>theme_dailyBarplot_pwfsl.Rd</code></div>
+    <h1>Create a timeseries plot for one or more monitors</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/timeseriesPlotBase.R'><code>R/timeseriesPlotBase.R</code></a></small>
+    <div class="hidden name"><code>timeseriesPlotBase.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the `dailyBarplot()` function and
-generates plots suitable for the PWFSL monitoring site. It is suited to
-display of 1-4 weeks of data.</p>
+    <p>Create a timeseries plot with points or lines showing PM2.5 data over a 
+period for one or more monitors in a <em>ws_monitor</em> object.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>theme_dailyBarplot_pwfsl</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>base_family</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>timeseriesPlotBase</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colorPalette</span> <span class='kw'>=</span> <span class='fu'>aqiPalette</span>(<span class='st'>"aqi"</span>), <span class='kw'>dataStyle</span> <span class='kw'>=</span> <span class='st'>"pwfsl"</span>,
+  <span class='kw'>nowcastStyle</span> <span class='kw'>=</span> <span class='st'>"pwfsl"</span>, <span class='kw'>ylimStyle</span> <span class='kw'>=</span> <span class='st'>"auto"</span>, <span class='kw'>aqiStyle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dateFormat</span> <span class='kw'>=</span> <span class='st'>"%b %d"</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>base_size</th>
-      <td><p>Base font size.</p></td>
+      <th>ws_monitor</th>
+      <td><p><em>ws_monitor</em> object.</p></td>
     </tr>
     <tr>
-      <th>base_family</th>
-      <td><p>Base font family.</p></td>
+      <th>startdate</th>
+      <td><p>Desired start date (integer or character in Ymd format 
+or <code>POSIXct</code>).</p></td>
+    </tr>
+    <tr>
+      <th>enddate</th>
+      <td><p>Desired end date (integer or character in Ymd format
+or <code>POSIXct</code>).</p></td>
+    </tr>
+    <tr>
+      <th>colorPalette</th>
+      <td><p>Palette function to convert monitor values into colors.</p></td>
+    </tr>
+    <tr>
+      <th>dataStyle</th>
+      <td><p>Style for displaly of PM2.5 values. One of <code>pwfsl</code>.</p></td>
+    </tr>
+    <tr>
+      <th>nowcastStyle</th>
+      <td><p>Style for displaly of Nowcast values. One of <code>pwfsl</code>.</p></td>
+    </tr>
+    <tr>
+      <th>ylimStyle</th>
+      <td><p>Style of y-axis limits. One of <code>auto|pwfsl</code>.</p></td>
+    </tr>
+    <tr>
+      <th>aqiStyle</th>
+      <td><p>AQI style to add AQI color bars, lines and labels.</p></td>
+    </tr>
+    <tr>
+      <th>dateFormat</th>
+      <td><p>Format for x-axis dates. Used for <code>date_labels</code>
+argument to <code>scale_x_datetime</code>.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>Optional title.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A **ggplot** theme</p>
+    <p>A `ggplot` plot object with a daily bar plot for a single monitor.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>
+<span class='no'>startdate</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-07-25"</span>
+<span class='no'>enddate</span> <span class='kw'>&lt;-</span> <span class='st'>"2016-08-03"</span>
+<span class='fu'>timeseriesPlotBase</span>(<span class='no'>ws_monitor</span>, <span class='no'>startdate</span>, <span class='no'>enddate</span>,
+                   <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Carmel Valley\n2016"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 5 rows containing missing values (geom_point).</span></div><div class='img'><img src='timeseriesPlotBase-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -155,7 +195,9 @@ display of 1-4 weeks of data.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
