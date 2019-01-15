@@ -23,16 +23,20 @@ AqiBar <- ggproto("AqiBar", Stat,
                   
                   compute_group = function(data, scales, params) {
                     
-                    xrange <- range(data$x, na.rm = TRUE)
-                    yrange <- range(data$y, na.rm = TRUE)
-                    xlo <- xrange[1]
-                    xhi <- xrange[1] + .01 * (xrange[2]-xrange[1])
+                    # Get the plot dimensions
+                    xrange <- scales$x$get_limits()
+                    yrange <- scales$y$get_limits()
+                    
+                    # Set left and right for bars
+                    left <- xrange[1]
+                    right <- xrange[1] + .01 * (xrange[2]-xrange[1])
                     
                     # Create data
+                    # GeomRect uses xmin, xmax, ymin, ymax
                     aqiStackedBarsData <- data.frame(
-                      xmin = rep(xlo, 6),
-                      xmax = rep((xhi), 6),
-                      ymin = c(ylo, AQI$breaks_24[2:6]),
+                      xmin = rep(left, 6),
+                      xmax = rep(right, 6),
+                      ymin = c(yrange[1], AQI$breaks_24[2:6]),
                       ymax =c(AQI$breaks_24[2:6], 1e6)
                     )
                     
@@ -43,8 +47,6 @@ AqiBar <- ggproto("AqiBar", Stat,
                     aqiStackedBarsData$ymax[barCount] <- yrange[2]
                     aqiStackedBarsData$fill <- AQI$colors[1:barCount]
                     
-                    
-                    print(aqiStackedBarsData)
                     return(aqiStackedBarsData)
                   }
 )
@@ -71,13 +73,13 @@ AqiLines <- ggproto("AqiLines", Stat,
                     
                     compute_group = function(data, scales, params) {
                       
-                      xrange <- range(data$x, na.rm = TRUE)
-                      yrange <- range(data$y, na.rm = TRUE)
-                      xlo <- xrange[1]
-                      xhi <- xrange[1] + .01 * (xrange[2]-xrange[1])
+                      # Get the plot dimensions
+                      xrange <- scales$x$get_limits()
+                      yrange <- scales$y$get_limits()
+                      
                       
                       aqiLinesData <- data.frame(
-                        x = rep(xlo, 5),
+                        x = rep(xrange[1], 5),
                         xend = rep(xrange[2], 5),
                         y = c(AQI$breaks_24[2:6]),
                         yend = c(AQI$breaks_24[2:6])

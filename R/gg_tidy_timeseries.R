@@ -3,20 +3,32 @@ tidy_timeseries <- function(data,
                             enddate = NULL,
                             style = NULL,
                             aqiStyle = NULL,
-                            monitorID = NULL,
-                            title = "") {
+                            monitorIDs = NULL,
+                            title = NULL) {
   
-  if (!is.null(monitorID)) {
-    data <- filter(data, monitorID == monitorID)
+  if (!is.null(monitorIDs)) {
+    data <- filter(data, monitorID %in% monitorIDs)
+  } 
+  
+  if (length(unique(data$monitorID)) > 1) {
+    mapping <- aes(color = monitorID)
+    if (is.null(title)) title <- ""
+  } else {
+    mapping <- aes(color = NULL)
+    if(is.null(title)) title <- unique(data$siteName)
   }
   
   ggplot_pm25Timeseries(data) +
-    geom_pm25Points() +
     pwfsl_scales(data, 
                  startdate,
                  enddate) + 
-    stat_nowcast() +
+    geom_pm25Points(mapping) +
+    stat_nowcast(mapping) +
     aqiStackedBar() +
-    aqiLines()
+    aqiLines() +
+    scale_color_brewer(palette = "Dark2") +
+    ggtitle(title)+
+    legend_pm25Timeseries()
+  
   
 }

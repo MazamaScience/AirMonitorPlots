@@ -18,8 +18,10 @@ pwfsl_scales <- function(data = NULL,
   
   if (length(unique(data$timezone)) > 1) {
     timezone <- "UTC"
+    xlab <- "Time (UTC)"
   } else {
     timezone <- data$timezone[1]
+    xlab <- "Local Time"
   }
   
   if ( is.null(ylim) ) {
@@ -45,8 +47,8 @@ pwfsl_scales <- function(data = NULL,
     }
   } else {
     # Standard y-axis limits
-    ylo <- 0
-    yhi <- max(1.00*data$pm25, na.rm = TRUE)
+    ylo <- ylim[1]
+    yhi <- ylim[2]
   }
   
   
@@ -70,7 +72,10 @@ pwfsl_scales <- function(data = NULL,
           hjust = 1
         )
       )
-    }
+    },
+    ylab("PM2.5 (\u00b5g/m3)"),
+    xlab(xlab)
+    
     
   )
   

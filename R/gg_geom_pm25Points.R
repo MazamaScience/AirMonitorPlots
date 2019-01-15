@@ -27,6 +27,5 @@ GeomPm25Points <- ggproto("GeomPm25Points", GeomPoint,
 
 ggplot_pm25Timeseries <- function(data) {
   ggplot(data, aes(x = datetime, y = pm25)) +
-    theme_timeseriesPlot_pwfsl() +
-    ylab("PM2.5 (\u00b5g/m3)")
+    theme_timeseriesPlot_pwfsl()
 }

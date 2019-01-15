@@ -3,7 +3,9 @@
 #' @param startdate
 #' @param enddate
 #' @param timezone
-#' @param 
+#' @param expand 
+#' @param breaks
+#' 
 #' 
 #' @export
 #' 
@@ -28,7 +30,7 @@ scale_x_pwfslDate <- function(startdate = NULL,
   # handle various startdates
   if ( !is.null(startdate) ) {
     if ( is.numeric(startdate) || is.character(startdate) ) {
-      startdate <- parseDatetime(startdate, tz = timezone)
+      startdate <- parseDatetime(startdate, timezone = timezone)
     } else if ( lubridate::is.POSIXct(startdate) ) {
       startdate <- lubridate::force_tz(startdate, tzone = timezone)
     } else if ( !is.null(startdate) ) {
@@ -41,7 +43,7 @@ scale_x_pwfslDate <- function(startdate = NULL,
   # handle various enddates
   if ( !is.null(enddate) ) {
     if ( is.numeric(enddate) || is.character(enddate) ) {
-      enddate <- parseDatetime(enddate, tz = timezone)
+      enddate <- parseDatetime(enddate, timezone = timezone)
     } else if ( lubridate::is.POSIXct(enddate) ) {
       enddate <- lubridate::force_tz(enddate, tzone = timezone)
     } else if ( !is.null(enddate) ) {
@@ -92,7 +94,8 @@ scale_x_pwfslDate <- function(startdate = NULL,
     expand = expand,
     breaks = breaks,
     minor_breaks = minor_breaks,
-    date_labels = date_labels
+    date_labels = date_labels,
+    timezone = timezone
   )
 
 }
