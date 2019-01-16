@@ -2,45 +2,60 @@ geom_pm25Points <- function(mapping = NULL,
                             data = NULL,                            
                             position = "identity", 
                             na.rm = FALSE, 
-                            show.legend = FALSE, 
+                            show.legend = NA, 
                             inherit.aes = TRUE, 
                             stat = "identity", 
-                            color = "black",
-                            size = 1,
-                            shape = 19,
-                            alpha = 0.3,
-                            legend.title = "",
+                            timeseries.legend = FALSE,
                             legend.label = "PM2.5",
                             ...) {
   
-    ## Map aesthetics to a variable (legend.label)
-    if (is.null(mapping)) {
-      mapping <- aes(colour = !!legend.label,
-                     shape = !!legend.label,
-                     size = !!legend.label,
-                     alpha = !!legend.label)
-    } else {
-      mapping$shape <- ifelse(is.null(mapping$shape), legend.label, mapping$shape)
-      mapping$colour <- ifelse(is.null(mapping$colour), legend.label, mapping$colour)
-      mapping$size <- ifelse(is.null(mapping$size), legend.label, mapping$size)
-      mapping$alpha <- ifelse(is.null(mapping$size), legend.label, mapping$size)
+  if ( timeseries.legend ) {
+    if (!is.null(mapping)) {
+      stop("timeseries legend can only be created when mapping is NULL.")
     }
-
-    
+    ## Map aesthetics to a variable (legend.label)
+    # if (is.null(mapping)) {
+      mapping <- aes(colour = !!legend.label)
+      
+    # } else {
+    #   if (is.null(mapping$shape)) {
+    #     mapping$shape <- legend.label
+    #     shape_scale <- scale_shape_manual(name = legend.title, values = shape, guide = "legend")
+    #   } else {
+    #     shape_scale <- NULL
+    #   }
+    #   if (is.null(mapping$colour)) {
+    #     mapping$colour <- legend.label
+    #     color_scale <- scale_color_manual(name = legend.title, values = color, guide = "legend")
+    #   } else {
+    #     color_scale <- NULL
+    #   } 
+    #   if (is.null(mapping$size)) {
+    #     mapping$size <- legend.label
+    #     size_scale <- scale_size_manual(name = legend.title, values = size, guide = "legend")
+    #   } else {
+    #     size_scale <- NULL
+    #   }
+    #   if (is.null(mapping$alpha)) {
+    #     mapping$alpha <- legend.label
+    #     alpha_scale <- scale_alpha_manual(name = legend.title, values = alpha, guide = "legend")
+    #   } else {
+    #     alpha_scale <- NULL
+    #   }
+  } 
+  
+  
+  
   
   
   list(
     layer(
       stat = stat, data = data, mapping = mapping, geom = GeomPm25Points,
       position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-      params = list(na.rm = na.rm,
-                    ...)
-    ),
-      scale_color_manual(name = legend.title, values = color, guide = "legend"),
-      scale_shape_manual(name = legend.title, values = shape, guide = "legend"),
-      scale_alpha_manual(name = legend.title, values = alpha, guide = "legend"),
-      scale_size_manual (name = legend.title, values = size, guide = "legend")
-
+      params = list(na.rm = na.rm, ...)
+    )
+    
+    
     # http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
     # https://stackoverflow.com/questions/17148679/construct-a-manual-legend-for-a-complicated-plot
   )

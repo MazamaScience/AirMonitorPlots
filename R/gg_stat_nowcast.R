@@ -1,7 +1,21 @@
 stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
                          includeShortTerm=FALSE, geom = "path",
                          position = "identity", na.rm = FALSE, show.legend = NA, 
-                         inherit.aes = TRUE, ...) {
+                         inherit.aes = TRUE, timeseries.legend = FALSE, 
+                         legend.label = "NowCast", 
+                         ...) {
+  
+  if (timeseries.legend) {
+    if (!is.null(mapping)) {
+      stop("timeseries legend can only be created when mapping is NULL.")
+    }
+    ## Map aesthetics to a variable (legend.label)
+    if (is.null(mapping)) {
+      mapping <- aes(colour = !!legend.label)
+    }
+    
+  }
+  
   
   layer(
     stat = StatNowcast, data = data, mapping = mapping, geom = geom, 
