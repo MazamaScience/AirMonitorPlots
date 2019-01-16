@@ -9,8 +9,7 @@ legend_pm25Timeseries <- function() {
       plot.title = element_text(
         vjust = 20
       )
-    ),
-    
+    )
     
   )
  
