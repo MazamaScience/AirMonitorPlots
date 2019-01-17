@@ -21,6 +21,10 @@
 #' @import ggplot2
 #' @export
 #' 
+#' @example 
+#' ws_monitor <- airnow_loadLatest()
+#' ws_tidy <- monitor_toTidy(ws_monitor)
+#' tidy_timeseries(ws_tidy, monitorIDs = "410432002_01")
 
 tidy_timeseries <- function(ws_tidy,
                             startdate = NULL,
@@ -31,11 +35,13 @@ tidy_timeseries <- function(ws_tidy,
                             title = NULL,
                             legend = TRUE) {
   
+  data <- ws_tidy
+  
   if (!is.null(monitorIDs)) {
     data <- filter(data, monitorID %in% monitorIDs)
   } 
   
-  if (length(unique(data$monitorID)) > 1) {
+  if ( length(unique(data$monitorID)) > 1) {
     mapping <- aes(color = monitorID)
     if (is.null(title)) title <- ""
   } else {
@@ -51,17 +57,19 @@ tidy_timeseries <- function(ws_tidy,
     pwfsl_scales(data, 
                  startdate,
                  enddate) + 
-    geom_pm25Points(mapping, 
-                    legend.label = pm25LegendLabel, 
-                    timeseries.legend = legend) +
-    stat_nowcast(mapping, 
-                 legend.label = nowcastLegendLabel,
-                 timeseries.legend = legend) +
+    geom_pm25Points(mapping) +
+    stat_nowcast(mapping) +
     aqiStackedBar() +
     aqiLines() +
     scale_color_brewer(palette = "Dark2") +
     ggtitle(title) +
-    legend_pm25Timeseries(legend.labels = c(pm25LegendLabel, nowcastLegendLabel))
+    gg_legend(labels = c("Hourly PM2.5 Values", "NowCast"),
+              aesthetics = list(color = c(1,1),
+                                size = c(1.5, 0.5),
+                                linetype = c(NA, 1),
+                                shape = c(16, NA),
+                                alpha = c(0.3, 1)),
+              theme_args = list(legend.position = "top"))
   
   
 }

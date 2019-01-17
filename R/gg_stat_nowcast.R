@@ -1,21 +1,44 @@
+#' @title Add NowCast values to a plot
+#'
+#' @description
+#' This function calculates the NowCast values for the data, and adds  it to a plot.
+#' The default is to add a NowCast line. 
+#'
+#' @param mapping Set of aesthetic mappings created by \code{aes()}. If specified and 
+#' \code{inherit.aes = TRUE} (the default), it is combined with the default mapping
+#' at the top level of the plot. You must supply \code{mapping} if there is no plot mapping.
+#' @param data The data to be displayed in this layer. There are three options: 
+#' if \code{NULL}, the default, the data is inherited from the plot data. 
+#' A \code{data.frame} or other object, will override the plot data. 
+#' A \code{function} will be called witha  single argument, the plot data.
+#' The return value must be a \code{data.frame}, and will be used as the layer data.
+#' @param version character identity specifying the type of nowcast algorithm to be used. 
+#' For details see \link{monitor_nowcast}. 
+#' @param includeShortTerm calculate preliminary NowCast values starting with the 2nd hour.
+#' @param geom The geometic object to display the data
+#' @param position Position adjustment, either as a string, or the result of a call to a
+#' position adjustment function. 
+#' @param na.rm remove NA values from data
+#' @param show.legend logical indicating whether this layer should be included in legends.
+#' @param inherit.aes if \code{FALSE}, overrides the default aesthetics, rather than combining with them. 
+#' This is most useful for helper functions that define both data and the aesthetics and
+#' shouldn't inherit behaviour from the default plot specificatino, eg \code{borders()}.
+#' @param timeseries.legend Logical indicating whether to set mappings so that
+#' a legend can later be added using \link{legend_pm25Timeseries}.
+#' @param legend.label Label for pm25Points part of the legend. Must match 
+#' legend.labels argument in \link{legend_pm25Timeseries}.
+#' @param ... additional arguments passed on to \code{layer()}, such as aesthetics. 
+#'
+#' @import ggplot2
+#' @export
+#' 
+
+
 stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
                          includeShortTerm=FALSE, geom = "path",
                          position = "identity", na.rm = FALSE, show.legend = NA, 
-                         inherit.aes = TRUE, timeseries.legend = FALSE, 
-                         legend.label = "NowCast", 
+                         inherit.aes = TRUE, 
                          ...) {
-  
-  if (timeseries.legend) {
-    if (!is.null(mapping)) {
-      stop("timeseries legend can only be created when mapping is NULL.")
-    }
-    ## Map aesthetics to a variable (legend.label)
-    if (is.null(mapping)) {
-      mapping <- aes(colour = !!legend.label)
-    }
-    
-  }
-  
   
   layer(
     stat = StatNowcast, data = data, mapping = mapping, geom = geom, 

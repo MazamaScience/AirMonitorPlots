@@ -28,18 +28,6 @@ geom_pm25Points <- function(mapping = NULL,
                             legend.label = "PM2.5",
                             ...) {
   
-  if ( timeseries.legend ) {
-    if (!is.null(mapping)) {
-      stop("timeseries legend can only be created when mapping is NULL.")
-    }
-    ## Map aesthetics to a variable (legend.label)
-    if (is.null(mapping)) {
-      mapping <- aes(colour = !!legend.label) 
-    }
-  } 
-  
-  
-  
   
   
   list(
