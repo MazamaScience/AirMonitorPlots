@@ -61,18 +61,6 @@ pwfsl_scales <- function(data = NULL,
     
     scale_y_continuous(limits = c(ylo, yhi),
                        expand = c(0.05,0)),
-    
-    if ( dayCount > 7 ) {
-      theme(
-        ###axis.ticks.x = element_line(),
-        axis.text.x = element_text(
-          size = 1.0 * 11,
-          margin = margin(t = 0.50 * 11),
-          angle = 45,
-          hjust = 1
-        )
-      )
-    },
     ylab("PM2.5 (\u00b5g/m3)"),
     xlab(xlab)
     

@@ -89,14 +89,28 @@ scale_x_pwfslDate <- function(startdate = NULL,
   args$date_labels <- ifelse( is.null(args$date_labels), "%b %d", args$date_labels)
 
   # Add x-axis
-  scale_x_datetime(
-    limits = c(xlo,xhi),
-    expand = expand,
-    breaks = breaks,
-    minor_breaks = minor_breaks,
-    date_labels = date_labels,
-    timezone = timezone
+  list(
+    scale_x_datetime(
+      limits = c(xlo,xhi),
+      expand = expand,
+      breaks = breaks,
+      minor_breaks = minor_breaks,
+      date_labels = date_labels,
+      timezone = timezone
+    ),
+    if ( dayCount > 7 ) {
+      theme(
+        ###axis.ticks.x = element_line(),
+        axis.text.x = element_text(
+          size = 1.0 * 11,
+          margin = margin(t = 0.50 * 11),
+          angle = 45,
+          hjust = 1
+        )
+      )
+    }
   )
+  
 
 }
 

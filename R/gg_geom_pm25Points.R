@@ -14,34 +14,9 @@ geom_pm25Points <- function(mapping = NULL,
       stop("timeseries legend can only be created when mapping is NULL.")
     }
     ## Map aesthetics to a variable (legend.label)
-    # if (is.null(mapping)) {
-      mapping <- aes(colour = !!legend.label)
-      
-    # } else {
-    #   if (is.null(mapping$shape)) {
-    #     mapping$shape <- legend.label
-    #     shape_scale <- scale_shape_manual(name = legend.title, values = shape, guide = "legend")
-    #   } else {
-    #     shape_scale <- NULL
-    #   }
-    #   if (is.null(mapping$colour)) {
-    #     mapping$colour <- legend.label
-    #     color_scale <- scale_color_manual(name = legend.title, values = color, guide = "legend")
-    #   } else {
-    #     color_scale <- NULL
-    #   } 
-    #   if (is.null(mapping$size)) {
-    #     mapping$size <- legend.label
-    #     size_scale <- scale_size_manual(name = legend.title, values = size, guide = "legend")
-    #   } else {
-    #     size_scale <- NULL
-    #   }
-    #   if (is.null(mapping$alpha)) {
-    #     mapping$alpha <- legend.label
-    #     alpha_scale <- scale_alpha_manual(name = legend.title, values = alpha, guide = "legend")
-    #   } else {
-    #     alpha_scale <- NULL
-    #   }
+    if (is.null(mapping)) {
+      mapping <- aes(colour = !!legend.label) 
+    }
   } 
   
   

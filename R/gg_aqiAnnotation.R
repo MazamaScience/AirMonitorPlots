@@ -1,17 +1,14 @@
-aqiStackedBar <- function(mapping = NULL, 
-                           data = NULL,                            
-                           position = "identity", 
-                           na.rm = FALSE, 
-                           show.legend = NA, 
-                           inherit.aes = TRUE, 
-                           stat = "identity", 
-                           ...) {
+aqiStackedBar <- function(width = 0.02,
+                          position = "identity", 
+                          inherit.aes = TRUE, 
+                          ...) {
   
   list(
     layer(
-      stat = AqiBar, data = data, mapping = mapping, geom = GeomRect,
-      position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-      params = list(na.rm = na.rm, ...)
+      stat = AqiBar, geom = GeomRect, position = position, 
+      data = NULL, mapping = NULL, show.legend = FALSE, 
+      inherit.aes = inherit.aes,
+      params = list(width = width, ...)
     ),
     theme(
       axis.line.y = element_blank()
@@ -21,7 +18,7 @@ aqiStackedBar <- function(mapping = NULL,
 
 AqiBar <- ggproto("AqiBar", Stat,
                   
-                  compute_group = function(data, scales, params) {
+                  compute_group = function(data, scales, params, width) {
                     
                     # Get the plot dimensions
                     xrange <- scales$x$get_limits()
@@ -29,7 +26,7 @@ AqiBar <- ggproto("AqiBar", Stat,
                     
                     # Set left and right for bars
                     left <- xrange[1]
-                    right <- xrange[1] + .01 * (xrange[2]-xrange[1])
+                    right <- xrange[1] + width * (xrange[2]-xrange[1])
                     
                     # Create data
                     # GeomRect uses xmin, xmax, ymin, ymax

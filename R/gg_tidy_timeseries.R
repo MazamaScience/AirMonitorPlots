@@ -4,7 +4,10 @@ tidy_timeseries <- function(data,
                             style = NULL,
                             aqiStyle = NULL,
                             monitorIDs = NULL,
-                            title = NULL) {
+                            title = NULL,
+                            timeseries.legend = TRUE,
+                            pm25LegendLabel = "Hourly PM2.5 Values",
+                            nowcastLegendLabel = "NowCast") {
   
   if (!is.null(monitorIDs)) {
     data <- filter(data, monitorID %in% monitorIDs)
@@ -14,7 +17,7 @@ tidy_timeseries <- function(data,
     mapping <- aes(color = monitorID)
     if (is.null(title)) title <- ""
   } else {
-    mapping <- aes(color = NULL)
+    mapping <- NULL
     if(is.null(title)) title <- unique(data$siteName)
   }
   
@@ -22,13 +25,17 @@ tidy_timeseries <- function(data,
     pwfsl_scales(data, 
                  startdate,
                  enddate) + 
-    geom_pm25Points(mapping) +
-    stat_nowcast(mapping) +
+    geom_pm25Points(mapping, 
+                    legend.label = pm25LegendLabel, 
+                    timeseries.legend = TRUE) +
+    stat_nowcast(mapping, 
+                 legend.label = nowcastLegendLabel,
+                 timeseries.legend = TRUE) +
     aqiStackedBar() +
     aqiLines() +
     scale_color_brewer(palette = "Dark2") +
     ggtitle(title)+
-    legend_pm25Timeseries()
+    legend_pm25Timeseries(legend.labels = c(pm25LegendLabel, nowcastLegendLabel))
   
   
 }

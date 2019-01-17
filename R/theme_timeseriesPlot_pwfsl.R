@@ -78,7 +78,7 @@ theme_timeseriesPlot_pwfsl <- function(base_size = 11,
         color = "black",
         size = 1.5 * base_size,
         hjust = 0.5,
-        vjust = 10,
+        vjust = 5,
         face = "bold"
       )
       

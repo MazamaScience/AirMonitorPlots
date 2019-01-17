@@ -10,12 +10,7 @@ legend_pm25Timeseries <- function(legend.labels = c("PM2.5", "NowCast"),
   list(
     # Add some more margin space above the plot
     theme(
-      plot.margin = margin(
-        t = unit(6.0 * 11, "pt")
-        ),
-      plot.title = element_text(
-        vjust = 20
-      )
+      legend.position = "top"
     ),
     # Map to correct values with scale_color_manual
     scale_color_manual(name = legend.title, values = values),
