@@ -23,10 +23,6 @@
 #' @param inherit.aes if \code{FALSE}, overrides the default aesthetics, rather than combining with them. 
 #' This is most useful for helper functions that define both data and the aesthetics and
 #' shouldn't inherit behaviour from the default plot specificatino, eg \code{borders()}.
-#' @param timeseries.legend Logical indicating whether to set mappings so that
-#' a legend can later be added using \link{legend_pm25Timeseries}.
-#' @param legend.label Label for pm25Points part of the legend. Must match 
-#' legend.labels argument in \link{legend_pm25Timeseries}.
 #' @param ... additional arguments passed on to \code{layer()}, such as aesthetics. 
 #'
 #' @import ggplot2
@@ -47,6 +43,7 @@ stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
   )
   
 }
+
 
 StatNowcast <- ggproto("StatNowcast", Stat,
                        compute_layer = function(data, 

@@ -4,7 +4,7 @@
 #' This function assembles various layers to create a production-ready
 #' timeseries plot for one or more monitors. 
 #'
-#' @param ws_tidy dataframe of monitor data, created from a \code{\link{ws_monitor}}
+#' @param ws_tidy dataframe of monitor data, created from a \code{ws_monitor}
 #' object using \code{monitor_toTidy()}. 
 #' @param startdate Desired start date (integer or character in ymd format or POSIXct)
 #' @param enddate Desired end date (integer or character in ymd format or POSIXct)
@@ -12,13 +12,13 @@
 #' @param aqiStyle AQI style to add AQI color bars, lines, and labels. 
 #' Not currently supported.
 #' @param monitorIDs vector of monitorIDs to include in the plot. If 
-#' more than one, different monitors will be plotted in different colors
-#' and timeseries.legend must be false.
+#' more than one, different monitors will be plotted in different colors.
 #' @param title Plot title. If NULL, a suitable title will be constructed.
-#' @param timeseries.legend Logical indicating whether to include a legend.
 #' @return A **ggplot** object
 #'
 #' @import ggplot2
+#' @importFrom rlang .data
+#' 
 #' @export
 #' 
 #' @example 
@@ -32,17 +32,16 @@ tidy_ggTimeseries <- function(ws_tidy,
                               style = NULL,
                               aqiStyle = NULL,
                               monitorIDs = NULL,
-                              title = NULL,
-                              legend = TRUE) {
+                              title = NULL) {
   
   data <- ws_tidy
   
   if (!is.null(monitorIDs)) {
-    data <- filter(data, monitorID %in% monitorIDs)
+    data <- filter(.data = data, .data$monitorID %in% monitorIDs)
   } 
   
   if ( length(unique(data$monitorID)) > 1) {
-    mapping <- aes(color = monitorID)
+    mapping <- aes_(color = ~monitorID)
     if (is.null(title)) title <- ""
   } else {
     mapping <- NULL

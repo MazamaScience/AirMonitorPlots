@@ -1,10 +1,8 @@
 #' @title Add pm25 points to a plot
 #'
 #' @description
-#' Add pm25 points to a ggplot. This is a wrapper around \code{geom_point} with
-#' default aesthetics. The main difference is the timeseries.legend option which,
-#' when true, will set mappings so that a legend can be drawn for these points using
-#' \link{legend_pm25Timeseries}. 
+#' This is a wrapper around \code{\link[ggplot2]{geom_point}} with
+#' default aesthetics. 
 #'
 #' @inheritParams ggplot2::geom_point
 #'
@@ -38,11 +36,7 @@ geom_pm25Points <- function(mapping = NULL,
   
 }
 
-#' @rdname ggplot2-ggproto
-#' @format NULL
-#' @usage NULL
-#' @import ggplot2
-#' @export
+
 GeomPm25Points <- ggproto("GeomPm25Points", GeomPoint,
                           # do some styling
                           required_aes = c("x", "y"),
@@ -53,10 +47,4 @@ GeomPm25Points <- ggproto("GeomPm25Points", GeomPoint,
                                             fill = NA,
                                             stroke = 0.5)
 )
-
-
-ggplot_pm25Timeseries <- function(data) {
-  ggplot(data, aes(x = datetime, y = pm25)) +
-    theme_timeseriesPlot_pwfsl()
-}
 

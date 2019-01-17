@@ -28,8 +28,7 @@ custom_datetimeScale <- function(startdate = NULL,
                                  expand = c(0,0.05),
                                  breaks = NULL,
                                  minor_breaks = NULL,
-                                 date_labels = "%b %d",
-                                 ...) {
+                                 date_labels = "%b %d") {
   
   
   # TODO:  handle NULL startdate and enddate 
@@ -91,10 +90,6 @@ custom_datetimeScale <- function(startdate = NULL,
   marginSecs <- 0.02 * xRangeSecs
   xlo <- startdate - lubridate::dseconds(marginSecs)
   xhi <- enddate + lubridate::ddays(1) + lubridate::dseconds(marginSecs)
-  
-  args <- list(...)
-  args$expand <- ifelse( is.null(args$expand), c(0,0.05), args$expand )
-  args$date_labels <- ifelse( is.null(args$date_labels), "%b %d", args$date_labels)
   
   # Add x-axis
   list(

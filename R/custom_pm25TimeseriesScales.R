@@ -13,7 +13,7 @@
 #' @param ylim custom y-axis limits. This function will apply a default limit
 #' depending on the data. 
 #' 
-#' 
+#' @importFrom rlang .data
 #' @import ggplot2
 #' @export
 #' 
@@ -47,7 +47,7 @@ custom_pm25TimeseriesScales <- function(data = NULL,
   if ( is.null(ylim) ) {
     # Well defined y-axis limits for visual stability
     ylo <- 0
-    ymax <- max(filter(data, datetime >= startdate && datetime <= enddate)$pm25, na.rm = TRUE)
+    ymax <- max(filter(.data = data, .data$datetime >= startdate && .data$datetime <= enddate)$pm25, na.rm = TRUE)
     if ( ymax <= 50 ) {
       yhi <- 50
     } else if ( ymax <= 100 ) {
