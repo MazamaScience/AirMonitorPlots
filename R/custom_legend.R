@@ -53,6 +53,7 @@ custom_legend <- function(title = "",
     mapping <- aes(color = !!legend_item)
     mappings[[legend_item]] <- 
       list(
+        # Add line and point layers so that lines or points can be displayed in the legend
         stat_identity(mapping = mapping, geom = "line"),
         stat_identity(mapping = mapping, geom = "point")
       )

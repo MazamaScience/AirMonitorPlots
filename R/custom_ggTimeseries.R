@@ -27,13 +27,13 @@
 #' tidy_timeseries(ws_tidy, monitorIDs = "410432002_01")
 
 tidy_ggTimeseries <- function(ws_tidy,
-                            startdate = NULL,
-                            enddate = NULL,
-                            style = NULL,
-                            aqiStyle = NULL,
-                            monitorIDs = NULL,
-                            title = NULL,
-                            legend = TRUE) {
+                              startdate = NULL,
+                              enddate = NULL,
+                              style = NULL,
+                              aqiStyle = NULL,
+                              monitorIDs = NULL,
+                              title = NULL,
+                              legend = TRUE) {
   
   data <- ws_tidy
   
@@ -55,8 +55,8 @@ tidy_ggTimeseries <- function(ws_tidy,
   
   ggplot_pm25Timeseries(data) +
     custom_pm25TimeseriesScales(data, 
-                 startdate,
-                 enddate) + 
+                                startdate,
+                                enddate) + 
     geom_pm25Points(mapping) +
     stat_nowcast(mapping) +
     custom_aqiStackedBar() +
@@ -64,12 +64,12 @@ tidy_ggTimeseries <- function(ws_tidy,
     scale_color_brewer(palette = "Dark2") +
     ggtitle(title) +
     custom_legend(labels = c("Hourly PM2.5 Values", "NowCast"),
-              aesthetics = list(color = c(1,1),
-                                size = c(1.5, 0.5),
-                                linetype = c(NA, 1),
-                                shape = c(16, NA),
-                                alpha = c(0.3, 1)),
-              theme_args = list(legend.position = "top"))
+                  aesthetics = list(color = c(1,1),
+                                    size = c(1.5, 0.5),
+                                    linetype = c(NA, 1),
+                                    shape = c(16, NA),
+                                    alpha = c(0.3, 1)),
+                  theme_args = list(legend.position = "top"))
   
   
 }

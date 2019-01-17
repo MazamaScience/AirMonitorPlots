@@ -75,9 +75,9 @@ custom_pm25TimeseriesScales <- function(data = NULL,
   
   # add the scales
   list(
-    scale_x_pwfslDate(startdate, 
-                      enddate, 
-                      timezone),
+    custom_datetimeScale(startdate, 
+                         enddate, 
+                         timezone),
     
     scale_y_continuous(limits = c(ylo, yhi),
                        expand = c(0.05,0)),
