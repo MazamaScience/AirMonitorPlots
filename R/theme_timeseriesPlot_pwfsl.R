@@ -37,7 +37,7 @@ theme_timeseriesPlot_pwfsl <- function(base_size = 11,
       # Y-axis
       ###axis.line.y = element_blank(),
       axis.title.y = element_text(
-        size = 1.0 * base_size,
+        size = 1.2 * base_size,
         margin = margin(r = 1.0 * base_size)
       ),
       ###axis.ticks.y = element_blank(),
@@ -48,7 +48,10 @@ theme_timeseriesPlot_pwfsl <- function(base_size = 11,
       
       # X-axis
       ###axis.line.x = element_blank(),
-      axis.title.x = element_blank(),
+      axis.title.x = element_text(
+        size = 1.2 * base_size,
+        margin = margin(t = 1.0 * base_size)
+      ),
       ###axis.ticks.x = element_blank(),
       axis.text.x = element_text(
         size = 1.0 * base_size,
@@ -74,7 +77,9 @@ theme_timeseriesPlot_pwfsl <- function(base_size = 11,
       plot.title = element_text(
         color = "black",
         size = 1.5 * base_size,
-        hjust = 0.5
+        hjust = 0.5,
+        vjust = 5,
+        face = "bold"
       )
       
     )

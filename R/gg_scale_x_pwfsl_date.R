@@ -1,14 +1,24 @@
 #' @title Add date scale with custom styling for timezone and daterange
 #' 
-#' @param startdate
-#' @param enddate
-#' @param timezone
-#' @param 
+#' @description Add a date scale and custom formatting for creating 
+#' consistent timeseries plots. 
+#' 
+#' @param startdate Desired axis start date limit, in a format that can be 
+#' parsed with \link{parseDatetime}.
+#' @param enddate Desired axis end date limit, in a format that can be 
+#' parsed with \link{parseDatetime}.
+#' @param timezone Timezone for label formatting. 
+#' @param expand Vector of range expansion constants used to add some padding 
+#' around the data, to ensure that they are placed some distance away from the 
+#' axes. 
+#' @param breaks Custom breaks. If NULL, suitable breaks are calculated.
+#' @param minor_breaks Custom minor breaks. If NULL, suitable breaks are
+#' calculated. 
+#' @param date_labels date format string for formatting date labels.
+#' 
 #' 
 #' @export
-#' 
-#' 
-#' 
+#' @import ggplot2
 #' 
 
 
@@ -28,7 +38,7 @@ scale_x_pwfslDate <- function(startdate = NULL,
   # handle various startdates
   if ( !is.null(startdate) ) {
     if ( is.numeric(startdate) || is.character(startdate) ) {
-      startdate <- parseDatetime(startdate, tz = timezone)
+      startdate <- parseDatetime(startdate, timezone = timezone)
     } else if ( lubridate::is.POSIXct(startdate) ) {
       startdate <- lubridate::force_tz(startdate, tzone = timezone)
     } else if ( !is.null(startdate) ) {
@@ -41,7 +51,7 @@ scale_x_pwfslDate <- function(startdate = NULL,
   # handle various enddates
   if ( !is.null(enddate) ) {
     if ( is.numeric(enddate) || is.character(enddate) ) {
-      enddate <- parseDatetime(enddate, tz = timezone)
+      enddate <- parseDatetime(enddate, timezone = timezone)
     } else if ( lubridate::is.POSIXct(enddate) ) {
       enddate <- lubridate::force_tz(enddate, tzone = timezone)
     } else if ( !is.null(enddate) ) {
@@ -87,13 +97,28 @@ scale_x_pwfslDate <- function(startdate = NULL,
   args$date_labels <- ifelse( is.null(args$date_labels), "%b %d", args$date_labels)
 
   # Add x-axis
-  scale_x_datetime(
-    limits = c(xlo,xhi),
-    expand = expand,
-    breaks = breaks,
-    minor_breaks = minor_breaks,
-    date_labels = date_labels
+  list(
+    scale_x_datetime(
+      limits = c(xlo,xhi),
+      expand = expand,
+      breaks = breaks,
+      minor_breaks = minor_breaks,
+      date_labels = date_labels,
+      timezone = timezone
+    ),
+    if ( dayCount > 7 ) {
+      theme(
+        ###axis.ticks.x = element_line(),
+        axis.text.x = element_text(
+          size = 1.0 * 11,
+          margin = margin(t = 0.50 * 11),
+          angle = 45,
+          hjust = 1
+        )
+      )
+    }
   )
+  
 
 }
 

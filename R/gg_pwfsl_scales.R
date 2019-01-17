@@ -1,3 +1,23 @@
+#' @title Add PWFSL PM25 timeseries scales
+#'
+#' @description
+#' Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 
+#' showing PM2.5 data. 
+#'
+#' @param data pm25 timeseries data. Should match the default dataset of the
+#' plot
+#' @param startdate Desired startdate for x-axis, in a format that can be 
+#' parsed with \link{parseDatetime}.
+#' @param enddate Desired enddate for x-axis, in a format that can be parsed 
+#' with \link{parseDatetime}.
+#' @param ylim custom y-axis limits. This function will apply a default limit
+#' depending on the data. 
+#' 
+#' 
+#' @import ggplot2
+#' @export
+#' 
+
 pwfsl_scales <- function(data = NULL,
                          startdate = NULL, 
                          enddate = NULL, 
@@ -18,8 +38,10 @@ pwfsl_scales <- function(data = NULL,
   
   if (length(unique(data$timezone)) > 1) {
     timezone <- "UTC"
+    xlab <- "Time (UTC)"
   } else {
     timezone <- data$timezone[1]
+    xlab <- "Local Time"
   }
   
   if ( is.null(ylim) ) {
@@ -45,8 +67,8 @@ pwfsl_scales <- function(data = NULL,
     }
   } else {
     # Standard y-axis limits
-    ylo <- 0
-    yhi <- max(1.00*data$pm25, na.rm = TRUE)
+    ylo <- ylim[1]
+    yhi <- ylim[2]
   }
   
   
@@ -59,18 +81,9 @@ pwfsl_scales <- function(data = NULL,
     
     scale_y_continuous(limits = c(ylo, yhi),
                        expand = c(0.05,0)),
+    ylab("PM2.5 (\u00b5g/m3)"),
+    xlab(xlab)
     
-    if ( dayCount > 7 ) {
-      theme(
-        ###axis.ticks.x = element_line(),
-        axis.text.x = element_text(
-          size = 1.0 * 11,
-          margin = margin(t = 0.50 * 11),
-          angle = 45,
-          hjust = 1
-        )
-      )
-    }
     
   )
   

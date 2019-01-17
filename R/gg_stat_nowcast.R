@@ -1,7 +1,21 @@
 stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
                          includeShortTerm=FALSE, geom = "path",
                          position = "identity", na.rm = FALSE, show.legend = NA, 
-                         inherit.aes = TRUE, ...) {
+                         inherit.aes = TRUE, timeseries.legend = FALSE, 
+                         legend.label = "NowCast", 
+                         ...) {
+  
+  if (timeseries.legend) {
+    if (!is.null(mapping)) {
+      stop("timeseries legend can only be created when mapping is NULL.")
+    }
+    ## Map aesthetics to a variable (legend.label)
+    if (is.null(mapping)) {
+      mapping <- aes(colour = !!legend.label)
+    }
+    
+  }
+  
   
   layer(
     stat = StatNowcast, data = data, mapping = mapping, geom = geom, 
@@ -12,30 +26,34 @@ stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
 }
 
 StatNowcast <- ggproto("StatNowcast", Stat,
-                     compute_layer = function(data, scales, params, version = "pm", includeShortTerm = FALSE) {
-                       # Set parameters based on version
-                       if (version =='pm') {
-                         numHrs <- 12
-                         weightFactorMin <- 0.5
-                         digits <- 1
-                       } else if (version =='pmAsian') {
-                         numHrs <- 3
-                         weightFactorMin <- 0.1
-                         digits <- 1
-                       } else if (version == 'ozone') {
-                         numHrs <- 8
-                         weightFactorMin <- NA  # negative values adjusted up to 0 in .weightFactor()
-                         digits <- 3  # NOTE: digits=3 assumes Ozone values given in ppm; update to 0 if values given in ppb
-                       }
-                       
-                       
-                       # Apply nowcast to each monitor in dataframe
-                       # NOTE:  We need as.data.frame for when there is only a single column of data.
-                       # NOTE:  We truncate, rather than round, per the following:
-                       # NOTE:  https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
-                       data$y <- .nowcast(data$y, numHrs, weightFactorMin, includeShortTerm)
-                       return(data)
-                      },
+                       compute_layer = function(data, 
+                                                scales, 
+                                                params, 
+                                                version = "pm", 
+                                                includeShortTerm = FALSE) {
+                         # Set parameters based on version
+                         if (version =='pm') {
+                           numHrs <- 12
+                           weightFactorMin <- 0.5
+                           digits <- 1
+                         } else if (version =='pmAsian') {
+                           numHrs <- 3
+                           weightFactorMin <- 0.1
+                           digits <- 1
+                         } else if (version == 'ozone') {
+                           numHrs <- 8
+                           weightFactorMin <- NA  # negative values adjusted up to 0 in .weightFactor()
+                           digits <- 3  # NOTE: digits=3 assumes Ozone values given in ppm; update to 0 if values given in ppb
+                         }
+                         
+                         
+                         # Apply nowcast to each monitor in dataframe
+                         # NOTE:  We need as.data.frame for when there is only a single column of data.
+                         # NOTE:  We truncate, rather than round, per the following:
+                         # NOTE:  https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
+                         data$y <- .nowcast(data$y, numHrs, weightFactorMin, includeShortTerm)
+                         return(data)
+                       },
                      
                      required_aes = c("x", "y")
 )
