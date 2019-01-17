@@ -1,16 +1,24 @@
 #' @title Add date scale with custom styling for timezone and daterange
 #' 
-#' @param startdate
-#' @param enddate
-#' @param timezone
-#' @param expand 
-#' @param breaks
+#' @description Add a date scale and custom formatting for creating 
+#' consistent timeseries plots. 
+#' 
+#' @param startdate Desired axis start date limit, in a format that can be 
+#' parsed with \link{parseDatetime}.
+#' @param enddate Desired axis end date limit, in a format that can be 
+#' parsed with \link{parseDatetime}.
+#' @param timezone Timezone for label formatting. 
+#' @param expand Vector of range expansion constants used to add some padding 
+#' around the data, to ensure that they are placed some distance away from the 
+#' axes. 
+#' @param breaks Custom breaks. If NULL, suitable breaks are calculated.
+#' @param minor_breaks Custom minor breaks. If NULL, suitable breaks are
+#' calculated. 
+#' @param date_labels date format string for formatting date labels.
 #' 
 #' 
 #' @export
-#' 
-#' 
-#' 
+#' @import ggplot2
 #' 
 
 

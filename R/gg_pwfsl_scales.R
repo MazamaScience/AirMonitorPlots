@@ -1,3 +1,23 @@
+#' @title Add PWFSL PM25 timeseries scales
+#'
+#' @description
+#' Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 
+#' showing PM2.5 data. 
+#'
+#' @param data pm25 timeseries data. Should match the default dataset of the
+#' plot
+#' @param startdate Desired startdate for x-axis, in a format that can be 
+#' parsed with \link{parseDatetime}.
+#' @param enddate Desired enddate for x-axis, in a format that can be parsed 
+#' with \link{parseDatetime}.
+#' @param ylim custom y-axis limits. This function will apply a default limit
+#' depending on the data. 
+#' 
+#' 
+#' @import ggplot2
+#' @export
+#' 
+
 pwfsl_scales <- function(data = NULL,
                          startdate = NULL, 
                          enddate = NULL, 

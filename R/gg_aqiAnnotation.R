@@ -1,13 +1,27 @@
+#' @title Add AQI stacked bars to a plot
+#'
+#' @description
+#' Adds AQI stacked bars to a plot. 
+#'
+#' @param width Width of bars as a fraction of plot width.
+#' @param position Position adjustment, either as a string, or the result of 
+#' a call to a position adjustment function
+#' @param ... additional arguments passed on to layer, such as alpha. 
+#'
+#' @return A `ggplot` plot object with AQI annotations.
+#' 
+#' @import ggplot2
+#' @export
+
 aqiStackedBar <- function(width = 0.02,
-                          position = "identity", 
-                          inherit.aes = TRUE, 
+                          position = "identity",
                           ...) {
   
   list(
     layer(
       stat = AqiBar, geom = GeomRect, position = position, 
       data = NULL, mapping = NULL, show.legend = FALSE, 
-      inherit.aes = inherit.aes,
+      inherit.aes = TRUE,
       params = list(width = width, ...)
     ),
     theme(
@@ -15,6 +29,12 @@ aqiStackedBar <- function(width = 0.02,
     )
   )
 }
+
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @import ggplot2
+#' @export
 
 AqiBar <- ggproto("AqiBar", Stat,
                   
@@ -48,24 +68,37 @@ AqiBar <- ggproto("AqiBar", Stat,
                   }
 )
 
-aqiLines <- function(mapping = NULL, 
-                     data = NULL,                            
-                     position = "identity", 
-                     na.rm = FALSE, 
-                     show.legend = NA, 
-                     inherit.aes = TRUE, 
-                     stat = "identity", 
-                     ...) {
+#' @title Add AQI lines to a plot
+#'
+#' @description
+#' Adds AQI lines to a plot
+#'
+#' @param ... Arguments passed on to layer, such as aesthetic properties like
+#' size or alpha. 
+#'
+#' @return A `ggplot` plot object with AQI annotations.
+#' 
+#' @import ggplot2
+#' @export
+
+aqiLines <- function(...) {
   
   list(
     layer(
-      stat = AqiLines, data = data, mapping = mapping, geom = GeomSegment,
-      position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-      params = list(na.rm = na.rm, color = AQI$colors[2:6], ...)
+      stat = AqiLines, data = NULL, mapping = NULL, geom = GeomSegment,
+      position = "identity", show.legend = NA, inherit.aes = TRUE,
+      params = list(na.rm = TRUE, color = AQI$colors[2:6], ...)
     )
   )
 }
 
+
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @import ggplot2
+#' @export
+#' 
 AqiLines <- ggproto("AqiLines", Stat,
                     
                     compute_group = function(data, scales, params) {

@@ -1,3 +1,20 @@
+#' @title Add pm25Timeseries legend to pm25Timeseries plot
+#'
+#' @description
+#' Add a default legend to a timeseries plot. geom_pm25Points and stat_nowcast are
+#' designed to work with this function, to create a tidy_timeseries plot. 
+#'
+#' @param legend.labels Labels for the legend. Must match names for color aesthetics. 
+#' @param legend.title Title for the legend
+#' @param color Vector of colors. This also affects the objects which the legend 
+#' represents.
+#' @param linetype Vector of linetypes for display.
+#' @param shape Vector of shapes for display.
+#' 
+#' @import ggplot2
+#' @export
+#' 
+
 legend_pm25Timeseries <- function(legend.labels = c("PM2.5", "NowCast"),
                                   legend.title = "",
                                   color = c("black", "black"),
