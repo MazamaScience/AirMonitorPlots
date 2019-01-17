@@ -33,14 +33,14 @@
 
 
 
-gg_legend <- function(title = "",
-                      labels = NULL,
-                      aesthetics = NULL,
-                      theme_args = list(
-                        legend.position = "right",
-                        legend.direction = "vertical"
-                      ),
-                      ...) {
+custom_legend <- function(title = "",
+                          labels = NULL,
+                          aesthetics = NULL,
+                          theme_args = list(
+                            legend.position = "right",
+                            legend.direction = "vertical"
+                          ),
+                          ...) {
   
   # Create mapping to force legend
   # NOTE:  ggplot2 only adds a legend for aesthetics that have been mapped to 
@@ -81,5 +81,5 @@ gg_legend <- function(title = "",
     guide,
     custom_theme
   )
-
+  
 }

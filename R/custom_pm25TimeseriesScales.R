@@ -1,4 +1,4 @@
-#' @title Add PWFSL PM25 timeseries scales
+#' @title PWFSL PM2.5 timeseries scales
 #'
 #' @description
 #' Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 
@@ -18,10 +18,10 @@
 #' @export
 #' 
 
-pwfsl_scales <- function(data = NULL,
-                         startdate = NULL, 
-                         enddate = NULL, 
-                         ylim = NULL) {
+custom_pm25TimeseriesScales <- function(data = NULL,
+                                        startdate = NULL, 
+                                        enddate = NULL, 
+                                        ylim = NULL) {
   
   if (is.null(data)) {
     if (is.null(startdate) || is.null(enddate) || is.null(ylim)) {

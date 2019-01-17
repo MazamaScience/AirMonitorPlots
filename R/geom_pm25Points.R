@@ -7,10 +7,6 @@
 #' \link{legend_pm25Timeseries}. 
 #'
 #' @inheritParams ggplot2::geom_point
-#' @param timeseries.legend Logical indicating whether to set mappings so that
-#' a legend can later be added using \link{legend_pm25Timeseries}.
-#' @param legend.label Label for pm25Points part of the legend. Must match 
-#' legend.labels argument in \link{legend_pm25Timeseries}.
 #'
 #' @import ggplot2
 #' @export
@@ -24,8 +20,6 @@ geom_pm25Points <- function(mapping = NULL,
                             show.legend = NA, 
                             inherit.aes = TRUE, 
                             stat = "identity", 
-                            timeseries.legend = FALSE,
-                            legend.label = "PM2.5",
                             ...) {
   
   
@@ -65,3 +59,4 @@ ggplot_pm25Timeseries <- function(data) {
   ggplot(data, aes(x = datetime, y = pm25)) +
     theme_timeseriesPlot_pwfsl()
 }
+
