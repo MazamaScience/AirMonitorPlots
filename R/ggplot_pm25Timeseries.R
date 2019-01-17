@@ -21,9 +21,9 @@
 
 ggplot_pm25Timeseries <- function(ws_data) {
   
-  if ( "ws_monitor" %in% class(ws_data) ) {
+  if ( monitor_isMonitor(ws_data) ) {
     ws_tidy <- monitor_toTidy(ws_data)
-  } else if ( "ws_tidy" %in% class(ws_data) ) {
+  } else if ( monitor_isTidy(ws_data) ) {
     ws_tidy <- ws_data
   } else {
     stop("ws_data must be either a ws_monitor object or ws_tidy object.")
