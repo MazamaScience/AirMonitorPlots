@@ -25,3 +25,17 @@ and the value should be a vector the same length as \code{labels}.}
 \description{
 Add a default legend to a plot.
 }
+\examples{
+ws_monitor <- airsis_loadLatest()
+ggplot_pm25Timeseries(ws_monitor) +
+  geom_pm25Points() + 
+  stat_nowcast() +
+  custom_legend(title = "",
+            labels = c("PM2.5", "NowCast"),
+            aesthetics = list(color = c(1,1),
+                              alpha = c(.3, 1),
+                              linetype = c(NA, 1),
+                              shape = c(16, NA)),
+            theme_args = list(legend.position = "top")
+  )
+}

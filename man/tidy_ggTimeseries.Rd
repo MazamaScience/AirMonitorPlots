@@ -32,3 +32,8 @@ A **ggplot** object
 This function assembles various layers to create a production-ready
 timeseries plot for one or more monitors.
 }
+\examples{
+ws_monitor <- airnow_loadLatest()
+ws_tidy <- monitor_toTidy(ws_monitor)
+tidy_ggTimeseries(ws_tidy, monitorIDs = "410432002_01")
+}

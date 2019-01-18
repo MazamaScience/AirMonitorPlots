@@ -4,22 +4,26 @@
 #' Create a plot using ggplot with default mappings and styling. Layers can then 
 #' be added to this plot using \code{ggplot2} syntax. 
 #'
+#' @inheritParams custom_pm25TimeseriesScales
 #' @param ws_data Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
 #' object or \code{ws_tidy} object. 
 #'
 #' @import ggplot2
 #' @importFrom rlang .data
 #' @export
-#' @example 
+#' @examples
 #' ws_monitor <- airsis_loadLatest()
 #' ggplot_pm25Timeseries(ws_monitor) +
 #'   geom_point(shape = "square", 
-#'              alpha = .2) +
-#'   custom_pm25TimeseriesScales()
+#'              alpha = .2)
 
 
 
-ggplot_pm25Timeseries <- function(ws_data) {
+ggplot_pm25Timeseries <- function(ws_data,
+                                  startdate = NULL,
+                                  enddate = NULL,
+                                  timezone = NULL,
+                                  ylim = NULL) {
   
   if ( monitor_isMonitor(ws_data) ) {
     ws_tidy <- monitor_toTidy(ws_data)
@@ -30,7 +34,12 @@ ggplot_pm25Timeseries <- function(ws_data) {
   }
   
   ggplot(ws_tidy, aes_(x = ~datetime, y = ~pm25)) +
-    theme_timeseriesPlot_pwfsl()
+    theme_timeseriesPlot_pwfsl() +
+    custom_pm25TimeseriesScales(ws_tidy, 
+                                startdate = startdate, 
+                                enddate = enddate, 
+                                timezone = timezone,
+                                ylim = ylim)
   
 }
 

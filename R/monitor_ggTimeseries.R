@@ -14,10 +14,9 @@
 #' 
 #' @export
 #' 
-#' @example 
+#' @examples 
 #' ws_monitor <- airnow_loadLatest()
-#' ws_tidy <- monitor_toTidy(ws_monitor)
-#' tidy_timeseries(ws_tidy, monitorIDs = "410432002_01")
+#' monitor_ggTimeseries(ws_monitor, monitorIDs = "410432002_01")
 
 monitor_ggTimeseries <- function(ws_monitor,
                                  startdate = NULL,
@@ -34,11 +33,11 @@ monitor_ggTimeseries <- function(ws_monitor,
   }
   
   tidy_ggTimeseries(ws_tidy,
-                    startdate, 
-                    enddate,
-                    style, 
-                    aqiStyle,
-                    monitorIDs,
-                    title)
+                    startdate = startdate, 
+                    enddate = enddate,
+                    style = style, 
+                    aqiStyle = aqiStyle,
+                    monitorIDs = monitorIDs,
+                    title = title)
   
 }

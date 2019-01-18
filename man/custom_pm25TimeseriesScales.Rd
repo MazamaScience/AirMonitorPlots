@@ -5,7 +5,7 @@
 \title{PWFSL PM2.5 timeseries scales}
 \usage{
 custom_pm25TimeseriesScales(data = NULL, startdate = NULL,
-  enddate = NULL, ylim = NULL)
+  enddate = NULL, ylim = NULL, timezone = NULL)
 }
 \arguments{
 \item{data}{pm25 timeseries data. Should match the default dataset of the
@@ -19,6 +19,10 @@ with \link{parseDatetime}.}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
+
+\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
+in the data, the data timezone will be used. If NULL and multiple timezones 
+present, the default is UTC.}
 }
 \description{
 Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 

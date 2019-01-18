@@ -15,14 +15,12 @@
 #' @import ggplot2
 #' @export
 #' 
-#' @example 
-#' ws_monitor <- airnow_loadLatest()
-#' ws_tidy <- monitor_toTidy(ws_monitor)
-#' tidyMonitor <- dplyr::filter(ws_tidy, monitorID == "410432002_01")
-#' ggplot_pm25Timeseries(tidyMonitor) +
+#' @examples 
+#' ws_monitor <- airsis_loadLatest()
+#' ggplot_pm25Timeseries(ws_monitor) +
 #'   geom_pm25Points() + 
 #'   stat_nowcast() +
-#'   gg_legend(title = "",
+#'   custom_legend(title = "",
 #'             labels = c("PM2.5", "NowCast"),
 #'             aesthetics = list(color = c(1,1),
 #'                               alpha = c(.3, 1),

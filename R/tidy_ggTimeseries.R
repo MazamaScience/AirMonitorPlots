@@ -21,10 +21,10 @@
 #' 
 #' @export
 #' 
-#' @example 
+#' @examples
 #' ws_monitor <- airnow_loadLatest()
 #' ws_tidy <- monitor_toTidy(ws_monitor)
-#' tidy_timeseries(ws_tidy, monitorIDs = "410432002_01")
+#' tidy_ggTimeseries(ws_tidy, monitorIDs = "410432002_01")
 
 tidy_ggTimeseries <- function(ws_tidy,
                               startdate = NULL,
@@ -52,10 +52,9 @@ tidy_ggTimeseries <- function(ws_tidy,
   pm25LegendLabel = "Hourly PM2.5 Values"
   nowcastLegendLabel = "NowCast"
   
-  ggplot_pm25Timeseries(data) +
-    custom_pm25TimeseriesScales(data, 
-                                startdate,
-                                enddate) + 
+  ggplot_pm25Timeseries(data,
+                        startdate = startdate,
+                        enddate = enddate) +
     geom_pm25Points(mapping) +
     stat_nowcast(mapping) +
     custom_aqiStackedBar() +
