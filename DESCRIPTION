@@ -30,7 +30,8 @@ Suggests:
     knitr,
     maps,
     markdown,
-    testthat
+    testthat,
+    rmarkdown
 Description: Plot utilities for the PWFSLSmoke package.
 License: GPL-3 | file LICENSE
 VignetteBuilder: knitr

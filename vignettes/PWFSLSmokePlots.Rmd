@@ -1,0 +1,96 @@
+---
+title: "Introduction to PWFSLSmokePlots"
+author: "Helen Miller"
+date: "Jan 17, 2019"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{PWFSLSmokePlots}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+`PWFSLSmokePlots` provides plotting functionality to create production-ready plots using air quality monitoring
+data based on the data model from `PWFSLSmoke`. It builds on the `PWFLSmoke` package, integrating the data
+with `ggplot2` plotting functions. High-level plotting functions make it easy for users to create beautiful 
+plots of monitoring data. Since these functions are built on `ggplot2`, users familiar with `ggplot2` can easily 
+use the functions in this package to create custom plots. 
+
+## Production-ready plots
+
+High-level functions in this package make it easy to create beautiful plots with very few lines of code. 
+
+### Timeseries
+
+```{r}
+monitor_ggTimeseries(Northwest_Megafires, 
+                     monitorIDs = "160050015_01",
+                     startdate = 20150815,
+                     enddate = 20150825)
+```
+
+## Extending `ggplot2`
+
+High-level plotting functions create plots by adding custom layers and styling, returing a `ggplot` object. 
+The package extends `ggplot2`, including custom geoms, stats, and themes, as well as some `custom_*` functions
+which combine layers and other styling options to make consistent and appropriately styled plots. A plot can
+be instantiated with a `ggplot_*` function. Choose the correct function, depending on the type of plot. Then,
+layers and styling can be added with functions from this package or `ggplot2` functions. This section demonstrates
+how these pieces work together, and shows some examples of the kinds of custom plots that can be made using this functionality. 
+
+### pm25Timeseries plots
+
+The most basic type of plot for PWFSL monitoring data is timeseries plots: plots that have time on the x-axis
+and PM2.5 on the y-axis. Timeseries plots should start with a call to `ggplot_pm25Timeseries`, which accepts
+either a `ws_monitor` object, or a `ws_tidy` object, created from `monitor_toTidy(ws_monitor)`. This 
+instantiates the plot mapping the data to the correct axes, and adds some custom styling and scaling. 
+
+
+#### Many Monitors
+
+```{r}
+nmPlot <- ggplot_pm25Timeseries(Northwest_Megafires,
+                           startdate = 20150815,
+                           enddate = 20150825)
+
+nmPlot
+```
+
+Once the plot is initiated, you can add layers.
+
+```{r}
+nmPlot + 
+  geom_pm25Points(shape = "square", alpha = .1) + 
+  stat_dailyAQILevel(alpha = .5) + 
+  scale_y_continuous(limits = c(0, 500)) +
+  custom_aqiStackedBar(width = 0.01)
+```
+
+#### Several Monitors
+
+```{r}
+# Subset out several monitors near Spokane
+monitorIDs <- c("530630047_01", "530639997_01", "530639996_01")
+spokane <- monitor_subset(Northwest_Megafires, monitorIDs = monitorIDs)
+
+spokanePlot <- ggplot_pm25Timeseries(spokane,
+                                     startdate = 20150815,
+                                     enddate = 20150820)
+
+spokanePlot + geom_pm25Points(aes(color = monitorID)) + stat_nowcast(aes(color = monitorID))
+spokanePlot + stat_dailyAQILevel(timezone = "America/Los_Angeles") + facet_grid(rows = vars(monitorID))
+spokanePlot + stat_AQILevel(color = NA) + stat_dailyAQILevel(alpha = .5, timezone = "America/Los_Angeles") + facet_grid(rows = vars(monitorID)) 
+spokanePlot + custom_aqiStackedBar(width = 1, alpha = .3) + stat_nowcast(aes(linetype = monitorID))
+spokanePlot + custom_aqiLines() + stat_nowcast(aes(linetype = monitorID)) + custom_pm25TimeseriesScales(spokane, startdate = 20150810, enddate = 20150820) 
+
+```
+
+

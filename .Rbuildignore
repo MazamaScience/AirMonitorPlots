@@ -1,6 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.lintr$
-^localExamples$
+^local.*$
 ^docs$
 ^pkgdown/
