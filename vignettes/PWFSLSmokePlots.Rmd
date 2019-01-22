@@ -62,7 +62,8 @@ instantiates the plot mapping the data to the correct axes, and adds some custom
 ```{r}
 nmPlot <- ggplot_pm25Timeseries(Northwest_Megafires,
                            startdate = 20150815,
-                           enddate = 20150825)
+                           enddate = 20150825) + 
+  ggtitle("2015 Northwest Megafires")
 
 nmPlot
 ```
@@ -86,7 +87,8 @@ spokane <- monitor_subset(Northwest_Megafires, monitorIDs = monitorIDs)
 
 spokanePlot <- ggplot_pm25Timeseries(spokane,
                                      startdate = 20150815,
-                                     enddate = 20150820)
+                                     enddate = 20150820) +
+  ggtitle("Smoke Monitors in Spokane, 2015")
 
 spokanePlot + 
   geom_pm25Points(aes(color = monitorID)) + 
