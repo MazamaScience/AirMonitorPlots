@@ -13,13 +13,13 @@
 #' @import ggplot2
 #' @export
 
-aqiStackedBar <- function(width = 0.02,
+custom_aqiStackedBar <- function(width = 0.02,
                           position = "identity",
                           ...) {
   
   list(
     layer(
-      stat = AqiBar, geom = GeomRect, position = position, 
+      stat = StatAqiBar, geom = GeomRect, position = position, 
       data = NULL, mapping = NULL, show.legend = FALSE, 
       inherit.aes = TRUE,
       params = list(width = width, ...)
@@ -30,13 +30,7 @@ aqiStackedBar <- function(width = 0.02,
   )
 }
 
-#' @rdname ggplot2-ggproto
-#' @format NULL
-#' @usage NULL
-#' @import ggplot2
-#' @export
-
-AqiBar <- ggproto("AqiBar", Stat,
+StatAqiBar <- ggproto("StatAqiBar", Stat,
                   
                   compute_group = function(data, scales, params, width) {
                     
@@ -81,11 +75,11 @@ AqiBar <- ggproto("AqiBar", Stat,
 #' @import ggplot2
 #' @export
 
-aqiLines <- function(...) {
+custom_aqiLines <- function(...) {
   
   list(
     layer(
-      stat = AqiLines, data = NULL, mapping = NULL, geom = GeomSegment,
+      stat = StatAqiLines, data = NULL, mapping = NULL, geom = GeomSegment,
       position = "identity", show.legend = NA, inherit.aes = TRUE,
       params = list(na.rm = TRUE, color = AQI$colors[2:6], ...)
     )
@@ -93,13 +87,8 @@ aqiLines <- function(...) {
 }
 
 
-#' @rdname ggplot2-ggproto
-#' @format NULL
-#' @usage NULL
-#' @import ggplot2
-#' @export
-#' 
-AqiLines <- ggproto("AqiLines", Stat,
+
+StatAqiLines <- ggproto("StatAqiLines", Stat,
                     
                     compute_group = function(data, scales, params) {
                       
