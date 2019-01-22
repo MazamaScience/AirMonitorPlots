@@ -2,6 +2,9 @@ Type: Package
 Package: PWFSLSmokePlots
 Version: 0.4.4
 Title: Plot Utilities for the PWFSLSmoke Package
+Description:  A suite of ggplot2 compatible functions to be used with air quality
+    monitoring data obtained with the PWFSLSmoke package. These functions provide
+    much more flexibility than the base plot functions in PWFSLSmoke.
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
     person("Tate", "Brasel", email="tatebrasel6@gmail.com ", role=c("aut")),
@@ -32,8 +35,7 @@ Suggests:
     markdown,
     testthat,
     rmarkdown
-Description: Plot utilities for the PWFSLSmoke package.
-License: GPL-3 | file LICENSE
+License: GPL-3
 VignetteBuilder: knitr
 Repository: CRAN
 URL: https://github.com/MazamaScience/PWFSLSmokePlots

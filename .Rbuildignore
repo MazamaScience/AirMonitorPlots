@@ -1,6 +1,16 @@
+# Ignore RStudio files
 ^.*\.Rproj$
 ^\.Rproj\.user$
+
+# Ignore various yaml files associated with package building packages
 ^\.lintr$
-^local.*$
+
+# Ignore LICENSE file which is included for display on Github
+^LICENSE$
+
+# Ignore all directories beginning with "local"
+^local*
+
+# Ignore pkgdown input and output files
 ^docs$
 ^pkgdown/

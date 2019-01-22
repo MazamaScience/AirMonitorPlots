@@ -12,7 +12,7 @@
 #' @importFrom rlang .data
 #' @export
 #' @examples
-#' ws_monitor <- airsis_loadLatest()
+#' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' ggplot_pm25Timeseries(ws_monitor) +
 #'   geom_point(shape = "square", 
 #'              alpha = .2)

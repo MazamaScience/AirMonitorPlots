@@ -37,7 +37,7 @@
 stat_AQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,
                           geom = "bar", position = "identity", na.rm = FALSE, 
                           show.legend = NA, inherit.aes = TRUE, 
-                         ...) {
+                          ...) {
   
   list(
     layer(
@@ -50,30 +50,30 @@ stat_AQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,
 
 
 StatAQILevel <- ggproto("StatAQILevel", Stat,
-                       compute_group = function(data, 
-                                                scales, 
-                                                params,
-                                                mv4Colors) {
-                         
-                         # Add column for AQI level
-                         data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
-                         if (!"colour" %in% names(data)) {
-                           if (mv4Colors) {
-                             data$colour <- AQI$mv4Colors[data$aqi]
-                           } else {
-                             data$colour <- AQI$colors[data$aqi] 
-                           }
-                         }
-                         if (!"fill" %in% names(data)) {
-                           if (mv4Colors) {
-                             data$fill <- AQI$mv4Colors[data$aqi]
-                           } else {
-                             data$fill <- AQI$colors[data$aqi]
-                           }
-                           
-                         }
-                         return(data)
-                       },
-                       required_aes = c("x", "y")
+                        compute_group = function(data, 
+                                                 scales, 
+                                                 params,
+                                                 mv4Colors) {
+                          
+                          # Add column for AQI level
+                          data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
+                          if (!"colour" %in% names(data)) {
+                            if (mv4Colors) {
+                              data$colour <- AQI$mv4Colors[data$aqi]
+                            } else {
+                              data$colour <- AQI$colors[data$aqi] 
+                            }
+                          }
+                          if (!"fill" %in% names(data)) {
+                            if (mv4Colors) {
+                              data$fill <- AQI$mv4Colors[data$aqi]
+                            } else {
+                              data$fill <- AQI$colors[data$aqi]
+                            }
+                            
+                          }
+                          return(data)
+                        },
+                        required_aes = c("x", "y")
 )
 

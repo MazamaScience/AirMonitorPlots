@@ -15,8 +15,11 @@
 #' @export
 #' 
 #' @examples 
-#' ws_monitor <- airnow_loadLatest()
-#' monitor_ggTimeseries(ws_monitor, monitorIDs = "410432002_01")
+#' ws_monitor <- PWFSLSmoke::Northwest_Megafires
+#' monitor_ggTimeseries(ws_monitor,
+#'                      startdate = 20150815,
+#'                      enddate = 20150831,
+#'                      monitorIDs = "160690014_01")
 
 monitor_ggTimeseries <- function(ws_monitor,
                                  startdate = NULL,
