@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator — %&gt;% • PWFSLSmokePlots</title>
+<title>Instantiate a pm25 timeseries ggplot — ggplot_pm25Timeseries • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,9 +37,10 @@
 
 
 
-<meta property="og:title" content="Pipe operator — %&gt;%" />
+<meta property="og:title" content="Instantiate a pm25 timeseries ggplot — ggplot_pm25Timeseries" />
 
-<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
+<meta property="og:description" content="Create a plot using ggplot with default mappings and styling. Layers can then 
+be added to this plot using ggplot2 syntax." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,25 +113,66 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe operator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
-    <div class="hidden name"><code>pipe.Rd</code></div>
+    <h1>Instantiate a pm25 timeseries ggplot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/ggplot_pm25Timeseries.R'><code>R/ggplot_pm25Timeseries.R</code></a></small>
+    <div class="hidden name"><code>ggplot_pm25Timeseries.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>See <code>magrittr::%&gt;%</code> for details.</p>
+    <p>Create a plot using ggplot with default mappings and styling. Layers can then 
+be added to this plot using <code>ggplot2</code> syntax.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%&gt;%</span> <span class='no'>rhs</span></pre>
-        
+    <pre class="usage"><span class='fu'>ggplot_pm25Timeseries</span>(<span class='no'>ws_data</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>ws_data</th>
+      <td><p>Default dataset to use when adding layers. Must be either a <code>ws_monitor</code> 
+object or <code>ws_tidy</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>startdate</th>
+      <td><p>Desired startdate for x-axis, in a format that can be 
+parsed with parseDatetime.</p></td>
+    </tr>
+    <tr>
+      <th>enddate</th>
+      <td><p>Desired enddate for x-axis, in a format that can be parsed 
+with parseDatetime.</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>Timezone for x-axis scale. If NULL and only one timezone present
+in the data, the data timezone will be used. If NULL and multiple timezones 
+present, the default is UTC.</p></td>
+    </tr>
+    <tr>
+      <th>ylim</th>
+      <td><p>custom y-axis limits. This function will apply a default limit
+depending on the data.</p></td>
+    </tr>
+    </table>
+    
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airsis_loadLatest</span>()
+<span class='fu'>ggplot_pm25Timeseries</span>(<span class='no'>ws_monitor</span>) +
+  <span class='fu'>geom_point</span>(<span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"square"</span>,
+             <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 398 rows containing missing values (geom_point).</span></div><div class='img'><img src='ggplot_pm25Timeseries-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

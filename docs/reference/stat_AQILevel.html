@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator — %&gt;% • PWFSLSmokePlots</title>
+<title>Add AQI colors to a plot — stat_AQILevel • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,9 +37,10 @@
 
 
 
-<meta property="og:title" content="Pipe operator — %&gt;%" />
+<meta property="og:title" content="Add AQI colors to a plot — stat_AQILevel" />
 
-<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
+<meta property="og:description" content="This function calculates the AQI PM25 categories for the data, and colors the data
+by AQI cateogry when it is added to a plot. The default is to add them as bars." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,25 +113,87 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe operator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
-    <div class="hidden name"><code>pipe.Rd</code></div>
+    <h1>Add AQI colors to a plot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/stat_AQILevel.R'><code>R/stat_AQILevel.R</code></a></small>
+    <div class="hidden name"><code>stat_AQILevel.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>See <code>magrittr::%&gt;%</code> for details.</p>
+    <p>This function calculates the AQI PM25 categories for the data, and colors the data
+by AQI cateogry when it is added to a plot. The default is to add them as bars.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%&gt;%</span> <span class='no'>rhs</span></pre>
-        
+    <pre class="usage"><span class='fu'>stat_AQILevel</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>mapping</th>
+      <td><p>Set of aesthetic mappings created by <code>aes()</code>. If specified and 
+<code>inherit.aes = TRUE</code> (the default), it is combined with the default mapping
+at the top level of the plot. You must supply <code>mapping</code> if there is no plot mapping.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>The data to be displayed in this layer. There are three options: 
+if <code>NULL</code>, the default, the data is inherited from the plot data. 
+A <code>data.frame</code> or other object, will override the plot data. 
+A <code>function</code> will be called witha  single argument, the plot data.
+The return value must be a <code>data.frame</code>, and will be used as the layer data.</p></td>
+    </tr>
+    <tr>
+      <th>mv4Colors</th>
+      <td><p>If <code>TRUE</code>, use the colors used in the monitoring v4 site. Otherwise,
+use the "official" AQI colors.</p></td>
+    </tr>
+    <tr>
+      <th>geom</th>
+      <td><p>The geometic object to display the data</p></td>
+    </tr>
+    <tr>
+      <th>position</th>
+      <td><p>Position adjustment, either as a string, or the result of a call to a
+position adjustment function.</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>remove NA values from data</p></td>
+    </tr>
+    <tr>
+      <th>show.legend</th>
+      <td><p>logical indicating whether this layer should be included in legends.</p></td>
+    </tr>
+    <tr>
+      <th>inherit.aes</th>
+      <td><p>if <code>FALSE</code>, overrides the default aesthetics, rather than combining with them. 
+This is most useful for helper functions that define both data and the aesthetics and
+shouldn't inherit behaviour from the default plot specificatino, eg <code>borders()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments passed on to <code>layer()</code>, such as aesthetics.</p></td>
+    </tr>
+    </table>
+    
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airsis_loadLatest</span>()
+<span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='no'>ws_monitor</span>) +
+  <span class='fu'>stat_AQILevel</span>() +
+  <span class='fu'>stat_AQILevel</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"point"</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 398 rows containing non-finite values (stat_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 398 rows containing non-finite values (stat_aqi_level).</span></div><div class='img'><img src='stat_AQILevel-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
