@@ -126,7 +126,8 @@ showing PM2.5 data.</p>
     </div>
 
     <pre class="usage"><span class='fu'>custom_pm25TimeseriesScales</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>yexp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0</span>), <span class='kw'>xexp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.05</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,6 +157,20 @@ depending on the data.</p></td>
       <td><p>Timezone for x-axis scale. If NULL and only one timezone present
 in the data, the data timezone will be used. If NULL and multiple timezones 
 present, the default is UTC.</p></td>
+    </tr>
+    <tr>
+      <th>xlab</th>
+      <td><p>Custom xlab. If <code>NULL</code> a default xlab will be generated.</p></td>
+    </tr>
+    <tr>
+      <th>yexp</th>
+      <td><p>Vector of range expansion constants used to add some padding around the 
+data on the y-axis, to ensure that they are placed some distance away from the axes.</p></td>
+    </tr>
+    <tr>
+      <th>xexp</th>
+      <td><p>Vector of range expansion constants used to add some padding around the 
+data on the x-axis, to ensure that they are placed some distance away from the axes.</p></td>
     </tr>
     </table>
     

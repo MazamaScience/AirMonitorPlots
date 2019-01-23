@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create timeseries plot for one or more monitors — monitor_ggTimeseries • PWFSLSmokePlots</title>
+<title>Create a daily barplot timeseries for one or more monitors — tidy_ggDailyBarplot • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,11 +37,10 @@
 
 
 
-<meta property="og:title" content="Create timeseries plot for one or more monitors — monitor_ggTimeseries" />
+<meta property="og:title" content="Create a daily barplot timeseries for one or more monitors — tidy_ggDailyBarplot" />
 
-<meta property="og:description" content="This function wraps tidy_ggTimeseries, accepting a `ws_monitor` 
-object to assemble various layers to create a production-ready
-timeseries plot for one or more monitors." />
+<meta property="og:description" content="This function assembles various layers to create a production-ready
+daily barplot for one or more monitors." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,28 +113,28 @@ timeseries plot for one or more monitors." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create timeseries plot for one or more monitors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/monitor_ggTimeseries.R'><code>R/monitor_ggTimeseries.R</code></a></small>
-    <div class="hidden name"><code>monitor_ggTimeseries.Rd</code></div>
+    <h1>Create a daily barplot timeseries for one or more monitors</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/tidy_ggDailyBarplot.R'><code>R/tidy_ggDailyBarplot.R</code></a></small>
+    <div class="hidden name"><code>tidy_ggDailyBarplot.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function wraps <a href='tidy_ggTimeseries.html'>tidy_ggTimeseries</a>, accepting a `ws_monitor` 
-object to assemble various layers to create a production-ready
-timeseries plot for one or more monitors.</p>
+    <p>This function assembles various layers to create a production-ready
+daily barplot for one or more monitors.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_ggTimeseries</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>style</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>aqiStyle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>tidy_ggDailyBarplot</span>(<span class='no'>ws_tidy</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ws_monitor</th>
-      <td><p>A `ws_monitor` object</p></td>
+      <th>ws_tidy</th>
+      <td><p>dataframe of monitor data, created from a <code>ws_monitor</code>
+object using <code>monitor_toTidy()</code>.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -146,15 +145,6 @@ timeseries plot for one or more monitors.</p>
       <td><p>Desired end date (integer or character in ymd format or POSIXct)</p></td>
     </tr>
     <tr>
-      <th>style</th>
-      <td><p>Plot style. Not currently supported.</p></td>
-    </tr>
-    <tr>
-      <th>aqiStyle</th>
-      <td><p>AQI style to add AQI color bars, lines, and labels. 
-Not currently supported.</p></td>
-    </tr>
-    <tr>
       <th>monitorIDs</th>
       <td><p>vector of monitorIDs to include in the plot. If 
 more than one, different monitors will be plotted in different colors.</p></td>
@@ -162,6 +152,12 @@ more than one, different monitors will be plotted in different colors.</p></td>
     <tr>
       <th>title</th>
       <td><p>Plot title. If NULL, a suitable title will be constructed.</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>Timezone for x-axis scale. If NULL and only one timezone present
+in the data, the data timezone will be used. If NULL and multiple timezones 
+present, the default is UTC.</p></td>
     </tr>
     </table>
     
@@ -171,12 +167,11 @@ more than one, different monitors will be plotted in different colors.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/PWFSLSmoke/topics/Northwest_Megafires'>Northwest_Megafires</a></span>
-<span class='fu'>monitor_ggTimeseries</span>(<span class='no'>ws_monitor</span>,
-                     <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20150815</span>,
-                     <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20150831</span>,
-                     <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='st'>"160690014_01"</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'colour' is already present. Adding another scale for 'colour',</span>
-#&gt; <span class='message'>which will replace the existing scale.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3282 rows containing non-finite values (stat_nowcast).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3282 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 11 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3274 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3282 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3274 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3282 rows containing missing values (geom_point).</span></div><div class='img'><img src='monitor_ggTimeseries-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>
+<span class='no'>ws_tidy</span> <span class='kw'>&lt;-</span> <span class='fu'>monitor_toTidy</span>(<span class='no'>ws_monitor</span>)
+<span class='fu'>tidy_ggDailyBarplot</span>(<span class='no'>ws_tidy</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_bar).</span></div><div class='img'><img src='tidy_ggDailyBarplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

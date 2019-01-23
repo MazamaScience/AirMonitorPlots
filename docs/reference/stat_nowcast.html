@@ -126,8 +126,9 @@ The default is to add a NowCast line.</p>
     </div>
 
     <pre class="usage"><span class='fu'>stat_nowcast</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"pm"</span>,
-  <span class='kw'>includeShortTerm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"path"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>includeShortTerm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"path"</span>, <span class='kw'>aqiColors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,6 +159,15 @@ For details see monitor_nowcast.</p></td>
     <tr>
       <th>geom</th>
       <td><p>The geometic object to display the data</p></td>
+    </tr>
+    <tr>
+      <th>aqiColors</th>
+      <td><p>if <code>TRUE</code>, AQI colors will be displayed.</p></td>
+    </tr>
+    <tr>
+      <th>mv4Colors</th>
+      <td><p>if <code>TRUE</code>, AQI colors from the monitoring V4 site will be used. 
+Ignored if <code>aqiColors</code> is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>position</th>
