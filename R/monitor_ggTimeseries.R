@@ -24,7 +24,7 @@
 monitor_ggTimeseries <- function(ws_monitor,
                                  startdate = NULL,
                                  enddate = NULL,
-                                 style = NULL,
+                                 style = "large",
                                  aqiStyle = NULL,
                                  monitorIDs = NULL,
                                  title = NULL) {

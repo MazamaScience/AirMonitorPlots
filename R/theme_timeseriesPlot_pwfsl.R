@@ -34,27 +34,30 @@ theme_timeseriesPlot_pwfsl <- function(base_size = 11,
         unit(2.0 * base_size, "pt")     # Left
       ),
       
+      # Axes
+      axis.title = element_text(
+        size = 1.2 * base_size
+      ),
+      axis.text = element_text(
+        size = 1.0 * base_size
+      ),
       # Y-axis
       ###axis.line.y = element_blank(),
       axis.title.y = element_text(
-        size = 1.2 * base_size,
         margin = margin(r = 1.0 * base_size)
       ),
       ###axis.ticks.y = element_blank(),
       axis.text.y = element_text(
-        size = 1.0 * base_size,
         margin = margin(r = 0.5 * base_size)
       ),
       
       # X-axis
       ###axis.line.x = element_blank(),
       axis.title.x = element_text(
-        size = 1.2 * base_size,
         margin = margin(t = 1.0 * base_size)
       ),
       ###axis.ticks.x = element_blank(),
       axis.text.x = element_text(
-        size = 1.0 * base_size,
         margin = margin(t = 1.0 * base_size)
       ),
       

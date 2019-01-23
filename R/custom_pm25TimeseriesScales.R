@@ -33,7 +33,11 @@ custom_pm25TimeseriesScales <- function(data = NULL,
                                         timezone = NULL,
                                         xlab = NULL,
                                         yexp = c(0.05, 0),
-                                        xexp = c(0, 0.05)) {
+                                        xexp = c(0, 0.05),
+                                        date_labels = "%b %d",
+                                        tick_location = c("midnight", "midday")[1],
+                                        includeFullEnddate = TRUE,
+                                        ...) {
   
   if (is.null(data)) {
     if (is.null(startdate) || is.null(enddate) || is.null(ylim)) {
@@ -126,10 +130,14 @@ custom_pm25TimeseriesScales <- function(data = NULL,
   
   # add the scales
   list(
-    custom_datetimeScale(startdate, 
-                         enddate, 
-                         timezone,
-                         xexp),
+    custom_datetimeScale(startdate = startdate, 
+                         enddate = enddate, 
+                         timezone = timezone,
+                         expand = xexp,
+                         date_labels = date_labels,
+                         tick_location = tick_location,
+                         includeFullEnddate = includeFullEnddate,
+                         ...),
     
     scale_y_continuous(limits = c(ylo, yhi),
                        expand = yexp),

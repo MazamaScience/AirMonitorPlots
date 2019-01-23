@@ -20,17 +20,16 @@
 #' 
 #' @export
 #' @import ggplot2
-#' 
-
 
 custom_datetimeScale <- function(startdate = NULL, 
                                  enddate = NULL,
                                  timezone = NULL,
                                  expand = c(0,0.05),
-                                 breaks = NULL,
-                                 minor_breaks = NULL,
+                                 break_width = NULL,
+                                 minor_break_width = NULL,
                                  date_labels = "%b %d",
-                                 tick_location = c("midnight", "midday")[1]) {
+                                 tick_location = c("midnight", "midday")[1],
+                                 includeFullEnddate = TRUE) {
   
   
   # TODO:  handle NULL startdate and enddate 
@@ -68,28 +67,31 @@ custom_datetimeScale <- function(startdate = NULL,
   # Choose date_breaks and minor_breaks
   if (tick_location == "midnight") {
     s <- lubridate::floor_date(startdate)
-    e <- lubridate::floor_date(enddate) + lubridate::ddays(1) # full 24 hours of enddate
+    e <- lubridate::ceiling_date(enddate, unit = "day") # full 24 hours of enddate
   } else if (tick_location == "midday") {
     s = lubridate::floor_date(startdate) + lubridate::dhours(12)
-    e = lubridate::floor_date(enddate) + lubridate::ddays(1) + lubridate::dhours(12)
+    e = lubridate::ceiling_date(enddate) + lubridate::dhours(12)
   }
   
   if ( dayCount >= 0 && dayCount <= 9 ) {
-    breaks <- seq(s, e, by = "1 day")
-    minor_breaks <- seq(s, e, by = "3 hours")
+    break_width <- ifelse(is.null(break_width), "1 day", break_width)
+    minor_break_width <- ifelse(is.null(minor_break_width), "3 hours", minor_break_width)
   } else if ( dayCount <= 21 ) {
-    breaks <- seq(s, e, by = "3 days")
-    minor_breaks <- seq(s, e, by = "6 hours")
+    break_width <- ifelse(is.null(break_width), "3 days", break_width)
+    minor_break_width <- ifelse(is.null(minor_break_width), "6 hours", minor_break_width)
   } else if ( dayCount <= 60 ) {
-    breaks <- seq(s, e, by = "1 week")
-    minor_breaks <- seq(s, e, by = "1 day")
+    break_width <- ifelse(is.null(break_width), "1 week", break_width)
+    minor_break_width <- ifelse(is.null(minor_break_width), "1 day", minor_break_width)
   } else if ( dayCount <= 120 ) {
-    breaks <- seq(s, e, by = "2 weeks")
-    minor_breaks <- seq(s, e, by = "1 day")
+    break_width <- ifelse(is.null(break_width), "2 weeks", break_width)
+    minor_break_width <- ifelse(is.null(minor_break_width), "1 day", minor_break_width)
   } else {
-    breaks <- seq(s, e, by = "1 month")
-    minor_breaks <- seq(s, e, by = "1 week")
+    break_width <- ifelse(is.null(break_width), "1 month", break_width)
+    minor_break_width <- ifelse(is.null(minor_break_width), "3 week", minor_break_width)
   }
+  
+  breaks <- seq(s, e, by = break_width)
+  minor_breaks <- seq(s, e, by = minor_break_width)
   
   
   # NOTE:  X-axis must be extended to fit the complete last day.
@@ -97,7 +99,11 @@ custom_datetimeScale <- function(startdate = NULL,
   xRangeSecs <- as.numeric(difftime(enddate, startdate, timezone, units = "secs"))
   marginSecs <- 0.02 * xRangeSecs
   xlo <- startdate - lubridate::dseconds(marginSecs)
-  xhi <- enddate + lubridate::ddays(1) + lubridate::dseconds(marginSecs)
+  if (includeFullEnddate) {
+    xhi <- lubridate::ceiling_date(enddate, unit = "day") + lubridate::dseconds(marginSecs)
+  } else {
+    xhi <- enddate + lubridate::dseconds(marginSecs)
+  }
   
   # Add x-axis
   list(
