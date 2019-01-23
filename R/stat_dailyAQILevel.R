@@ -38,6 +38,11 @@
 #'   stat_AQILevel(color = NA, width = 3000) +
 #'   stat_dailyAQILevel(alpha = .5) +
 #'   facet_wrap(~monitorID)
+#'   
+#' ws_monitor <- airnow_loadLatest() 
+#' ws_monitor <- monitor_subset(ws_monitor, monitorID = "160590004_01")
+#' ggplot_pm25Timeseries(ws_monitor) +
+#'   stat_dailyAQILevel()
 
 
 stat_dailyAQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,  
@@ -71,6 +76,7 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                           
                           # Get date from numeric to posixct
                           df <- data
+                          print(scales$x$breaks)
                           df$datetime <- as.POSIXct(data$x, tz = timezone, origin = "1970-01-01")
                           
                           # Get Daily Mean
@@ -81,6 +87,12 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                           
                           dailyMeans$dailyMean <- ifelse(dailyMeans$count < minHours, NA, dailyMeans$dailyMean)
                           dailyMeans$datetime <- as.numeric(as.POSIXct(strptime(dailyMeans$date, "%Y%m%d", tz = timezone)) + lubridate::dhours(12))
+                          
+                          # Make sure there is no mean for today
+                          if (dplyr::last(dailyMeans$date) == strftime(lubridate::now(timezone), "%Y%m%d")) {
+                            dailyMeans$dailyMean[length(dailyMeans$dailyMean)] <- NA
+                          }
+                          
                           
                           data <- select(dailyMeans, 
                                          x = .data$datetime,

@@ -29,7 +29,8 @@ custom_datetimeScale <- function(startdate = NULL,
                                  minor_break_width = NULL,
                                  date_labels = "%b %d",
                                  tick_location = c("midnight", "midday")[1],
-                                 includeFullEnddate = TRUE) {
+                                 includeFullEnddate = TRUE, 
+                                 ...) {
   
   
   # TODO:  handle NULL startdate and enddate 
@@ -113,7 +114,8 @@ custom_datetimeScale <- function(startdate = NULL,
       breaks = breaks,
       minor_breaks = minor_breaks,
       date_labels = date_labels,
-      timezone = timezone
+      timezone = timezone,
+      ...
     ),
     if ( dayCount > 7 ) {
       theme(

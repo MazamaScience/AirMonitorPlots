@@ -32,7 +32,8 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                               enddate = NULL,
                               monitorIDs = NULL,
                               title = NULL,
-                              timezone = NULL) {
+                              timezone = NULL,
+                              today = TRUE) {
   
   
   # Sanity checks
@@ -93,13 +94,32 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     enddate <- max(ws_tidy$datetime)
   }
   
-  # get breaks at noon for x-axis labels
+  # Custom style formatting 
+  date_format <- "%b %d"
   
   
-  ggplot_pm25Timeseries(ws_tidy,
+  # Custom formatting for when today = TRUE
+  if (!lubridate::as_date(parseDatetime(enddate), timezone) == lubridate::today(timezone)) {
+    today <- FALSE
+  }
+  if (today) {
+    labels_dt <- seq(lubridate::floor_date(parseDatetime(startdate, timezone), "day"),
+                  lubridate::floor_date(parseDatetime(enddate, timezone), "day"),
+                  by = "day")
+    labels <- strftime(labels_dt, date_format)
+    labels[length(labels)] <- ""
+    date_format <- waiver()
+  } else {
+    labels <- waiver()
+  }
+  
+  
+  plot <- ggplot_pm25Timeseries(ws_tidy,
                         startdate = startdate,
                         enddate = enddate,
-                        timezone = timezone) +
+                        timezone = timezone,
+                        labels = labels,
+                        date_labels = date_format) +
     custom_aqiLines() +
     stat_dailyAQILevel(timezone = timezone,
                        adjustylim = TRUE,
@@ -120,4 +140,8 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     ggtitle(title) +
     xlab(xlab)
   
+  if (today) {
+    plot <- plot + custom_latestNowcast(ws_tidy, timezone)
+  }
+  plot
 }

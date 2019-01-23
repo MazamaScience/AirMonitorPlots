@@ -25,6 +25,11 @@ monitor_ggTimeseries(ws_monitor,
                      style = "small")
 dev.off()
 
+monitor_ggDailyBarplot(ws_monitor,
+                       startdate = startdate,
+                       enddate = enddate,
+                       monitorIDs = monitorID)
+
 
 b <- monitor_ggDailyBarplot(ws_monitor,
                             startdate = startdate,
