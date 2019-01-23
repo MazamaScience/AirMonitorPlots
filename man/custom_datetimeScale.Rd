@@ -6,7 +6,8 @@
 \usage{
 custom_datetimeScale(startdate = NULL, enddate = NULL,
   timezone = NULL, expand = c(0, 0.05), breaks = NULL,
-  minor_breaks = NULL, date_labels = "\%b \%d")
+  minor_breaks = NULL, date_labels = "\%b \%d",
+  tick_location = c("midnight", "midday")[1])
 }
 \arguments{
 \item{startdate}{Desired axis start date limit, in a format that can be 
@@ -27,6 +28,8 @@ axes.}
 calculated.}
 
 \item{date_labels}{date format string for formatting date labels.}
+
+\item{tick_location}{Location of ticks ("midnight" or "midday")}
 }
 \description{
 Add a date scale and custom formatting for creating 

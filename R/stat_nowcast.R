@@ -16,6 +16,9 @@
 #' For details see \link{monitor_nowcast}. 
 #' @param includeShortTerm calculate preliminary NowCast values starting with the 2nd hour.
 #' @param geom The geometic object to display the data
+#' @param aqiColors if \code{TRUE}, AQI colors will be displayed. 
+#' @param mv4Colors if \code{TRUE}, AQI colors from the monitoring V4 site will be used. 
+#' Ignored if \code{aqiColors} is \code{FALSE}. 
 #' @param position Position adjustment, either as a string, or the result of a call to a
 #' position adjustment function. 
 #' @param na.rm remove NA values from data
@@ -32,6 +35,7 @@
 
 stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
                          includeShortTerm=FALSE, geom = "path",
+                         aqiColors = FALSE, mv4Colors = FALSE,
                          position = "identity", na.rm = FALSE, show.legend = NA, 
                          inherit.aes = TRUE, 
                          ...) {
@@ -39,18 +43,21 @@ stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
   layer(
     stat = StatNowcast, data = data, mapping = mapping, geom = geom, 
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(includeShortTerm = includeShortTerm, version = version, ...)
+    params = list(includeShortTerm = includeShortTerm, version = version, 
+                  mv4Colors = mv4Colors, aqiColors = aqiColors, ...)
   )
   
 }
 
 
 StatNowcast <- ggproto("StatNowcast", Stat,
-                       compute_layer = function(data, 
+                       compute_group = function(data, 
                                                 scales, 
                                                 params, 
-                                                version = "pm", 
-                                                includeShortTerm = FALSE) {
+                                                version, 
+                                                includeShortTerm,
+                                                mv4Colors,
+                                                aqiColors) {
                          # Set parameters based on version
                          if (version =='pm') {
                            numHrs <- 12
@@ -64,6 +71,8 @@ StatNowcast <- ggproto("StatNowcast", Stat,
                            numHrs <- 8
                            weightFactorMin <- NA  # negative values adjusted up to 0 in .weightFactor()
                            digits <- 3  # NOTE: digits=3 assumes Ozone values given in ppm; update to 0 if values given in ppb
+                         } else if (version == 'identity') {
+                           NULL
                          }
                          
                          
@@ -71,8 +80,32 @@ StatNowcast <- ggproto("StatNowcast", Stat,
                          # NOTE:  We need as.data.frame for when there is only a single column of data.
                          # NOTE:  We truncate, rather than round, per the following:
                          # NOTE:  https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
-                         data$y <- .nowcast(data$y, numHrs, weightFactorMin, includeShortTerm)
+                         if (!version == "identity") {
+                           data$y <- .nowcast(data$y, numHrs, weightFactorMin, includeShortTerm)
+                         }
+                         
+                         if ( aqiColors ) {
+                           # Add column for AQI level
+                           data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
+                           if (!"colour" %in% names(data)) {
+                             if (mv4Colors) {
+                               data$colour <- AQI$mv4Colors[data$aqi]
+                             } else {
+                               data$colour <- AQI$colors[data$aqi] 
+                             }
+                           }
+                           if (!"fill" %in% names(data)) {
+                             if (mv4Colors) {
+                               data$fill <- AQI$mv4Colors[data$aqi]
+                             } else {
+                               data$fill <- AQI$colors[data$aqi]
+                             }
+                             
+                           }
+                         }
+                         
                          return(data)
+                         
                        },
                      
                      required_aes = c("x", "y")

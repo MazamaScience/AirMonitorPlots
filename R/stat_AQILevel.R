@@ -14,6 +14,7 @@
 #' The return value must be a \code{data.frame}, and will be used as the layer data.
 #' @param mv4Colors If \code{TRUE}, use the colors used in the monitoring v4 site. Otherwise,
 #' use the "official" AQI colors. 
+#' @param nowcast If \code{TRUE}, y values will be transformed using \code{\link{stat_nowcast}}.
 #' @param geom The geometic object to display the data
 #' @param position Position adjustment, either as a string, or the result of a call to a
 #' position adjustment function. 
@@ -28,52 +29,39 @@
 #' @export
 #' 
 #' @examples 
-#' ws_monitor <- airsis_loadLatest()
+#' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' ggplot_pm25Timeseries(ws_monitor) +
-#'   stat_AQILevel() + 
-#'   stat_AQILevel(geom = "point", mv4Colors = TRUE)
+#'   stat_AQILevel()
+#'   
+#' ggplot_pm25Timeseries(ws_monitor,
+#'                       startdate = 20160801, 
+#'                       enddate = 20160805) +
+#'   geom_line() +
+#'   stat_AQILevel(geom = "point",
+#'                 size = 2,
+#'                 shape = 21, color = 1) 
 
 
 stat_AQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,
-                          geom = "bar", position = "identity", na.rm = FALSE, 
-                          show.legend = NA, inherit.aes = TRUE, 
+                          nowcast = TRUE, geom = "bar", position = "identity", 
+                          na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, 
                           ...) {
+  if (nowcast) {
+    version <- "pm"
+  } else {
+    version <- "identity"
+  }
   
-  list(
-    layer(
-      stat = StatAQILevel, data = data, mapping = mapping, geom = geom, 
-      position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-      params = list(mv4Colors = mv4Colors, ...)
-    )
-  )
+  stat_nowcast(mapping = mapping, 
+               data = data,
+               mv4Colors = mv4Colors,
+               geom = geom,
+               position = position,
+               na.rm = na.rm,
+               show.legend = show.legend,
+               inherit.aes = inherit.aes,
+               aqiColors = TRUE,
+               ...)
+  
 }
-
-
-StatAQILevel <- ggproto("StatAQILevel", Stat,
-                        compute_group = function(data, 
-                                                 scales, 
-                                                 params,
-                                                 mv4Colors) {
-                          
-                          # Add column for AQI level
-                          data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
-                          if (!"colour" %in% names(data)) {
-                            if (mv4Colors) {
-                              data$colour <- AQI$mv4Colors[data$aqi]
-                            } else {
-                              data$colour <- AQI$colors[data$aqi] 
-                            }
-                          }
-                          if (!"fill" %in% names(data)) {
-                            if (mv4Colors) {
-                              data$fill <- AQI$mv4Colors[data$aqi]
-                            } else {
-                              data$fill <- AQI$colors[data$aqi]
-                            }
-                            
-                          }
-                          return(data)
-                        },
-                        required_aes = c("x", "y")
-)
 

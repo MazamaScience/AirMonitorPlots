@@ -17,6 +17,8 @@
 #' @param timezone timezone for day start and end for averaging. 
 #' @param minHours Minimum number oof valid data hours required to calculate each daily statistic
 #' @param width bar width in units of days. 
+#' @param adjustylim if \code{TRUE}, the ylim of the plot will automatically be adjusted for the 
+#' range of the daily means. 
 #' @param geom The geometic object to display the data
 #' @param position Position adjustment, either as a string, or the result of a call to a
 #' position adjustment function. 
@@ -39,30 +41,33 @@
 
 
 stat_dailyAQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,  
-                               timezone = "UTC", minHours = 18, width = 1,
-                          geom = "bar", position = "identity", na.rm = FALSE, 
-                          show.legend = NA, inherit.aes = TRUE,
-                          ...) {
+                               timezone = "UTC", minHours = 18, width = .8,
+                               adjustylim = FALSE,
+                               geom = "bar", position = "identity", na.rm = FALSE, 
+                               show.legend = NA, inherit.aes = TRUE,
+                               ...) {
   
   width <- 86400 * width 
   list(
     layer(
       stat = StatDailyAQILevel, data = data, mapping = mapping, geom = geom, 
       position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-      params = list(mv4Colors = mv4Colors, timezone = timezone, minHours = minHours, na.rm = na.rm, ...)
+      params = list(mv4Colors = mv4Colors, timezone = timezone, minHours = minHours, na.rm = na.rm, 
+                    adjustylim = adjustylim, width = width, ...)
     )
   )
 }
 
 
-StatDailyAQILevel <- ggproto("StatAQILevel", Stat,
+StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                         compute_group = function(data, 
                                                  scales, 
                                                  params,
                                                  mv4Colors,
                                                  timezone,
                                                  minHours,
-                                                 na.rm) {
+                                                 na.rm,
+                                                 adjustylim) {
                           
                           # Get date from numeric to posixct
                           df <- data
@@ -97,6 +102,30 @@ StatDailyAQILevel <- ggproto("StatAQILevel", Stat,
                             }
                             
                           }
+                          
+                          if ( adjustylim ) {
+                            ymax <- max(data$y, na.rm = TRUE)
+                            if ( ymax <= 50 ) {
+                              yhi <- 50
+                            } else if ( ymax <= 100 ) {
+                              yhi <- 100
+                            } else if ( ymax <= 200 ) {
+                              yhi <- 200
+                            } else if ( ymax <= 400 ) {
+                              yhi <- 400
+                            } else if ( ymax <= 600 )  {
+                              yhi <- 600
+                            } else if ( ymax <= 1000 )  {
+                              yhi <- 1000
+                            } else if ( ymax <= 1500 )  {
+                              yhi <- 1500
+                            } else {
+                              yhi <- 1.05 * ymax
+                            }
+                            scales$y$limits <- c(0, yhi)
+                          }
+                          
+                          
                           return(data)
                         },
                         required_aes = c("x", "y")

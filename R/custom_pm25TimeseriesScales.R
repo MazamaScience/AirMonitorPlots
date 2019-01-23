@@ -15,6 +15,11 @@
 #' @param timezone Timezone for x-axis scale. If NULL and only one timezone present
 #' in the data, the data timezone will be used. If NULL and multiple timezones 
 #' present, the default is UTC. 
+#' @param xlab Custom xlab. If \code{NULL} a default xlab will be generated. 
+#' @param yexp Vector of range expansion constants used to add some padding around the 
+#' data on the y-axis, to ensure that they are placed some distance away from the axes.
+#' @param xexp Vector of range expansion constants used to add some padding around the 
+#' data on the x-axis, to ensure that they are placed some distance away from the axes. 
 #' 
 #' @importFrom rlang .data
 #' @import ggplot2
@@ -25,7 +30,10 @@ custom_pm25TimeseriesScales <- function(data = NULL,
                                         startdate = NULL, 
                                         enddate = NULL, 
                                         ylim = NULL,
-                                        timezone = NULL) {
+                                        timezone = NULL,
+                                        xlab = NULL,
+                                        yexp = c(0.05, 0),
+                                        xexp = c(0, 0.05)) {
   
   if (is.null(data)) {
     if (is.null(startdate) || is.null(enddate) || is.null(ylim)) {
@@ -48,7 +56,7 @@ custom_pm25TimeseriesScales <- function(data = NULL,
     enddate <- max(data$datetime)
   }
   
-  if (is.null(timezone)) {
+  if ( is.null(timezone) ) {
     if (length(unique(data$timezone)) > 1) {
       timezone <- "UTC"
       xlab <- "Time (UTC)"
@@ -56,6 +64,8 @@ custom_pm25TimeseriesScales <- function(data = NULL,
       timezone <- data$timezone[1]
       xlab <- "Local Time"
     }
+  } else if ( is.null(xlab) ) {
+    xlab <- paste0("Time (", timezone, ")")
   }
   
   # handle various startdates
@@ -118,10 +128,11 @@ custom_pm25TimeseriesScales <- function(data = NULL,
   list(
     custom_datetimeScale(startdate, 
                          enddate, 
-                         timezone),
+                         timezone,
+                         xexp),
     
     scale_y_continuous(limits = c(ylo, yhi),
-                       expand = c(0.05,0)),
+                       expand = yexp),
     ylab("PM2.5 (\u00b5g/m3)"),
     xlab(xlab)
     

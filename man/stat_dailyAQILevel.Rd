@@ -5,9 +5,9 @@
 \title{Add AQI colors to a plot}
 \usage{
 stat_dailyAQILevel(mapping = NULL, data = NULL, mv4Colors = FALSE,
-  timezone = "UTC", minHours = 18, width = 1, geom = "bar",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  timezone = "UTC", minHours = 18, width = 0.8, adjustylim = FALSE,
+  geom = "bar", position = "identity", na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{aes()}. If specified and 
@@ -28,6 +28,9 @@ use the "official" AQI colors.}
 \item{minHours}{Minimum number oof valid data hours required to calculate each daily statistic}
 
 \item{width}{bar width in units of days.}
+
+\item{adjustylim}{if \code{TRUE}, the ylim of the plot will automatically be adjusted for the 
+range of the daily means.}
 
 \item{geom}{The geometic object to display the data}
 

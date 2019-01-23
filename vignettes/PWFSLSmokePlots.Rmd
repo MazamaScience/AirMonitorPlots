@@ -32,12 +32,43 @@ High-level functions in this package make it easy to create beautiful plots with
 
 ### Timeseries
 
+The default Timeseries plot is optimized for one monitor. 
+
 ```{r}
 library(PWFSLSmokePlots)
-monitor_ggTimeseries(Northwest_Megafires, 
+monitor_ggTimeseries(PWFSLSmoke::Northwest_Megafires, 
                      monitorIDs = "160050015_01",
                      startdate = 20150815,
                      enddate = 20150825)
+```
+
+If more than one monitor is present, color will be mapped to monitorID. 
+
+```{r}
+monitor_ggTimeseries(PWFSLSmoke::Northwest_Megafires,
+                     monitorIDs = c("530630047_01", 
+                                    "530639997_01", 
+                                    "530639996_01"),
+                     startdate = 20150815,
+                     enddate = 20150820)
+```
+
+### Daily Barplot
+
+Daily Barplot can show daily averages for one monitor. 
+
+```{r}
+monitor_ggDailyBarplot(PWFSLSmoke::Carmel_Valley,
+                       startdate = 20160801,
+                       enddate = 20160807)
+```
+
+It can also show aggregated daily averages for many monitors.
+
+```{r}
+monitor_ggDailyBarplot(PWFSLSmoke::Northwest_Megafires,
+                       startdate = 20150820, 
+                       enddate = 20150825)
 ```
 
 ## Extending `ggplot2`

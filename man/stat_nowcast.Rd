@@ -5,8 +5,9 @@
 \title{Add NowCast values to a plot}
 \usage{
 stat_nowcast(mapping = NULL, data = NULL, version = "pm",
-  includeShortTerm = FALSE, geom = "path", position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+  includeShortTerm = FALSE, geom = "path", aqiColors = FALSE,
+  mv4Colors = FALSE, position = "identity", na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{aes()}. If specified and 
@@ -25,6 +26,11 @@ For details see \link{monitor_nowcast}.}
 \item{includeShortTerm}{calculate preliminary NowCast values starting with the 2nd hour.}
 
 \item{geom}{The geometic object to display the data}
+
+\item{aqiColors}{if \code{TRUE}, AQI colors will be displayed.}
+
+\item{mv4Colors}{if \code{TRUE}, AQI colors from the monitoring V4 site will be used. 
+Ignored if \code{aqiColors} is \code{FALSE}.}
 
 \item{position}{Position adjustment, either as a string, or the result of a call to a
 position adjustment function.}

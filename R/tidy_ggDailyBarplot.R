@@ -1,19 +1,19 @@
-#' @title Create timeseries plot for one or more monitors
+#' @title Create a daily barplot timeseries for one or more monitors
 #'
 #' @description
 #' This function assembles various layers to create a production-ready
-#' timeseries plot for one or more monitors. 
+#' daily barplot for one or more monitors. 
 #'
 #' @param ws_tidy dataframe of monitor data, created from a \code{ws_monitor}
 #' object using \code{monitor_toTidy()}. 
 #' @param startdate Desired start date (integer or character in ymd format or POSIXct)
 #' @param enddate Desired end date (integer or character in ymd format or POSIXct)
-#' @param style Plot style. Not currently supported.
-#' @param aqiStyle AQI style to add AQI color bars, lines, and labels. 
-#' Not currently supported.
 #' @param monitorIDs vector of monitorIDs to include in the plot. If 
 #' more than one, different monitors will be plotted in different colors.
 #' @param title Plot title. If NULL, a suitable title will be constructed.
+#' @param timezone Timezone for x-axis scale. If NULL and only one timezone present
+#' in the data, the data timezone will be used. If NULL and multiple timezones 
+#' present, the default is UTC. 
 #' @return A **ggplot** object
 #'
 #' @import PWFSLSmoke
@@ -23,52 +23,101 @@
 #' @export
 #' 
 #' @examples
-#' ws_monitor <- airnow_loadLatest()
+#' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' ws_tidy <- monitor_toTidy(ws_monitor)
-#' tidy_ggTimeseries(ws_tidy, monitorIDs = "410432002_01")
+#' tidy_ggDailyBarplot(ws_tidy)
 
-tidy_ggTimeseries <- function(ws_tidy,
+tidy_ggDailyBarplot <- function(ws_tidy,
                               startdate = NULL,
                               enddate = NULL,
-                              style = NULL,
-                              aqiStyle = NULL,
                               monitorIDs = NULL,
-                              title = NULL) {
+                              title = NULL,
+                              timezone = NULL) {
   
-  data <- ws_tidy
   
-  if (!is.null(monitorIDs)) {
-    data <- dplyr::filter(.data = data, .data$monitorID %in% monitorIDs)
-  } 
+  # Sanity checks
+  if (!monitor_isTidy(ws_tidy)) {
+    stop("ws_tidy must be ws_tidy objec")
+  }
   
-  if ( length(unique(data$monitorID)) > 1) {
-    mapping <- aes_(color = ~monitorID)
-    if (is.null(title)) title <- ""
-  } else {
-    mapping <- NULL
-    if(is.null(title)) title <- unique(data$siteName)
+  if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
+    invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
+    stop(paste0("MonitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
+  }
+  
+  if (!is.null(startdate) & !is.null(enddate)) {
+    daterange <- range(ws_tidy$datetime)
+    if ( !lubridate::`%within%`(parseDatetime(startdate), lubridate::interval(daterange[1], daterange[2])) ) {
+      stop("startdate is outside of data date range")
+    } 
+    if ( !lubridate::`%within%`(parseDatetime(enddate), lubridate::interval(daterange[1], daterange[2])) ) {
+      stop("enddate is outside of data date range")
+    }
+  }
+  
+  if (!is.null(timezone)) {
+    if (!timezone %in% OlsonNames()) {
+      stop("Invalid Timezone")
+    }
   }
   
   
-  pm25LegendLabel = "Hourly PM2.5 Values"
-  nowcastLegendLabel = "NowCast"
+  # Subset Data
+  if (!is.null(monitorIDs)) {
+    ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID %in% monitorIDs)
+  } 
   
-  ggplot_pm25Timeseries(data,
+
+  if ( length(unique(ws_tidy$monitorID)) > 1) {
+    if (is.null(title)) title <- paste0("Daily Average PM2.5 for ", 
+                                        length(unique(ws_tidy$monitorID)), 
+                                        " monitors")
+  } else {
+    if(is.null(title)) title <- paste0("Daily Average PM2.5\n",
+                                       "Site: ", unique(ws_tidy$siteName))
+  }
+  
+  
+  if ( length(unique(ws_tidy$timezone)) > 1 ) {
+    timezone <- "UTC"
+    xlab <- "Time (UTC)"
+  } else {
+    timezone <- unique(ws_tidy$timezone)
+    xlab <- "Local Time"
+  }
+  
+  if (is.null(startdate)) {
+    startdate <- min(ws_tidy$datetime)
+  } 
+  if (is.null(enddate)) {
+    enddate <- max(ws_tidy$datetime)
+  }
+  
+  # get breaks at noon for x-axis labels
+  
+  
+  ggplot_pm25Timeseries(ws_tidy,
                         startdate = startdate,
-                        enddate = enddate) +
-    geom_pm25Points(mapping) +
-    stat_nowcast(mapping) +
-    custom_aqiStackedBar() +
+                        enddate = enddate,
+                        timezone = timezone) +
     custom_aqiLines() +
-    scale_color_brewer(palette = "Dark2") +
+    stat_dailyAQILevel(timezone = timezone,
+                       adjustylim = TRUE,
+                       color = "black") +
+    custom_aqiStackedBar(width = .015) +
+    ## Format/theme tweaks
+    # Remove padding on y scale
+    scale_y_continuous(expand = c(0,0)) +
+    # Change datetime scale so that labels are at midday instead of midnight
+    custom_datetimeScale(startdate = startdate, 
+                         enddate = enddate,
+                         tick_location = "midday",
+                         timezone = timezone) +
+    theme(axis.line.x.bottom = element_blank(), # remove line on x-axis
+          panel.border = element_blank(), # remove box around plot
+          panel.grid = element_blank(), # remove background grid lines
+          axis.ticks.x.bottom = element_blank()) + #remove x-axis ticks + 
     ggtitle(title) +
-    custom_legend(labels = c("Hourly PM2.5 Values", "NowCast"),
-                  aesthetics = list(color = c(1,1),
-                                    size = c(1.5, 0.5),
-                                    linetype = c(NA, 1),
-                                    shape = c(16, NA),
-                                    alpha = c(0.3, 1)),
-                  theme_args = list(legend.position = "top"))
-  
+    xlab(xlab)
   
 }

@@ -5,8 +5,8 @@
 \title{Add AQI colors to a plot}
 \usage{
 stat_AQILevel(mapping = NULL, data = NULL, mv4Colors = FALSE,
-  geom = "bar", position = "identity", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+  nowcast = TRUE, geom = "bar", position = "identity",
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{aes()}. If specified and 
@@ -21,6 +21,8 @@ The return value must be a \code{data.frame}, and will be used as the layer data
 
 \item{mv4Colors}{If \code{TRUE}, use the colors used in the monitoring v4 site. Otherwise,
 use the "official" AQI colors.}
+
+\item{nowcast}{If \code{TRUE}, y values will be transformed using \code{\link{stat_nowcast}}.}
 
 \item{geom}{The geometic object to display the data}
 
@@ -42,8 +44,15 @@ This function calculates the AQI PM25 categories for the data, and colors the da
 by AQI cateogry when it is added to a plot. The default is to add them as bars.
 }
 \examples{
-ws_monitor <- airsis_loadLatest()
+ws_monitor <- PWFSLSmoke::Carmel_Valley
 ggplot_pm25Timeseries(ws_monitor) +
-  stat_AQILevel() + 
-  stat_AQILevel(geom = "point", mv4Colors = TRUE)
+  stat_AQILevel()
+  
+ggplot_pm25Timeseries(ws_monitor,
+                      startdate = 20160801, 
+                      enddate = 20160805) +
+  geom_line() +
+  stat_AQILevel(geom = "point",
+                size = 2,
+                shape = 21, color = 1) 
 }

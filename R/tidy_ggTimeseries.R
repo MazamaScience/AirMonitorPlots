@@ -35,40 +35,66 @@ tidy_ggTimeseries <- function(ws_tidy,
                               monitorIDs = NULL,
                               title = NULL) {
   
-  data <- ws_tidy
+  
+  # Sanity checks
+  if (!monitor_isTidy(ws_tidy)) {
+    stop("ws_tidy must be ws_tidy objec")
+  }
+  
+  if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
+    invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
+    stop(paste0("MonitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
+  }
+  
+  if ( !is.null(startdate) & !is.null(enddate) ) {
+    daterange <- range(ws_tidy$datetime)
+    if ( !lubridate::`%within%`(parseDatetime(startdate), lubridate::interval(daterange[1], daterange[2])) ) {
+      stop("startdate is outside of data date range")
+    } 
+    if ( !lubridate::`%within%`(parseDatetime(enddate), lubridate::interval(daterange[1], daterange[2])) ) {
+      stop("enddate is outside of data date range")
+    }
+  }
   
   if (!is.null(monitorIDs)) {
-    data <- dplyr::filter(.data = data, .data$monitorID %in% monitorIDs)
+    ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID %in% monitorIDs)
   } 
   
-  if ( length(unique(data$monitorID)) > 1) {
+  if ( length(unique(ws_tidy$monitorID)) > 1) {
     mapping <- aes_(color = ~monitorID)
     if (is.null(title)) title <- ""
   } else {
     mapping <- NULL
-    if(is.null(title)) title <- unique(data$siteName)
+    if(is.null(title)) title <- paste0("Hourly PM2.5 Values and NowCast\n", 
+                                       "Site: ", unique(ws_tidy$siteName))
   }
   
   
   pm25LegendLabel = "Hourly PM2.5 Values"
   nowcastLegendLabel = "NowCast"
   
-  ggplot_pm25Timeseries(data,
-                        startdate = startdate,
-                        enddate = enddate) +
+  plot <- ggplot_pm25Timeseries(ws_tidy,
+                                startdate = startdate,
+                                enddate = enddate) +
     geom_pm25Points(mapping) +
     stat_nowcast(mapping) +
     custom_aqiStackedBar() +
     custom_aqiLines() +
     scale_color_brewer(palette = "Dark2") +
-    ggtitle(title) +
-    custom_legend(labels = c("Hourly PM2.5 Values", "NowCast"),
-                  aesthetics = list(color = c(1,1),
-                                    size = c(1.5, 0.5),
-                                    linetype = c(NA, 1),
-                                    shape = c(16, NA),
-                                    alpha = c(0.3, 1)),
-                  theme_args = list(legend.position = "top"))
+    ggtitle(title) 
+  
+  if ( length(unique(ws_tidy$monitorID)) == 1 ) {
+    plot <- plot +
+      custom_legend(labels = c("Hourly PM2.5 Values", "NowCast"),
+                    aesthetics = list(color = c(1,1),
+                                      size = c(1.5, 0.5),
+                                      linetype = c(NA, 1),
+                                      shape = c(16, NA),
+                                      alpha = c(0.3, 1)),
+                    theme_args = list(legend.position = "top"))
+  }
+  
+  plot
   
   
 }

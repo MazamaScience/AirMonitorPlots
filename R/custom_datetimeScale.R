@@ -15,6 +15,7 @@
 #' @param minor_breaks Custom minor breaks. If NULL, suitable breaks are
 #' calculated. 
 #' @param date_labels date format string for formatting date labels.
+#' @param tick_location Location of ticks ("midnight" or "midday")
 #' 
 #' 
 #' @export
@@ -28,7 +29,8 @@ custom_datetimeScale <- function(startdate = NULL,
                                  expand = c(0,0.05),
                                  breaks = NULL,
                                  minor_breaks = NULL,
-                                 date_labels = "%b %d") {
+                                 date_labels = "%b %d",
+                                 tick_location = c("midnight", "midday")[1]) {
   
   
   # TODO:  handle NULL startdate and enddate 
@@ -64,8 +66,14 @@ custom_datetimeScale <- function(startdate = NULL,
   dayCount <- as.integer(difftime(enddate, startdate, units = "days")) + 1
   
   # Choose date_breaks and minor_breaks
-  s <- startdate
-  e <- enddate + lubridate::ddays(1) # full 24 hours of enddate
+  if (tick_location == "midnight") {
+    s <- lubridate::floor_date(startdate)
+    e <- lubridate::floor_date(enddate) + lubridate::ddays(1) # full 24 hours of enddate
+  } else if (tick_location == "midday") {
+    s = lubridate::floor_date(startdate) + lubridate::dhours(12)
+    e = lubridate::floor_date(enddate) + lubridate::ddays(1) + lubridate::dhours(12)
+  }
+  
   if ( dayCount >= 0 && dayCount <= 9 ) {
     breaks <- seq(s, e, by = "1 day")
     minor_breaks <- seq(s, e, by = "3 hours")

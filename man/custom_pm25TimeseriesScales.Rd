@@ -5,7 +5,8 @@
 \title{PWFSL PM2.5 timeseries scales}
 \usage{
 custom_pm25TimeseriesScales(data = NULL, startdate = NULL,
-  enddate = NULL, ylim = NULL, timezone = NULL)
+  enddate = NULL, ylim = NULL, timezone = NULL, xlab = NULL,
+  yexp = c(0.05, 0), xexp = c(0, 0.05))
 }
 \arguments{
 \item{data}{pm25 timeseries data. Should match the default dataset of the
@@ -23,6 +24,14 @@ depending on the data.}
 \item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
 in the data, the data timezone will be used. If NULL and multiple timezones 
 present, the default is UTC.}
+
+\item{xlab}{Custom xlab. If \code{NULL} a default xlab will be generated.}
+
+\item{yexp}{Vector of range expansion constants used to add some padding around the 
+data on the y-axis, to ensure that they are placed some distance away from the axes.}
+
+\item{xexp}{Vector of range expansion constants used to add some padding around the 
+data on the x-axis, to ensure that they are placed some distance away from the axes.}
 }
 \description{
 Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 
