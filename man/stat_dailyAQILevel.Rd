@@ -57,4 +57,9 @@ ggplot_pm25Timeseries(ws_monitor) +
   stat_AQILevel(color = NA, width = 3000) +
   stat_dailyAQILevel(alpha = .5) +
   facet_wrap(~monitorID)
+  
+ws_monitor <- airnow_loadLatest() 
+ws_monitor <- monitor_subset(ws_monitor, monitorID = "160590004_01")
+ggplot_pm25Timeseries(ws_monitor) +
+  stat_dailyAQILevel()
 }

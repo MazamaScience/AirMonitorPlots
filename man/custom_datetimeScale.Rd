@@ -5,9 +5,10 @@
 \title{Add date scale with custom styling for timezone and daterange}
 \usage{
 custom_datetimeScale(startdate = NULL, enddate = NULL,
-  timezone = NULL, expand = c(0, 0.05), breaks = NULL,
-  minor_breaks = NULL, date_labels = "\%b \%d",
-  tick_location = c("midnight", "midday")[1])
+  timezone = NULL, expand = c(0, 0.05), break_width = NULL,
+  minor_break_width = NULL, date_labels = "\%b \%d",
+  tick_location = c("midnight", "midday")[1],
+  includeFullEnddate = TRUE, ...)
 }
 \arguments{
 \item{startdate}{Desired axis start date limit, in a format that can be 
@@ -22,14 +23,14 @@ parsed with \link{parseDatetime}.}
 around the data, to ensure that they are placed some distance away from the 
 axes.}
 
+\item{date_labels}{date format string for formatting date labels.}
+
+\item{tick_location}{Location of ticks ("midnight" or "midday")}
+
 \item{breaks}{Custom breaks. If NULL, suitable breaks are calculated.}
 
 \item{minor_breaks}{Custom minor breaks. If NULL, suitable breaks are
 calculated.}
-
-\item{date_labels}{date format string for formatting date labels.}
-
-\item{tick_location}{Location of ticks ("midnight" or "midday")}
 }
 \description{
 Add a date scale and custom formatting for creating 

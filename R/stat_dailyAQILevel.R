@@ -76,7 +76,6 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                           
                           # Get date from numeric to posixct
                           df <- data
-                          print(scales$x$breaks)
                           df$datetime <- as.POSIXct(data$x, tz = timezone, origin = "1970-01-01")
                           
                           # Get Daily Mean

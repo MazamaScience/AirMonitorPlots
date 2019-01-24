@@ -5,7 +5,8 @@
 \title{Create timeseries plot for one or more monitors}
 \usage{
 tidy_ggTimeseries(ws_tidy, startdate = NULL, enddate = NULL,
-  style = NULL, aqiStyle = NULL, monitorIDs = NULL, title = NULL)
+  style = "large", aqiStyle = NULL, monitorIDs = NULL,
+  title = NULL)
 }
 \arguments{
 \item{ws_tidy}{dataframe of monitor data, created from a \code{ws_monitor}
@@ -15,7 +16,9 @@ object using \code{monitor_toTidy()}.}
 
 \item{enddate}{Desired end date (integer or character in ymd format or POSIXct)}
 
-\item{style}{Plot style. Not currently supported.}
+\item{style}{Plot style. \code{small} or \code{large}. \code{style = small} is 
+appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
+for plots larger than 450x450px.}
 
 \item{aqiStyle}{AQI style to add AQI color bars, lines, and labels. 
 Not currently supported.}

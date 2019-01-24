@@ -13,10 +13,11 @@
 
 
 
-custom_latestNowcast <- function(ws_tidy,
+custom_currentNowcast <- function(ws_tidy,
                                  monitorID = NULL,
                                  timezone = NULL,
-                                 width = 0.8) {
+                                 width = 0.8,
+                                 text_size = 4) {
   
   if ( !is.null(monitorID) ) {
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID == !!monitorID)
@@ -32,7 +33,7 @@ custom_latestNowcast <- function(ws_tidy,
   
   lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
   if ( now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(3) ) {
-    # No Nowcast Available
+    currentNowcast <- 0
   } else {
     nowcast <- .nowcast(ws_tidy$pm25)
     currentNowcast <- nowcast[lastValidIndex]
@@ -49,7 +50,8 @@ custom_latestNowcast <- function(ws_tidy,
                    ymin = 0,
                    ymax = currentNowcast,
                    fill = color,
-                   color = "gray60")
+                   color = "gray60",
+                   alpha = .8)
   rect2 <- annotate("rect", 
                     xmin = left, 
                     xmax = right,
@@ -62,7 +64,9 @@ custom_latestNowcast <- function(ws_tidy,
                    y = 0,
                    x = center,
                    label = "current\nNowCast",
-                   vjust = 1.5)
+                   vjust = 1.2,
+                   color = "gray40",
+                   size = text_size)
   
   
   list(rect,

@@ -31,6 +31,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                               startdate = NULL,
                               enddate = NULL,
                               monitorIDs = NULL,
+                              style = "large", 
                               title = NULL,
                               timezone = NULL,
                               today = TRUE) {
@@ -78,7 +79,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                                        "Site: ", unique(ws_tidy$siteName))
   }
   
-  
+  # Get timezone
   if ( length(unique(ws_tidy$timezone)) > 1 ) {
     timezone <- "UTC"
     xlab <- "Time (UTC)"
@@ -87,6 +88,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     xlab <- "Local Time"
   }
   
+  # Set default startdate and enddate
   if (is.null(startdate)) {
     startdate <- min(ws_tidy$datetime)
   } 
@@ -94,8 +96,22 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     enddate <- max(ws_tidy$datetime)
   }
   
-  # Custom style formatting 
+  # Custom style formatting
   date_format <- "%b %d"
+  if (style == "large") {
+    nowcastTextSize <- 4.5
+    custom_theme <- theme(axis.title.x.bottom = element_blank(),
+                          plot.margin = margin(
+                            unit(25, "pt"),    # Top
+                            unit(10, "pt"),    # Right
+                            unit(15, "pt"),    # Bottom
+                            unit(10, "pt")     # Left
+                          ),
+                          axis.text = element_text(size = 12),
+                          axis.title.y = element_text(size = 18),
+                          plot.title = element_text(size = 20))
+  }
+  
   
   
   # Custom formatting for when today = TRUE
@@ -113,14 +129,15 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     labels <- waiver()
   }
   
-  
+  # Create the plot
   plot <- ggplot_pm25Timeseries(ws_tidy,
                         startdate = startdate,
                         enddate = enddate,
                         timezone = timezone,
                         labels = labels,
-                        date_labels = date_format) +
-    custom_aqiLines() +
+                        date_labels = date_format,
+                        tick_location = "midday") +
+    custom_aqiLines(size = 1, alpha = .8) +
     stat_dailyAQILevel(timezone = timezone,
                        adjustylim = TRUE,
                        color = "black") +
@@ -128,11 +145,6 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     ## Format/theme tweaks
     # Remove padding on y scale
     scale_y_continuous(expand = c(0,0)) +
-    # Change datetime scale so that labels are at midday instead of midnight
-    custom_datetimeScale(startdate = startdate, 
-                         enddate = enddate,
-                         tick_location = "midday",
-                         timezone = timezone) +
     theme(axis.line.x.bottom = element_blank(), # remove line on x-axis
           panel.border = element_blank(), # remove box around plot
           panel.grid = element_blank(), # remove background grid lines
@@ -141,7 +153,9 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     xlab(xlab)
   
   if (today) {
-    plot <- plot + custom_latestNowcast(ws_tidy, timezone)
+    plot <- plot + custom_currentNowcast(ws_tidy, 
+                                         timezone = timezone,
+                                         text_size = nowcastTextSize)
   }
-  plot
+  plot + custom_theme
 }

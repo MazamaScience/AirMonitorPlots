@@ -6,7 +6,9 @@
 \usage{
 custom_pm25TimeseriesScales(data = NULL, startdate = NULL,
   enddate = NULL, ylim = NULL, timezone = NULL, xlab = NULL,
-  yexp = c(0.05, 0), xexp = c(0, 0.05))
+  yexp = c(0.05, 0), xexp = c(0, 0.05), date_labels = "\%b \%d",
+  tick_location = c("midnight", "midday")[1],
+  includeFullEnddate = TRUE, ...)
 }
 \arguments{
 \item{data}{pm25 timeseries data. Should match the default dataset of the
