@@ -79,14 +79,3 @@ custom_currentNowcast <- function(ws_tidy,
   )
   
 }
-
-if (FALSE) {
-  ws_monitor <- airnow_loadLatest()
-  tidy <- monitor_toTidy(ws_monitor)
-  tidy <- dplyr::filter(tidy, monitorID == "060631010_01")
-  startdate <- lubridate::floor_date(lubridate::now() - lubridate::ddays(6), "day")
-  enddate <- lubridate::now()
-  ggplot_pm25Timeseries(tidy, startdate = startdate, enddate = enddate) +
-    stat_dailyAQILevel(timezone = unique(tidy$timezone)) + 
-    custom_latestNowcast(tidy)
-}
