@@ -97,19 +97,35 @@ tidy_ggDailyBarplot <- function(ws_tidy,
   }
   
   # Custom style formatting
-  date_format <- "%b %d"
+  
   if (style == "large") {
     nowcastTextSize <- 4.5
+    nowcastText <- "Current\nNowCast"
+    date_format <- "%b %d"
     custom_theme <- theme(axis.title.x.bottom = element_blank(),
                           plot.margin = margin(
                             unit(25, "pt"),    # Top
                             unit(10, "pt"),    # Right
-                            unit(15, "pt"),    # Bottom
+                            unit(25, "pt"),    # Bottom
                             unit(10, "pt")     # Left
                           ),
                           axis.text = element_text(size = 12),
                           axis.title.y = element_text(size = 18),
                           plot.title = element_text(size = 20))
+  } else if (style == "small") {
+    nowcastTextSize <- 4
+    nowcastText <- "Now-\nCast"
+    date_format <- "%b\n%d"
+    custom_theme <- theme(axis.title.x.bottom = element_blank(),
+                          plot.margin = margin(
+                            unit(20, "pt"),    # Top
+                            unit(10, "pt"),    # Right
+                            unit(15, "pt"),    # Bottom
+                            unit(10, "pt")     # Left
+                          ),
+                          axis.text = element_text(size = 12),
+                          axis.title.y = element_text(size = 12),
+                          plot.title = element_text(size = 15))
   }
   
   
@@ -140,7 +156,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     custom_aqiLines(size = 1, alpha = .8) +
     stat_dailyAQILevel(timezone = timezone,
                        adjustylim = TRUE,
-                       color = "black") +
+                       outlineBars = TRUE) +
     custom_aqiStackedBar(width = .015) +
     ## Format/theme tweaks
     # Remove padding on y scale
@@ -155,7 +171,8 @@ tidy_ggDailyBarplot <- function(ws_tidy,
   if (today) {
     plot <- plot + custom_currentNowcast(ws_tidy, 
                                          timezone = timezone,
-                                         text_size = nowcastTextSize)
+                                         text_size = nowcastTextSize,
+                                         label = nowcastText)
   }
   plot + custom_theme
 }

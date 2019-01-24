@@ -17,7 +17,9 @@ custom_currentNowcast <- function(ws_tidy,
                                  monitorID = NULL,
                                  timezone = NULL,
                                  width = 0.8,
-                                 text_size = 4) {
+                                 text_size = 4,
+                                 maxVaildLatencyHours = 3,
+                                 label = "Current\nNowCast") {
   
   if ( !is.null(monitorID) ) {
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID == !!monitorID)
@@ -32,7 +34,7 @@ custom_currentNowcast <- function(ws_tidy,
   now <- lubridate::now(timezone)
   
   lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
-  if ( now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(3) ) {
+  if ( now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(maxVaildLatencyHours) ) {
     currentNowcast <- 0
   } else {
     nowcast <- .nowcast(ws_tidy$pm25)
@@ -63,16 +65,18 @@ custom_currentNowcast <- function(ws_tidy,
   text <- annotate("text", 
                    y = 0,
                    x = center,
-                   label = "current\nNowCast",
-                   vjust = 1.2,
+                   label = label,
+                   vjust = 1.5,
                    color = "gray40",
                    size = text_size)
   
   
-  list(rect,
-       rect2,
-       text,
-       coord_cartesian(clip = "off"))
+  list(
+    rect,
+    rect2,
+    text,
+    coord_cartesian(clip = "off") # Turn off clipping so labels can be added outside of plot region
+  )
   
 }
 

@@ -19,6 +19,7 @@
 #' @param width bar width in units of days. 
 #' @param adjustylim if \code{TRUE}, the ylim of the plot will automatically be adjusted for the 
 #' range of the daily means. 
+#' @param missingDataBar if \code{TRUE}, a transparent gray bar will be plotted where data is missing.
 #' @param geom The geometic object to display the data
 #' @param position Position adjustment, either as a string, or the result of a call to a
 #' position adjustment function. 
@@ -47,7 +48,8 @@
 
 stat_dailyAQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,  
                                timezone = "UTC", minHours = 18, width = .8,
-                               adjustylim = FALSE,
+                               adjustylim = FALSE, missingDataBar = TRUE,
+                               outlineBars = TRUE, 
                                geom = "bar", position = "identity", na.rm = FALSE, 
                                show.legend = NA, inherit.aes = TRUE,
                                ...) {
@@ -58,7 +60,7 @@ stat_dailyAQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,
       stat = StatDailyAQILevel, data = data, mapping = mapping, geom = geom, 
       position = position, show.legend = show.legend, inherit.aes = inherit.aes,
       params = list(mv4Colors = mv4Colors, timezone = timezone, minHours = minHours, na.rm = na.rm, 
-                    adjustylim = adjustylim, width = width, ...)
+                    adjustylim = adjustylim, width = width, missingDataBar = missingDataBar, outlineBars = outlineBars, ...)
     )
   )
 }
@@ -72,9 +74,12 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                                                  timezone,
                                                  minHours,
                                                  na.rm,
-                                                 adjustylim) {
+                                                 adjustylim,
+                                                 missingDataBar,
+                                                 outlineBars) {
                           
                           # Get date from numeric to posixct
+                          save(data, file = "data.rdata")
                           df <- data
                           df$datetime <- as.POSIXct(data$x, tz = timezone, origin = "1970-01-01")
                           
@@ -87,23 +92,28 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                           dailyMeans$dailyMean <- ifelse(dailyMeans$count < minHours, NA, dailyMeans$dailyMean)
                           dailyMeans$datetime <- as.numeric(as.POSIXct(strptime(dailyMeans$date, "%Y%m%d", tz = timezone)) + lubridate::dhours(12))
                           
-                          # Make sure there is no mean for today
-                          if (dplyr::last(dailyMeans$date) == strftime(lubridate::now(timezone), "%Y%m%d")) {
-                            dailyMeans$dailyMean[length(dailyMeans$dailyMean)] <- NA
-                          }
+                          
+                          
+                          
                           
                           
                           data <- select(dailyMeans, 
                                          x = .data$datetime,
                                          y = .data$dailyMean)
+                          
                           # Add column for AQI level
                           data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
                           if (!"colour" %in% names(data)) {
-                            if (mv4Colors) {
-                              data$colour <- AQI$mv4Colors[data$aqi]
+                            if (outlineBars) {
+                              data$colour <- "black"
                             } else {
-                              data$colour <- AQI$colors[data$aqi] 
+                              if (mv4Colors) {
+                                data$colour <- AQI$mv4Colors[data$aqi]
+                              } else {
+                                data$colour <- AQI$colors[data$aqi] 
+                              }
                             }
+                            
                           }
                           if (!"fill" %in% names(data)) {
                             if (mv4Colors) {
@@ -136,9 +146,48 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                             scales$y$limits <- c(0, yhi)
                           }
                           
+                          # Add missing data bars
+                          if (missingDataBar) {
+                            # Extend data to full extent
+                            max_x <- max(data$x)
+                            while(max_x < scales$x$limits[2]) {
+                              max_x <- max_x + 86400
+                              data <- rbind(data, tibble(x = max_x,
+                                                         y = NA,
+                                                         aqi = NA,
+                                                         colour = NA,
+                                                         fill = NA))
+                            }
+                            min_x <- min(data$x) 
+                            while(min_x > scales$x$limits[2]) {
+                              min_x <- min_x - 86400
+                              data <- rbind(data, tibble(x = min_x,
+                                                         y = NA,
+                                                         aqi = NA,
+                                                         colour = NA,
+                                                         fill = NA))
+                            }
+                            
+                            # Add gray bars
+                            for (missingRow in which(is.na(data$y)) ) {
+                              data[missingRow, "y"] <- scales$y$limits[2]
+                              data[missingRow, "fill"] <- adjustcolor("gray50", .3)
+                              data[missingRow, "colour"] <- NA
+                            }
+                          }
+                          
+                          # Make sure there is no mean for today
+                          date <- strftime(as.POSIXct(data$x, origin = "1970-01-01"), "%Y%m%d")
+                          if ( strftime(lubridate::now(timezone), "%Y%m%d") %in% date ) {
+                            data$y[which(date == strftime(lubridate::now(timezone), "%Y%m%d"))] <- NA
+                            data$fill[which(date == strftime(lubridate::now(timezone), "%Y%m%d"))] <- NA
+                          }
+                          
+                          
                           
                           return(data)
                         },
-                        required_aes = c("x", "y")
+                        required_aes = c("x", "y"),
+                        default_aes = aes(color = "black")
 )
 

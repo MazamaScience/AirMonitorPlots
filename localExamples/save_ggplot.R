@@ -18,10 +18,17 @@ monitor_ggTimeseries(ws_monitor,
 dev.off()
 
 png("smalltimeseries.png", width = 450, height = 450, units = "px")
-
+monitor_ggTimeseries(ws_monitor,
+                     startdate = startdate,
+                     enddate = enddate, 
+                     monitorIDs = monitorID,
+                     style = "small")
 dev.off()
 
-
+monitor_ggDailyBarplot(ws_monitor,
+                       startdate = startdate,
+                       enddate = enddate,
+                       monitorIDs = "483230004_01")
 
 
 b <- monitor_ggDailyBarplot(ws_monitor,
@@ -39,7 +46,17 @@ png("barplot.png", width = 700, height = 700, units = "px")
 monitor_ggDailyBarplot(ws_monitor,
                      startdate = startdate,
                      enddate = enddate,
-                     monitorIDs = monitorID)
+                     monitorIDs = monitorID,
+                     style = "large")
+dev.off()
+
+png("smallbarplot.png", width = 450, height = 450, units = "px")
+monitor_ggDailyBarplot(ws_monitor,
+                       startdate = startdate,
+                       enddate = enddate,
+                       monitorIDs = monitorID,
+                       style = "small") +
+  theme()
 dev.off()
 
 
