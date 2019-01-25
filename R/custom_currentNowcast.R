@@ -3,13 +3,19 @@
 #' @description
 #' Add a bar for the current NowCast to a plot
 #'
-#' @param ws_tidy
-#' @param monitorID
+#' @param ws_tidy \code{ws_tidy} object
+#' @param monitorID MonitorID to calculate NowCast for. Required if
+#' \code{ws_tidy} represents more than one monitor.
+#' @param timezone Timezone
+#' @param width Bar width, in fractions of days. 
+#' @param text_size Size for the label text
+#' @param maxValidLatencyHours Number of hours of missing values before
+#' a missing value bar will be printed.
+#' @param label Text for the label. 
 #' 
 #' @import ggplot2
 #' @export
 #' 
-#' @examples 
 
 
 
@@ -18,7 +24,7 @@ custom_currentNowcast <- function(ws_tidy,
                                  timezone = NULL,
                                  width = 0.8,
                                  text_size = 4,
-                                 maxVaildLatencyHours = 3,
+                                 maxValidLatencyHours = 3,
                                  label = "Current\nNowCast") {
   
   if ( !is.null(monitorID) ) {
@@ -34,7 +40,7 @@ custom_currentNowcast <- function(ws_tidy,
   now <- lubridate::now(timezone)
   
   lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
-  if ( now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(maxVaildLatencyHours) ) {
+  if ( now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(maxValidLatencyHours) ) {
     currentNowcast <- 0
   } else {
     nowcast <- .nowcast(ws_tidy$pm25)

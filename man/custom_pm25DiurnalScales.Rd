@@ -14,23 +14,15 @@ plot}
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
 
-\item{xlab}{Custom xlab. If \code{NULL} a default xlab will be generated.}
+\item{xlab}{Custom x-axis label. If \code{NULL} a default xlab will be generated.}
+
+\item{ylab}{Custam y-axis label.}
 
 \item{yexp}{Vector of range expansion constants used to add some padding around the 
 data on the y-axis, to ensure that they are placed some distance away from the axes.}
 
 \item{xexp}{Vector of range expansion constants used to add some padding around the 
 data on the x-axis, to ensure that they are placed some distance away from the axes.}
-
-\item{startdate}{Desired startdate for x-axis, in a format that can be 
-parsed with \link{parseDatetime}.}
-
-\item{enddate}{Desired enddate for x-axis, in a format that can be parsed 
-with \link{parseDatetime}.}
-
-\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
-in the data, the data timezone will be used. If NULL and multiple timezones 
-present, the default is UTC.}
 }
 \description{
 Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 

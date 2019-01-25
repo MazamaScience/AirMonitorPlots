@@ -5,7 +5,8 @@
 \title{Create a daily barplot timeseries for one or more monitors}
 \usage{
 tidy_ggDailyBarplot(ws_tidy, startdate = NULL, enddate = NULL,
-  monitorIDs = NULL, title = NULL, timezone = NULL, today = TRUE)
+  monitorIDs = NULL, style = "large", title = NULL,
+  timezone = NULL, today = TRUE)
 }
 \arguments{
 \item{ws_tidy}{dataframe of monitor data, created from a \code{ws_monitor}
@@ -18,11 +19,18 @@ object using \code{monitor_toTidy()}.}
 \item{monitorIDs}{vector of monitorIDs to include in the plot. If 
 more than one, different monitors will be plotted in different colors.}
 
+\item{style}{String indicating plotting style. Either \code{"large"} or \code{"small"}.
+\code{style = "large"} is suitable for plots larger than 450x450px, and \code{"small"}
+is suitable for plots 450x450px or smaller.}
+
 \item{title}{Plot title. If NULL, a suitable title will be constructed.}
 
 \item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
 in the data, the data timezone will be used. If NULL and multiple timezones 
 present, the default is UTC.}
+
+\item{today}{Logical indicating whether to include a shaded "current NowCast" bar 
+for Today. Ignored if data is not current.}
 }
 \value{
 A **ggplot** object

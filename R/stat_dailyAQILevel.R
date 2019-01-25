@@ -20,6 +20,7 @@
 #' @param adjustylim if \code{TRUE}, the ylim of the plot will automatically be adjusted for the 
 #' range of the daily means. 
 #' @param missingDataBar if \code{TRUE}, a transparent gray bar will be plotted where data is missing.
+#' @param outlineBars if \code{TRUE}, bars will be outlined in black. 
 #' @param geom The geometic object to display the data
 #' @param position Position adjustment, either as a string, or the result of a call to a
 #' position adjustment function. 
@@ -79,7 +80,6 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                                                  outlineBars) {
                           
                           # Get date from numeric to posixct
-                          save(data, file = "data.rdata")
                           df <- data
                           df$datetime <- as.POSIXct(data$x, tz = timezone, origin = "1970-01-01")
                           

@@ -47,7 +47,8 @@ monitor_ggDailyBarplot(ws_monitor,
                      startdate = startdate,
                      enddate = enddate,
                      monitorIDs = monitorID,
-                     style = "large")
+                     style = "large") %>%
+  brandPlot()
 dev.off()
 
 png("smallbarplot.png", width = 450, height = 450, units = "px")
@@ -55,8 +56,8 @@ monitor_ggDailyBarplot(ws_monitor,
                        startdate = startdate,
                        enddate = enddate,
                        monitorIDs = monitorID,
-                       style = "small") +
-  theme()
+                       style = "small") %>% 
+  brandPlot()
 dev.off()
 
 

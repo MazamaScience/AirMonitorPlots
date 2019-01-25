@@ -11,12 +11,15 @@
 #' @param expand Vector of range expansion constants used to add some padding 
 #' around the data, to ensure that they are placed some distance away from the 
 #' axes. 
-#' @param breaks Custom breaks. If NULL, suitable breaks are calculated.
-#' @param minor_breaks Custom minor breaks. If NULL, suitable breaks are
-#' calculated. 
+#' @param break_width Space between breaks. If \code{NULL}, suitable breaks are
+#' calculated based on the data. See 'Details'. 
+#' @param minor_break_width Space between minor breaks. If \code{NULL}, suitable
+#' breaks are calculated based on the data. See 'Details'. 
 #' @param date_labels date format string for formatting date labels.
 #' @param tick_location Location of ticks ("midnight" or "midday")
-#' 
+#' @param includeFullEnddate if \code{TRUE}, the x-axis limit is pushed up to include
+#' the full final day. 
+#' @param ... Additional arguments passed onto \code{\link[ggplot2]{scale_x_datetime}}. 
 #' 
 #' @export
 #' @import ggplot2

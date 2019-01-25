@@ -25,10 +25,11 @@ Imports:
     gridExtra,
     leaflet,
     lubridate,
+    magrittr,
+    png,
     reshape2,
     rlang,
-    stringr,
-    magrittr
+    stringr
 Suggests:
     knitr,
     maps,

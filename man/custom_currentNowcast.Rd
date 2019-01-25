@@ -5,10 +5,25 @@
 \title{Add a bar for the current NowCast to a plot}
 \usage{
 custom_currentNowcast(ws_tidy, monitorID = NULL, timezone = NULL,
-  width = 0.8)
+  width = 0.8, text_size = 4, maxValidLatencyHours = 3,
+  label = "Current\\nNowCast")
 }
 \arguments{
-\item{monitorID}{}
+\item{ws_tidy}{\code{ws_tidy} object}
+
+\item{monitorID}{MonitorID to calculate NowCast for. Required if
+\code{ws_tidy} represents more than one monitor.}
+
+\item{timezone}{Timezone}
+
+\item{width}{Bar width, in fractions of days.}
+
+\item{text_size}{Size for the label text}
+
+\item{maxValidLatencyHours}{Number of hours of missing values before
+a missing value bar will be printed.}
+
+\item{label}{Text for the label.}
 }
 \description{
 Add a bar for the current NowCast to a plot

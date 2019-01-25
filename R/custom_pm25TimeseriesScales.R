@@ -20,6 +20,7 @@
 #' data on the y-axis, to ensure that they are placed some distance away from the axes.
 #' @param xexp Vector of range expansion constants used to add some padding around the 
 #' data on the x-axis, to ensure that they are placed some distance away from the axes. 
+#' @param ... Additional arguments passed on to \code{\link{custom_datetimeScale}}.
 #' 
 #' @importFrom rlang .data
 #' @import ggplot2
@@ -34,9 +35,6 @@ custom_pm25TimeseriesScales <- function(data = NULL,
                                         xlab = NULL,
                                         yexp = c(0.05, 0),
                                         xexp = c(0, 0.05),
-                                        date_labels = "%b %d",
-                                        tick_location = c("midnight", "midday")[1],
-                                        includeFullEnddate = TRUE,
                                         ...) {
   
   if (is.null(data)) {
@@ -134,9 +132,6 @@ custom_pm25TimeseriesScales <- function(data = NULL,
                          enddate = enddate, 
                          timezone = timezone,
                          expand = xexp,
-                         date_labels = date_labels,
-                         tick_location = tick_location,
-                         includeFullEnddate = includeFullEnddate,
                          ...),
     
     scale_y_continuous(limits = c(ylo, yhi),

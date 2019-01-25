@@ -6,16 +6,10 @@
 #'
 #' @param data pm25 timeseries data. Should match the default dataset of the
 #' plot
-#' @param startdate Desired startdate for x-axis, in a format that can be 
-#' parsed with \link{parseDatetime}.
-#' @param enddate Desired enddate for x-axis, in a format that can be parsed 
-#' with \link{parseDatetime}.
 #' @param ylim custom y-axis limits. This function will apply a default limit
 #' depending on the data. 
-#' @param timezone Timezone for x-axis scale. If NULL and only one timezone present
-#' in the data, the data timezone will be used. If NULL and multiple timezones 
-#' present, the default is UTC. 
-#' @param xlab Custom xlab. If \code{NULL} a default xlab will be generated. 
+#' @param xlab Custom x-axis label. If \code{NULL} a default xlab will be generated. 
+#' @param ylab Custam y-axis label. 
 #' @param yexp Vector of range expansion constants used to add some padding around the 
 #' data on the y-axis, to ensure that they are placed some distance away from the axes.
 #' @param xexp Vector of range expansion constants used to add some padding around the 

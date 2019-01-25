@@ -10,10 +10,15 @@
 #' @param enddate Desired end date (integer or character in ymd format or POSIXct)
 #' @param monitorIDs vector of monitorIDs to include in the plot. If 
 #' more than one, different monitors will be plotted in different colors.
+#' @param style String indicating plotting style. Either \code{"large"} or \code{"small"}.
+#' \code{style = "large"} is suitable for plots larger than 450x450px, and \code{"small"}
+#' is suitable for plots 450x450px or smaller. 
 #' @param title Plot title. If NULL, a suitable title will be constructed.
 #' @param timezone Timezone for x-axis scale. If NULL and only one timezone present
 #' in the data, the data timezone will be used. If NULL and multiple timezones 
 #' present, the default is UTC. 
+#' @param today Logical indicating whether to include a shaded "current NowCast" bar 
+#' for Today. Ignored if data is not current. 
 #' @return A **ggplot** object
 #'
 #' @import PWFSLSmoke

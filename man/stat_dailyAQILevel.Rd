@@ -6,8 +6,9 @@
 \usage{
 stat_dailyAQILevel(mapping = NULL, data = NULL, mv4Colors = FALSE,
   timezone = "UTC", minHours = 18, width = 0.8, adjustylim = FALSE,
-  geom = "bar", position = "identity", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+  missingDataBar = TRUE, outlineBars = TRUE, geom = "bar",
+  position = "identity", na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{aes()}. If specified and 
@@ -31,6 +32,10 @@ use the "official" AQI colors.}
 
 \item{adjustylim}{if \code{TRUE}, the ylim of the plot will automatically be adjusted for the 
 range of the daily means.}
+
+\item{missingDataBar}{if \code{TRUE}, a transparent gray bar will be plotted where data is missing.}
+
+\item{outlineBars}{if \code{TRUE}, bars will be outlined in black.}
 
 \item{geom}{The geometic object to display the data}
 

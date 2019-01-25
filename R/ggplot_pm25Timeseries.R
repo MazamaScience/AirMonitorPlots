@@ -24,7 +24,6 @@ ggplot_pm25Timeseries <- function(ws_data,
                                   enddate = NULL,
                                   timezone = NULL,
                                   ylim = NULL,
-                                  includeFullEnddate = TRUE,
                                   ...) {
   
   if ( monitor_isMonitor(ws_data) ) {
@@ -42,7 +41,6 @@ ggplot_pm25Timeseries <- function(ws_data,
                                 enddate = enddate, 
                                 timezone = timezone,
                                 ylim = ylim,
-                                includeFullEnddate = includeFullEnddate,
                                 ...)
   
 }

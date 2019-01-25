@@ -23,14 +23,20 @@ parsed with \link{parseDatetime}.}
 around the data, to ensure that they are placed some distance away from the 
 axes.}
 
+\item{break_width}{Space between breaks. If \code{NULL}, suitable breaks are
+calculated based on the data. See 'Details'.}
+
+\item{minor_break_width}{Space between minor breaks. If \code{NULL}, suitable
+breaks are calculated based on the data. See 'Details'.}
+
 \item{date_labels}{date format string for formatting date labels.}
 
 \item{tick_location}{Location of ticks ("midnight" or "midday")}
 
-\item{breaks}{Custom breaks. If NULL, suitable breaks are calculated.}
+\item{includeFullEnddate}{if \code{TRUE}, the x-axis limit is pushed up to include
+the full final day.}
 
-\item{minor_breaks}{Custom minor breaks. If NULL, suitable breaks are
-calculated.}
+\item{...}{Additional arguments passed onto \code{\link[ggplot2]{scale_x_datetime}}.}
 }
 \description{
 Add a date scale and custom formatting for creating 
