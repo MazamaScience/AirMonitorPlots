@@ -95,17 +95,17 @@ tidy_ggDailyByHour <- function(ws_tidy,
   # Get 'yesterday' and 'today'. 
   today_string <- strftime(lubridate::today(timezone), "%Y%m%d")
   yesterday_string <- strftime(lubridate::today(timezone) - lubridate::ddays(1), "%Y%m%d")
-  yesterday <- filter(ws_tidy, day == yesterday_string)
-  today <- filter(ws_tidy, day == today_string)
+  yesterday <- dplyr::filter(ws_tidy, .data$day == yesterday_string)
+  today <- dplyr::filter(ws_tidy, .data$day == today_string)
   
   ggplot_pm25Diurnal(ws_tidy, 
                      startdate = startdate,
                      enddate = enddate) +
     stat_meanByX(geom = "line", size = 5, alpha = .3, lineend = "round") +
-    geom_line(aes(y = nowcast), data=yesterday, color = "gray50") +
-    stat_AQILevel(aes(y = nowcast), data = yesterday, geom = "point", nowcast = FALSE, shape = 21, color = "gray50", size = 3) +
-    geom_line(aes(y = nowcast), data=today, size = 1) +
-    stat_AQILevel(aes(y = nowcast), data = today, geom = "point", nowcast = FALSE, shape = 21, color = "black", size = 4) 
+    geom_line(aes(y = .data$nowcast), data=yesterday, color = "gray50") +
+    stat_AQILevel(aes(y = .data$nowcast), data = yesterday, geom = "point", nowcast = FALSE, shape = 21, color = "gray50", size = 3) +
+    geom_line(aes(y = .data$nowcast), data=today, size = 1) +
+    stat_AQILevel(aes(y = .data$nowcast), data = today, geom = "point", nowcast = FALSE, shape = 21, color = "black", size = 4) 
     # custom_legend(labels = c("Today", "Yesterday", paste0(length(unique(ws_tidy$day)), "-day Mean")),
     #               aesthetics = list(size = c(5, 1, .8),
     #                                 linetype = c(1, 1, 1),

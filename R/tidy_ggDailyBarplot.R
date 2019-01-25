@@ -44,7 +44,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
   
   # Sanity checks
   if (!monitor_isTidy(ws_tidy)) {
-    stop("ws_tidy must be ws_tidy objec")
+    stop("ws_tidy must be ws_tidy object")
   }
   
   if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {

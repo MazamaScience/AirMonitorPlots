@@ -41,5 +41,5 @@ timeseries plot for one or more monitors.
 }
 \examples{
 ws_monitor <- airnow_loadLatest()
-monitor_ggTimeseries(ws_monitor, monitorIDs = "410432002_01")
+monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01")
 }
