@@ -88,7 +88,6 @@ StatNowcast <- ggproto("StatNowcast", Stat,
                              
                            }
                          }
-                         
                          return(data)
                          
                        },

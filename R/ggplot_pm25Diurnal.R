@@ -45,12 +45,12 @@ ggplot_pm25Diurnal <- function(ws_data,
     stop("ws_data must be either a ws_monitor object or ws_tidy object.")
   }
   
-  if (!is.null(startdate) & !is.null(enddate)) {
+  if ( !is.null(startdate) & !is.null(enddate) ) {
     daterange <- range(ws_tidy$datetime)
-    if ( !lubridate::`%within%`(parseDatetime(startdate), lubridate::interval(daterange[1], daterange[2])) ) {
+    if ( parseDatetime(startdate) > daterange[2] ) {
       stop("startdate is outside of data date range")
     } 
-    if ( !lubridate::`%within%`(parseDatetime(enddate), lubridate::interval(daterange[1], daterange[2])) ) {
+    if ( parseDatetime(enddate) < daterange[1] ) {
       stop("enddate is outside of data date range")
     }
   }

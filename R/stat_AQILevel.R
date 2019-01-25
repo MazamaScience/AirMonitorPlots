@@ -61,6 +61,7 @@ stat_AQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,
                show.legend = show.legend,
                inherit.aes = inherit.aes,
                aqiColors = TRUE,
+               version = version,
                ...)
   
 }
