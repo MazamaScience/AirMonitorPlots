@@ -10,10 +10,15 @@
 #' @param enddate Desired end date (integer or character in ymd format or POSIXct)
 #' @param monitorIDs vector of monitorIDs to include in the plot. If 
 #' more than one, different monitors will be plotted in different colors.
+#' @param style String indicating plotting style. Either \code{"large"} or \code{"small"}.
+#' \code{style = "large"} is suitable for plots larger than 450x450px, and \code{"small"}
+#' is suitable for plots 450x450px or smaller. 
 #' @param title Plot title. If NULL, a suitable title will be constructed.
 #' @param timezone Timezone for x-axis scale. If NULL and only one timezone present
 #' in the data, the data timezone will be used. If NULL and multiple timezones 
 #' present, the default is UTC. 
+#' @param today Logical indicating whether to include a shaded "current NowCast" bar 
+#' for Today. Ignored if data is not current. 
 #' @return A **ggplot** object
 #'
 #' @import PWFSLSmoke
@@ -31,8 +36,10 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                               startdate = NULL,
                               enddate = NULL,
                               monitorIDs = NULL,
+                              style = "large", 
                               title = NULL,
-                              timezone = NULL) {
+                              timezone = NULL,
+                              today = TRUE) {
   
   
   # Sanity checks
@@ -45,12 +52,12 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     stop(paste0("MonitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
   }
   
-  if (!is.null(startdate) & !is.null(enddate)) {
+  if ( !is.null(startdate) & !is.null(enddate) ) {
     daterange <- range(ws_tidy$datetime)
-    if ( !lubridate::`%within%`(parseDatetime(startdate), lubridate::interval(daterange[1], daterange[2])) ) {
+    if ( parseDatetime(startdate) > daterange[2] ) {
       stop("startdate is outside of data date range")
     } 
-    if ( !lubridate::`%within%`(parseDatetime(enddate), lubridate::interval(daterange[1], daterange[2])) ) {
+    if ( parseDatetime(enddate) < daterange[1] ) {
       stop("enddate is outside of data date range")
     }
   }
@@ -77,7 +84,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                                        "Site: ", unique(ws_tidy$siteName))
   }
   
-  
+  # Get timezone
   if ( length(unique(ws_tidy$timezone)) > 1 ) {
     timezone <- "UTC"
     xlab <- "Time (UTC)"
@@ -86,6 +93,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     xlab <- "Local Time"
   }
   
+  # Set default startdate and enddate
   if (is.null(startdate)) {
     startdate <- min(ws_tidy$datetime)
   } 
@@ -93,26 +101,71 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     enddate <- max(ws_tidy$datetime)
   }
   
-  # get breaks at noon for x-axis labels
+  # Custom style formatting
+  
+  if (style == "large") {
+    nowcastTextSize <- 4.5
+    nowcastText <- "Current\nNowCast"
+    date_format <- "%b %d"
+    custom_theme <- theme(axis.title.x.bottom = element_blank(),
+                          plot.margin = margin(
+                            unit(25, "pt"),    # Top
+                            unit(10, "pt"),    # Right
+                            unit(25, "pt"),    # Bottom
+                            unit(10, "pt")     # Left
+                          ),
+                          axis.text = element_text(size = 12),
+                          axis.title.y = element_text(size = 18),
+                          plot.title = element_text(size = 20))
+  } else if (style == "small") {
+    nowcastTextSize <- 4
+    nowcastText <- "Now-\nCast"
+    date_format <- "%b\n%d"
+    custom_theme <- theme(axis.title.x.bottom = element_blank(),
+                          plot.margin = margin(
+                            unit(20, "pt"),    # Top
+                            unit(10, "pt"),    # Right
+                            unit(15, "pt"),    # Bottom
+                            unit(10, "pt")     # Left
+                          ),
+                          axis.text = element_text(size = 12),
+                          axis.title.y = element_text(size = 12),
+                          plot.title = element_text(size = 15))
+  }
   
   
-  ggplot_pm25Timeseries(ws_tidy,
+  
+  # Custom formatting for when today = TRUE
+  if (!lubridate::as_date(parseDatetime(enddate), timezone) == lubridate::today(timezone)) {
+    today <- FALSE
+  }
+  if (today) {
+    labels_dt <- seq(lubridate::floor_date(parseDatetime(startdate, timezone), "day"),
+                  lubridate::floor_date(parseDatetime(enddate, timezone), "day"),
+                  by = "day")
+    labels <- strftime(labels_dt, date_format)
+    labels[length(labels)] <- ""
+    date_format <- waiver()
+  } else {
+    labels <- waiver()
+  }
+  
+  # Create the plot
+  plot <- ggplot_pm25Timeseries(ws_tidy,
                         startdate = startdate,
                         enddate = enddate,
-                        timezone = timezone) +
-    custom_aqiLines() +
+                        timezone = timezone,
+                        labels = labels,
+                        date_labels = date_format,
+                        tick_location = "midday") +
+    custom_aqiLines(size = 1, alpha = .8) +
     stat_dailyAQILevel(timezone = timezone,
                        adjustylim = TRUE,
-                       color = "black") +
+                       outlineBars = TRUE) +
     custom_aqiStackedBar(width = .015) +
     ## Format/theme tweaks
     # Remove padding on y scale
     scale_y_continuous(expand = c(0,0)) +
-    # Change datetime scale so that labels are at midday instead of midnight
-    custom_datetimeScale(startdate = startdate, 
-                         enddate = enddate,
-                         tick_location = "midday",
-                         timezone = timezone) +
     theme(axis.line.x.bottom = element_blank(), # remove line on x-axis
           panel.border = element_blank(), # remove box around plot
           panel.grid = element_blank(), # remove background grid lines
@@ -120,4 +173,11 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     ggtitle(title) +
     xlab(xlab)
   
+  if (today) {
+    plot <- plot + custom_currentNowcast(ws_tidy, 
+                                         timezone = timezone,
+                                         text_size = nowcastTextSize,
+                                         label = nowcastText)
+  }
+  plot + custom_theme
 }

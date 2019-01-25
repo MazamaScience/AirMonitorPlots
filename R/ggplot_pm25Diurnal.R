@@ -7,6 +7,11 @@
 #' @inheritParams custom_pm25DiurnalScales
 #' @param ws_data Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
 #' object or \code{ws_tidy} object. 
+#' @param startdate Desired startdate for data to include, in a format that can be 
+#' parsed with \link{parseDatetime}.
+#' @param enddate Desired enddate for data to include, in a format that can be parsed 
+#' with \link{parseDatetime}.
+#' @param timezone Timezone to use to set hours of the day
 #'
 #' @import ggplot2
 #' @importFrom rlang .data
@@ -66,11 +71,11 @@ ggplot_pm25Diurnal <- function(ws_data,
   # Subset based on startdate and enddate
   if (!is.null(startdate)) {
     s <- parseDatetime(startdate, timezone = timezone)
-    ws_tidy <- dplyr::filter(ws_tidy, datetime >= lubridate::floor_date(s, unit = "day"))
+    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime >= lubridate::floor_date(s, unit = "day"))
   }
   if (!is.null(enddate)) {
     e <- parseDatetime(enddate, timezone = timezone)
-    ws_tidy <- dplyr::filter(ws_tidy, datetime <= lubridate::ceiling_date(e, unit = "day"))
+    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime <= lubridate::ceiling_date(e, unit = "day"))
   }
   
   

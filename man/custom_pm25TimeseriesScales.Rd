@@ -6,7 +6,7 @@
 \usage{
 custom_pm25TimeseriesScales(data = NULL, startdate = NULL,
   enddate = NULL, ylim = NULL, timezone = NULL, xlab = NULL,
-  yexp = c(0.05, 0), xexp = c(0, 0.05))
+  yexp = c(0.05, 0), xexp = c(0, 0.05), ...)
 }
 \arguments{
 \item{data}{pm25 timeseries data. Should match the default dataset of the
@@ -32,6 +32,8 @@ data on the y-axis, to ensure that they are placed some distance away from the a
 
 \item{xexp}{Vector of range expansion constants used to add some padding around the 
 data on the x-axis, to ensure that they are placed some distance away from the axes.}
+
+\item{...}{Additional arguments passed on to \code{\link{custom_datetimeScale}}.}
 }
 \description{
 Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 

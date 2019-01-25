@@ -11,15 +11,13 @@ ggplot_pm25Diurnal(ws_data, startdate = NULL, enddate = NULL,
 \item{ws_data}{Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
 object or \code{ws_tidy} object.}
 
-\item{startdate}{Desired startdate for x-axis, in a format that can be 
+\item{startdate}{Desired startdate for data to include, in a format that can be 
 parsed with \link{parseDatetime}.}
 
-\item{enddate}{Desired enddate for x-axis, in a format that can be parsed 
+\item{enddate}{Desired enddate for data to include, in a format that can be parsed 
 with \link{parseDatetime}.}
 
-\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
-in the data, the data timezone will be used. If NULL and multiple timezones 
-present, the default is UTC.}
+\item{timezone}{Timezone to use to set hours of the day}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
@@ -38,5 +36,5 @@ ggplot_pm25Diurnal(ws_monitor) +
 ggplot_pm25Diurnal(ws_monitor, 
                    startdate = 20160801, 
                    enddate = 20160810) + 
-stat_boxplot(aes(group = hour)) 
+  stat_boxplot(aes(group = hour)) 
 }

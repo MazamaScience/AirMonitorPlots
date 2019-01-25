@@ -23,7 +23,8 @@ ggplot_pm25Timeseries <- function(ws_data,
                                   startdate = NULL,
                                   enddate = NULL,
                                   timezone = NULL,
-                                  ylim = NULL) {
+                                  ylim = NULL,
+                                  ...) {
   
   if ( monitor_isMonitor(ws_data) ) {
     ws_tidy <- monitor_toTidy(ws_data)
@@ -39,7 +40,8 @@ ggplot_pm25Timeseries <- function(ws_data,
                                 startdate = startdate, 
                                 enddate = enddate, 
                                 timezone = timezone,
-                                ylim = ylim)
+                                ylim = ylim,
+                                ...)
   
 }
 

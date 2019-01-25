@@ -22,7 +22,10 @@ monitor_ggDailyBarplot <- function(ws_monitor,
                                    startdate = NULL,
                                    enddate = NULL,
                                    monitorIDs = NULL,
-                                   title = NULL) {
+                                   style = "large", 
+                                   title = NULL,
+                                   timezone = NULL,
+                                   today = TRUE) {
   
   if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)
@@ -34,6 +37,9 @@ monitor_ggDailyBarplot <- function(ws_monitor,
                       startdate = startdate, 
                       enddate = enddate,
                       monitorIDs = monitorIDs,
-                      title = title)
+                      style = style,
+                      title = title,
+                      timezone = timezone,
+                      today = today)
   
 }
