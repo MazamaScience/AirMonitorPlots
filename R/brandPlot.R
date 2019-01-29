@@ -4,8 +4,10 @@
 #' Add a logo to a ggplot object. 
 #' 
 #' @param plot \code{ggplot} object
-#' @param fullLogo if \code{TRUE}, the full Mazama Science logo is added. If 
-#' \code{FALSE}, only the icon will be added. 
+#' @param brandStyle \code{"logo"} or \code{"icond"}. 
+#' @param brandName Name of brand: \code{"MazamaScience"}, \code{"USFS"}, or \code{"AirFire"}.
+#' @param brandFilePath Path to brand logo or icon. If not \code{NULL}, overrides
+#' \code{brandStyle} and \code{brandName}.
 #' @param location string indicating the location where the logo should be 
 #' printed. Options are: \code{"topright"}, \code{"topleft"}, \code{"bottomright"}, 
 #' or \code{"bottomleft"}. 
@@ -26,7 +28,9 @@
 
 
 brandPlot <- function(plot,
-                      fullLogo = TRUE,
+                      brandStyle = 'logo',
+                      brandName = 'MazamaScience',
+                      brandFilePath = NULL,
                       location = c("topright","topleft","bottomright","bottomleft")[1]) {
   # Adapted from 
   # https://stackoverflow.com/questions/12463691/inserting-an-image-to-ggplot-outside-the-chart-area/12486301#12486301
