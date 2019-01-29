@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • PWFSLSmokePlots</title>
+<title>Add a bar for the current NowCast to a plot — custom_currentNowcast • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,7 +37,10 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Add a bar for the current NowCast to a plot — custom_currentNowcast" />
+
+<meta property="og:description" content="Add a bar for the current NowCast to a plot" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +57,7 @@
   </head>
 
   <body>
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -121,18 +124,64 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Add a bar for the current NowCast to a plot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/custom_currentNowcast.R'><code>R/custom_currentNowcast.R</code></a></small>
+    <div class="hidden name"><code>custom_currentNowcast.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="PWFSLSmokePlots.html">Introduction to PWFSLSmokePlots</a></li>
-        <li><a href="articles/plotting_current_data.html">Plotting Current Data</a></li>
-      </ul>
+    <div class="ref-description">
+    
+    <p>Add a bar for the current NowCast to a plot</p>
+    
     </div>
+
+    <pre class="usage"><span class='fu'>custom_currentNowcast</span>(<span class='no'>ws_tidy</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>maxValidLatencyHours</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Current\nNowCast"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>ws_tidy</th>
+      <td><p><code>ws_tidy</code> object</p></td>
+    </tr>
+    <tr>
+      <th>monitorID</th>
+      <td><p>MonitorID to calculate NowCast for. Required if
+<code>ws_tidy</code> represents more than one monitor.</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>Timezone</p></td>
+    </tr>
+    <tr>
+      <th>width</th>
+      <td><p>Bar width, in fractions of days.</p></td>
+    </tr>
+    <tr>
+      <th>text_size</th>
+      <td><p>Size for the label text</p></td>
+    </tr>
+    <tr>
+      <th>maxValidLatencyHours</th>
+      <td><p>Number of hours of missing values before
+a missing value bar will be printed.</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>Text for the label.</p></td>
+    </tr>
+    </table>
+    
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
+
   </div>
 </div>
 

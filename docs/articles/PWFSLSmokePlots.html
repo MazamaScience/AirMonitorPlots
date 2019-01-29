@@ -54,6 +54,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/articles/plotting_current_data.html">Plotting Current Data</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -98,7 +110,8 @@
 <h3 class="hasAnchor">
 <a href="#timeseries" class="anchor"></a>Timeseries</h3>
 <p>The default Timeseries plot is optimized for one monitor.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(PWFSLSmokePlots)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(PWFSLSmoke)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(PWFSLSmokePlots)
 <span class="kw"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span>(PWFSLSmoke<span class="op">::</span>Northwest_Megafires, 
                      <span class="dt">monitorIDs =</span> <span class="st">"160050015_01"</span>,
                      <span class="dt">startdate =</span> <span class="dv">20150815</span>,
@@ -117,7 +130,7 @@
 <h3 class="hasAnchor">
 <a href="#daily-barplot" class="anchor"></a>Daily Barplot</h3>
 <p>Daily Barplot can show daily averages for one monitor.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span>(<span class="dt">ws_monitor =</span> PWFSLSmoke<span class="op">::</span>Carmel_Valley,
                        <span class="dt">startdate =</span> <span class="dv">20160801</span>,
                        <span class="dt">enddate =</span> <span class="dv">20160807</span>)</code></pre></div>
 <p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
@@ -136,7 +149,7 @@
 <div id="pm25timeseries-plots" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pm25timeseries-plots" class="anchor"></a>pm25Timeseries plots</h3>
-<p>The most basic type of plot for PWFSL monitoring data is timeseries plots: plots that have time on the x-axis and PM2.5 on the y-axis. Timeseries plots should start with a call to <code>ggplot_pm25Timeseries</code>, which accepts either a <code>ws_monitor</code> object, or a <code>ws_tidy</code> object, created from <code>monitor_toTidy(ws_monitor)</code>. This instantiates the plot mapping the data to the correct axes, and adds some custom styling and scaling.</p>
+<p>The most basic type of plot for PWFSL monitoring data is timeseries plots: plots that have time on the x-axis and PM2.5 on the y-axis. Timeseries plots should start with a call to <code>ggplot_pm25Timeseries</code>, which accepts either a <code>ws_monitor</code> object, or a <code>ws_tidy</code> object, created from <code><a href="https://www.rdocumentation.org/packages/PWFSLSmoke/topics/monitor_toTidy">monitor_toTidy(ws_monitor)</a></code>. This instantiates the plot mapping the data to the correct axes, and adds some custom styling and scaling.</p>
 <div id="many-monitors" class="section level4">
 <h4 class="hasAnchor">
 <a href="#many-monitors" class="anchor"></a>Many Monitors</h4>
@@ -160,7 +173,7 @@ nmPlot</code></pre></div>
 <a href="#several-monitors" class="anchor"></a>Several Monitors</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Subset out several monitors near Spokane</span>
 monitorIDs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"530630047_01"</span>, <span class="st">"530639997_01"</span>, <span class="st">"530639996_01"</span>)
-spokane &lt;-<span class="st"> </span><span class="kw">monitor_subset</span>(Northwest_Megafires, <span class="dt">monitorIDs =</span> monitorIDs)
+spokane &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/PWFSLSmoke/topics/monitor_subset">monitor_subset</a></span>(Northwest_Megafires, <span class="dt">monitorIDs =</span> monitorIDs)
 
 spokanePlot &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ggplot_pm25Timeseries.html">ggplot_pm25Timeseries</a></span>(spokane,
                                      <span class="dt">startdate =</span> <span class="dv">20150815</span>,

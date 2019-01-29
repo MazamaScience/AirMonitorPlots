@@ -89,6 +89,18 @@ be added to this plot using ggplot2 syntax." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/articles/plotting_current_data.html">Plotting Current Data</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -138,19 +150,17 @@ object or <code>ws_tidy</code> object.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
-      <td><p>Desired startdate for x-axis, in a format that can be 
+      <td><p>Desired startdate for data to include, in a format that can be 
 parsed with parseDatetime.</p></td>
     </tr>
     <tr>
       <th>enddate</th>
-      <td><p>Desired enddate for x-axis, in a format that can be parsed 
+      <td><p>Desired enddate for data to include, in a format that can be parsed 
 with parseDatetime.</p></td>
     </tr>
     <tr>
       <th>timezone</th>
-      <td><p>Timezone for x-axis scale. If NULL and only one timezone present
-in the data, the data timezone will be used. If NULL and multiple timezones 
-present, the default is UTC.</p></td>
+      <td><p>Timezone to use to set hours of the day</p></td>
     </tr>
     <tr>
       <th>ylim</th>
@@ -169,7 +179,7 @@ depending on the data.</p></td>
 <span class='fu'>ggplot_pm25Diurnal</span>(<span class='no'>ws_monitor</span>,
                    <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
                    <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>) +
-<span class='fu'>stat_boxplot</span>(<span class='fu'>aes</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>hour</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 11 rows containing non-finite values (stat_boxplot).</span></div><div class='img'><img src='ggplot_pm25Diurnal-2.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'>stat_boxplot</span>(<span class='fu'>aes</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>hour</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 11 rows containing non-finite values (stat_boxplot).</span></div><div class='img'><img src='ggplot_pm25Diurnal-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

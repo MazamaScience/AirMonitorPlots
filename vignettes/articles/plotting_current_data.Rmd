@@ -1,0 +1,60 @@
+---
+title: "Plotting Current Data"
+author: "Helen Miller"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 7,
+  fig.height = 7
+)
+```
+
+`PWFSLSmokePlots` provides functions to easily generate stylized plots of current data. 
+
+
+```{r loadData}
+library(PWFSLSmokePlots)
+# Load current Data
+ws_monitor <- loadLatest()
+```
+
+```{r}
+# Set parameters
+monitorID <- "060771002_01"
+enddate <- lubridate::now()
+startdate <- enddate - lubridate::ddays(7)
+```
+
+## Timeseries
+
+```{r}
+monitor_ggTimeseries(ws_monitor, 
+                     startdate = startdate, 
+                     enddate = enddate, 
+                     monitorIDs = monitorID)
+```
+
+## Daily Barplots
+
+```{r}
+monitor_ggDailyBarplot(ws_monitor, 
+                       startdate = startdate,
+                       enddate = enddate, 
+                       monitorIDs = monitorID)
+```
+
+## Diurnal (dailyByHour)
+
+```{r}
+# tidy_ggDailyByHour(monitor_toTidy(ws_monitor), 
+#                     startdate = startdate, 
+#                     enddate = enddate,
+#                     monitorID = monitorID)
+```

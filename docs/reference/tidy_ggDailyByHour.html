@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • PWFSLSmokePlots</title>
+<title>Create a daily barplot timeseries for one or more monitors — tidy_ggDailyByHour • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,7 +37,11 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Create a daily barplot timeseries for one or more monitors — tidy_ggDailyByHour" />
+
+<meta property="og:description" content="This function assembles various layers to create a production-ready
+dailyByHour diurnal plot for one monitor." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +58,7 @@
   </head>
 
   <body>
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -121,18 +125,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Create a daily barplot timeseries for one or more monitors</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/tidy_ggDailyByHour.R'><code>R/tidy_ggDailyByHour.R</code></a></small>
+    <div class="hidden name"><code>tidy_ggDailyByHour.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="PWFSLSmokePlots.html">Introduction to PWFSLSmokePlots</a></li>
-        <li><a href="articles/plotting_current_data.html">Plotting Current Data</a></li>
-      </ul>
+    <div class="ref-description">
+    
+    <p>This function assembles various layers to create a production-ready
+dailyByHour diurnal plot for one monitor.</p>
+    
     </div>
+
+    <pre class="usage"><span class='fu'>tidy_ggDailyByHour</span>(<span class='no'>ws_tidy</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>ws_tidy</th>
+      <td><p>dataframe of monitor data, created from a <code>ws_monitor</code>
+object using <code>monitor_toTidy()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>startdate</th>
+      <td><p>Desired start date (integer or character in ymd format or POSIXct)</p></td>
+    </tr>
+    <tr>
+      <th>enddate</th>
+      <td><p>Desired end date (integer or character in ymd format or POSIXct)</p></td>
+    </tr>
+    <tr>
+      <th>monitorID</th>
+      <td><p>monitorID to include in the plot.</p></td>
+    </tr>
+    <tr>
+      <th>style</th>
+      <td><p>String indicating plotting style. Either <code>"large"</code> or <code>"small"</code>.
+<code>style = "large"</code> is suitable for plots larger than 450x450px, and <code>"small"</code>
+is suitable for plots 450x450px or smaller.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>Plot title. If NULL, a suitable title will be constructed.</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>Timezone for x-axis scale. If NULL and only one timezone present
+in the data, the data timezone will be used. If NULL and multiple timezones 
+present, the default is UTC.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A **ggplot** object</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
+<span class='no'>ws_tidy</span> <span class='kw'>&lt;-</span> <span class='fu'>monitor_toTidy</span>(<span class='no'>ws_monitor</span>)
+<span class='fu'>tidy_ggDailyByHour</span>(<span class='no'>ws_tidy</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"060631010_01"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing non-finite values (stat_nowcast).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='img'><img src='tidy_ggDailyByHour-1.png' alt='' width='700' height='433' /></div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
+
   </div>
 </div>
 

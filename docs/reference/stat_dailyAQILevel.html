@@ -89,6 +89,18 @@ by AQI cateogry when it is added to a plot. The default is to add them as bars."
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/articles/plotting_current_data.html">Plotting Current Data</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -127,8 +139,9 @@ by AQI cateogry when it is added to a plot. The default is to add them as bars.<
 
     <pre class="usage"><span class='fu'>stat_dailyAQILevel</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>, <span class='kw'>minHours</span> <span class='kw'>=</span> <span class='fl'>18</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>adjustylim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>missingDataBar</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>outlineBars</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar"</span>,
+  <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,6 +183,14 @@ use the "official" AQI colors.</p></td>
 range of the daily means.</p></td>
     </tr>
     <tr>
+      <th>missingDataBar</th>
+      <td><p>if <code>TRUE</code>, a transparent gray bar will be plotted where data is missing.</p></td>
+    </tr>
+    <tr>
+      <th>outlineBars</th>
+      <td><p>if <code>TRUE</code>, bars will be outlined in black.</p></td>
+    </tr>
+    <tr>
       <th>geom</th>
       <td><p>The geometic object to display the data</p></td>
     </tr>
@@ -204,7 +225,12 @@ shouldn't inherit behaviour from the default plot specificatino, eg <code>border
 <span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='no'>ws_monitor</span>) +
   <span class='fu'><a href='stat_AQILevel.html'>stat_AQILevel</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>3000</span>) +
   <span class='fu'>stat_dailyAQILevel</span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.5</span>) +
-  <span class='fu'>facet_wrap</span>(~<span class='no'>monitorID</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 407 rows containing non-finite values (stat_nowcast).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 407 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 33 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 8 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_dailyAQILevel-1.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'>facet_wrap</span>(~<span class='no'>monitorID</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 813 rows containing non-finite values (stat_nowcast).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Computation failed in `stat_nowcast()`:</span>
+#&gt; <span class='warning'>replacement has 12 rows, data has 11</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 813 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 44 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 10 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_dailyAQILevel-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
+<span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>monitor_subset</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"160590004_01"</span>)
+<span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='no'>ws_monitor</span>) +
+  <span class='fu'>stat_dailyAQILevel</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 12 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_dailyAQILevel-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

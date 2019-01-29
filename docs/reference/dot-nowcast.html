@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • PWFSLSmokePlots</title>
+<title>Calculate NowCast — .nowcast • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,7 +37,11 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Calculate NowCast — .nowcast" />
+
+<meta property="og:description" content="This function calculates the NowCast values for the data, and adds  it to a plot.
+The default is to add a NowCast line." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +58,7 @@
   </head>
 
   <body>
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -121,18 +125,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Calculate NowCast</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/nowcast.R'><code>R/nowcast.R</code></a></small>
+    <div class="hidden name"><code>dot-nowcast.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="PWFSLSmokePlots.html">Introduction to PWFSLSmokePlots</a></li>
-        <li><a href="articles/plotting_current_data.html">Plotting Current Data</a></li>
-      </ul>
+    <div class="ref-description">
+    
+    <p>This function calculates the NowCast values for the data, and adds  it to a plot.
+The default is to add a NowCast line.</p>
+    
     </div>
+
+    <pre class="usage"><span class='fu'>.nowcast</span>(<span class='no'>x</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"pm"</span>, <span class='kw'>includeShortTerm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Vector of ordered data for the Nowcast algorithm to be applied to.</p></td>
+    </tr>
+    <tr>
+      <th>version</th>
+      <td><p>character identity specifying the type of nowcast algorithm to be used. 
+For details see monitor_nowcast.</p></td>
+    </tr>
+    <tr>
+      <th>includeShortTerm</th>
+      <td><p>calculate preliminary NowCast values starting with the 2nd hour.</p></td>
+    </tr>
+    </table>
+    
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
+
   </div>
 </div>
 
