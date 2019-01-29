@@ -53,8 +53,8 @@ monitor_ggDailyBarplot(ws_monitor,
 ## Diurnal (dailyByHour)
 
 ```{r}
-# tidy_ggDailyByHour(monitor_toTidy(ws_monitor), 
-#                     startdate = startdate, 
-#                     enddate = enddate,
-#                     monitorID = monitorID)
+tidy_ggDailyByHour(monitor_toTidy(ws_monitor), 
+                   startdate = startdate,
+                   enddate = enddate,
+                   monitorID = monitorID) 
 ```

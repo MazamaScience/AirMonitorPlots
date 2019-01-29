@@ -50,37 +50,26 @@ stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
 }
 
 
-StatNowcast <- ggproto("StatNowcast", Stat,
-                       compute_group = function(data, 
-                                                scales, 
-                                                params, 
-                                                version, 
-                                                includeShortTerm,
-                                                mv4Colors,
-                                                aqiColors) {
+StatNowcast <- ggproto("StatNowcast", StatIdentity,
+                       extra_params =  c("includeShortTerm", "version", "mv4Colors", "aqiColors", "na.rm"),
+                       setup_data = function(data, params) {
                          
-                         
-                         
-                         # Apply nowcast to each monitor in dataframe
-                         # NOTE:  We need as.data.frame for when there is only a single column of data.
-                         # NOTE:  We truncate, rather than round, per the following:
-                         # NOTE:  https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
-                         if (!version == "identity") {
-                           data$y <- .nowcast(data$y, version, includeShortTerm)
+                         if (!params$version == "identity") {
+                           data$y <- .nowcast(data$y, params$version, params$includeShortTerm)
                          }
                          
-                         if ( aqiColors ) {
+                         if ( params$aqiColors ) {
                            # Add column for AQI level
                            data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
                            if (!"colour" %in% names(data)) {
-                             if (mv4Colors) {
+                             if (params$mv4Colors) {
                                data$colour <- AQI$mv4Colors[data$aqi]
                              } else {
                                data$colour <- AQI$colors[data$aqi] 
                              }
                            }
                            if (!"fill" %in% names(data)) {
-                             if (mv4Colors) {
+                             if ( params$mv4Colors ) {
                                data$fill <- AQI$mv4Colors[data$aqi]
                              } else {
                                data$fill <- AQI$colors[data$aqi]
@@ -88,8 +77,8 @@ StatNowcast <- ggproto("StatNowcast", Stat,
                              
                            }
                          }
-                         return(data)
                          
+                         return(data)
                        },
                      
                      required_aes = c("x", "y")

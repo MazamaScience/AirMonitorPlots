@@ -12,6 +12,9 @@
 #' @param enddate Desired enddate for data to include, in a format that can be parsed 
 #' with \link{parseDatetime}.
 #' @param timezone Timezone to use to set hours of the day
+#' @param shadedNight add nighttime shading based on of middle day in selected period
+#' @param mapping Default mapping for the plot
+#' @param ... Additional arguments passed on to \code{\link{custom_pm25DiurnalScales}}.
 #'
 #' @import ggplot2
 #' @importFrom rlang .data
@@ -31,10 +34,13 @@
 
 
 ggplot_pm25Diurnal <- function(ws_data,
-                                  startdate = NULL,
-                                  enddate = NULL,
-                                  timezone = NULL,
-                                  ylim = NULL) {
+                               startdate = NULL,
+                               enddate = NULL,
+                               timezone = NULL,
+                               ylim = NULL, 
+                               shadedNight=TRUE,
+                               mapping = aes_(x = ~hour, y = ~pm25),
+                               ...) {
   
   # Sanity checks
   if ( monitor_isMonitor(ws_data) ) {
@@ -83,10 +89,47 @@ ggplot_pm25Diurnal <- function(ws_data,
   ws_tidy$hour <- as.numeric(strftime(ws_tidy$datetime, "%H", tz = timezone))
   ws_tidy$day  <- strftime(ws_tidy$datetime, "%Y%m%d", tz = timezone)
   
-  ggplot(ws_tidy, aes_(x = ~hour, y = ~pm25)) +
+
+  
+  plot <- ggplot(ws_tidy, mapping) +
     theme_timeseriesPlot_pwfsl() +
     custom_pm25DiurnalScales(ws_tidy,
-                             xlab = xlab)
+                             xlab = xlab,
+                             ...)
+  
+  # Calculate day/night shading 
+  if (shadedNight) {
+    # Get the sunrise/sunset information
+    ti <- timeInfo(ws_tidy$datetime, longitude=ws_tidy$longitude[1], latitude=ws_tidy$latitude[1], timezone=timezone)
+    
+    # Extract the middle row
+    ti <- ti[round(nrow(ti)/2),]
+    
+    # Get sunrise and sunset in units of hours
+    sunrise <- lubridate::hour(ti$sunrise) + lubridate::minute(ti$sunrise)/60
+    sunset <- lubridate::hour(ti$sunset) + lubridate::minute(ti$sunset)/60
+    
+    # Add shaded night
+    scales <- layer_scales(plot)
+    
+    morning <- annotate("rect", 
+                        xmin = scales$x$limits[1], 
+                        xmax = sunrise, 
+                        ymin = scales$y$limits[1], 
+                        ymax = scales$y$limits[2],
+                        fill = "black",
+                        alpha = 0.1)
+    night <-   annotate("rect",
+                        xmin = sunset,
+                        xmax = scales$x$limits[2],
+                        ymin = scales$y$limits[1],
+                        ymax = scales$y$limits[2],
+                        fill = "black",
+                        alpha = 0.1)
+    plot <- plot + morning + night
+  }
+  
+  plot
   
 }
 

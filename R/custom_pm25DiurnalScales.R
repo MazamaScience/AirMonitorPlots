@@ -25,8 +25,8 @@ custom_pm25DiurnalScales <- function(
   ylim = NULL,
   xlab = NULL,
   ylab = "PM2.5 (\u00b5g/m3)",
-  yexp = c(0.05, 0),
-  xexp = c(0, 0.05)) {
+  yexp = c(0.05, 0.05),
+  xexp = c(0.05, 0.05)) {
   
   
   if ( monitor_isMonitor(data) ) {
@@ -66,15 +66,20 @@ custom_pm25DiurnalScales <- function(
     yhi <- ylim[2]
   }
   
+  xmin <- 0 - 23*xexp[1]
+  xmax <- 23 + 23*xexp[2]
+  
   
   
   # add the scales
   list(
     scale_x_continuous(breaks = seq(0, 23, by = 3),
                        minor_breaks = seq(0, 23, by = 1),
-                       labels = c("midnight", "3am", "6am", "9am", "noon", "3pm", "6pm", "9pm")),
-    scale_y_continuous(limits = c(ylo, yhi),
-                       expand = yexp),
+                       labels = c("midnight", "3am", "6am", "9am", "Noon", "3pm", "6pm", "9pm"),
+                       limits = c(xmin, xmax),
+                       expand = c(0,0)),
+    scale_y_continuous(limits = c(ylo - yexp[1] * ymax, yhi + yexp[2] * ymax),
+                       expand = c(0,0)),
     ylab(ylab),
     xlab(xlab)
     

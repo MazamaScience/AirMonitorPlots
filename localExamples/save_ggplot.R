@@ -7,7 +7,7 @@ monitorID <- "060631010_01"
 startdate <- lubridate::floor_date(lubridate::now() - lubridate::ddays(6), "day")
 enddate <- lubridate::now()
 
-# Default settings
+# Timeseries ---------------------------------------------------------------------------
 
 png("timeseries.png", width = 700, height = 700, units = "px")
 monitor_ggTimeseries(ws_monitor,
@@ -24,6 +24,9 @@ monitor_ggTimeseries(ws_monitor,
                      monitorIDs = monitorID,
                      style = "small")
 dev.off()
+
+
+# Barplot ---------------------------------------------------------------------------
 
 monitor_ggDailyBarplot(ws_monitor,
                        startdate = startdate,
@@ -58,6 +61,29 @@ monitor_ggDailyBarplot(ws_monitor,
                        monitorIDs = monitorID,
                        style = "small") %>% 
   brandPlot()
+dev.off()
+
+# DailyByHour ---------------------------------------------------------------------------
+
+monitor_ggDailyByHour(ws_monitor,
+                      startdate = startdate,
+                      enddate = enddate,
+                      monitorID = monitorID,
+                      style = "large")
+png("dailybyhour.png", width = 700, height = 700, units = "px")
+monitor_ggDailyByHour(ws_monitor,
+                      startdate = startdate,
+                      enddate = enddate,
+                      monitorID = monitorID,
+                      style  = "large")
+dev.off()
+
+png("smalldailybyhour.png", width = 450, height = 450, units = "px")
+monitor_ggDailyByHour(ws_monitor,
+                      startdate = startdate,
+                      enddate = enddate,
+                      monitorID = monitorID,
+                      style = "small")
 dev.off()
 
 

@@ -4,10 +4,9 @@
 #' This function assembles various layers to create a production-ready
 #' dailyByHour diurnal plot for one monitor.  
 #'
+#' @inheritParams ggplot_pm25Diurnal
 #' @param ws_tidy dataframe of monitor data, created from a \code{ws_monitor}
 #' object using \code{monitor_toTidy()}. 
-#' @param startdate Desired start date (integer or character in ymd format or POSIXct)
-#' @param enddate Desired end date (integer or character in ymd format or POSIXct)
 #' @param monitorID monitorID to include in the plot. 
 #' @param style String indicating plotting style. Either \code{"large"} or \code{"small"}.
 #' \code{style = "large"} is suitable for plots larger than 450x450px, and \code{"small"}
@@ -33,9 +32,10 @@ tidy_ggDailyByHour <- function(ws_tidy,
                                startdate = NULL,
                                enddate = NULL,
                                monitorID = NULL,
-                               style = NULL,
+                               style = "large",
                                title = NULL,
-                               timezone = NULL) {
+                               timezone = NULL,
+                               ...) {
   
 
   
@@ -59,12 +59,18 @@ tidy_ggDailyByHour <- function(ws_tidy,
     }
   }
   
+  # Subset Data
+  if (!is.null(monitorID)) {
+    ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID == !!monitorID)
+  }
+  
+  
   if (!is.null(timezone)) {
     if (!timezone %in% OlsonNames()) {
       stop("Invalid Timezone")
     }
   } else {
-    
+    timezone <- unique(ws_tidy$timezone)
   }
   
   if (length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID)) {
@@ -75,17 +81,23 @@ tidy_ggDailyByHour <- function(ws_tidy,
   if (!is.null(startdate)) {
     s <- parseDatetime(startdate, timezone = timezone)
     ws_tidy <- dplyr::filter(ws_tidy, .data$datetime >= lubridate::floor_date(s, unit = "day"))
+  } else {
+    startdate <- min(ws_tidy$datetime)
   }
   if (!is.null(enddate)) {
     e <- parseDatetime(enddate, timezone = timezone)
     ws_tidy <- dplyr::filter(ws_tidy, .data$datetime <= lubridate::ceiling_date(e, unit = "day"))
+  } else {
+    enddate <- max(ws_tidy$datetime)
   }
   
-  # Subset Data
-  if (!is.null(monitorID)) {
-    ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID == !!monitorID)
+  
+  # Get title
+  if (is.null(title)) {
+    title <- paste0("NowCast by Time of Day\n",
+                    "Site: ", unique(ws_tidy$siteName)) 
   }
-  timezone <- unique(ws_tidy$timezone)
+  
   
   # Add column for 'hour', 'day', and 'nowcast'. 
   ws_tidy$hour <- as.numeric(strftime(ws_tidy$datetime, "%H", tz = timezone))
@@ -98,28 +110,81 @@ tidy_ggDailyByHour <- function(ws_tidy,
   yesterday <- dplyr::filter(ws_tidy, .data$day == yesterday_string)
   today <- dplyr::filter(ws_tidy, .data$day == today_string)
   
-  ggplot_pm25Diurnal(ws_tidy, 
+  # Get labels for legend
+  meanText <- paste0(as.integer(difftime(enddate, startdate, units = "days")), " Day Mean")
+  
+  # Set custom styling 
+  # Custom style formatting
+  if (style == "large") {
+    meanSize <- 8
+    yesterdayPointSize <- 4
+    yesterdayLineSize <- .9
+    todayPointSize <- 5
+    todayLineSize <- 1.3
+    custom_theme <- theme(plot.margin = margin(
+                            unit(25, "pt"),    # Top
+                            unit(10, "pt"),    # Right
+                            unit(25, "pt"),    # Bottom
+                            unit(10, "pt")     # Left
+                          ),
+                          axis.text = element_text(size = 12),
+                          axis.title = element_text(size = 18),
+                          plot.title = element_text(size = 20))
+  } else if (style == "small") {
+    meanSize <- 5
+    yesterdayPointSize <- 2.8
+    yesterdayLineSize <- .5
+    todayPointSize <- 3
+    todayLineSize <- 1
+    custom_theme <- theme(axis.title.x.bottom = element_blank(),
+                          plot.margin = margin(
+                            unit(20, "pt"),    # Top
+                            unit(10, "pt"),    # Right
+                            unit(15, "pt"),    # Bottom
+                            unit(10, "pt")     # Left
+                          ),
+                          axis.text = element_text(size = 12),
+                          axis.title.y = element_text(size = 12),
+                          plot.title = element_text(size = 15))
+  }
+  
+  # Make the plot
+  plot <- ggplot_pm25Diurnal(ws_tidy, 
                      startdate = startdate,
-                     enddate = enddate) +
-    stat_meanByHour(geom = "line", size = 5, alpha = .3, lineend = "round") +
-    geom_line(aes(y = .data$nowcast), data=yesterday, color = "gray50") +
-    stat_AQILevel(aes(y = .data$nowcast), data = yesterday, geom = "point", nowcast = FALSE, shape = 21, color = "gray50", size = 3) +
-    geom_line(aes(y = .data$nowcast), data=today, size = 1) +
-    stat_AQILevel(aes(y = .data$nowcast), data = today, geom = "point", nowcast = FALSE, shape = 21, color = "black", size = 4) 
-    # custom_legend(labels = c("Today", "Yesterday", paste0(length(unique(ws_tidy$day)), "-day Mean")),
-    #               aesthetics = list(size = c(5, 1, .8),
-    #                                 linetype = c(1, 1, 1),
-    #                                 shape = c(23, 23, NA),
-    #                                 alpha = c(NA, NA, .3)))
+                     enddate = enddate,
+                     mapping = aes_(x = ~hour, y = ~nowcast),
+                     ...) +
+    custom_aqiLines() +
+    custom_aqiStackedBar() +
+    stat_meanByHour(aes(color = !!meanText), geom = "line", size = meanSize, alpha = .3, lineend = "round") +
+    geom_line(aes(color = "Yesterday"), data=yesterday, size = yesterdayLineSize) +
+    stat_AQILevel(aes(color = "Yesterday"), data = yesterday, geom = "point", nowcast = FALSE, shape = 21, size = yesterdayPointSize) +
+    geom_line(aes(color = "Today"), data=today, size = todayLineSize) +
+    stat_AQILevel(aes(color = "Today"), data = today, geom = "point", nowcast = FALSE, shape = 21, size = todayPointSize)  +
+    ggtitle(title) +
+    custom_theme
   
+  # Add legend
+  values <- c("black", "gray50", "black")
+  names(values) <- c("Today", "Yesterday", meanText)
+  scale <- scale_color_manual(name = "", values = values, labels = names(values))
+  guide <- guides(color = guide_legend(title = "", 
+                                       override.aes = list(
+                                         fill = c("green", "green", NA),
+                                         color = c("black", "gray50", "black"),
+                                         shape = c(21, 21, NA),
+                                         cex = c(todayPointSize, yesterdayPointSize, meanSize),
+                                         linetype = c(NA, NA, 1),
+                                         lineend = c(NA, NA, "round"),
+                                         alpha = c(1, 1, .1)
+                                       )))
+  plot + scale + guide +
+    theme(legend.key.size = unit(1, "cm"),
+          legend.position = "top",
+          legend.text = element_text(size = 12,
+                                     face = "italic",
+                                     margin = margin(r = 50)),
+          legend.text.align = 1)
+
   
- }
-# 
-# if (FALSE) {
-#   # for testing
-#   library(PWFSLSmokePlots)
-#   monitorID <- "060631010_01"
-#   ws_monitor <- airnow_loadLatest()
-#   startdate <- lubridate::floor_date(lubridate::now() - lubridate::ddays(6), "day")
-#   enddate <- lubridate::now()
-# }
+}
