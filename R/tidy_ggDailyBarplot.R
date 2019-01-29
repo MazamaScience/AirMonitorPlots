@@ -19,6 +19,7 @@
 #' present, the default is UTC. 
 #' @param today Logical indicating whether to include a shaded "current NowCast" bar 
 #' for Today. Ignored if data is not current. 
+#' @param ... Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.
 #' @return A **ggplot** object
 #'
 #' @import PWFSLSmoke
@@ -39,7 +40,8 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                               style = "large", 
                               title = NULL,
                               timezone = NULL,
-                              today = TRUE) {
+                              today = TRUE,
+                              ...) {
   
   
   # Sanity checks
@@ -101,8 +103,14 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     enddate <- max(ws_tidy$datetime)
   }
   
-  # Custom style formatting
+  # Parse startdate and enddate
+  startdate <- lubridate::floor_date(parseDatetime(startdate, timezone = timezone), "day")
+  enddate <- min(c(
+    lubridate::ceiling_date(lubridate::now(timezone), "day") - lubridate::dhours(1),
+    lubridate::ceiling_date(parseDatetime(enddate, timezone = timezone), "day") - lubridate::dhours(1)
+  ))
   
+  # Custom style formatting
   if (style == "large") {
     nowcastTextSize <- 4.5
     nowcastText <- "Current\nNowCast"
@@ -135,19 +143,9 @@ tidy_ggDailyBarplot <- function(ws_tidy,
   
   
   
-  # Custom formatting for when today = TRUE
-  if (!lubridate::as_date(parseDatetime(enddate), timezone) == lubridate::today(timezone)) {
+  # Set "today"
+  if ( !enddate == lubridate::ceiling_date(lubridate::now(timezone), "day") - lubridate::dhours(1) ) {
     today <- FALSE
-  }
-  if (today) {
-    labels_dt <- seq(lubridate::floor_date(parseDatetime(startdate, timezone), "day"),
-                  lubridate::floor_date(parseDatetime(enddate, timezone), "day"),
-                  by = "day")
-    labels <- strftime(labels_dt, date_format)
-    labels[length(labels)] <- ""
-    date_format <- waiver()
-  } else {
-    labels <- waiver()
   }
   
   # Create the plot
@@ -155,9 +153,10 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                         startdate = startdate,
                         enddate = enddate,
                         timezone = timezone,
-                        labels = labels,
                         date_labels = date_format,
-                        tick_location = "midday") +
+                        tick_location = "midday",
+                        today_label = !today,
+                        ...) +
     custom_aqiLines(size = 1, alpha = .8) +
     stat_dailyAQILevel(timezone = timezone,
                        adjustylim = TRUE,

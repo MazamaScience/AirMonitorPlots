@@ -8,7 +8,7 @@ custom_datetimeScale(startdate = NULL, enddate = NULL,
   timezone = NULL, expand = c(0, 0.05), break_width = NULL,
   minor_break_width = NULL, date_labels = "\%b \%d",
   tick_location = c("midnight", "midday")[1],
-  includeFullEnddate = TRUE, ...)
+  includeFullEnddate = TRUE, today_label = TRUE, ...)
 }
 \arguments{
 \item{startdate}{Desired axis start date limit, in a format that can be 
@@ -35,6 +35,8 @@ breaks are calculated based on the data. See 'Details'.}
 
 \item{includeFullEnddate}{if \code{TRUE}, the x-axis limit is pushed up to include
 the full final day.}
+
+\item{today_label}{if \code{FALSE}, no label will be generated for today.}
 
 \item{...}{Additional arguments passed onto \code{\link[ggplot2]{scale_x_datetime}}.}
 }

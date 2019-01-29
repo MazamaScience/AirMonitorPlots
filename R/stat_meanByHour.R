@@ -18,7 +18,6 @@
 #' @param output "AQIColors", "mv4Colors", "y"
 #' @param input The value to find the mean of. If \code{NULL}, the default \code{y} value
 #' will be used. 
-#' @param bins Number of bins. Can be \code{NULL} if \code{x} is discrete. 
 #' @param geom The geometic object to display the data
 #' @param position Position adjustment, either as a string, or the result of a call to a
 #' position adjustment function. 
@@ -32,11 +31,9 @@
 #' @import ggplot2
 #' @export
 #' 
-#' @examples
-#' 
 
 
-stat_meanByX <- function(mapping = NULL, data = NULL, input = NULL, output = "y",
+stat_meanByHour <- function(mapping = NULL, data = NULL, input = NULL, output = "y",
                          geom = "bar", position = "identity", na.rm = TRUE, 
                          show.legend = NA, inherit.aes = TRUE,
                          ...) {
