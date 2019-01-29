@@ -19,6 +19,7 @@
 #' @param tick_location Location of ticks ("midnight" or "midday")
 #' @param includeFullEnddate if \code{TRUE}, the x-axis limit is pushed up to include
 #' the full final day. 
+#' @param today_label if \code{FALSE}, no label will be generated for today. 
 #' @param ... Additional arguments passed onto \code{\link[ggplot2]{scale_x_datetime}}. 
 #' 
 #' @export
@@ -33,6 +34,7 @@ custom_datetimeScale <- function(startdate = NULL,
                                  date_labels = "%b %d",
                                  tick_location = c("midnight", "midday")[1],
                                  includeFullEnddate = TRUE, 
+                                 today_label = TRUE,
                                  ...) {
   
   
@@ -77,7 +79,7 @@ custom_datetimeScale <- function(startdate = NULL,
     e = lubridate::ceiling_date(enddate) + lubridate::dhours(12)
   }
   
-  if ( dayCount >= 0 && dayCount <= 9 ) {
+  if ( dayCount >= 0 && dayCount <= 11 ) {
     break_width <- ifelse(is.null(break_width), "1 day", break_width)
     minor_break_width <- ifelse(is.null(minor_break_width), "3 hours", minor_break_width)
   } else if ( dayCount <= 21 ) {
@@ -96,6 +98,16 @@ custom_datetimeScale <- function(startdate = NULL,
   
   breaks <- seq(s, e, by = break_width)
   minor_breaks <- seq(s, e, by = minor_break_width)
+  
+  if (!today_label) {
+    labels <- strftime(breaks, date_labels)
+    if ( lubridate::floor_date(lubridate::now(timezone), "day") %in% lubridate::floor_date(breaks, "day") ) {
+      labels[length(labels)] <- ""
+    }
+    date_labels <- waiver()
+  } else {
+    labels <- waiver()
+  }
   
   
   # NOTE:  X-axis must be extended to fit the complete last day.
@@ -118,6 +130,7 @@ custom_datetimeScale <- function(startdate = NULL,
       minor_breaks = minor_breaks,
       date_labels = date_labels,
       timezone = timezone,
+      labels = labels,
       ...
     ),
     if ( dayCount > 7 ) {

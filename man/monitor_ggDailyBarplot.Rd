@@ -6,7 +6,7 @@
 \usage{
 monitor_ggDailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
   monitorIDs = NULL, style = "large", title = NULL,
-  timezone = NULL, today = TRUE)
+  timezone = NULL, today = TRUE, ...)
 }
 \arguments{
 \item{ws_monitor}{A `ws_monitor` object}
@@ -30,6 +30,8 @@ present, the default is UTC.}
 
 \item{today}{Logical indicating whether to include a shaded "current NowCast" bar 
 for Today. Ignored if data is not current.}
+
+\item{...}{Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.}
 }
 \value{
 A **ggplot** object
@@ -41,5 +43,5 @@ timeseries plot for one or more monitors.
 }
 \examples{
 ws_monitor <- airnow_loadLatest()
-monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01")
+monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01", today = TRUE)
 }

@@ -6,7 +6,7 @@
 \usage{
 tidy_ggDailyBarplot(ws_tidy, startdate = NULL, enddate = NULL,
   monitorIDs = NULL, style = "large", title = NULL,
-  timezone = NULL, today = TRUE)
+  timezone = NULL, today = TRUE, ...)
 }
 \arguments{
 \item{ws_tidy}{dataframe of monitor data, created from a \code{ws_monitor}
@@ -31,6 +31,8 @@ present, the default is UTC.}
 
 \item{today}{Logical indicating whether to include a shaded "current NowCast" bar 
 for Today. Ignored if data is not current.}
+
+\item{...}{Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.}
 }
 \value{
 A **ggplot** object

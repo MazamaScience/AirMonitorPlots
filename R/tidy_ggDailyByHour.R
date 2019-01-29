@@ -101,7 +101,7 @@ tidy_ggDailyByHour <- function(ws_tidy,
   ggplot_pm25Diurnal(ws_tidy, 
                      startdate = startdate,
                      enddate = enddate) +
-    stat_meanByX(geom = "line", size = 5, alpha = .3, lineend = "round") +
+    stat_meanByHour(geom = "line", size = 5, alpha = .3, lineend = "round") +
     geom_line(aes(y = .data$nowcast), data=yesterday, color = "gray50") +
     stat_AQILevel(aes(y = .data$nowcast), data = yesterday, geom = "point", nowcast = FALSE, shape = 21, color = "gray50", size = 3) +
     geom_line(aes(y = .data$nowcast), data=today, size = 1) +
@@ -114,12 +114,12 @@ tidy_ggDailyByHour <- function(ws_tidy,
   
   
  }
-
-if (FALSE) {
-  # for testing
-  library(PWFSLSmokePlots)
-  monitorID <- "060631010_01"
-  ws_monitor <- airnow_loadLatest()
-  startdate <- lubridate::floor_date(lubridate::now() - lubridate::ddays(6), "day")
-  enddate <- lubridate::now()
-}
+# 
+# if (FALSE) {
+#   # for testing
+#   library(PWFSLSmokePlots)
+#   monitorID <- "060631010_01"
+#   ws_monitor <- airnow_loadLatest()
+#   startdate <- lubridate::floor_date(lubridate::now() - lubridate::ddays(6), "day")
+#   enddate <- lubridate::now()
+# }

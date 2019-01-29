@@ -16,7 +16,7 @@
 #' 
 #' @examples 
 #' ws_monitor <- airnow_loadLatest()
-#' monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01")
+#' monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01", today = TRUE)
 
 monitor_ggDailyBarplot <- function(ws_monitor,
                                    startdate = NULL,
@@ -25,7 +25,8 @@ monitor_ggDailyBarplot <- function(ws_monitor,
                                    style = "large", 
                                    title = NULL,
                                    timezone = NULL,
-                                   today = TRUE) {
+                                   today = TRUE, 
+                                   ...) {
   
   if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)
@@ -40,6 +41,7 @@ monitor_ggDailyBarplot <- function(ws_monitor,
                       style = style,
                       title = title,
                       timezone = timezone,
-                      today = today)
+                      today = today,
+                      ...)
   
 }
