@@ -69,16 +69,12 @@ StatMeanByGroup <- ggproto("StatMeanByGroup", Stat,
                                if (is.null(input)) {
                                  df$input <- df$y
                                }
-                               print("compute_group")
-                               print(head(df))
-                               save(df, file = "df.rdata")
                                
                                  means <- df %>% 
                                    dplyr::group_by(.data$x) %>%
                                    dplyr::summarise(mean = mean(.data$input, na.rm = na.rm),
                                                     mean_y = mean(.data$y, na.rm = na.rm))
 
-                               print(head(means))
                                
                                # Set x and y
                                data <- data.frame(x = means$x,
@@ -113,9 +109,6 @@ StatMeanByGroup <- ggproto("StatMeanByGroup", Stat,
                                }
                                
                                
-                               
-                               
-                               print(data)
                                return(data)
                              }
 )
