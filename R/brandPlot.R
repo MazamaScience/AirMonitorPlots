@@ -11,6 +11,7 @@
 #' @param location string indicating the location where the logo should be 
 #' printed. Options are: \code{"topright"}, \code{"topleft"}, \code{"bottomright"}, 
 #' or \code{"bottomleft"}. 
+#' @param size Brand icon or logo width, in fraction of plot width. 
 #' 
 #' @return A \code{gTree} object, which can be printed with \code{grid.draw()}. 
 #'
@@ -22,7 +23,7 @@
 #' ws_tidy <- monitor_toTidy(ws_monitor)
 #' p <- ggplot_pm25Timeseries(ws_tidy) +
 #'   stat_dailyAQILevel(adjustylim = TRUE) 
-#' brandPlot(p, location = "bottomright")
+#' brandPlot(p, location = "topright", size = .2)
 
 
 
@@ -31,23 +32,35 @@ brandPlot <- function(plot,
                       brandStyle = 'logo',
                       brandName = 'MazamaScience',
                       brandFilePath = NULL,
-                      location = c("topright","topleft","bottomright","bottomleft")[1]) {
+                      location = c("topright","topleft","bottomright","bottomleft")[1],
+                      size = .1) {
   # Adapted from 
   # https://stackoverflow.com/questions/12463691/inserting-an-image-to-ggplot-outside-the-chart-area/12486301#12486301
 
-  # Get the logo
-  if (fullLogo) {
-    img <- png::readPNG(system.file("icons", "fullLogo.png", package="PWFSLSmokePlots"))
-    size_w = unit(4, "cm")
-    size_h = unit(2, "cm")
-  } else {
-    img <- png::readPNG(system.file("icons", "logoIcon.png", package="PWFSLSmokePlots"))
-    size_w = unit(2, "cm")
-    size_h = unit(2, "cm")
+  # Get the logo path
+  if (is.null(brandFilePath)) {
+    if ( brandStyle == "logo" ) {
+      brandFileName <- "logo_"
+    } else if ( brandStyle == "icon" ) {
+      brandFileName <- "icon_"
+    }
+    brandFileName <- paste0(brandFileName, brandName, ".png")
+    brandFilePath <- system.file("brandImages", brandFileName, package = "PWFSLSmokePlots")
+  }
+  if (!file.exists(brandFilePath)) {
+    stop(paste0("could not find ", brandFilePath))
   }
   
+  img <- suppressWarnings(png::readPNG(brandFilePath))
   g <- rasterGrob(img)
-
+  
+  # Get dimensions of img 
+  imgDim <- dim(img)
+  size_w <- unit(size, "npc")
+  size_h <- unit(size * imgDim[1]/imgDim[2], "npc") 
+  
+  
+  
   
   # Set up the layout for grid 
   if (location == "topright") {
