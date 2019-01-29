@@ -4,18 +4,25 @@
 \alias{brandPlot}
 \title{Add Branding to a ggplot object}
 \usage{
-brandPlot(plot, fullLogo = TRUE, location = c("topright", "topleft",
-  "bottomright", "bottomleft")[1])
+brandPlot(plot, brandStyle = "logo", brandName = "MazamaScience",
+  brandFilePath = NULL, location = c("topright", "topleft",
+  "bottomright", "bottomleft")[1], size = 0.1)
 }
 \arguments{
 \item{plot}{\code{ggplot} object}
 
-\item{fullLogo}{if \code{TRUE}, the full Mazama Science logo is added. If 
-\code{FALSE}, only the icon will be added.}
+\item{brandStyle}{\code{"logo"} or \code{"icond"}.}
+
+\item{brandName}{Name of brand: \code{"MazamaScience"}, \code{"USFS"}, or \code{"AirFire"}.}
+
+\item{brandFilePath}{Path to brand logo or icon. If not \code{NULL}, overrides
+\code{brandStyle} and \code{brandName}.}
 
 \item{location}{string indicating the location where the logo should be 
 printed. Options are: \code{"topright"}, \code{"topleft"}, \code{"bottomright"}, 
 or \code{"bottomleft"}.}
+
+\item{size}{Brand icon or logo width, in fraction of plot width.}
 }
 \value{
 A \code{gTree} object, which can be printed with \code{grid.draw()}.
@@ -28,5 +35,5 @@ ws_monitor <- PWFSLSmoke::Carmel_Valley
 ws_tidy <- monitor_toTidy(ws_monitor)
 p <- ggplot_pm25Timeseries(ws_tidy) +
   stat_dailyAQILevel(adjustylim = TRUE) 
-brandPlot(p, location = "bottomright")
+brandPlot(p, location = "topright", size = .2)
 }
