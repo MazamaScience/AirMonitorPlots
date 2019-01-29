@@ -24,7 +24,8 @@
 #' p <- ggplot_pm25Timeseries(ws_tidy) +
 #'   stat_dailyAQILevel(adjustylim = TRUE) 
 #' brandPlot(p, location = "topright", size = .2)
-#' prandPlot(p, brandName = "USFS")
+#' brandPlot(p, location = "bottomright", brandName = "USFS")
+#' brandPlot(p, brandName = "airfire", location = "topleft", size = .15)
 
 
 
