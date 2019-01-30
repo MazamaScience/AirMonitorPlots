@@ -30,6 +30,8 @@
 #'                    startdate = 20160801, 
 #'                    enddate = 20160810) + 
 #'   stat_boxplot(aes(group = hour)) 
+#'   
+
 
 
 
@@ -40,6 +42,7 @@ ggplot_pm25Diurnal <- function(ws_data,
                                ylim = NULL, 
                                shadedNight=TRUE,
                                mapping = aes_(x = ~hour, y = ~pm25),
+                               hr24 = FALSE,
                                ...) {
   
   # Sanity checks
@@ -89,12 +92,25 @@ ggplot_pm25Diurnal <- function(ws_data,
   ws_tidy$hour <- as.numeric(strftime(ws_tidy$datetime, "%H", tz = timezone))
   ws_tidy$day  <- strftime(ws_tidy$datetime, "%Y%m%d", tz = timezone)
   
+  # Add hour 24
+  if (hr24) {
+    for (day in unique(ws_tidy$day)[1:(length(unique(ws_tidy$day))-1)]) {
+      nextDay <- strftime(parseDatetime(day, timezone) + lubridate::ddays(1), "%Y%m%d", tz = timezone)
+      next0 <- ws_tidy[which(ws_tidy$day == nextDay & ws_tidy$hour == 0),]
+      next0$day <- day
+      next0$hour <- 24
+      ws_tidy <- rbind(ws_tidy, next0)
+    }
+    ws_tidy <- ws_tidy[order(ws_tidy$day, ws_tidy$hour)),]
+  }
+  
 
   
   plot <- ggplot(ws_tidy, mapping) +
     theme_timeseriesPlot_pwfsl() +
     custom_pm25DiurnalScales(ws_tidy,
                              xlab = xlab,
+                             hr24 = hr24,
                              ...)
   
   # Calculate day/night shading 
