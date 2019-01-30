@@ -62,18 +62,18 @@ tidy_ggTimeseries <- function(ws_tidy,
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID %in% monitorIDs)
   } 
   
+  pm25LegendLabel = "Hourly PM2.5 Values"
+  nowcastLegendLabel = "NowCast"
+  
   if ( length(unique(ws_tidy$monitorID)) > 1) {
-    mapping <- aes_(color = ~monitorID)
+    mapping_pm25 <- mapping_nowcast <- aes_(color = ~monitorID)
     if (is.null(title)) title <- ""
   } else {
-    mapping <- NULL
+    mapping_pm25 <- aes(color = !!pm25LegendLabel)
+    mapping_nowcast <- aes(color = !!nowcastLegendLabel)
     if(is.null(title)) title <- paste0("Hourly PM2.5 Values and NowCast\n", 
                                        "Site: ", unique(ws_tidy$siteName))
   }
-  
-  
-  pm25LegendLabel = "Hourly PM2.5 Values"
-  nowcastLegendLabel = "NowCast"
   
   # Styling args
   if (style == "large") {
@@ -134,22 +134,29 @@ tidy_ggTimeseries <- function(ws_tidy,
                                 date_labels = date_labels,
                                 minor_break_width = minor_break_width) +
     custom_aqiLines(size = 1, alpha = .8) +
-    geom_pm25Points(mapping, size = pointsize) +
-    stat_nowcast(mapping, size = linesize) +
+    geom_pm25Points(mapping_pm25, size = pointsize) +
+    stat_nowcast(mapping_nowcast, size = linesize) +
     custom_aqiStackedBar() +
     scale_color_brewer(palette = "Dark2") +
     ggtitle(title) 
   
+  
   if ( length(unique(ws_tidy$monitorID)) == 1 ) {
-    plot <- plot +
-      custom_legend(labels = c("Hourly PM2.5 Values", "NowCast"),
-                    aesthetics = list(color = c(1,1),
-                                      size = c(1.5, 0.5),
-                                      linetype = c(NA, 1),
-                                      shape = c(16, NA),
-                                      alpha = c(0.3, 1)),
-                    theme_args = list(legend.position = "top"))
+    # Add legend
+    values <- c(1,1)
+    names(values) <- c(pm25LegendLabel, nowcastLegendLabel)
+    scale <- scale_color_manual(name = "", values = values, labels = names(values))
+    guide <- guides(color = guide_legend(title = "", 
+                                         override.aes = list(color = c(1,1),
+                                              size = c(pointsize, linesize),
+                                              linetype = c(NA, 1),
+                                              shape = c(16, NA),
+                                              alpha = c(0.3, 1))))
+    plot <- plot + scale + guide +
+      theme(legend.position = "top")
   }
+  
+  
   plot <- plot + 
     custom_theme
   
