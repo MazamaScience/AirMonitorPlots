@@ -82,7 +82,7 @@ custom_pm25DiurnalScales <- function(
                        labels = c("midnight", "3am", "6am", "9am", "Noon", "3pm", "6pm", "9pm"),
                        limits = c(xmin, xmax),
                        expand = c(0,0)),
-    scale_y_continuous(limits = c(ylo - yexp[1] * ymax, yhi + yexp[2] * ymax),
+    scale_y_continuous(limits = c(ylo - yexp[1] * yhi, yhi + yexp[2] * yhi),
                        expand = c(0,0)),
     ylab(ylab),
     xlab(xlab)

@@ -105,8 +105,8 @@ tidy_ggDailyByHour <- function(ws_tidy,
   ws_tidy$nowcast <- .nowcast(ws_tidy$pm25)
   
   # Get 'yesterday' and 'today'. 
-  today_string <- strftime(lubridate::today(timezone), "%Y%m%d")
-  yesterday_string <- strftime(lubridate::today(timezone) - lubridate::ddays(1), "%Y%m%d")
+  today_string <- strftime(enddate, "%Y%m%d")
+  yesterday_string <- strftime(enddate - lubridate::ddays(1), "%Y%m%d")
   yesterday <- dplyr::filter(ws_tidy, .data$day == yesterday_string)
   today <- dplyr::filter(ws_tidy, .data$day == today_string)
   

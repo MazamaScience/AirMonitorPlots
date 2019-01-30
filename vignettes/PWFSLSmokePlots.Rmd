@@ -218,8 +218,12 @@ ggplot_pm25Diurnal(monroeStMonitor,
                    startdate = 20150815,
                    enddate = 20150820,
                    offsetBreaks = TRUE,
-                   xexp = c(1/41, 1/41)) + 
-  coord_polar() + 
-  stat_meanByHour(aes(y = 75), input = "pm25", output = "AQIColors", width = 1, color = adjustcolor("black", .2))
+                   xexp = c(1/46, 1/46)) + 
+  coord_polar(start = pi) + 
+  stat_meanByHour(aes(y = 75, xmin = 50), input = "pm25", output = "AQIColors", width = 1, color = adjustcolor("black", .2)) +
+  geom_pm25Points()
+
+ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley) +
+  stat_nowcast(size = 5, alpha = .05, geom = "point")
 ```
 

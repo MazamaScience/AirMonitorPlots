@@ -97,6 +97,7 @@ ggplot_pm25Diurnal <- function(ws_data,
     theme_timeseriesPlot_pwfsl() +
     custom_pm25DiurnalScales(ws_tidy,
                              xlab = xlab,
+                             ylim = ylim,
                              ...)
   
   # Calculate day/night shading 
