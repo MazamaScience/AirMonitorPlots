@@ -44,13 +44,3 @@ ggplot_pm25Timeseries <- function(ws_data,
                                 ...)
   
 }
-# 
-# s <- custom_pm25TimeseriesScales(ws_tidy,
-#                                  startdate = startdate,
-#                                  enddate = enddate,
-#                                  timezone = timezone,
-#                                  ylim = ylim,
-#                                  date_labels = date_labels,
-#                                  tick_location = tick_location,
-#                                  today_label = today_label)
-# 

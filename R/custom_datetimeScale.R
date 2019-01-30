@@ -72,7 +72,7 @@ custom_datetimeScale <- function(startdate = NULL,
   
   # Choose date_breaks and minor_breaks
   if (tick_location == "midnight") {
-    s <- lubridate::floor_date(startdate)
+    s <- lubridate::floor_date(startdate, unit = "day")
     e <- lubridate::ceiling_date(enddate, unit = "day") # full 24 hours of enddate
   } else if (tick_location == "midday") {
     s = lubridate::floor_date(startdate) + lubridate::dhours(12)

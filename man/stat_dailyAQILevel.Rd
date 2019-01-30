@@ -5,7 +5,7 @@
 \title{Add AQI colors to a plot}
 \usage{
 stat_dailyAQILevel(mapping = NULL, data = NULL, mv4Colors = FALSE,
-  timezone = "UTC", minHours = 18, width = 0.8, adjustylim = FALSE,
+  timezone = NULL, minHours = 18, width = 0.8, adjustylim = FALSE,
   missingDataBar = TRUE, geom = "bar", position = "identity",
   na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 }
@@ -23,7 +23,8 @@ The return value must be a \code{data.frame}, and will be used as the layer data
 \item{mv4Colors}{If \code{TRUE}, use the colors used in the monitoring v4 site. Otherwise,
 use the "official" AQI colors.}
 
-\item{timezone}{timezone for day start and end for averaging.}
+\item{timezone}{timezone for day start and end for averaging. If \code{NULL}, uses the timezone
+used by the x-axis datetime scale. If the x-axis datetime scale has no timezone, it defaults to UTC.}
 
 \item{minHours}{Minimum number oof valid data hours required to calculate each daily statistic}
 

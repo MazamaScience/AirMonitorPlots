@@ -14,7 +14,8 @@
 #' The return value must be a \code{data.frame}, and will be used as the layer data.
 #' @param mv4Colors If \code{TRUE}, use the colors used in the monitoring v4 site. Otherwise,
 #' use the "official" AQI colors. 
-#' @param timezone timezone for day start and end for averaging. 
+#' @param timezone timezone for day start and end for averaging. If \code{NULL}, uses the timezone
+#' used by the x-axis datetime scale. If the x-axis datetime scale has no timezone, it defaults to UTC. 
 #' @param minHours Minimum number oof valid data hours required to calculate each daily statistic
 #' @param width bar width in units of days. 
 #' @param adjustylim if \code{TRUE}, the ylim of the plot will automatically be adjusted for the 
@@ -47,7 +48,7 @@
 
 
 stat_dailyAQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,  
-                               timezone = "UTC", minHours = 18, width = .8,
+                               timezone = NULL, minHours = 18, width = .8,
                                adjustylim = FALSE, missingDataBar = TRUE, 
                                geom = "bar", position = "identity", na.rm = FALSE, 
                                show.legend = NA, inherit.aes = TRUE,
@@ -76,6 +77,11 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                                                  adjustylim,
                                                  missingDataBar) {
                           
+                          # Get timezone
+                          if (is.null(timezone)) {
+                            timezone <- ifelse (!is.null(attr(scales$x$breaks, "tzone")), attr(scales$x$breaks, "tzone"), "UTC")
+                          }
+                          
                           # Get date from numeric to posixct
                           df <- data
                           df$datetime <- as.POSIXct(data$x, tz = timezone, origin = "1970-01-01")
@@ -86,12 +92,10 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                             group_by(date) %>% 
                             summarise(dailyMean = mean(.data$y), count = sum(!is.na(.data$y)) )
                           
+                          
+                          
                           dailyMeans$dailyMean <- ifelse(dailyMeans$count < minHours, NA, dailyMeans$dailyMean)
                           dailyMeans$datetime <- as.numeric(as.POSIXct(strptime(dailyMeans$date, "%Y%m%d", tz = timezone)) + lubridate::dhours(12))
-                          
-                          
-                          
-                          
                           
                           
                           data <- select(dailyMeans, 
@@ -118,7 +122,6 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                             }
                             
                           }
-                          
                           if ( adjustylim ) {
                             ymax <- max(data$y, na.rm = TRUE)
                             if ( ymax <= 50 ) {
@@ -140,12 +143,11 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                             }
                             scales$y$limits <- c(0, yhi)
                           }
-                          
                           # Add missing data bars
                           if (missingDataBar) {
                             # Extend data to full extent
                             max_x <- max(data$x)
-                            while(max_x < scales$x$limits[2]) {
+                            while(max_x < scales$x$get_limits()[2]) {
                               max_x <- max_x + 86400
                               data <- rbind(data, tibble(x = max_x,
                                                          y = NA,
@@ -154,7 +156,7 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                                                          fill = NA))
                             }
                             min_x <- min(data$x) 
-                            while(min_x > scales$x$limits[2]) {
+                            while(min_x > scales$x$get_limits()[2]) {
                               min_x <- min_x - 86400
                               data <- rbind(data, tibble(x = min_x,
                                                          y = NA,
@@ -165,7 +167,7 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                             
                             # Add gray bars
                             for (missingRow in which(is.na(data$y)) ) {
-                              data[missingRow, "y"] <- scales$y$limits[2]
+                              data[missingRow, "y"] <- scales$y$get_limits()[2]
                             }
                           }
                           
@@ -175,7 +177,6 @@ StatDailyAQILevel <- ggproto("StatDailyAQILevel", Stat,
                             data$y[which(date == strftime(lubridate::now(timezone), "%Y%m%d"))] <- NA
                             data$fill[which(date == strftime(lubridate::now(timezone), "%Y%m%d"))] <- NA
                           }
-                          
                           return(data)
                         },
                         required_aes = c("x", "y"),

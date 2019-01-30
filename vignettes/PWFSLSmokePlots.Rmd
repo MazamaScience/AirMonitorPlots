@@ -61,7 +61,7 @@ Daily Barplot can show daily averages for one monitor.
 ```{r}
 monitor_ggDailyBarplot(ws_monitor = PWFSLSmoke::Carmel_Valley,
                        startdate = 20160801,
-                       enddate = 20160807)
+                       enddate = 20160808)
 ```
 
 It can also show aggregated daily averages for many monitors.
@@ -70,6 +70,15 @@ It can also show aggregated daily averages for many monitors.
 monitor_ggDailyBarplot(PWFSLSmoke::Northwest_Megafires,
                        startdate = 20150820, 
                        enddate = 20150825)
+```
+
+If using current data, it will include a bar for "today", displaying the current NowCast, if available. 
+
+```{r}
+latest <- airnow_loadLatest()
+monitor_ggDailyBarplot(latest,
+                       startdate = lubridate::now() - lubridate::ddays(7),
+                      monitorID = "060631010_01")
 ```
 
 ### Daily By Hour
@@ -82,6 +91,14 @@ monitor_ggDailyByHour(latest,
                       monitorID = "060631010_01")
 ```
 
+The `dailyByHour` is designed specifically to show current data, with special lines for "today" and "yesterday". 
+However, it can plot historical data, using the enddate for "today". 
+
+```{r}
+monitor_ggDailyByHour(PWFSLSmoke::Carmel_Valley,
+                      startdate = 20160801, 
+                      enddate = 20160809)
+```
 
 ## Extending `ggplot2`
 
@@ -118,7 +135,12 @@ nmPlot +
   geom_pm25Points(shape = "square", alpha = .1) + 
   stat_dailyAQILevel(alpha = .5) + 
   scale_y_continuous(limits = c(0, 500)) +
-  custom_aqiStackedBar(width = 0.01)
+  custom_aqiStackedBar(width = 0.01) 
+
+nmPlot + 
+  geom_pm25Points(alpha = 0.05, shape = "square")  +
+  stat_meanByHour(geom = "line", size = 2, output = "AQIColors")+ 
+  custom_aqiStackedBar()
 ```
 
 #### Several Monitors

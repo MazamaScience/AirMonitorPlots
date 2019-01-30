@@ -148,6 +148,59 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     today <- FALSE
   }
   
+  
+  # Create "current nowcast" bar
+  if (today) {
+    now <- lubridate::now()
+    lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
+    if ( now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(5) ) {
+      currentNowcast <- 0
+    } else {
+      nowcast <- .nowcast(ws_tidy$pm25)
+      currentNowcast <- nowcast[lastValidIndex]
+    }
+    center <- lubridate::floor_date(now, "day") + lubridate::dhours(12)
+    left <- center - 0.8/2*86400
+    right <- center + 0.8/2*86400
+    
+    color <- AQI$colors[.bincode(currentNowcast, AQI$breaks_24)]
+    
+    rect <- annotate("rect", 
+                     xmin = left, 
+                     xmax = right,
+                     ymin = 0,
+                     ymax = currentNowcast,
+                     fill = color,
+                     color = "gray60",
+                     alpha = .8)
+    rect2 <- annotate("rect", 
+                      xmin = left, 
+                      xmax = right,
+                      ymin = 0,
+                      ymax = currentNowcast,
+                      fill = "gray60",
+                      color = "gray60",
+                      alpha = .3)
+    text <- annotate("text", 
+                     y = 0,
+                     x = center,
+                     label = nowcastText,
+                     vjust = 1.5,
+                     color = "gray40",
+                     size =  nowcastTextSize )
+    
+    
+    nowcastBar <- list(
+      rect,
+      rect2,
+      text,
+      coord_cartesian(clip = "off") # Turn off clipping so labels can be added outside of plot region
+    )
+  } else {
+    nowcastBar <- list()
+  }
+  
+  
   # Create the plot
   plot <- ggplot_pm25Timeseries(ws_tidy,
                         startdate = startdate,
@@ -159,8 +212,8 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                         ...) +
     custom_aqiLines(size = 1, alpha = .8) +
     stat_dailyAQILevel(timezone = timezone,
-                       adjustylim = TRUE,
-                       outlineBars = TRUE) +
+                       adjustylim = TRUE, 
+                       color = "black") +
     custom_aqiStackedBar(width = .015) +
     ## Format/theme tweaks
     # Remove padding on y scale
@@ -170,13 +223,9 @@ tidy_ggDailyBarplot <- function(ws_tidy,
           panel.grid = element_blank(), # remove background grid lines
           axis.ticks.x.bottom = element_blank()) + #remove x-axis ticks + 
     ggtitle(title) +
-    xlab(xlab)
+    xlab(xlab) +
+    nowcastBar
   
-  if (today) {
-    plot <- plot + custom_currentNowcast(ws_tidy, 
-                                         timezone = timezone,
-                                         text_size = nowcastTextSize,
-                                         label = nowcastText)
-  }
+  
   plot + custom_theme
 }

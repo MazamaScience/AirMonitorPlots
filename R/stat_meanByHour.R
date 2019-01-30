@@ -73,7 +73,7 @@ StatMeanByGroup <- ggproto("StatMeanByGroup", Stat,
                                  means <- df %>% 
                                    dplyr::group_by(.data$x) %>%
                                    dplyr::summarise(mean = mean(.data$input, na.rm = na.rm),
-                                                    mean_y = mean(.data$y, na.rm = na.rm))
+                                                    mean_y = mean(.data$y, na.rm = TRUE))
 
                                
                                # Set x and y

@@ -79,14 +79,17 @@ tidy_ggDailyByHour <- function(ws_tidy,
   
   # Subset based on startdate and enddate
   if (!is.null(startdate)) {
-    s <- parseDatetime(startdate, timezone = timezone)
-    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime >= lubridate::floor_date(s, unit = "day"))
+    startdate <- parseDatetime(startdate, timezone = timezone)
+    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime >= startdate)
   } else {
     startdate <- min(ws_tidy$datetime)
   }
   if (!is.null(enddate)) {
-    e <- parseDatetime(enddate, timezone = timezone)
-    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime <= lubridate::ceiling_date(e, unit = "day"))
+    enddate <- parseDatetime(enddate, timezone = timezone)
+    if (enddate == lubridate::floor_date(enddate, "day")) {
+      enddate <- lubridate::ceiling_date(enddate, "day") - lubridate::dminutes(1)
+    }
+    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime <= enddate)
   } else {
     enddate <- max(ws_tidy$datetime)
   }
