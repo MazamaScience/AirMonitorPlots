@@ -14,6 +14,7 @@
 #' data on the y-axis, to ensure that they are placed some distance away from the axes.
 #' @param xexp Vector of range expansion constants used to add some padding around the 
 #' data on the x-axis, to ensure that they are placed some distance away from the axes. 
+#' @param offsetBreaks if \code{TRUE}, x-axis ticks and guides are offset by 0.5. 
 #' 
 #' @importFrom rlang .data
 #' @import ggplot2

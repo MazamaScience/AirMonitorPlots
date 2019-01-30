@@ -6,7 +6,7 @@
 \usage{
 custom_pm25DiurnalScales(data = NULL, ylim = NULL, xlab = NULL,
   ylab = "PM2.5 (µg/m3)", yexp = c(0.05, 0.05), xexp = c(0.05,
-  0.05))
+  0.05), offsetBreaks = FALSE)
 }
 \arguments{
 \item{data}{pm25 timeseries data. Should match the default dataset of the
@@ -24,6 +24,8 @@ data on the y-axis, to ensure that they are placed some distance away from the a
 
 \item{xexp}{Vector of range expansion constants used to add some padding around the 
 data on the x-axis, to ensure that they are placed some distance away from the axes.}
+
+\item{offsetBreaks}{if \code{TRUE}, x-axis ticks and guides are offset by 0.5.}
 }
 \description{
 Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 

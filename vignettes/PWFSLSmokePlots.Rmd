@@ -72,6 +72,17 @@ monitor_ggDailyBarplot(PWFSLSmoke::Northwest_Megafires,
                        enddate = 20150825)
 ```
 
+### Daily By Hour
+
+The `dailyByHour` plot is designed to view current data for only one monitor. It can show daily trends in air quality.
+
+```{r}
+latest <- airnow_loadLatest()
+monitor_ggDailyByHour(latest,
+                      monitorID = "060631010_01")
+```
+
+
 ## Extending `ggplot2`
 
 High-level plotting functions create plots by adding custom layers and styling, returing a `ggplot` object. 
@@ -142,4 +153,73 @@ spokanePlot +
 
 ```
 
+### pm25Diurnal plots
+
+There are also some functions designed to create diurnal plots -- plots designed to show daily trends. They should start with a call to 
+`ggplot_pm25Diurnal`. 
+
+#### One monitor
+This type of plot is best suited for exploring one monitor, although a savvy `ggplot2` user could certainly create useful and attractive 
+diurnal plots representing multiple monitors. Like `ggplot_pm25Timeseries`, `ggplot_pm25Diurnal` simply instantiates the plot without adding
+any layers yet. By default, it includes day/night shading, although this can be turned off by specifying `shadedNight = FALSE`. 
+
+```{r}
+monitorID <- "530630047_01"
+monroeStMonitor <- monitor_subset(Northwest_Megafires, monitorIDs = monitorID)
+ggplot_pm25Diurnal(monroeStMonitor)
+```
+
+After instantiating the plot, you can add layers. `stat_meanByHour` is a stat specifically designed for this type of plot, which 
+calculates the mean y-value for each x-value. You can also use the 'group' aesthetic to tell a stat to do calculations by a group
+such as hour or day. There is also an `offsetBreaks` option, which, if `TRUE`, will offset the x-axis guides and ticks by 0.5, which 
+is useful for plots like boxplots where you might want the boxes to be between the hour ticks instead of lined up with them. For example: 
+
+```{r}
+# offsetBreaks = FALSE. Notice that bars cover the x-axis guides
+ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley, 
+                   startdate = 20160801, 
+                   enddate = 20160810)  + 
+  stat_meanByHour(output = "AQIColors")
+
+# offsetBreaks = TRUE
+ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley,
+                   startdate = 20160801, 
+                   enddate = 20160810,
+                   offsetBreaks = TRUE) + 
+  stat_meanByHour(outpu = "AQIColors")
+
+  
+```
+
+Other examples
+```{r}
+
+ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley,
+                   startdate = 20160801, 
+                   enddate = 20160810,
+                   offsetBreaks = TRUE) +
+  geom_boxplot(aes(group = hour)) +
+  custom_aqiStackedBar()
+
+ggplot_pm25Diurnal(monroeStMonitor,
+                   startdate = 20150815,
+                   enddate = 20150820) + 
+  stat_nowcast(aes(color = day), geom = "path", size = 1) + 
+  stat_meanByHour(geom = "line", size = 3) 
+
+ggplot_pm25Diurnal(spokane, 
+                   startdate = 20150815,
+                   enddate = 20150820) +
+  stat_meanByHour(aes(color = monitorID), geom = "path")
+
+# "clock" plot
+
+ggplot_pm25Diurnal(monroeStMonitor,
+                   startdate = 20150815,
+                   enddate = 20150820,
+                   offsetBreaks = TRUE,
+                   xexp = c(1/41, 1/41)) + 
+  coord_polar() + 
+  stat_meanByHour(aes(y = 75), input = "pm25", output = "AQIColors", width = 1, color = adjustcolor("black", .2))
+```
 
