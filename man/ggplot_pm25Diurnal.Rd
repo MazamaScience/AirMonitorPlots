@@ -6,7 +6,7 @@
 \usage{
 ggplot_pm25Diurnal(ws_data, startdate = NULL, enddate = NULL,
   timezone = NULL, ylim = NULL, shadedNight = TRUE,
-  mapping = aes_(x = ~hour, y = ~pm25), ...)
+  mapping = aes_(x = ~hour, y = ~pm25), base_size = 11, ...)
 }
 \arguments{
 \item{ws_data}{Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
@@ -26,6 +26,8 @@ depending on the data.}
 \item{shadedNight}{add nighttime shading based on of middle day in selected period}
 
 \item{mapping}{Default mapping for the plot}
+
+\item{base_size}{Base font size for theme}
 
 \item{...}{Additional arguments passed on to \code{\link{custom_pm25DiurnalScales}}.}
 }

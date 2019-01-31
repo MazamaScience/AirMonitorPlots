@@ -5,11 +5,10 @@
 \title{Instantiate a pm25 timeseries ggplot}
 \usage{
 ggplot_pm25Timeseries(ws_data, startdate = NULL, enddate = NULL,
-  timezone = NULL, ylim = NULL, ...)
+  timezone = NULL, ylim = NULL, base_size = 11, ...)
 }
 \arguments{
-\item{ws_data}{Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
-object or \code{ws_tidy} object.}
+\item{ws_data}{Default dataset to use when adding layers. Must be either a \code{ws_monitor}}
 
 \item{startdate}{Desired startdate for x-axis, in a format that can be 
 parsed with \link{parseDatetime}.}
@@ -23,6 +22,9 @@ present, the default is UTC.}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
+
+\item{base_size}{Base font size for theme
+object or \code{ws_tidy} object.}
 
 \item{...}{Additional arguments passed on to \code{\link{custom_datetimeScale}}.}
 }

@@ -14,6 +14,7 @@
 #' @param timezone Timezone to use to set hours of the day
 #' @param shadedNight add nighttime shading based on of middle day in selected period
 #' @param mapping Default mapping for the plot
+#' @param base_size Base font size for theme
 #' @param ... Additional arguments passed on to \code{\link{custom_pm25DiurnalScales}}.
 #'
 #' @import ggplot2
@@ -42,6 +43,7 @@ ggplot_pm25Diurnal <- function(ws_data,
                                ylim = NULL, 
                                shadedNight=TRUE,
                                mapping = aes_(x = ~hour, y = ~pm25),
+                               base_size = 11,
                                ...) {
   
   # Sanity checks
@@ -94,7 +96,7 @@ ggplot_pm25Diurnal <- function(ws_data,
 
   
   plot <- ggplot(ws_tidy, mapping) +
-    theme_timeseriesPlot_pwfsl() +
+    theme_pwfsl(base_size = base_size) +
     custom_pm25DiurnalScales(ws_tidy,
                              xlab = xlab,
                              ylim = ylim,

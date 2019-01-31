@@ -6,6 +6,7 @@
 #'
 #' @inheritParams custom_pm25TimeseriesScales
 #' @param ws_data Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
+#' @param base_size Base font size for theme
 #' object or \code{ws_tidy} object. 
 #'
 #' @import ggplot2
@@ -24,6 +25,7 @@ ggplot_pm25Timeseries <- function(ws_data,
                                   enddate = NULL,
                                   timezone = NULL,
                                   ylim = NULL,
+                                  base_size = 11,
                                   ...) {
   
   if ( monitor_isMonitor(ws_data) ) {
@@ -35,7 +37,7 @@ ggplot_pm25Timeseries <- function(ws_data,
   }
   
   ggplot(ws_tidy, aes_(x = ~datetime, y = ~pm25)) +
-    theme_timeseriesPlot_pwfsl() +
+    theme_pwfsl(base_size) +
     custom_pm25TimeseriesScales(ws_tidy, 
                                 startdate = startdate, 
                                 enddate = enddate, 

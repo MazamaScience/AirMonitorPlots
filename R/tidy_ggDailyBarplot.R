@@ -34,14 +34,14 @@
 #' tidy_ggDailyBarplot(ws_tidy)
 
 tidy_ggDailyBarplot <- function(ws_tidy,
-                              startdate = NULL,
-                              enddate = NULL,
-                              monitorIDs = NULL,
-                              style = "large", 
-                              title = NULL,
-                              timezone = NULL,
-                              today = TRUE,
-                              ...) {
+                                startdate = NULL,
+                                enddate = NULL,
+                                monitorIDs = NULL,
+                                style = "large", 
+                                title = NULL,
+                                timezone = NULL,
+                                today = TRUE,
+                                ...) {
   
   
   # Sanity checks
@@ -76,7 +76,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID %in% monitorIDs)
   } 
   
-
+  
   if ( length(unique(ws_tidy$monitorID)) > 1) {
     if (is.null(title)) title <- paste0("Daily Average PM2.5 for ", 
                                         length(unique(ws_tidy$monitorID)), 
@@ -115,30 +115,12 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     nowcastTextSize <- 4.5
     nowcastText <- "Current\nNowCast"
     date_format <- "%b %d"
-    custom_theme <- theme(axis.title.x.bottom = element_blank(),
-                          plot.margin = margin(
-                            unit(25, "pt"),    # Top
-                            unit(10, "pt"),    # Right
-                            unit(25, "pt"),    # Bottom
-                            unit(10, "pt")     # Left
-                          ),
-                          axis.text = element_text(size = 12),
-                          axis.title.y = element_text(size = 18),
-                          plot.title = element_text(size = 20))
+    base_size <- 15
   } else if (style == "small") {
     nowcastTextSize <- 4
     nowcastText <- "Now-\nCast"
     date_format <- "%b\n%d"
-    custom_theme <- theme(axis.title.x.bottom = element_blank(),
-                          plot.margin = margin(
-                            unit(20, "pt"),    # Top
-                            unit(10, "pt"),    # Right
-                            unit(15, "pt"),    # Bottom
-                            unit(10, "pt")     # Left
-                          ),
-                          axis.text = element_text(size = 12),
-                          axis.title.y = element_text(size = 12),
-                          plot.title = element_text(size = 15))
+    base_size <- 11
   }
   
   
@@ -151,14 +133,17 @@ tidy_ggDailyBarplot <- function(ws_tidy,
   
   # Create "current nowcast" bar
   if (today) {
+    
     now <- lubridate::now()
     lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
+    
     if ( now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(5) ) {
       currentNowcast <- 0
     } else {
       nowcast <- .nowcast(ws_tidy$pm25)
       currentNowcast <- nowcast[lastValidIndex]
     }
+    
     center <- lubridate::floor_date(now, "day") + lubridate::dhours(12)
     left <- center - 0.8/2*86400
     right <- center + 0.8/2*86400
@@ -196,20 +181,24 @@ tidy_ggDailyBarplot <- function(ws_tidy,
       text,
       coord_cartesian(clip = "off") # Turn off clipping so labels can be added outside of plot region
     )
+    
   } else {
+    
     nowcastBar <- list()
+    
   }
   
   
   # Create the plot
   plot <- ggplot_pm25Timeseries(ws_tidy,
-                        startdate = startdate,
-                        enddate = enddate,
-                        timezone = timezone,
-                        date_labels = date_format,
-                        tick_location = "midday",
-                        today_label = !today,
-                        ...) +
+                                startdate = startdate,
+                                enddate = enddate,
+                                timezone = timezone,
+                                date_labels = date_format,
+                                tick_location = "midday",
+                                today_label = !today,
+                                base_size = base_size,
+                                ...) +
     custom_aqiLines(size = 1, alpha = .8) +
     stat_dailyAQILevel(timezone = timezone,
                        adjustylim = TRUE, 
@@ -224,8 +213,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
           axis.ticks.x.bottom = element_blank()) + #remove x-axis ticks + 
     ggtitle(title) +
     xlab(xlab) +
-    nowcastBar
+    nowcastBar +
+    theme_dailyBarplot_pwfsl(size = style)
   
-  
-  plot + custom_theme
 }

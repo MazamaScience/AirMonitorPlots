@@ -16,6 +16,7 @@
 #' @param monitorIDs vector of monitorIDs to include in the plot. If 
 #' more than one, different monitors will be plotted in different colors.
 #' @param title Plot title. If NULL, a suitable title will be constructed.
+#' @param ... Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.
 #' @return A **ggplot** object
 #'
 #' @import PWFSLSmoke
@@ -35,10 +36,11 @@ tidy_ggTimeseries <- function(ws_tidy,
                               style = "large",
                               aqiStyle = NULL,
                               monitorIDs = NULL,
-                              title = NULL) {
+                              title = NULL,
+                              ...) {
   
   
-  # Sanity checks
+  # Parameter Validation
   if (!monitor_isTidy(ws_tidy)) {
     stop("ws_tidy must be ws_tidy object")
   }
@@ -57,6 +59,9 @@ tidy_ggTimeseries <- function(ws_tidy,
       stop("enddate is outside of data date range")
     }
   }
+  
+  
+  # Prepare data
   
   if (!is.null(monitorIDs)) {
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID %in% monitorIDs)
@@ -81,63 +86,29 @@ tidy_ggTimeseries <- function(ws_tidy,
     linesize <- 0.8
     date_labels <- "%b %d"
     minor_break_width <- NULL
-    custom_theme <- theme(
-      plot.title = element_text(size = 20),
-      axis.title = element_text(size = 18),
-      axis.text = element_text(size = 12),
-      legend.text = element_text(size = 12,
-                                 face = "italic",
-                                 margin = margin(r = 50)),
-      legend.text.align = 1,
-      panel.grid.major = element_line(size = 0.5,
-                                      linetype = 2),
-      panel.grid.minor.x = element_line(size = 0.5,
-                                        linetype = 3,
-                                        color = "gray90")
-    )
+    base_size = 15
   } else if (style == "small") {
     pointsize <- 2
     linesize <- 0.8
     date_labels <- "%b\n%d"
     minor_break_width <- "6 hours"
-    custom_theme <- theme(
-      plot.title = element_text(size = 15,
-                                margin = margin(0,0,0,0
-                                )),
-      axis.title = element_text(size = 12,
-                                margin = margin()),
-      axis.text = element_text(size = 12, 
-                               margin = margin(0,0,0,0)),
-      legend.text = element_text(size = 12,
-                                 face = "italic",
-                                 margin = margin(r = 50)),
-      legend.margin = margin(0,0,0,0),
-      panel.grid.major = element_line(size = 0.5,
-                                      linetype = 2),
-      panel.grid.minor.x = element_line(size = 0.5,
-                                        linetype = 3,
-                                        color = "gray90"),
-      axis.title.x.bottom = element_blank(),
-      plot.margin = margin(
-        unit(20, "pt"),    # Top
-        unit(10, "pt"),    # Right
-        unit(5, "pt"),    # Bottom
-        unit(10, "pt")     # Left
-      )
-    )
+    base_size = 11
   }
+  
+  # Prepare the plot
   
   plot <- ggplot_pm25Timeseries(ws_tidy,
                                 startdate = startdate,
                                 enddate = enddate,
                                 includeFullEnddate = FALSE,
                                 date_labels = date_labels,
-                                minor_break_width = minor_break_width) +
+                                minor_break_width = minor_break_width, 
+                                base_size = base_size,
+                                ...) +
     custom_aqiLines(size = 1, alpha = .8) +
     geom_pm25Points(mapping_pm25, size = pointsize) +
     stat_nowcast(mapping_nowcast, size = linesize) +
     custom_aqiStackedBar() +
-    scale_color_brewer(palette = "Dark2") +
     ggtitle(title) 
   
   
@@ -152,15 +123,11 @@ tidy_ggTimeseries <- function(ws_tidy,
                                               linetype = c(NA, 1),
                                               shape = c(16, NA),
                                               alpha = c(0.3, 1))))
-    plot <- plot + scale + guide +
-      theme(legend.position = "top")
+    plot <- plot + scale + guide 
+  } else {
+    plot <- plot + scale_color_brewer(palette = "Dark2") 
   }
   
-  
-  plot <- plot + 
-    custom_theme
-  
-  plot
-  
+  plot + theme_timeseriesPlot_pwfsl(size = style)
   
 }

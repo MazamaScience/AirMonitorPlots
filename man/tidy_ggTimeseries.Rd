@@ -6,7 +6,7 @@
 \usage{
 tidy_ggTimeseries(ws_tidy, startdate = NULL, enddate = NULL,
   style = "large", aqiStyle = NULL, monitorIDs = NULL,
-  title = NULL)
+  title = NULL, ...)
 }
 \arguments{
 \item{ws_tidy}{dataframe of monitor data, created from a \code{ws_monitor}
@@ -27,6 +27,8 @@ Not currently supported.}
 more than one, different monitors will be plotted in different colors.}
 
 \item{title}{Plot title. If NULL, a suitable title will be constructed.}
+
+\item{...}{Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.}
 }
 \value{
 A **ggplot** object

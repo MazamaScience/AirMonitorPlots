@@ -39,7 +39,7 @@ tidy_ggDailyByHour <- function(ws_tidy,
   
 
   
-  # Sanity checks
+  # Parameter Validation
   if (!monitor_isTidy(ws_tidy)) {
     stop("ws_tidy must be ws_tidy objec")
   }
@@ -59,7 +59,7 @@ tidy_ggDailyByHour <- function(ws_tidy,
     }
   }
   
-  # Subset Data
+  # Prepare Data
   if (!is.null(monitorID)) {
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID == !!monitorID)
   }
@@ -124,31 +124,14 @@ tidy_ggDailyByHour <- function(ws_tidy,
     yesterdayLineSize <- .9
     todayPointSize <- 5
     todayLineSize <- 1.3
-    custom_theme <- theme(plot.margin = margin(
-                            unit(25, "pt"),    # Top
-                            unit(10, "pt"),    # Right
-                            unit(25, "pt"),    # Bottom
-                            unit(10, "pt")     # Left
-                          ),
-                          axis.text = element_text(size = 12),
-                          axis.title = element_text(size = 18),
-                          plot.title = element_text(size = 20))
+    base_size = 15
   } else if (style == "small") {
     meanSize <- 5
     yesterdayPointSize <- 2.8
     yesterdayLineSize <- .5
     todayPointSize <- 3
     todayLineSize <- 1
-    custom_theme <- theme(axis.title.x.bottom = element_blank(),
-                          plot.margin = margin(
-                            unit(20, "pt"),    # Top
-                            unit(10, "pt"),    # Right
-                            unit(15, "pt"),    # Bottom
-                            unit(10, "pt")     # Left
-                          ),
-                          axis.text = element_text(size = 12),
-                          axis.title.y = element_text(size = 12),
-                          plot.title = element_text(size = 15))
+    base_size <- 11
   }
   
   # Make the plot
@@ -156,6 +139,7 @@ tidy_ggDailyByHour <- function(ws_tidy,
                      startdate = startdate,
                      enddate = enddate,
                      mapping = aes_(x = ~hour, y = ~nowcast),
+                     base_size = base_size,
                      ...) +
     custom_aqiLines() +
     custom_aqiStackedBar() +
@@ -165,7 +149,7 @@ tidy_ggDailyByHour <- function(ws_tidy,
     geom_line(aes(color = "Today"), data=today, size = todayLineSize) +
     stat_AQILevel(aes(color = "Today"), data = today, geom = "point", nowcast = FALSE, shape = 21, size = todayPointSize)  +
     ggtitle(title) +
-    custom_theme
+   theme_dailyByHour_pwfsl(size = style)
   
   # Add legend
   values <- c("black", "gray50", "black")
@@ -181,13 +165,7 @@ tidy_ggDailyByHour <- function(ws_tidy,
                                          lineend = c(NA, NA, "round"),
                                          alpha = c(1, 1, .1)
                                        )))
-  plot + scale + guide +
-    theme(legend.key.size = unit(1, "cm"),
-          legend.position = "top",
-          legend.text = element_text(size = 12,
-                                     face = "italic",
-                                     margin = margin(r = 50)),
-          legend.text.align = 1)
+  plot + scale + guide 
 
   
 }
