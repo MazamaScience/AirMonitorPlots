@@ -5,7 +5,7 @@
 \title{Create timeseries plot for one or more monitors}
 \usage{
 monitor_ggDailyByHour(ws_monitor, startdate = NULL, enddate = NULL,
-  monitorID = NULL, style = "large", title = NULL, timezone = NULL,
+  monitorID = NULL, style = "small", title = NULL, timezone = NULL,
   ...)
 }
 \arguments{

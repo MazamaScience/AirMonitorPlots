@@ -138,7 +138,8 @@ be added to this plot using <code>ggplot2</code> syntax.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ggplot_pm25Diurnal</span>(<span class='no'>ws_data</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>shadedNight</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'>aes_</span>(<span class='kw'>x</span> <span class='kw'>=</span> ~<span class='no'>hour</span>, <span class='kw'>y</span> <span class='kw'>=</span> ~<span class='no'>pm25</span>), <span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,6 +168,22 @@ with parseDatetime.</p></td>
       <td><p>custom y-axis limits. This function will apply a default limit
 depending on the data.</p></td>
     </tr>
+    <tr>
+      <th>shadedNight</th>
+      <td><p>add nighttime shading based on of middle day in selected period</p></td>
+    </tr>
+    <tr>
+      <th>mapping</th>
+      <td><p>Default mapping for the plot</p></td>
+    </tr>
+    <tr>
+      <th>base_size</th>
+      <td><p>Base font size for theme</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed on to <code><a href='custom_pm25DiurnalScales.html'>custom_pm25DiurnalScales</a></code>.</p></td>
+    </tr>
     </table>
     
 
@@ -175,11 +192,12 @@ depending on the data.</p></td>
 <span class='fu'>ggplot_pm25Diurnal</span>(<span class='no'>ws_monitor</span>) +
   <span class='fu'>coord_polar</span>() +
   <span class='fu'><a href='geom_pm25Points.html'>geom_pm25Points</a></span>() +
-  <span class='fu'><a href='custom_aqiStackedBar.html'>custom_aqiStackedBar</a></span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.3</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 101 rows containing missing values (geom_pm25points).</span></div><div class='img'><img src='ggplot_pm25Diurnal-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='custom_aqiStackedBar.html'>custom_aqiStackedBar</a></span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.3</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing missing values (geom_pm25points).</span></div><div class='img'><img src='ggplot_pm25Diurnal-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>ggplot_pm25Diurnal</span>(<span class='no'>ws_monitor</span>,
                    <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
                    <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>) +
-  <span class='fu'>stat_boxplot</span>(<span class='fu'>aes</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>hour</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 11 rows containing non-finite values (stat_boxplot).</span></div><div class='img'><img src='ggplot_pm25Diurnal-2.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'>stat_boxplot</span>(<span class='fu'>aes</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>hour</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 7 rows containing non-finite values (stat_boxplot).</span></div><div class='img'><img src='ggplot_pm25Diurnal-2.png' alt='' width='700' height='433' /></div><div class='input'>  
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

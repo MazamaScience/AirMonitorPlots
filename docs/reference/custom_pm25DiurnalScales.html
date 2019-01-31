@@ -138,7 +138,8 @@ showing PM2.5 data.</p>
     </div>
 
     <pre class="usage"><span class='fu'>custom_pm25DiurnalScales</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"PM2.5 (µg/m3)"</span>, <span class='kw'>yexp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0</span>), <span class='kw'>xexp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.05</span>))</pre>
+  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"PM2.5 (µg/m3)"</span>, <span class='kw'>yexp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.05</span>), <span class='kw'>xexp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>,
+  <span class='fl'>0.05</span>), <span class='kw'>offsetBreaks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,6 +171,10 @@ data on the y-axis, to ensure that they are placed some distance away from the a
       <th>xexp</th>
       <td><p>Vector of range expansion constants used to add some padding around the 
 data on the x-axis, to ensure that they are placed some distance away from the axes.</p></td>
+    </tr>
+    <tr>
+      <th>offsetBreaks</th>
+      <td><p>if <code>TRUE</code>, x-axis ticks and guides are offset by 0.5.</p></td>
     </tr>
     </table>
     

@@ -71,7 +71,7 @@ custom_pm25DiurnalScales <- function(
   xmin <- 0 - 23*xexp[1]
   xmax <- 23 + 23*xexp[2]
   breaks <- if (offsetBreaks) seq(-0.5, 22.5, by = 3) else seq(0, 22, by = 3)
-  minor_breaks <- if (offsetBreaks) seq(-0.05, 22.5, by = 1) else seq(0, 22, by = 1)
+  minor_breaks <- if (offsetBreaks) seq(-0.5, 22.5, by = 1) else seq(0, 22, by = 1)
   
   
   

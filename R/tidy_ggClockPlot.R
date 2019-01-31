@@ -24,11 +24,11 @@
 
 
 tidy_ggClockPlot <- function(ws_tidy,
-                               startdate = NULL,
-                               enddate = NULL,
-                               monitorID = NULL,
-                               timezone = NULL,
-                               ...) {
+                             startdate = NULL,
+                             enddate = NULL,
+                             monitorID = NULL,
+                             timezone = NULL,
+                             ...) {
   
   
   
@@ -94,24 +94,19 @@ tidy_ggClockPlot <- function(ws_tidy,
                              enddate = enddate,
                              offsetBreaks = TRUE,
                              xexp = c(1/23, 1/23),
-                             ylim = c(0, 1),
-                             yexp = c(0.5,0),
-                             ...) +
-    coord_polar(start = pi) +
-    stat_meanByHour(aes(y = 0.8), input = "pm25", output = "AQIColors", width = 1) +
-    theme(axis.title = element_blank(),
-          panel.border = element_blank(),
-          axis.line = element_blank(),
-          axis.text.y =  element_blank(),
-          axis.ticks.y = element_blank(),
-          axis.ticks.length = unit(0.5, "cm"),
-          panel.grid.major.y = element_blank(),
-          panel.grid.major.x = element_line(linetype = 1)) 
-  
-  # Add circle in the middle
+                             yexp = c(0.5,0)
+                             ) 
   
   scales <- layer_scales(plot)
+  ylim <- scales$y$limits
   
+  plot <- plot + 
+    coord_polar(start = pi) +
+    stat_meanByHour(aes(y = 0.8 * ylim[2]), input = "pm25", output = "AQIColors", width = 1) +
+    theme_clockPlot_pwfsl() 
+  
+  # Add circle in the middle
+  # 
   # plot <- plot + annotate("rect", 
   #                 xmin = scales$x$limits[1], 
   #                 xmax = scales$x$limits[2], 
@@ -121,10 +116,11 @@ tidy_ggClockPlot <- function(ws_tidy,
   #                 color = NA,
   #                 alpha = 0.5) +
   #   # This will add the keyhole on the bottom when there is space between the end of hour 23 and the beginning of hour 0. 
+  #   # Edit the "xexp" parameter in ggplot_pm25Diurnal to make room for it. 
   #   annotate("rect", xmin = scales$x$limits[1], xmax = -0.5, ymin = 0, ymax = 1, color = NA, fill = "black", alpha=  0.5) +
   #   annotate("rect", xmin = 23.5, xmax = scales$x$limits[2], ymin = 0, ymax = 1, color = NA, fill = "black", alpha = 0.5)
-    
   
-    plot
+  
+  plot
   
 }

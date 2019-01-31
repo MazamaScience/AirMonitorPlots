@@ -132,13 +132,19 @@
 <p>Daily Barplot can show daily averages for one monitor.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span>(<span class="dt">ws_monitor =</span> PWFSLSmoke<span class="op">::</span>Carmel_Valley,
                        <span class="dt">startdate =</span> <span class="dv">20160801</span>,
-                       <span class="dt">enddate =</span> <span class="dv">20160807</span>)</code></pre></div>
+                       <span class="dt">enddate =</span> <span class="dv">20160808</span>)</code></pre></div>
 <p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>It can also show aggregated daily averages for many monitors.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span>(PWFSLSmoke<span class="op">::</span>Northwest_Megafires,
                        <span class="dt">startdate =</span> <span class="dv">20150820</span>, 
                        <span class="dt">enddate =</span> <span class="dv">20150825</span>)</code></pre></div>
 <p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<p>If using current data, it will include a bar for “today”, displaying the current NowCast, if available.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">latest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/PWFSLSmoke/topics/airnow_loadLatest">airnow_loadLatest</a></span>()
+<span class="kw"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span>(latest,
+                       <span class="dt">startdate =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/now.html">now</a></span>() <span class="op">-</span><span class="st"> </span>lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/duration.html">ddays</a></span>(<span class="dv">7</span>),
+                      <span class="dt">monitorID =</span> <span class="st">"060631010_01"</span>)</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div id="daily-by-hour" class="section level3">
 <h3 class="hasAnchor">
@@ -147,7 +153,21 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">latest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/PWFSLSmoke/topics/airnow_loadLatest">airnow_loadLatest</a></span>()
 <span class="kw"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span>(latest,
                       <span class="dt">monitorID =</span> <span class="st">"060631010_01"</span>)</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p>The <code>dailyByHour</code> is designed specifically to show current data, with special lines for “today” and “yesterday”. However, it can plot historical data, using the enddate for “today”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
+                      <span class="dt">startdate =</span> <span class="dv">20160801</span>, 
+                      <span class="dt">enddate =</span> <span class="dv">20160809</span>)</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+</div>
+<div id="clock-plot" class="section level3">
+<h3 class="hasAnchor">
+<a href="#clock-plot" class="anchor"></a>Clock Plot</h3>
+<p>The colors on the clock plot show the mean AQI level (represented by color) throughout the day.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/monitor_ggClockPlot.html">monitor_ggClockPlot</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
+                    <span class="dt">startdate =</span> <span class="dv">20160801</span>, 
+                    <span class="dt">enddate =</span> <span class="dv">20160809</span>) </code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 </div>
 <div id="extending-ggplot2" class="section level2">
@@ -168,14 +188,20 @@
 <span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"2015 Northwest Megafires"</span>)
 
 nmPlot</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>Once the plot is initiated, you can add layers.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nmPlot <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span>(<span class="dt">shape =</span> <span class="st">"square"</span>, <span class="dt">alpha =</span> .<span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_dailyAQILevel.html">stat_dailyAQILevel</a></span>(<span class="dt">alpha =</span> .<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">500</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span>(<span class="dt">width =</span> <span class="fl">0.01</span>)</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<span class="st">  </span><span class="kw"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span>(<span class="dt">width =</span> <span class="fl">0.01</span>) </code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+nmPlot <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span>(<span class="dt">alpha =</span> <span class="fl">0.05</span>, <span class="dt">shape =</span> <span class="st">"square"</span>)  <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span>(<span class="dt">geom =</span> <span class="st">"line"</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">output =</span> <span class="st">"AQIColors"</span>)<span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span>()</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-10-2.png" width="672"></p>
 </div>
 <div id="several-monitors" class="section level4">
 <h4 class="hasAnchor">
@@ -192,25 +218,25 @@ spokanePlot &lt;-<span class="st"> </span><span class="kw"><a href="../reference
 spokanePlot <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span>(<span class="kw">aes</span>(<span class="dt">color =</span> monitorID)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span>(<span class="kw">aes</span>(<span class="dt">color =</span> monitorID))</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spokanePlot <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_dailyAQILevel.html">stat_dailyAQILevel</a></span>(<span class="dt">timezone =</span> <span class="st">"America/Los_Angeles"</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">rows =</span> <span class="kw">vars</span>(monitorID))</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-8-2.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-2.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spokanePlot <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_AQILevel.html">stat_AQILevel</a></span>(<span class="dt">color =</span> <span class="ot">NA</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_dailyAQILevel.html">stat_dailyAQILevel</a></span>(<span class="dt">alpha =</span> .<span class="dv">5</span>, <span class="dt">timezone =</span> <span class="st">"America/Los_Angeles"</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">rows =</span> <span class="kw">vars</span>(monitorID)) </code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-8-3.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-3.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spokanePlot <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span>(<span class="dt">width =</span> <span class="dv">1</span>, <span class="dt">alpha =</span> .<span class="dv">3</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> monitorID))</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-8-4.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-4.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spokanePlot <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/custom_aqiLines.html">custom_aqiLines</a></span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> monitorID)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/custom_pm25TimeseriesScales.html">custom_pm25TimeseriesScales</a></span>(spokane, <span class="dt">startdate =</span> <span class="dv">20150810</span>, <span class="dt">enddate =</span> <span class="dv">20150820</span>) </code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-8-5.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-5.png" width="672"></p>
 </div>
 </div>
 <div id="pm25diurnal-plots" class="section level3">
@@ -224,14 +250,14 @@ spokanePlot <span class="op">+</span><span class="st"> </span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">monitorID &lt;-<span class="st"> "530630047_01"</span>
 monroeStMonitor &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/PWFSLSmoke/topics/monitor_subset">monitor_subset</a></span>(Northwest_Megafires, <span class="dt">monitorIDs =</span> monitorID)
 <span class="kw"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span>(monroeStMonitor)</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>After instantiating the plot, you can add layers. <code>stat_meanByHour</code> is a stat specifically designed for this type of plot, which calculates the mean y-value for each x-value. You can also use the ‘group’ aesthetic to tell a stat to do calculations by a group such as hour or day. There is also an <code>offsetBreaks</code> option, which, if <code>TRUE</code>, will offset the x-axis guides and ticks by 0.5, which is useful for plots like boxplots where you might want the boxes to be between the hour ticks instead of lined up with them. For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># offsetBreaks = FALSE. Notice that bars cover the x-axis guides</span>
 <span class="kw"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley, 
                    <span class="dt">startdate =</span> <span class="dv">20160801</span>, 
                    <span class="dt">enddate =</span> <span class="dv">20160810</span>)  <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span>(<span class="dt">output =</span> <span class="st">"AQIColors"</span>)</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 <span class="co"># offsetBreaks = TRUE</span>
 <span class="kw"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
@@ -239,7 +265,7 @@ monroeStMonitor &lt;-<span class="st"> </span><span class="kw"><a href="https://
                    <span class="dt">enddate =</span> <span class="dv">20160810</span>,
                    <span class="dt">offsetBreaks =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span>(<span class="dt">outpu =</span> <span class="st">"AQIColors"</span>)</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-10-2.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-13-2.png" width="672"></p>
 <p>Other examples</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 <span class="kw"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
@@ -248,20 +274,20 @@ monroeStMonitor &lt;-<span class="st"> </span><span class="kw"><a href="https://
                    <span class="dt">offsetBreaks =</span> <span class="ot">TRUE</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">group =</span> hour)) <span class="op">+</span>
 <span class="st">  </span><span class="kw"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span>()</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 <span class="kw"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span>(monroeStMonitor,
                    <span class="dt">startdate =</span> <span class="dv">20150815</span>,
                    <span class="dt">enddate =</span> <span class="dv">20150820</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span>(<span class="kw">aes</span>(<span class="dt">color =</span> day), <span class="dt">geom =</span> <span class="st">"path"</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span>(<span class="dt">geom =</span> <span class="st">"line"</span>, <span class="dt">size =</span> <span class="dv">3</span>) </code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-2.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-14-2.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 <span class="kw"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span>(spokane, 
                    <span class="dt">startdate =</span> <span class="dv">20150815</span>,
                    <span class="dt">enddate =</span> <span class="dv">20150820</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span>(<span class="kw">aes</span>(<span class="dt">color =</span> monitorID), <span class="dt">geom =</span> <span class="st">"path"</span>)</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-3.png" width="672"></p>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-14-3.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 <span class="co"># "clock" plot</span>
 
@@ -269,11 +295,45 @@ monroeStMonitor &lt;-<span class="st"> </span><span class="kw"><a href="https://
                    <span class="dt">startdate =</span> <span class="dv">20150815</span>,
                    <span class="dt">enddate =</span> <span class="dv">20150820</span>,
                    <span class="dt">offsetBreaks =</span> <span class="ot">TRUE</span>,
-                   <span class="dt">xexp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">/</span><span class="dv">41</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">41</span>)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">coord_polar</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span>(<span class="kw">aes</span>(<span class="dt">y =</span> <span class="dv">75</span>), <span class="dt">input =</span> <span class="st">"pm25"</span>, <span class="dt">output =</span> <span class="st">"AQIColors"</span>, <span class="dt">width =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/adjustcolor">adjustcolor</a></span>(<span class="st">"black"</span>, .<span class="dv">2</span>))</code></pre></div>
-<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-11-4.png" width="672"></p>
+                   <span class="dt">xexp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">/</span><span class="dv">46</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">46</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">coord_polar</span>(<span class="dt">start =</span> pi) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span>(<span class="kw">aes</span>(<span class="dt">y =</span> <span class="dv">75</span>, <span class="dt">xmin =</span> <span class="dv">50</span>), <span class="dt">input =</span> <span class="st">"pm25"</span>, <span class="dt">output =</span> <span class="st">"AQIColors"</span>, <span class="dt">width =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/adjustcolor">adjustcolor</a></span>(<span class="st">"black"</span>, .<span class="dv">2</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span>()</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-14-4.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span>(<span class="dt">size =</span> <span class="dv">5</span>, <span class="dt">alpha =</span> .<span class="dv">05</span>, <span class="dt">geom =</span> <span class="st">"point"</span>)</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-14-5.png" width="672"></p>
 </div>
+</div>
+<div id="extending-the-preset-plots" class="section level3">
+<h3 class="hasAnchor">
+<a href="#extending-the-preset-plots" class="anchor"></a>Extending the preset plots</h3>
+<p>All of the preset plots (<code>tidy_gg...</code>) generate ggplot objects, so you can start with these and add more layers or customize them by adding themes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/monitor_ggClockPlot.html">monitor_ggClockPlot</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
+                    <span class="dt">startdate =</span> <span class="dv">20160801</span>, 
+                    <span class="dt">enddate =</span> <span class="dv">20160809</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span>(<span class="dt">fill =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/adjustcolor">adjustcolor</a></span>(<span class="st">"white"</span>, .<span class="dv">6</span>), <span class="dt">color =</span> <span class="st">"black"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Carmel Valley:</span><span class="ch">\n</span><span class="st"> Air quality by time of day"</span>)</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
+                     <span class="dt">startdate =</span> <span class="dv">20160801</span>, 
+                    <span class="dt">enddate =</span> <span class="dv">20160809</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_classic</span>()</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-15-2.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
+                     <span class="dt">startdate =</span> <span class="dv">20160801</span>, 
+                    <span class="dt">enddate =</span> <span class="dv">20160809</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group=</span>day), <span class="dt">alpha =</span> .<span class="dv">5</span>)</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-15-3.png" width="672"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span>(PWFSLSmoke<span class="op">::</span>Carmel_Valley,
+                     <span class="dt">startdate =</span> <span class="dv">20160801</span>, 
+                    <span class="dt">enddate =</span> <span class="dv">20160809</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span>(<span class="dt">geom =</span> <span class="st">"pm25Points"</span>)</code></pre></div>
+<p><img src="PWFSLSmokePlots_files/figure-html/unnamed-chunk-15-4.png" width="672"></p>
 </div>
 </div>
   </div>

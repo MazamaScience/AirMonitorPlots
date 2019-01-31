@@ -33,7 +33,7 @@
 tidy_ggTimeseries <- function(ws_tidy,
                               startdate = NULL,
                               enddate = NULL,
-                              style = "large",
+                              style = "small",
                               aqiStyle = NULL,
                               monitorIDs = NULL,
                               title = NULL,

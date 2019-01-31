@@ -100,6 +100,16 @@ monitor_ggDailyByHour(PWFSLSmoke::Carmel_Valley,
                       enddate = 20160809)
 ```
 
+### Clock Plot
+
+The colors on the clock plot show the mean AQI level (represented by color) throughout the day. 
+
+```{r}
+monitor_ggClockPlot(PWFSLSmoke::Carmel_Valley,
+                    startdate = 20160801, 
+                    enddate = 20160809) 
+```
+
 ## Extending `ggplot2`
 
 High-level plotting functions create plots by adding custom layers and styling, returing a `ggplot` object. 
@@ -249,3 +259,29 @@ ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley) +
   stat_nowcast(size = 5, alpha = .05, geom = "point")
 ```
 
+### Extending the preset plots
+
+All of the preset plots (`tidy_gg...`) generate ggplot objects, so you can start with these and add more layers or customize them by adding themes.
+
+```{r}
+monitor_ggClockPlot(PWFSLSmoke::Carmel_Valley,
+                    startdate = 20160801, 
+                    enddate = 20160809) +
+  stat_meanByHour(fill = adjustcolor("white", .6), color = "black") +
+  ggtitle("Carmel Valley:\n Air quality by time of day")
+
+monitor_ggTimeseries(PWFSLSmoke::Carmel_Valley,
+                     startdate = 20160801, 
+                    enddate = 20160809) +
+  theme_classic()
+
+monitor_ggDailyByHour(PWFSLSmoke::Carmel_Valley,
+                     startdate = 20160801, 
+                    enddate = 20160809) +
+  geom_line(aes(group=day), alpha = .5)
+
+monitor_ggDailyBarplot(PWFSLSmoke::Carmel_Valley,
+                     startdate = 20160801, 
+                    enddate = 20160809) +
+  stat_nowcast(geom = "pm25Points")
+```

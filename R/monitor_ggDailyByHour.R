@@ -22,7 +22,7 @@ monitor_ggDailyByHour <- function(ws_monitor,
                                   startdate = NULL,
                                   enddate = NULL,
                                   monitorID = NULL,
-                                  style = "large",
+                                  style = "small",
                                   title = NULL,
                                   timezone = NULL,
                                   ...) {

@@ -82,18 +82,28 @@ custom_datetimeScale <- function(startdate = NULL,
   if ( dayCount >= 0 && dayCount <= 11 ) {
     break_width <- ifelse(is.null(break_width), "1 day", break_width)
     minor_break_width <- ifelse(is.null(minor_break_width), "3 hours", minor_break_width)
+    text_angle = 0
+    text_hjust = 0.5
   } else if ( dayCount <= 21 ) {
     break_width <- ifelse(is.null(break_width), "3 days", break_width)
     minor_break_width <- ifelse(is.null(minor_break_width), "6 hours", minor_break_width)
+    text_angle = 45
+    text_hjust = 1
   } else if ( dayCount <= 60 ) {
     break_width <- ifelse(is.null(break_width), "1 week", break_width)
     minor_break_width <- ifelse(is.null(minor_break_width), "1 day", minor_break_width)
+    text_angle = 45
+    text_hjust = 1
   } else if ( dayCount <= 120 ) {
     break_width <- ifelse(is.null(break_width), "2 weeks", break_width)
     minor_break_width <- ifelse(is.null(minor_break_width), "1 day", minor_break_width)
+    text_angle = 45
+    text_hjust = 1
   } else {
     break_width <- ifelse(is.null(break_width), "1 month", break_width)
     minor_break_width <- ifelse(is.null(minor_break_width), "3 week", minor_break_width)
+    text_angle = 45
+    text_hjust = 1
   }
   
   breaks <- seq(s, e, by = break_width)
@@ -133,17 +143,13 @@ custom_datetimeScale <- function(startdate = NULL,
       labels = labels,
       ...
     ),
-    if ( dayCount > 7 ) {
       theme(
         ###axis.ticks.x = element_line(),
         axis.text.x = element_text(
-          size = 1.0 * 11,
-          margin = margin(t = 0.50 * 11),
-          angle = 45,
-          hjust = 1
+          angle = text_angle,
+          hjust = text_hjust
         )
       )
-    }
   )
   
   

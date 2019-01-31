@@ -5,7 +5,7 @@
 \title{Create a daily barplot timeseries for one or more monitors}
 \usage{
 tidy_ggDailyByHour(ws_tidy, startdate = NULL, enddate = NULL,
-  monitorID = NULL, style = "large", title = NULL, timezone = NULL,
+  monitorID = NULL, style = "small", title = NULL, timezone = NULL,
   ...)
 }
 \arguments{

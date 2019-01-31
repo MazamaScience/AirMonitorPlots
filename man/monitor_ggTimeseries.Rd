@@ -5,7 +5,7 @@
 \title{Create timeseries plot for one or more monitors}
 \usage{
 monitor_ggTimeseries(ws_monitor, startdate = NULL, enddate = NULL,
-  style = "large", aqiStyle = NULL, monitorIDs = NULL,
+  style = "small", aqiStyle = NULL, monitorIDs = NULL,
   title = NULL)
 }
 \arguments{

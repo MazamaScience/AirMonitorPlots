@@ -16,6 +16,6 @@ A **ggplot** theme
 }
 \description{
 Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the `tidy_ggDailyByHour()` function and
+This theme is intended for use with the \code{\link{tidy_ggDailyByHour}} function and
 generates plots suitable for the PWFSL monitoring site.
 }

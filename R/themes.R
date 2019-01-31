@@ -126,7 +126,7 @@ theme_custom_size <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a **ggplot** plot object.
-#' This theme is intended for use with the `tidy_ggTimeseries()` function and
+#' This theme is intended for use with the \code{\link{tidy_ggTimeseries}} function and
 #' generates plots suitable for the PWFSL monitoring site. It is suited to
 #' display of 1-4 weeks of data.
 #'
@@ -156,7 +156,7 @@ theme_timeseriesPlot_pwfsl <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a **ggplot** plot object.
-#' This theme is intended for use with the `tidy_ggDailyBarplot()` function and
+#' This theme is intended for use with the \code{\link{tidy_ggDailyBarplot}} function and
 #' generates plots suitable for the PWFSL monitoring site. It is suited to
 #' display of 1-4 weeks of data.
 #'
@@ -180,7 +180,7 @@ theme_dailyBarplot_pwfsl <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a **ggplot** plot object.
-#' This theme is intended for use with the `tidy_ggDailyByHour()` function and
+#' This theme is intended for use with the \code{\link{tidy_ggDailyByHour}} function and
 #' generates plots suitable for the PWFSL monitoring site. 
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is 
@@ -200,4 +200,32 @@ theme_dailyByHour_pwfsl <- function(size = "large") {
   
 }
 
+#' @title Theme for PWFSL clock plot 
+#'
+#' @description
+#' Applies a theme to a **ggplot** plot object.
+#' This theme is intended for use with the \code{\link{tidy_ggClockPlot}} function and
+#' generates plots suitable for the PWFSL monitoring site. 
+#'
+#' @param size \code{small} or \code{large}. \code{style = small} is 
+#' appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
+#' for plots larger than 450x450px.
+#' @return A **ggplot** theme
+#'
+#' @import ggplot2
+#' @export
+
+theme_clockPlot_pwfsl <- function(size = "large") {
+  
+  theme(axis.title = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_blank(),
+        axis.text.y =  element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.ticks.length = unit(0.5, "cm"),
+        panel.grid.major.y = element_blank(),
+        panel.grid.major.x = element_line(linetype = 1)) +
+    theme_custom_size(size = size)
+  
+}
 

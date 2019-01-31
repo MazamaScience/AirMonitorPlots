@@ -16,7 +16,7 @@ A **ggplot** theme
 }
 \description{
 Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the `tidy_ggTimeseries()` function and
+This theme is intended for use with the \code{\link{tidy_ggTimeseries}} function and
 generates plots suitable for the PWFSL monitoring site. It is suited to
 display of 1-4 weeks of data.
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Theme for "monitoring site" daily barplots — theme_dailyBarplot_pwfsl • PWFSLSmokePlots</title>
+<title>Theme for PWFSL daily barplot for use in the monitoring site — theme_dailyBarplot_pwfsl • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,10 +37,10 @@
 
 
 
-<meta property="og:title" content="Theme for "monitoring site" daily barplots — theme_dailyBarplot_pwfsl" />
+<meta property="og:title" content="Theme for PWFSL daily barplot for use in the monitoring site — theme_dailyBarplot_pwfsl" />
 
 <meta property="og:description" content="Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the `dailyBarplot()` function and
+This theme is intended for use with the tidy_ggDailyBarplot function and
 generates plots suitable for the PWFSL monitoring site. It is suited to
 display of 1-4 weeks of data." />
 <meta name="twitter:card" content="summary" />
@@ -127,32 +127,30 @@ display of 1-4 weeks of data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Theme for "monitoring site" daily barplots</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/theme_dailyBarplot_pwfsl.R'><code>R/theme_dailyBarplot_pwfsl.R</code></a></small>
+    <h1>Theme for PWFSL daily barplot for use in the monitoring site</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/themes.R'><code>R/themes.R</code></a></small>
     <div class="hidden name"><code>theme_dailyBarplot_pwfsl.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
     <p>Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the `dailyBarplot()` function and
+This theme is intended for use with the <code><a href='tidy_ggDailyBarplot.html'>tidy_ggDailyBarplot</a></code> function and
 generates plots suitable for the PWFSL monitoring site. It is suited to
 display of 1-4 weeks of data.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>theme_dailyBarplot_pwfsl</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>base_family</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>theme_dailyBarplot_pwfsl</span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='st'>"large"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>base_size</th>
-      <td><p>Base font size.</p></td>
-    </tr>
-    <tr>
-      <th>base_family</th>
-      <td><p>Base font family.</p></td>
+      <th>size</th>
+      <td><p><code>small</code> or <code>large</code>. <code>style = small</code> is 
+appropriate for plots 450x450px or smaller; <code>style = large</code> is appropriate
+for plots larger than 450x450px.</p></td>
     </tr>
     </table>
     

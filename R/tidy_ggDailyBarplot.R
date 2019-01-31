@@ -37,7 +37,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                                 startdate = NULL,
                                 enddate = NULL,
                                 monitorIDs = NULL,
-                                style = "large", 
+                                style = "small", 
                                 title = NULL,
                                 timezone = NULL,
                                 today = TRUE,
@@ -106,8 +106,8 @@ tidy_ggDailyBarplot <- function(ws_tidy,
   # Parse startdate and enddate
   startdate <- lubridate::floor_date(parseDatetime(startdate, timezone = timezone), "day")
   enddate <- min(c(
-    lubridate::ceiling_date(lubridate::now(timezone), "day") - lubridate::dhours(1),
-    lubridate::ceiling_date(parseDatetime(enddate, timezone = timezone), "day") - lubridate::dhours(1)
+    lubridate::floor_date(lubridate::now(timezone), "day") + lubridate::dhours(23),
+    lubridate::floor_date(parseDatetime(enddate, timezone = timezone), "day") + lubridate::dhours(23)
   ))
   
   # Custom style formatting
@@ -190,7 +190,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
   
   
   # Create the plot
-  plot <- ggplot_pm25Timeseries(ws_tidy,
+  ggplot_pm25Timeseries(ws_tidy,
                                 startdate = startdate,
                                 enddate = enddate,
                                 timezone = timezone,
