@@ -41,24 +41,24 @@ tidy_ggTimeseries <- function(ws_tidy,
   
   
   # Parameter Validation
-  if (!monitor_isTidy(ws_tidy)) {
-    stop("ws_tidy must be ws_tidy object")
-  }
+  if (!monitor_isTidy(ws_tidy)) 
+    stop("ws_tidy must be a ws_tidy object")
+  if (!style %in% c("small", "large"))
+    stop("Invalid style. Choose from 'small' or 'large'.")
+
   
   if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
     invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
-    stop(paste0("MonitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
+    stop(paste0("Invalid monitorIDs. MonitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
   }
   
-  if ( !is.null(startdate) & !is.null(enddate) ) {
-    daterange <- range(ws_tidy$datetime)
-    if ( parseDatetime(startdate) > daterange[2] ) {
-      stop("startdate is outside of data date range")
-    } 
-    if ( parseDatetime(enddate) < daterange[1] ) {
-      stop("enddate is outside of data date range")
-    }
+  if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
+    stop("startdate is outside of data date range")
+  } 
+  if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
+    stop("enddate is outside of data date range")
   }
+  
   
   
   # Prepare data

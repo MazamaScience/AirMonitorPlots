@@ -1,4 +1,4 @@
-#' @title Instantiate a pm25 timeseries ggplot
+#' @title Instantiate a pm25 diurnal ggplot
 #'
 #' @description
 #' Create a plot using ggplot with default mappings and styling. Layers can then 
@@ -46,7 +46,12 @@ ggplot_pm25Diurnal <- function(ws_data,
                                base_size = 11,
                                ...) {
   
-  # Sanity checks
+  # Validate Parameters
+  if (!is.logical(shadedNight)) 
+    stop("shadedNight must be logical")
+  if (!is.numeric(base_size))
+    stop("base_size must be numeric")
+  
   if ( monitor_isMonitor(ws_data) ) {
     ws_tidy <- monitor_toTidy(ws_data)
   } else if ( monitor_isTidy(ws_data) ) {
@@ -55,14 +60,11 @@ ggplot_pm25Diurnal <- function(ws_data,
     stop("ws_data must be either a ws_monitor object or ws_tidy object.")
   }
   
-  if ( !is.null(startdate) & !is.null(enddate) ) {
-    daterange <- range(ws_tidy$datetime)
-    if ( parseDatetime(startdate) > daterange[2] ) {
-      stop("startdate is outside of data date range")
-    } 
-    if ( parseDatetime(enddate) < daterange[1] ) {
-      stop("enddate is outside of data date range")
-    }
+  if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
+    stop("startdate is outside of data date range")
+  } 
+  if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
+    stop("enddate is outside of data date range")
   }
   
   # Get timezone
@@ -105,7 +107,7 @@ ggplot_pm25Diurnal <- function(ws_data,
   # Calculate day/night shading 
   if (shadedNight) {
     # Get the sunrise/sunset information
-    ti <- timeInfo(ws_tidy$datetime, longitude=ws_tidy$longitude[1], latitude=ws_tidy$latitude[1], timezone=timezone)
+    ti <- timeInfo(ws_tidy$datetime, longitude=ws_tidy$longitude[1], latitude=ws_tidy$latitude[1], timezone=ws_tidy$timezone[1])
     
     # Extract the middle row
     ti <- ti[round(nrow(ti)/2),]

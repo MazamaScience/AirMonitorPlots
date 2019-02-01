@@ -40,23 +40,22 @@ tidy_ggDailyByHour <- function(ws_tidy,
 
   
   # Parameter Validation
-  if (!monitor_isTidy(ws_tidy)) {
-    stop("ws_tidy must be ws_tidy objec")
-  }
+  if (!monitor_isTidy(ws_tidy)) 
+    stop("ws_tidy must be a ws_tidy object")
+  if (!style %in% c("small", "large"))
+    stop("Invalid style. Choose from 'small' or 'large'.")
+
   
   if (any(!monitorID %in% unique(ws_tidy$monitorID))) {
     invalidIDs <- monitorID[which(!monitorID %in% unique(ws_tidy$monitorID))]
-    stop(paste0("monitorID not present in data: ", paste0(invalidIDs, collapse = ", ")))
+    stop(paste0("Invalid monitorID. monitorID not present in data: ", paste0(invalidIDs, collapse = ", ")))
   }
   
-  if ( !is.null(startdate) & !is.null(enddate) ) {
-    daterange <- range(ws_tidy$datetime)
-    if ( parseDatetime(startdate) > daterange[2] ) {
-      stop("startdate is outside of data date range")
-    } 
-    if ( parseDatetime(enddate) < daterange[1] ) {
-      stop("enddate is outside of data date range")
-    }
+  if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
+    stop("startdate is outside of data date range")
+  } 
+  if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
+    stop("enddate is outside of data date range")
   }
   
   # Prepare Data
@@ -64,18 +63,19 @@ tidy_ggDailyByHour <- function(ws_tidy,
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID == !!monitorID)
   }
   
+  if (length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID)) {
+    stop("monitorID must be specified")
+  }
   
   if (!is.null(timezone)) {
     if (!timezone %in% OlsonNames()) {
-      stop("Invalid Timezone")
+      stop("Invalid timezone")
     }
   } else {
     timezone <- unique(ws_tidy$timezone)
   }
   
-  if (length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID)) {
-    stop("Specify monitorID")
-  }
+  
   
   # Subset based on startdate and enddate
   if (!is.null(startdate)) {
@@ -143,13 +143,20 @@ tidy_ggDailyByHour <- function(ws_tidy,
                      ...) +
     custom_aqiLines() +
     custom_aqiStackedBar() +
+    # large mean line
     stat_meanByHour(aes(color = !!meanText), geom = "line", size = meanSize, alpha = .3, lineend = "round") +
+    # Yesterday line
     geom_line(aes(color = "Yesterday"), data=yesterday, size = yesterdayLineSize) +
+    # Yesterday points
     stat_AQILevel(aes(color = "Yesterday"), data = yesterday, geom = "point", nowcast = FALSE, shape = 21, size = yesterdayPointSize) +
+    # Today line
     geom_line(aes(color = "Today"), data=today, size = todayLineSize) +
+    # Today points
     stat_AQILevel(aes(color = "Today"), data = today, geom = "point", nowcast = FALSE, shape = 21, size = todayPointSize)  +
+    # Title
     ggtitle(title) +
-   theme_dailyByHour_pwfsl(size = style)
+    # Theme
+    theme_dailyByHour_pwfsl(size = style)
   
   # Add legend
   values <- c("black", "gray50", "black")

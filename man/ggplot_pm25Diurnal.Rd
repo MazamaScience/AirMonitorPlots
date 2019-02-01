@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggplot_pm25Diurnal.R
 \name{ggplot_pm25Diurnal}
 \alias{ggplot_pm25Diurnal}
-\title{Instantiate a pm25 timeseries ggplot}
+\title{Instantiate a pm25 diurnal ggplot}
 \usage{
 ggplot_pm25Diurnal(ws_data, startdate = NULL, enddate = NULL,
   timezone = NULL, ylim = NULL, shadedNight = TRUE,

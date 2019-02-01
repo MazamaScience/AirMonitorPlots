@@ -28,6 +28,7 @@ ggplot_pm25Timeseries <- function(ws_data,
                                   base_size = 11,
                                   ...) {
   
+  # Validate parameters
   if ( monitor_isMonitor(ws_data) ) {
     ws_tidy <- monitor_toTidy(ws_data)
   } else if ( monitor_isTidy(ws_data) ) {
@@ -35,6 +36,17 @@ ggplot_pm25Timeseries <- function(ws_data,
   } else {
     stop("ws_data must be either a ws_monitor object or ws_tidy object.")
   }
+  
+  if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
+    stop("startdate is outside of data date range")
+  } 
+  if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
+    stop("enddate is outside of data date range")
+  }
+  
+  if (!is.numeric(base_size))
+    stop("base_size must be numeric")
+  
   
   ggplot(ws_tidy, aes_(x = ~datetime, y = ~pm25)) +
     theme_pwfsl(base_size) +
