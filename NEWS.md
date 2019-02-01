@@ -1,3 +1,11 @@
+# PWFSLSmokePlots 0.5.0
+
+Helen's refactoring
+  
+  * `tidy_gg*` and `monitor_gg*` functions to create out-of-the-box plots for the monitoring site  
+  * Modularized with custom stats and geoms and `custom_` functions, making it easy 
+    to create customized plots
+
 # PWFSLSmokePlots 0.4.4
 
 Adding standard plots used in the 
