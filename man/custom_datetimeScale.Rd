@@ -44,3 +44,13 @@ the full final day.}
 Add a date scale and custom formatting for creating 
 consistent timeseries plots.
 }
+\details{
+\code{break_width} and \code{minor_break_width} can be specified in several ways. 
+\itemize{
+  \item A number, taken to be in days
+  \item An object of class \code{difftime}
+  \item A character string, containing one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}
+  or \code{"year"}. This can optionally be preceded by a (positive or negative) integer and a space or followed by \code{"s"}. 
+  For example: \code{"3 weeks"}. 
+}
+}

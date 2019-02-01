@@ -17,6 +17,9 @@ custom_aqiStackedBar <- function(width = 0.02,
                           position = "identity",
                           ...) {
   
+  # Validate parameters
+  if (!is.numeric(width)) stop("width must be a number")
+  
   list(
     layer(
       stat = StatAqiBar, geom = GeomRect, position = position, 

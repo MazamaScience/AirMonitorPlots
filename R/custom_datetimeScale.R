@@ -22,6 +22,15 @@
 #' @param today_label if \code{FALSE}, no label will be generated for today. 
 #' @param ... Additional arguments passed onto \code{\link[ggplot2]{scale_x_datetime}}. 
 #' 
+#' @details \code{break_width} and \code{minor_break_width} can be specified in several ways. 
+#' \itemize{
+#'   \item A number, taken to be in days
+#'   \item An object of class \code{difftime}
+#'   \item A character string, containing one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}
+#'   or \code{"year"}. This can optionally be preceded by a (positive or negative) integer and a space or followed by \code{"s"}. 
+#'   For example: \code{"3 weeks"}. 
+#' }
+#' 
 #' @export
 #' @import ggplot2
 
@@ -39,6 +48,14 @@ custom_datetimeScale <- function(startdate = NULL,
   
   
   # TODO:  handle NULL startdate and enddate 
+  # Parameter validation
+  if (is.null(startdate)) stop("startdate must be specified")
+  if (is.null(enddate)) stop("enddate must be specified")
+  if (!is.null(timezone) && !timezone %in% OlsonNames()) stop("Invalid timezone.")
+  if (class(expand) != "numeric" || length(expand) != 2) stop("Invalid 'expand'.")
+  if (!tick_location %in% c("midnight", "midday")) stop("Invalid tick_location. Choose from 'midnight' or 'midday'")
+  if (!is.logical(includeFullEnddate)) stop("includeFullEnddate must be logical.")
+  if (!is.logical(today_label)) stop("today_label must be logical.")
   
   
   # handle various startdates
@@ -126,7 +143,7 @@ custom_datetimeScale <- function(startdate = NULL,
   marginSecs <- 0.02 * xRangeSecs
   xlo <- startdate - lubridate::dseconds(marginSecs)
   if (includeFullEnddate) {
-    xhi <- lubridate::ceiling_date(enddate, unit = "day") + lubridate::dseconds(marginSecs)
+    xhi <- lubridate::floor_date(enddate, unit = "day") + lubridate::dhours(23) + lubridate::dseconds(marginSecs)
   } else {
     xhi <- enddate + lubridate::dseconds(marginSecs)
   }

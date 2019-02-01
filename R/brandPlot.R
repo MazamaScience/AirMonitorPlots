@@ -39,6 +39,22 @@ brandPlot <- function(plot,
   # Adapted from 
   # https://stackoverflow.com/questions/12463691/inserting-an-image-to-ggplot-outside-the-chart-area/12486301#12486301
 
+  # Parameter Validation 
+  
+  # Arguments are of the correct class
+  if (!is.ggplot(plot)) stop("'plot' must be a ggplot object")
+  if (!is.numeric(size)) stop("size must be a number")
+  
+  # Validate strings
+  if (!brandStyle %in% c("logo", "icon")) 
+    stop("Invalid brandStyle. Choose from 'logo' or 'icon'.")
+  if (!brandName %in% c("MazamaScience", "USFS", "AirFire")) 
+    stop("Invalid brandName. Choose from 'MazamaScience', 'USFS', or 'AirFire'.")
+  if (!is.null(brandFilePath) && !file.exists(brandFilePath)) 
+    stop("Invalid brandFilePath")
+  if (!location %in% c("topright", "topleft", "bottomright", "bottomleft")) 
+    stop("Invalid location. Choose from 'topright', 'topleft', bottomright', or 'bottomleft")
+    
   # Get the logo path
   if (is.null(brandFilePath)) {
     if ( brandStyle == "logo" ) {

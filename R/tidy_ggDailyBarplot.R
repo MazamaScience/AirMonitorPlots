@@ -44,31 +44,31 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                                 ...) {
   
   
-  # Sanity checks
-  if (!monitor_isTidy(ws_tidy)) {
-    stop("ws_tidy must be ws_tidy object")
-  }
-  
+  # Validate parameters
+  if (!monitor_isTidy(ws_tidy)) 
+    stop("ws_tidy must be a ws_tidy object")
+  if (!style %in% c("small", "large"))
+    stop("Invalid style. Choose from 'small' or 'large'.")
+  if (!is.null(timezone) && !timezone %in% OlsonNames()) 
+    stop("Invalid timezone")
+  if (!is.logical(today))
+    stop("today must be logical")
   if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
     invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
-    stop(paste0("MonitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
+    stop(paste0("monitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
   }
   
-  if ( !is.null(startdate) & !is.null(enddate) ) {
-    daterange <- range(ws_tidy$datetime)
-    if ( parseDatetime(startdate) > daterange[2] ) {
+  
+    if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
       stop("startdate is outside of data date range")
     } 
-    if ( parseDatetime(enddate) < daterange[1] ) {
+    if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
       stop("enddate is outside of data date range")
     }
-  }
   
-  if (!is.null(timezone)) {
-    if (!timezone %in% OlsonNames()) {
-      stop("Invalid Timezone")
-    }
-  }
+  
+
+    
   
   
   # Subset Data

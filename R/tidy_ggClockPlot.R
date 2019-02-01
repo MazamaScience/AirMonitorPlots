@@ -32,16 +32,17 @@ tidy_ggClockPlot <- function(ws_tidy,
   
   
   
-  # Sanity checks
-  if (!monitor_isTidy(ws_tidy)) {
-    stop("ws_tidy must be ws_tidy objec")
-  }
-  
+  # Validate parameters
+  if (!monitor_isTidy(ws_tidy)) 
+    stop("ws_tidy must be a ws_tidy object")
+  if (!is.null(timezone) && !timezone %in% OlsonNames()) 
+    stop("Invalid timezone")
+  if (length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID)) 
+    stop("monitorID must be specified.")
   if (any(!monitorID %in% unique(ws_tidy$monitorID))) {
     invalidIDs <- monitorID[which(!monitorID %in% unique(ws_tidy$monitorID))]
     stop(paste0("monitorID not present in data: ", paste0(invalidIDs, collapse = ", ")))
   }
-  
   if ( !is.null(startdate) & !is.null(enddate) ) {
     daterange <- range(ws_tidy$datetime)
     if ( parseDatetime(startdate) > daterange[2] ) {
@@ -51,6 +52,7 @@ tidy_ggClockPlot <- function(ws_tidy,
       stop("enddate is outside of data date range")
     }
   }
+
   
   # Subset Data
   if (!is.null(monitorID)) {
@@ -58,17 +60,10 @@ tidy_ggClockPlot <- function(ws_tidy,
   }
   
   
-  if (!is.null(timezone)) {
-    if (!timezone %in% OlsonNames()) {
-      stop("Invalid Timezone")
-    }
-  } else {
+  if (is.null(timezone)) {
     timezone <- unique(ws_tidy$timezone)
   }
-  
-  if (length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID)) {
-    stop("Specify monitorID")
-  }
+
   
   # Subset based on startdate and enddate
   if (!is.null(startdate)) {
