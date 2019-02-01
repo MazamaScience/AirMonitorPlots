@@ -170,7 +170,11 @@ theme_timeseriesPlot_pwfsl <- function(size = "large") {
 
 theme_dailyBarplot_pwfsl <- function(size = "large") {
   
-  theme(axis.title.x.bottom = element_blank()) +
+  theme(axis.title.x.bottom = element_blank(), 
+        axis.line.x.bottom = element_blank(), # remove line on x-axis
+        panel.border = element_blank(), # remove box around plot
+        panel.grid = element_blank(), # remove background grid lines
+        axis.ticks.x.bottom = element_blank()) + #remove x-axis ticks 
     theme_custom_size(size = size)
   
 }

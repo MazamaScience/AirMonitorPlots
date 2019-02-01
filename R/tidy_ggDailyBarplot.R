@@ -207,10 +207,6 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     ## Format/theme tweaks
     # Remove padding on y scale
     scale_y_continuous(expand = c(0,0)) +
-    theme(axis.line.x.bottom = element_blank(), # remove line on x-axis
-          panel.border = element_blank(), # remove box around plot
-          panel.grid = element_blank(), # remove background grid lines
-          axis.ticks.x.bottom = element_blank()) + #remove x-axis ticks + 
     ggtitle(title) +
     xlab(xlab) +
     nowcastBar +
