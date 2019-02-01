@@ -110,7 +110,7 @@ monitor_ggClockPlot(PWFSLSmoke::Carmel_Valley,
                     enddate = 20160809) 
 ```
 
-## Extending `ggplot2`
+## Custom Plots
 
 High-level plotting functions create plots by adding custom layers and styling, returing a `ggplot` object. 
 The package extends `ggplot2`, including custom geoms, stats, and themes, as well as some `custom_*` functions
