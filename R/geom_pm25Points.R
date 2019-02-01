@@ -9,7 +9,9 @@
 #' @import ggplot2
 #' @export
 #' 
-
+#' @examples 
+#' ggplot_pm25Timeseries(Carmel_Valley) + 
+#'   geom_pm25Points()
 
 geom_pm25Points <- function(mapping = NULL, 
                             data = NULL,                            

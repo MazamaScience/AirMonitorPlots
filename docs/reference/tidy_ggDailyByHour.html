@@ -191,9 +191,16 @@ present, the default is UTC.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
 <span class='no'>ws_tidy</span> <span class='kw'>&lt;-</span> <span class='fu'>monitor_toTidy</span>(<span class='no'>ws_monitor</span>)
-<span class='fu'>tidy_ggDailyByHour</span>(<span class='no'>ws_tidy</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"060631010_01"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='img'><img src='tidy_ggDailyByHour-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>tidy_ggDailyByHour</span>(<span class='no'>ws_tidy</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"060631010_01"</span>)
+<span class='co'># }</span><div class='input'>
+<span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='no'>Carmel_Valley</span>
+<span class='no'>ws_tidy</span> <span class='kw'>&lt;-</span> <span class='fu'>monitor_toTidy</span>(<span class='no'>ws_monitor</span>)
+<span class='fu'>tidy_ggDailyByHour</span>(<span class='no'>ws_tidy</span>,
+                   <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
+                   <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 5 rows containing missing values (geom_point).</span></div><div class='img'><img src='tidy_ggDailyByHour-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

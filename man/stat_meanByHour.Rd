@@ -45,3 +45,28 @@ when \code{x} is discrete.
 The resulting mean can be mapped to any aesthetic, specified 
 with the \code{output} parameter.
 }
+\examples{
+\dontrun{
+ggplot_pm25Timeseries(Northwest_Megafires,
+                      startdate = 20150820,
+                      enddate = 20150831) + 
+  geom_point(shape = "square", alpha = 0.05) + 
+  stat_meanByHour(geom = "line", color = "orange", size = 3)
+}
+  
+ggplot_pm25Diurnal(Carmel_Valley,
+                   startdate = 20160801,
+                   enddate = 20160810) +
+ geom_path(aes(group = day), color = "gray50") +
+ stat_meanByHour(geom = "line", size = 4) 
+ 
+# "clock" plot
+ggplot_pm25Diurnal(Carmel_Valley,
+                   startdate = 20160801,
+                   enddate = 20160810,
+                   xexp = c(1/46, 1/46),
+                   ylim = c(0, 1),
+                   offsetBreaks = TRUE) +
+  coord_polar() + 
+  stat_meanByHour(aes(y = .8), input = "pm25", output = "AQIColors", width = 1)
+}

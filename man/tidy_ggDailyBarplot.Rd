@@ -42,7 +42,15 @@ This function assembles various layers to create a production-ready
 daily barplot for one or more monitors.
 }
 \examples{
+\dontrun{
+ws_monitor <- airnow_loadLatest()
+ws_tidy <- monitor_toTidy(ws_monitor)
+tidy_ggDailyBarplot(ws_tidy, monitorID = "060631010_01")
+}
+
 ws_monitor <- PWFSLSmoke::Carmel_Valley
 ws_tidy <- monitor_toTidy(ws_monitor)
-tidy_ggDailyBarplot(ws_tidy)
+tidy_ggDailyBarplot(ws_tidy, 
+                    startdate = 20160801,
+                    enddate = 20160810)
 }

@@ -57,3 +57,7 @@ to the paired geom/stat.}
 This is a wrapper around \code{\link[ggplot2]{geom_point}} with
 default aesthetics.
 }
+\examples{
+ggplot_pm25Timeseries(Carmel_Valley) + 
+  geom_pm25Points()
+}

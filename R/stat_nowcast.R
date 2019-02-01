@@ -31,6 +31,12 @@
 #' @import ggplot2
 #' @export
 #' 
+#' @examples 
+#' ggplot_pm25Timeseries(Carmel_Valley,
+#'                       startdate = 20160801, 
+#'                       enddate = 20160810) + 
+#'   stat_nowcast() + 
+#'   geom_pm25Points()
 
 
 stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',

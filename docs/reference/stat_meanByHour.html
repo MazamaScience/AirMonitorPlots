@@ -201,12 +201,36 @@ shouldn't inherit behaviour from the default plot specificatino, eg <code>border
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='no'>Northwest_Megafires</span>,
+                      <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20150820</span>,
+                      <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20150831</span>) +
+  <span class='fu'>geom_point</span>(<span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"square"</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>) +
+  <span class='fu'>stat_meanByHour</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"line"</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='co'># }</span><div class='input'>
+<span class='fu'><a href='ggplot_pm25Diurnal.html'>ggplot_pm25Diurnal</a></span>(<span class='no'>Carmel_Valley</span>,
+                   <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
+                   <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>) +
+ <span class='fu'>geom_path</span>(<span class='fu'>aes</span>(<span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>day</span>), <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"gray50"</span>) +
+ <span class='fu'>stat_meanByHour</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"line"</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 rows containing missing values (geom_path).</span></div><div class='img'><img src='stat_meanByHour-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># "clock" plot</span>
+<span class='fu'><a href='ggplot_pm25Diurnal.html'>ggplot_pm25Diurnal</a></span>(<span class='no'>Carmel_Valley</span>,
+                   <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
+                   <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>,
+                   <span class='kw'>xexp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>/<span class='fl'>46</span>, <span class='fl'>1</span>/<span class='fl'>46</span>),
+                   <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>),
+                   <span class='kw'>offsetBreaks</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) +
+  <span class='fu'>coord_polar</span>() +
+  <span class='fu'>stat_meanByHour</span>(<span class='fu'>aes</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>.8</span>), <span class='kw'>input</span> <span class='kw'>=</span> <span class='st'>"pm25"</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"AQIColors"</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Ignoring unknown aesthetics: input</span></div><div class='img'><img src='stat_meanByHour-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

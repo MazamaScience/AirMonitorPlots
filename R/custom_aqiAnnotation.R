@@ -12,6 +12,10 @@
 #' 
 #' @import ggplot2
 #' @export
+#' @examples 
+#' p <- ggplot_pm25Timeseries(Carmel_Valley)
+#' p + custom_aqiLines() + custom_aqiStackedBar()
+#' 
 
 custom_aqiStackedBar <- function(width = 0.02,
                           position = "identity",

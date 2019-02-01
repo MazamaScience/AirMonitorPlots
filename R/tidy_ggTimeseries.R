@@ -26,9 +26,17 @@
 #' @export
 #' 
 #' @examples
+#' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
 #' ws_tidy <- monitor_toTidy(ws_monitor)
 #' tidy_ggTimeseries(ws_tidy, monitorIDs = "410432002_01")
+#' }
+#' 
+#' ws_monitor <- Carmel_Valley
+#' ws_tidy <- monitor_toTidy(ws_monitor)
+#' tidy_ggTimeseries(ws_tidy, 
+#'                   startdate = 20160801, 
+#'                   enddate = 20160810)
 
 tidy_ggTimeseries <- function(ws_tidy,
                               startdate = NULL,

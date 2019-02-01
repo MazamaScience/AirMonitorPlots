@@ -18,9 +18,12 @@
 #' @export
 #' 
 #' @examples
+#' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
 #' ws_tidy <- monitor_toTidy(ws_monitor)
 #' tidy_ggClockPlot(ws_tidy, monitorID = "060631010_01")
+#' }
+
 
 
 tidy_ggClockPlot <- function(ws_tidy,

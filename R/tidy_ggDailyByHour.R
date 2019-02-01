@@ -23,9 +23,17 @@
 #' @export
 #' 
 #' @examples
+#' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
 #' ws_tidy <- monitor_toTidy(ws_monitor)
 #' tidy_ggDailyByHour(ws_tidy, monitorID = "060631010_01")
+#' }
+#' 
+#' ws_monitor <- Carmel_Valley
+#' ws_tidy <- monitor_toTidy(ws_monitor)
+#' tidy_ggDailyByHour(ws_tidy, 
+#'                    startdate = 20160801, 
+#'                    enddate = 20160810)
 
 
 tidy_ggDailyByHour <- function(ws_tidy,

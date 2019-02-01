@@ -42,6 +42,13 @@ object to assemble various layers to create a production-ready
 timeseries plot for one or more monitors.
 }
 \examples{
+\dontrun{
 ws_monitor <- airnow_loadLatest()
 monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01", today = TRUE)
+}
+
+ws_monitor <- Carmel_Valley
+monitor_ggDailyBarplot(ws_monitor,
+                       startdate = 20160801,
+                       enddate = 20160810)
 }

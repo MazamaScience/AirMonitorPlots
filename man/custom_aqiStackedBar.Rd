@@ -20,3 +20,8 @@ A `ggplot` plot object with AQI annotations.
 \description{
 Adds AQI stacked bars to a plot.
 }
+\examples{
+p <- ggplot_pm25Timeseries(Carmel_Valley)
+p + custom_aqiLines() + custom_aqiStackedBar()
+
+}

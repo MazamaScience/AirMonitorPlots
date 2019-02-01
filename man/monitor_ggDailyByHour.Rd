@@ -40,6 +40,13 @@ object to assemble various layers to create a production-ready
 timeseries plot for one or more monitors.
 }
 \examples{
+\dontrun{
 ws_monitor <- airnow_loadLatest()
 monitor_ggDailyByHour(ws_monitor, monitorID = "410432002_01")
+}
+
+ws_monitor <- Carmel_Valley
+monitor_ggDailyByHour(ws_monitor,
+                      startdate = 20160801,
+                      enddate = 20160810)
 }

@@ -29,9 +29,17 @@
 #' @export
 #' 
 #' @examples
+#' \dontrun{
+#' ws_monitor <- airnow_loadLatest()
+#' ws_tidy <- monitor_toTidy(ws_monitor)
+#' tidy_ggDailyBarplot(ws_tidy, monitorID = "060631010_01")
+#' }
+#' 
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' ws_tidy <- monitor_toTidy(ws_monitor)
-#' tidy_ggDailyBarplot(ws_tidy)
+#' tidy_ggDailyBarplot(ws_tidy, 
+#'                     startdate = 20160801,
+#'                     enddate = 20160810)
 
 tidy_ggDailyBarplot <- function(ws_tidy,
                                 startdate = NULL,
@@ -138,6 +146,7 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
     
     if ( now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(5) ) {
+      # TODO:  Handle missing 'current nowcast'
       currentNowcast <- 0
     } else {
       nowcast <- .nowcast(ws_tidy$pm25)

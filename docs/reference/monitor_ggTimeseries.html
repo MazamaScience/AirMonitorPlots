@@ -186,7 +186,11 @@ more than one, different monitors will be plotted in different colors.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/PWFSLSmoke/topics/Northwest_Megafires'>Northwest_Megafires</a></span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
+<span class='fu'>monitor_ggTimeseries</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"410432002_01"</span>)
+<span class='co'># }</span><div class='input'>
+<span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/PWFSLSmoke/topics/Northwest_Megafires'>Northwest_Megafires</a></span>
 <span class='fu'>monitor_ggTimeseries</span>(<span class='no'>ws_monitor</span>,
                      <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20150815</span>,
                      <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20150831</span>,

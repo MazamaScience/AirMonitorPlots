@@ -49,3 +49,10 @@ shouldn't inherit behaviour from the default plot specificatino, eg \code{border
 This function calculates the NowCast values for the data, and adds  it to a plot.
 The default is to add a NowCast line.
 }
+\examples{
+ggplot_pm25Timeseries(Carmel_Valley,
+                      startdate = 20160801, 
+                      enddate = 20160810) + 
+  stat_nowcast() + 
+  geom_pm25Points()
+}

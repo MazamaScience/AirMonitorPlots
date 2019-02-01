@@ -36,6 +36,11 @@ object to assemble various layers to create a production-ready
 timeseries plot for one or more monitors.
 }
 \examples{
+\dontrun{
+ws_monitor <- airnow_loadLatest()
+monitor_ggTimeseries(ws_monitor, monitorID = "410432002_01")
+}
+
 ws_monitor <- PWFSLSmoke::Northwest_Megafires
 monitor_ggTimeseries(ws_monitor,
                      startdate = 20150815,
