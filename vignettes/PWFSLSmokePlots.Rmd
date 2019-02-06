@@ -20,8 +20,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `PWFSLSmokePlots` package provides plotting functionality to create production-ready plots using air quality monitoring
-data based on the data model from `PWFSLSmoke`. It builds on the `PWFLSmoke` package, integrating the data
+The `PWFSLSmokePlots` package provides plotting functionality to create production-ready plots for
+qir quality monitoring data. It builds on the `PWFLSmoke` package, integrating the data
 with `ggplot2` plotting functions. High-level plotting functions make it easy for users to create beautiful 
 plots of monitoring data. Since these functions are built on `ggplot2`, users familiar with `ggplot2` can easily 
 use the functions in this package to create custom plots. 
