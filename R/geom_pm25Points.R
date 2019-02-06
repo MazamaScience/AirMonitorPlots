@@ -39,7 +39,8 @@ geom_pm25Points <- function(mapping = NULL,
 }
 
 
-GeomPm25Points <- ggproto("GeomPm25Points", GeomPoint,
+GeomPm25Points <- ggproto("GeomPm25Points",
+                          GeomPoint,
                           # do some styling
                           required_aes = c("x", "y"),
                           default_aes = aes(alpha = 0.3,

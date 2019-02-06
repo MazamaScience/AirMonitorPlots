@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_nowcast.R
 \name{stat_nowcast}
 \alias{stat_nowcast}
-\title{Add NowCast values to a plot}
+\title{Add NowCast Values to a Plot}
 \usage{
 stat_nowcast(mapping = NULL, data = NULL, version = "pm",
   includeShortTerm = FALSE, geom = "path", aqiColors = FALSE,
@@ -17,7 +17,7 @@ at the top level of the plot. You must supply \code{mapping} if there is no plot
 \item{data}{The data to be displayed in this layer. There are three options: 
 if \code{NULL}, the default, the data is inherited from the plot data. 
 A \code{data.frame} or other object, will override the plot data. 
-A \code{function} will be called witha  single argument, the plot data.
+A \code{function} will be called with a  single argument, the plot data.
 The return value must be a \code{data.frame}, and will be used as the layer data.}
 
 \item{version}{character identity specifying the type of nowcast algorithm to be used. 
@@ -46,7 +46,7 @@ shouldn't inherit behaviour from the default plot specificatino, eg \code{border
 \item{...}{additional arguments passed on to \code{layer()}, such as aesthetics.}
 }
 \description{
-This function calculates the NowCast values for the data, and adds  it to a plot.
+This function calculates the NowCast version of the data, and adds it to a plot.
 The default is to add a NowCast line.
 }
 \examples{

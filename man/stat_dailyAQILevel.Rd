@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_dailyAQILevel.R
 \name{stat_dailyAQILevel}
 \alias{stat_dailyAQILevel}
-\title{Add AQI colors to a plot}
+\title{Add Daily AQI colors to a plot}
 \usage{
 stat_dailyAQILevel(mapping = NULL, data = NULL, mv4Colors = FALSE,
   timezone = NULL, minHours = 18, width = 0.8, adjustylim = FALSE,
@@ -51,10 +51,12 @@ shouldn't inherit behaviour from the default plot specificatino, eg \code{border
 \item{...}{additional arguments passed on to \code{layer()}, such as aesthetics.}
 }
 \description{
-This function calculates the AQI PM25 categories for the data, and colors the data
-by AQI cateogry when it is added to a plot. The default is to add them as bars.
+This function calculates the daily averaged AQI PM25 categories for the data
+and colors the data by AQI cateogry when it is added to a plot. The default 
+is to add them as bars.
 }
 \examples{
+\dontrun{
 ws_monitor <- airsis_loadLatest()
 ggplot_pm25Timeseries(ws_monitor) +
   stat_AQILevel(color = NA, width = 3000) +
@@ -65,4 +67,5 @@ ws_monitor <- airnow_loadLatest()
 ws_monitor <- monitor_subset(ws_monitor, monitorID = "160590004_01")
 ggplot_pm25Timeseries(ws_monitor) +
   stat_dailyAQILevel()
+}
 }

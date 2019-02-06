@@ -1,11 +1,10 @@
-#' @title Add AQI colors to a plot
+#' @title Add Houly Averages to a Plot
 #'
 #' @description
 #' This function calculates the mean y-value for each x-value. Should be used only
 #' when \code{x} is discrete. 
 #' The resulting mean can be mapped to any aesthetic, specified 
 #' with the \code{output} parameter. 
-#' 
 #' 
 #' @param mapping Set of aesthetic mappings created by \code{aes()}. If specified and 
 #' \code{inherit.aes = TRUE} (the default), it is combined with the default mapping
@@ -59,9 +58,9 @@
 
 
 stat_meanByHour <- function(mapping = NULL, data = NULL, input = NULL, output = "y",
-                         geom = "bar", position = "identity", na.rm = TRUE, 
-                         show.legend = NA, inherit.aes = TRUE,
-                         ...) {
+                            geom = "bar", position = "identity", na.rm = TRUE, 
+                            show.legend = NA, inherit.aes = TRUE,
+                            ...) {
   
   if (!is.null(input)) {
     if (is.null(mapping)) {
@@ -81,60 +80,63 @@ stat_meanByHour <- function(mapping = NULL, data = NULL, input = NULL, output = 
 }
 
 
-StatMeanByGroup <- ggproto("StatMeanByGroup", Stat,
-                             compute_group = function(data, 
-                                                      scales, 
-                                                      params,
-                                                      input,
-                                                      output,
-                                                      na.rm) {
-                               
-                               
-                               df <- data
-                               if (is.null(input)) {
-                                 df$input <- df$y
-                               }
-                               
-                                 means <- df %>% 
-                                   dplyr::group_by(.data$x) %>%
-                                   dplyr::summarise(mean = mean(.data$input, na.rm = na.rm),
-                                                    mean_y = mean(.data$y, na.rm = TRUE))
-
-                               
-                               # Set x and y
-                               data <- data.frame(x = means$x,
-                                                  y = means$mean_y)
-                               
-                               
-                               # Set output aesthetic
-                               if (output %in% c("AQIColors", "mv4Colors")) {
-                                 
-                                 # Add column for AQI level
-                                 data$aqi <- .bincode(means$mean, AQI$breaks_24, include.lowest = TRUE)
-                                 if (!"colour" %in% names(data)) {
-                                   if (output == "mv4Colors") {
-                                     data$colour <- AQI$mv4Colors[data$aqi]
-                                   } else {
-                                     data$colour <- AQI$colors[data$aqi] 
-                                   }
-                                 }
-                                 
-                                 if (!"fill" %in% names(data)) {
-                                   if (output == "mv4Colors") {
-                                     data$fill <- AQI$mv4Colors[data$aqi]
-                                   } else {
-                                     data$fill <- AQI$colors[data$aqi]
-                                   }
-                                   
-                                 }
-                                 
-                               } else {
-                                 # Map the mean to the correct aesthetic
-                                 data[output] <- means$mean
-                               }
-                               
-                               
-                               return(data)
-                             }
+StatMeanByGroup <- ggproto(
+  "StatMeanByGroup",
+  Stat,
+  compute_group = function(data, 
+                           scales, 
+                           params,
+                           input,
+                           output,
+                           na.rm) {
+    
+    
+    df <- data
+    if (is.null(input)) {
+      df$input <- df$y
+    }
+    
+    means <- df %>% 
+      dplyr::group_by(.data$x) %>%
+      dplyr::summarise(mean = mean(.data$input, na.rm = na.rm),
+                       mean_y = mean(.data$y, na.rm = TRUE))
+    
+    
+    # Set x and y
+    data <- data.frame(x = means$x,
+                       y = means$mean_y)
+    
+    
+    # Set output aesthetic
+    if (output %in% c("AQIColors", "mv4Colors")) {
+      
+      # Add column for AQI level
+      data$aqi <- .bincode(means$mean, AQI$breaks_24, include.lowest = TRUE)
+      if (!"colour" %in% names(data)) {
+        if (output == "mv4Colors") {
+          data$colour <- AQI$mv4Colors[data$aqi]
+        } else {
+          data$colour <- AQI$colors[data$aqi] 
+        }
+      }
+      
+      if (!"fill" %in% names(data)) {
+        if (output == "mv4Colors") {
+          data$fill <- AQI$mv4Colors[data$aqi]
+        } else {
+          data$fill <- AQI$colors[data$aqi]
+        }
+        
+      }
+      
+    } else {
+      # Map the mean to the correct aesthetic
+      data[output] <- means$mean
+    }
+    
+    
+    return(data)
+  }
+  
 )
 

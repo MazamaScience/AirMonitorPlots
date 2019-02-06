@@ -2,7 +2,7 @@
 % Please edit documentation in R/custom_pm25TimeseriesScales.R
 \name{custom_pm25TimeseriesScales}
 \alias{custom_pm25TimeseriesScales}
-\title{PWFSL PM2.5 timeseries scales}
+\title{PWFSL PM2.5 Timeseries Scales}
 \usage{
 custom_pm25TimeseriesScales(data = NULL, startdate = NULL,
   enddate = NULL, ylim = NULL, timezone = NULL, xlab = NULL,

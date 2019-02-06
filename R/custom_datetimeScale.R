@@ -47,7 +47,6 @@ custom_datetimeScale <- function(startdate = NULL,
                                  ...) {
   
   
-  # TODO:  handle NULL startdate and enddate 
   # Parameter validation
   if (is.null(startdate)) stop("startdate must be specified")
   if (is.null(enddate)) stop("enddate must be specified")
@@ -160,13 +159,13 @@ custom_datetimeScale <- function(startdate = NULL,
       labels = labels,
       ...
     ),
-      theme(
-        ###axis.ticks.x = element_line(),
-        axis.text.x = element_text(
-          angle = text_angle,
-          hjust = text_hjust
-        )
+    theme(
+      ###axis.ticks.x = element_line(),
+      axis.text.x = element_text(
+        angle = text_angle,
+        hjust = text_hjust
       )
+    )
   )
   
   

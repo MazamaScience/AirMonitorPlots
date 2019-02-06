@@ -1,4 +1,4 @@
-#' @title PWFSL PM2.5 timeseries scales
+#' @title PWFSL PM2.5 Timeseries Scales
 #'
 #' @description
 #' Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 

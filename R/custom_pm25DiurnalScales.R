@@ -1,11 +1,11 @@
-#' @title PWFSL PM2.5 timeseries scales
+#' @title PWFSL PM2.5 Diurnal Scales
 #'
 #' @description
-#' Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 
-#' showing PM2.5 data. 
+#' Add PWFSL-style x-axis and y-axis scales suitable for a plot showing PM2.5 
+#' data as a funciton of hour of the day.
 #'
 #' @param data pm25 timeseries data. Should match the default dataset of the
-#' plot
+#' plot.
 #' @param ylim custom y-axis limits. This function will apply a default limit
 #' depending on the data. 
 #' @param xlab Custom x-axis label. If \code{NULL} a default xlab will be generated. 

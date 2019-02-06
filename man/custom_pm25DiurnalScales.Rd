@@ -2,7 +2,7 @@
 % Please edit documentation in R/custom_pm25DiurnalScales.R
 \name{custom_pm25DiurnalScales}
 \alias{custom_pm25DiurnalScales}
-\title{PWFSL PM2.5 timeseries scales}
+\title{PWFSL PM2.5 Diurnal Scales}
 \usage{
 custom_pm25DiurnalScales(data = NULL, ylim = NULL, xlab = NULL,
   ylab = "PM2.5 (µg/m3)", yexp = c(0.05, 0.05), xexp = c(0.05,
@@ -10,7 +10,7 @@ custom_pm25DiurnalScales(data = NULL, ylim = NULL, xlab = NULL,
 }
 \arguments{
 \item{data}{pm25 timeseries data. Should match the default dataset of the
-plot}
+plot.}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
@@ -28,6 +28,6 @@ data on the x-axis, to ensure that they are placed some distance away from the a
 \item{offsetBreaks}{if \code{TRUE}, x-axis ticks and guides are offset by 0.5.}
 }
 \description{
-Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 
-showing PM2.5 data.
+Add PWFSL-style x-axis and y-axis scales suitable for a plot showing PM2.5 
+data as a funciton of hour of the day.
 }

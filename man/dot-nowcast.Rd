@@ -9,12 +9,14 @@
 \arguments{
 \item{x}{Vector of ordered data for the Nowcast algorithm to be applied to.}
 
-\item{version}{character identity specifying the type of nowcast algorithm to be used. 
-For details see \link{monitor_nowcast}.}
+\item{version}{character identity specifying the type of nowcast algorithm to
+be used. For details see \link{monitor_nowcast}.}
 
-\item{includeShortTerm}{calculate preliminary NowCast values starting with the 2nd hour.}
+\item{includeShortTerm}{calculate preliminary NowCast values starting with the 2nd hour}
+}
+\value{
+Vector of NowCast data of the same length as \code{x}.
 }
 \description{
-This function calculates the NowCast values for the data, and adds  it to a plot.
-The default is to add a NowCast line.
+This function calculates the NowCast version of the data.
 }

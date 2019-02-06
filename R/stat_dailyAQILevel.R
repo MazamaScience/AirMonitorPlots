@@ -1,8 +1,9 @@
-#' @title Add AQI colors to a plot
+#' @title Add Daily AQI colors to a plot
 #'
 #' @description
-#' This function calculates the AQI PM25 categories for the data, and colors the data
-#' by AQI cateogry when it is added to a plot. The default is to add them as bars. 
+#' This function calculates the daily averaged AQI PM25 categories for the data
+#' and colors the data by AQI cateogry when it is added to a plot. The default 
+#' is to add them as bars. 
 #' 
 #' @param mapping Set of aesthetic mappings created by \code{aes()}. If specified and 
 #' \code{inherit.aes = TRUE} (the default), it is combined with the default mapping
@@ -35,6 +36,7 @@
 #' @export
 #' 
 #' @examples
+#' \dontrun{
 #' ws_monitor <- airsis_loadLatest()
 #' ggplot_pm25Timeseries(ws_monitor) +
 #'   stat_AQILevel(color = NA, width = 3000) +
@@ -45,6 +47,7 @@
 #' ws_monitor <- monitor_subset(ws_monitor, monitorID = "160590004_01")
 #' ggplot_pm25Timeseries(ws_monitor) +
 #'   stat_dailyAQILevel()
+#' }
 
 
 stat_dailyAQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,  

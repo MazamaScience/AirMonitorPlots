@@ -1,7 +1,7 @@
-#' @title Add NowCast values to a plot
+#' @title Add NowCast Values to a Plot
 #'
 #' @description
-#' This function calculates the NowCast values for the data, and adds  it to a plot.
+#' This function calculates the NowCast version of the data, and adds it to a plot.
 #' The default is to add a NowCast line. 
 #'
 #' @param mapping Set of aesthetic mappings created by \code{aes()}. If specified and 
@@ -10,7 +10,7 @@
 #' @param data The data to be displayed in this layer. There are three options: 
 #' if \code{NULL}, the default, the data is inherited from the plot data. 
 #' A \code{data.frame} or other object, will override the plot data. 
-#' A \code{function} will be called witha  single argument, the plot data.
+#' A \code{function} will be called with a  single argument, the plot data.
 #' The return value must be a \code{data.frame}, and will be used as the layer data.
 #' @param version character identity specifying the type of nowcast algorithm to be used. 
 #' For details see \link{monitor_nowcast}. 

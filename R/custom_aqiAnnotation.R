@@ -18,8 +18,8 @@
 #' 
 
 custom_aqiStackedBar <- function(width = 0.02,
-                          position = "identity",
-                          ...) {
+                                 position = "identity",
+                                 ...) {
   
   # Validate parameters
   if (!is.numeric(width)) stop("width must be a number")
@@ -37,36 +37,37 @@ custom_aqiStackedBar <- function(width = 0.02,
   )
 }
 
-StatAqiBar <- ggproto("StatAqiBar", Stat,
-                  
-                  compute_group = function(data, scales, params, width) {
-                    
-                    # Get the plot dimensions
-                    xrange <- scales$x$get_limits()
-                    yrange <- scales$y$get_limits()
-                    
-                    # Set left and right for bars
-                    left <- xrange[1]
-                    right <- xrange[1] + width * (xrange[2]-xrange[1])
-                    
-                    # Create data
-                    # GeomRect uses xmin, xmax, ymin, ymax
-                    aqiStackedBarsData <- data.frame(
-                      xmin = rep(left, 6),
-                      xmax = rep(right, 6),
-                      ymin = c(yrange[1], AQI$breaks_24[2:6]),
-                      ymax =c(AQI$breaks_24[2:6], 1e6)
-                    )
-                    
-                    # Last bar must top out at yrange[2]
-                    aqiStackedBarsData <- aqiStackedBarsData %>%
-                      dplyr::filter(.data$ymin < yrange[2])
-                    barCount <- nrow(aqiStackedBarsData)
-                    aqiStackedBarsData$ymax[barCount] <- yrange[2]
-                    aqiStackedBarsData$fill <- AQI$colors[1:barCount]
-                    
-                    return(aqiStackedBarsData)
-                  }
+StatAqiBar <- ggproto(
+  "StatAqiBar",
+  Stat,
+  compute_group = function(data, scales, params, width) {
+    
+    # Get the plot dimensions
+    xrange <- scales$x$get_limits()
+    yrange <- scales$y$get_limits()
+    
+    # Set left and right for bars
+    left <- xrange[1]
+    right <- xrange[1] + width * (xrange[2]-xrange[1])
+    
+    # Create data
+    # GeomRect uses xmin, xmax, ymin, ymax
+    aqiStackedBarsData <- data.frame(
+      xmin = rep(left, 6),
+      xmax = rep(right, 6),
+      ymin = c(yrange[1], AQI$breaks_24[2:6]),
+      ymax =c(AQI$breaks_24[2:6], 1e6)
+    )
+    
+    # Last bar must top out at yrange[2]
+    aqiStackedBarsData <- aqiStackedBarsData %>%
+      dplyr::filter(.data$ymin < yrange[2])
+    barCount <- nrow(aqiStackedBarsData)
+    aqiStackedBarsData$ymax[barCount] <- yrange[2]
+    aqiStackedBarsData$fill <- AQI$colors[1:barCount]
+    
+    return(aqiStackedBarsData)
+  }
 )
 
 #' @title Add AQI lines to a plot
@@ -95,22 +96,23 @@ custom_aqiLines <- function(...) {
 
 
 
-StatAqiLines <- ggproto("StatAqiLines", Stat,
-                    
-                    compute_group = function(data, scales, params) {
-                      
-                      # Get the plot dimensions
-                      xrange <- scales$x$get_limits()
-                      yrange <- scales$y$get_limits()
-                      
-                      
-                      aqiLinesData <- data.frame(
-                        x = rep(xrange[1], 5),
-                        xend = rep(xrange[2], 5),
-                        y = c(AQI$breaks_24[2:6]),
-                        yend = c(AQI$breaks_24[2:6])
-                      )
-                      return(aqiLinesData)
-                    })
-                    
+StatAqiLines <- ggproto(
+  "StatAqiLines",
+  Stat,
+  compute_group = function(data, scales, params) {
+    
+    # Get the plot dimensions
+    xrange <- scales$x$get_limits()
+    yrange <- scales$y$get_limits()
+    
+    
+    aqiLinesData <- data.frame(
+      x = rep(xrange[1], 5),
+      xend = rep(xrange[2], 5),
+      y = c(AQI$breaks_24[2:6]),
+      yend = c(AQI$breaks_24[2:6])
+    )
+    return(aqiLinesData)
+  })
+
 

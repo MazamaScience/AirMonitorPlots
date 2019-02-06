@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_meanByHour.R
 \name{stat_meanByHour}
 \alias{stat_meanByHour}
-\title{Add AQI colors to a plot}
+\title{Add Houly Averages to a Plot}
 \usage{
 stat_meanByHour(mapping = NULL, data = NULL, input = NULL,
   output = "y", geom = "bar", position = "identity", na.rm = TRUE,
