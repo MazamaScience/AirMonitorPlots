@@ -38,22 +38,22 @@
 #'                   startdate = 20160801, 
 #'                   enddate = 20160810)
 
-tidy_ggTimeseries <- function(ws_tidy,
-                              startdate = NULL,
-                              enddate = NULL,
-                              style = "small",
-                              aqiStyle = NULL,
-                              monitorIDs = NULL,
-                              title = NULL,
-                              ...) {
+tidy_ggTimeseries <- function(
+  ws_tidy,
+  startdate = NULL,
+  enddate = NULL,
+  style = "small",
+  aqiStyle = NULL,
+  monitorIDs = NULL,
+  title = NULL,
+  ...) {
   
+  # ----- Validate Parameters -------------------------------------------------
   
-  # Parameter Validation
-  if (!monitor_isTidy(ws_tidy)) 
+  if ( !monitor_isTidy(ws_tidy) ) 
     stop("ws_tidy must be a ws_tidy object")
-  if (!style %in% c("small", "large"))
+  if ( !style %in% c("small", "large") )
     stop("Invalid style. Choose from 'small' or 'large'.")
-
   
   if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
     invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
@@ -66,10 +66,8 @@ tidy_ggTimeseries <- function(ws_tidy,
   if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
     stop("enddate is outside of data date range")
   }
-  
-  
-  
-  # Prepare data
+
+  # ----- Prepare data ---------------------------------------------------------
   
   if (!is.null(monitorIDs)) {
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID %in% monitorIDs)
@@ -88,7 +86,8 @@ tidy_ggTimeseries <- function(ws_tidy,
                                        "Site: ", unique(ws_tidy$siteName))
   }
   
-  # Styling args
+  # ----- Style ----------------------------------------------------------------
+  
   if (style == "large") {
     pointsize <- 2
     linesize <- 0.8
@@ -103,7 +102,7 @@ tidy_ggTimeseries <- function(ws_tidy,
     base_size = 11
   }
   
-  # Prepare the plot
+  # ----- Create plot ----------------------------------------------------------
   
   plot <- ggplot_pm25Timeseries(ws_tidy,
                                 startdate = startdate,
@@ -119,23 +118,24 @@ tidy_ggTimeseries <- function(ws_tidy,
     custom_aqiStackedBar() +
     ggtitle(title) 
   
-  
+  # Add legend when plotting multiple monitors
   if ( length(unique(ws_tidy$monitorID)) == 1 ) {
-    # Add legend
     values <- c(1,1)
     names(values) <- c(pm25LegendLabel, nowcastLegendLabel)
     scale <- scale_color_manual(name = "", values = values, labels = names(values))
     guide <- guides(color = guide_legend(title = "", 
                                          override.aes = list(color = c(1,1),
-                                              size = c(pointsize, linesize),
-                                              linetype = c(NA, 1),
-                                              shape = c(16, NA),
-                                              alpha = c(0.3, 1))))
+                                                             size = c(pointsize, linesize),
+                                                             linetype = c(NA, 1),
+                                                             shape = c(16, NA),
+                                                             alpha = c(0.3, 1))))
     plot <- plot + scale + guide 
   } else {
     plot <- plot + scale_color_brewer(palette = "Dark2") 
   }
   
-  plot + theme_timeseriesPlot_pwfsl(size = style)
+  plot <- plot + theme_timeseriesPlot_pwfsl(size = style)
+  
+  return(plot)
   
 }

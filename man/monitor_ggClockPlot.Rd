@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_ggClockPlot.R
 \name{monitor_ggClockPlot}
 \alias{monitor_ggClockPlot}
-\title{Create clock plot for one monitor}
+\title{Create a clock plot for one or more monitors}
 \usage{
 monitor_ggClockPlot(ws_monitor, startdate = NULL, enddate = NULL,
   monitorID = NULL, timezone = NULL, ...)
@@ -28,9 +28,9 @@ present, the default is UTC.}
 A **ggplot** object
 }
 \description{
-This function wraps \link{tidy_ggDailyBarplot}, accepting a `ws_monitor` 
+This function wraps \link{tidy_ggClockPlot}, accepting a `ws_monitor` 
 object to assemble various layers to create a production-ready
-timeseries plot for one or more monitors.
+"clock" plot for one or more monitors.
 }
 \examples{
 \dontrun{
@@ -42,5 +42,4 @@ ws_monitor <- Carmel_Valley
 monitor_ggClockPlot(ws_monitor, 
                     startdate = 20160801,
                     enddate = 20160810)
-
 }

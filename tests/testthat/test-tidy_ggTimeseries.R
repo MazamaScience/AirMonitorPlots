@@ -1,6 +1,6 @@
 context("tidy_ggTimeseries")
 
-test_that("Parameters are validated", {
+test_that("parameters are validated", {
   
   ws_tidy <- monitor_toTidy(PWFSLSmoke::Carmel_Valley)
   

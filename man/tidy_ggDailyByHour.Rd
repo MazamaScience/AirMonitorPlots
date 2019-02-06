@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidy_ggDailyByHour.R
 \name{tidy_ggDailyByHour}
 \alias{tidy_ggDailyByHour}
-\title{Create a daily barplot timeseries for one or more monitors}
+\title{Create a diurnal plot for one or more monitors}
 \usage{
 tidy_ggDailyByHour(ws_tidy, startdate = NULL, enddate = NULL,
   monitorID = NULL, style = "small", title = NULL, timezone = NULL,
@@ -37,18 +37,18 @@ A **ggplot** object
 }
 \description{
 This function assembles various layers to create a production-ready
-dailyByHour diurnal plot for one monitor.
+diurnal plot for one or more monitors.
 }
 \examples{
 \dontrun{
 ws_monitor <- airnow_loadLatest()
 ws_tidy <- monitor_toTidy(ws_monitor)
 tidy_ggDailyByHour(ws_tidy, monitorID = "060631010_01")
-}
 
 ws_monitor <- Carmel_Valley
 ws_tidy <- monitor_toTidy(ws_monitor)
 tidy_ggDailyByHour(ws_tidy, 
                    startdate = 20160801, 
                    enddate = 20160810)
+}
 }

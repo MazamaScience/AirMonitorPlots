@@ -1,4 +1,4 @@
-#' @title PWFSL PM2.5 Diurnal Scales
+#' @title PWFSL PM2.5 diurnal scales
 #'
 #' @description
 #' Add PWFSL-style x-axis and y-axis scales suitable for a plot showing PM2.5 
@@ -30,7 +30,6 @@ custom_pm25DiurnalScales <- function(
   xexp = c(0.05, 0.05),
   offsetBreaks = FALSE) {
   
-  
   if ( monitor_isMonitor(data) ) {
     data <- monitor_toTidy(data)
   } else if ( monitor_isTidy(data) ) {
@@ -39,10 +38,8 @@ custom_pm25DiurnalScales <- function(
     stop("data must be either a ws_monitor object or ws_tidy object.")
   }
   
-  
-  
+  # Default to well defined y-axis limits for visual stability
   if ( is.null(ylim) ) {
-    # Well defined y-axis limits for visual stability
     ylo <- 0
     ymax <- max(data$pm25, na.rm = TRUE)
     if ( ymax <= 50 ) {
@@ -73,9 +70,7 @@ custom_pm25DiurnalScales <- function(
   breaks <- if (offsetBreaks) seq(-0.5, 22.5, by = 3) else seq(0, 22, by = 3)
   minor_breaks <- if (offsetBreaks) seq(-0.5, 22.5, by = 1) else seq(0, 22, by = 1)
   
-  
-  
-  # add the scales
+  # Add the scales
   list(
     scale_x_continuous(breaks = breaks,
                        minor_breaks = seq(0, 23, by = 1),
@@ -86,8 +81,6 @@ custom_pm25DiurnalScales <- function(
                        expand = c(0,0)),
     ylab(ylab),
     xlab(xlab)
-    
-    
   )
   
 }

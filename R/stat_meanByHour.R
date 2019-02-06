@@ -1,4 +1,4 @@
-#' @title Add Houly Averages to a Plot
+#' @title Add hourly averages to a plot
 #'
 #' @description
 #' This function calculates the mean y-value for each x-value. Should be used only
@@ -32,37 +32,32 @@
 #' 
 #' @examples 
 #' \dontrun{
-#' ggplot_pm25Timeseries(Northwest_Megafires,
+#' ggplot_pm25Timeseries(PWFSLSmoke::Northwest_Megafires,
 #'                       startdate = 20150820,
 #'                       enddate = 20150831) + 
 #'   geom_point(shape = "square", alpha = 0.05) + 
 #'   stat_meanByHour(geom = "line", color = "orange", size = 3)
-#' }
 #'   
-#' ggplot_pm25Diurnal(Carmel_Valley,
+#' ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley,
 #'                    startdate = 20160801,
 #'                    enddate = 20160810) +
-#'  geom_path(aes(group = day), color = "gray50") +
-#'  stat_meanByHour(geom = "line", size = 4) 
-#'  
-#' # "clock" plot
-#' ggplot_pm25Diurnal(Carmel_Valley,
-#'                    startdate = 20160801,
-#'                    enddate = 20160810,
-#'                    xexp = c(1/46, 1/46),
-#'                    ylim = c(0, 1),
-#'                    offsetBreaks = TRUE) +
-#'   coord_polar() + 
-#'   stat_meanByHour(aes(y = .8), input = "pm25", output = "AQIColors", width = 1)
+#'   geom_path(aes(group = day), color = "gray50") +
+#'   stat_meanByHour(geom = "line", size = 4) 
+#' }
 
-
-
-stat_meanByHour <- function(mapping = NULL, data = NULL, input = NULL, output = "y",
-                            geom = "bar", position = "identity", na.rm = TRUE, 
-                            show.legend = NA, inherit.aes = TRUE,
-                            ...) {
+stat_meanByHour <- function(
+  mapping = NULL, 
+  data = NULL, 
+  input = NULL, 
+  output = "y",
+  geom = "bar", 
+  position = "identity", 
+  na.rm = TRUE, 
+  show.legend = NA, 
+  inherit.aes = TRUE,
+  ...) {
   
-  if (!is.null(input)) {
+  if ( !is.null(input) ) {
     if (is.null(mapping)) {
       mapping = aes_string(input = input)
     } else {
@@ -72,17 +67,27 @@ stat_meanByHour <- function(mapping = NULL, data = NULL, input = NULL, output = 
   
   list(
     layer(
-      stat = StatMeanByGroup, data = data, mapping = mapping, geom = geom, 
-      position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-      params = list(output = output, input = input, na.rm = na.rm, ...)
+      stat = StatMeanByGroup, 
+      data = data, 
+      mapping = mapping, 
+      geom = geom, 
+      position = position, 
+      show.legend = show.legend, 
+      inherit.aes = inherit.aes,
+      params = list(output = output, 
+                    input = input, 
+                    na.rm = na.rm, 
+                    ...)
     )
   )
+  
 }
 
 
 StatMeanByGroup <- ggproto(
   "StatMeanByGroup",
   Stat,
+  # BEGIN compute_group function
   compute_group = function(data, 
                            scales, 
                            params,
@@ -90,9 +95,8 @@ StatMeanByGroup <- ggproto(
                            output,
                            na.rm) {
     
-    
     df <- data
-    if (is.null(input)) {
+    if ( is.null(input) ) {
       df$input <- df$y
     }
     
@@ -101,11 +105,9 @@ StatMeanByGroup <- ggproto(
       dplyr::summarise(mean = mean(.data$input, na.rm = na.rm),
                        mean_y = mean(.data$y, na.rm = TRUE))
     
-    
     # Set x and y
     data <- data.frame(x = means$x,
                        y = means$mean_y)
-    
     
     # Set output aesthetic
     if (output %in% c("AQIColors", "mv4Colors")) {
@@ -126,7 +128,6 @@ StatMeanByGroup <- ggproto(
         } else {
           data$fill <- AQI$colors[data$aqi]
         }
-        
       }
       
     } else {
@@ -134,9 +135,9 @@ StatMeanByGroup <- ggproto(
       data[output] <- means$mean
     }
     
-    
     return(data)
   }
+  # END compute_group function
   
 )
 

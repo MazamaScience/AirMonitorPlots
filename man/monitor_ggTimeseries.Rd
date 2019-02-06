@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_ggTimeseries.R
 \name{monitor_ggTimeseries}
 \alias{monitor_ggTimeseries}
-\title{Create timeseries plot for one or more monitors}
+\title{Create a timeseries plot for one or more monitors}
 \usage{
 monitor_ggTimeseries(ws_monitor, startdate = NULL, enddate = NULL,
   style = "small", aqiStyle = NULL, monitorIDs = NULL,

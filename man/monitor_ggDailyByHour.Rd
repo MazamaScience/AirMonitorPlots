@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_ggDailyByHour.R
 \name{monitor_ggDailyByHour}
 \alias{monitor_ggDailyByHour}
-\title{Create timeseries plot for one or more monitors}
+\title{Create a dailyByHour plot for one or more monitors}
 \usage{
 monitor_ggDailyByHour(ws_monitor, startdate = NULL, enddate = NULL,
   monitorID = NULL, style = "small", title = NULL, timezone = NULL,

@@ -23,8 +23,7 @@ present, the default is UTC.}
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
 
-\item{base_size}{Base font size for theme
-object or \code{ws_tidy} object.}
+\item{base_size}{Base font size for theme object or \code{ws_tidy} object.}
 
 \item{...}{Additional arguments passed on to \code{\link{custom_datetimeScale}}.}
 }

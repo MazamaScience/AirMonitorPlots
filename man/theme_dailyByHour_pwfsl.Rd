@@ -2,20 +2,20 @@
 % Please edit documentation in R/themes.R
 \name{theme_dailyByHour_pwfsl}
 \alias{theme_dailyByHour_pwfsl}
-\title{Theme for PWFSL daily barplot for use in the monitoring site}
+\title{Theme for PWFSL dailyByHour plot for use in the monitoring site}
 \usage{
 theme_dailyByHour_pwfsl(size = "large")
 }
 \arguments{
 \item{size}{\code{small} or \code{large}. \code{style = small} is 
-appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
-for plots larger than 450x450px.}
+appropriate for plots 450x450px or smaller; \code{style = large} is 
+appropriate for plots larger than 450x450px.}
 }
 \value{
 A **ggplot** theme
 }
 \description{
 Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the \code{\link{tidy_ggDailyByHour}} function and
-generates plots suitable for the PWFSL monitoring site.
+This theme is intended for use with the \code{\link{tidy_ggDailyByHour}} 
+function and generates plots suitable for the PWFSL monitoring site.
 }

@@ -33,20 +33,19 @@
 #'   stat_boxplot(aes(group = hour)) 
 #'   
 
-
-
-
-ggplot_pm25Diurnal <- function(ws_data,
-                               startdate = NULL,
-                               enddate = NULL,
-                               timezone = NULL,
-                               ylim = NULL, 
-                               shadedNight=TRUE,
-                               mapping = aes_(x = ~hour, y = ~pm25),
-                               base_size = 11,
-                               ...) {
+ggplot_pm25Diurnal <- function(
+  ws_data,
+  startdate = NULL,
+  enddate = NULL,
+  timezone = NULL,
+  ylim = NULL, 
+  shadedNight=TRUE,
+  mapping = aes_(x = ~hour, y = ~pm25),
+  base_size = 11,
+  ...) {
   
-  # Validate Parameters
+  # ----- Validate Parameters --------------------------------------------------
+  
   if (!is.logical(shadedNight)) 
     stop("shadedNight must be logical")
   if (!is.numeric(base_size))
@@ -63,9 +62,12 @@ ggplot_pm25Diurnal <- function(ws_data,
   if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
     stop("startdate is outside of data date range")
   } 
+  
   if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
     stop("enddate is outside of data date range")
   }
+
+  # ----- Prepare data ---------------------------------------------------------
   
   # Get timezone
   if ( is.null(timezone) ) {
@@ -90,12 +92,11 @@ ggplot_pm25Diurnal <- function(ws_data,
     ws_tidy <- dplyr::filter(ws_tidy, .data$datetime <= lubridate::ceiling_date(e, unit = "day"))
   }
   
-  
   # Add column for 'hour'
   ws_tidy$hour <- as.numeric(strftime(ws_tidy$datetime, "%H", tz = timezone))
   ws_tidy$day  <- strftime(ws_tidy$datetime, "%Y%m%d", tz = timezone)
   
-
+  # ----- Create plot ----------------------------------------------------------
   
   plot <- ggplot(ws_tidy, mapping) +
     theme_pwfsl(base_size = base_size) +
@@ -136,7 +137,7 @@ ggplot_pm25Diurnal <- function(ws_data,
     plot <- plot + morning + night
   }
   
-  plot
+  return(plot)
   
 }
 

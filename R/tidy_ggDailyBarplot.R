@@ -51,39 +51,38 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                                 today = TRUE,
                                 ...) {
   
+  # ----- Validate Parameters -------------------------------------------------
   
-  # Validate parameters
   if (!monitor_isTidy(ws_tidy)) 
     stop("ws_tidy must be a ws_tidy object")
+  
   if (!style %in% c("small", "large"))
     stop("Invalid style. Choose from 'small' or 'large'.")
+  
   if (!is.null(timezone) && !timezone %in% OlsonNames()) 
     stop("Invalid timezone")
+  
   if (!is.logical(today))
     stop("today must be logical")
+  
   if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
     invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
     stop(paste0("monitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
   }
   
+  if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
+    stop("startdate is outside of data date range")
+  } 
+  if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
+    stop("enddate is outside of data date range")
+  }
   
-    if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
-      stop("startdate is outside of data date range")
-    } 
-    if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
-      stop("enddate is outside of data date range")
-    }
-  
-  
-
-    
-  
+  # ----- Prepare data ---------------------------------------------------------
   
   # Subset Data
   if (!is.null(monitorIDs)) {
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID %in% monitorIDs)
   } 
-  
   
   if ( length(unique(ws_tidy$monitorID)) > 1) {
     if (is.null(title)) title <- paste0("Daily Average PM2.5 for ", 
@@ -118,7 +117,8 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     lubridate::floor_date(parseDatetime(enddate, timezone = timezone), "day") + lubridate::dhours(23)
   ))
   
-  # Custom style formatting
+  # ----- Style ----------------------------------------------------------------
+  
   if (style == "large") {
     nowcastTextSize <- 4.5
     nowcastText <- "Current\nNowCast"
@@ -131,13 +131,10 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     base_size <- 11
   }
   
-  
-  
   # Set "today"
   if ( !enddate == lubridate::ceiling_date(lubridate::now(timezone), "day") - lubridate::dhours(1) ) {
     today <- FALSE
   }
-  
   
   # Create "current nowcast" bar
   if (today) {
@@ -183,7 +180,6 @@ tidy_ggDailyBarplot <- function(ws_tidy,
                      color = "gray40",
                      size =  nowcastTextSize )
     
-    
     nowcastBar <- list(
       rect,
       rect2,
@@ -197,21 +193,21 @@ tidy_ggDailyBarplot <- function(ws_tidy,
     
   }
   
+  # ----- Create plot ----------------------------------------------------------
   
-  # Create the plot
   ggplot_pm25Timeseries(ws_tidy,
-                                startdate = startdate,
-                                enddate = enddate,
-                                timezone = timezone,
-                                date_labels = date_format,
-                                tick_location = "midday",
-                                today_label = !today,
-                                base_size = base_size,
-                                ...) +
+                        startdate = startdate,
+                        enddate = enddate,
+                        timezone = timezone,
+                        date_labels = date_format,
+                        tick_location = "midday",
+                        today_label = !today,
+                        base_size = base_size,
+                        ...) +
     custom_aqiLines(size = 1, alpha = .8) +
-    stat_dailyAQILevel(timezone = timezone,
-                       adjustylim = TRUE, 
-                       color = "black") +
+    stat_dailyAQCategory(timezone = timezone,
+                         adjustylim = TRUE, 
+                         color = "black") +
     custom_aqiStackedBar(width = .015) +
     ## Format/theme tweaks
     # Remove padding on y scale

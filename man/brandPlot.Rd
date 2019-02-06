@@ -2,7 +2,7 @@
 % Please edit documentation in R/brandPlot.R
 \name{brandPlot}
 \alias{brandPlot}
-\title{Add Branding to a ggplot object}
+\title{Add a logo to a ggplot object}
 \usage{
 brandPlot(plot, brandStyle = "logo", brandName = "MazamaScience",
   brandFilePath = NULL, location = c("topright", "topleft",
@@ -34,7 +34,7 @@ Add a logo to a ggplot object.
 ws_monitor <- PWFSLSmoke::Carmel_Valley
 ws_tidy <- monitor_toTidy(ws_monitor)
 p <- ggplot_pm25Timeseries(ws_tidy) +
-  stat_dailyAQILevel(adjustylim = TRUE) 
+  stat_dailyAQCategory(adjustylim = TRUE) 
 brandPlot(p, location = "topright", size = .2)
 brandPlot(p, location = "bottomright", brandName = "USFS")
 brandPlot(p, brandName = "AirFire", location = "topleft", size = .15)

@@ -2,7 +2,7 @@ context("brandPlot")
 
 test_that("arguments are validated", {
   
-  p <- monitor_ggTimeseries(Carmel_Valley)
+  p <- monitor_ggTimeseries(PWFSLSmoke::Carmel_Valley)
   
   # Must provide a plot to brand
   expect_error(brandPlot())

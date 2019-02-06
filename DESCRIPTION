@@ -1,6 +1,6 @@
 Type: Package
 Package: PWFSLSmokePlots
-Version: 0.5.0
+Version: 0.5.1
 Title: Plot Utilities for the PWFSLSmoke Package
 Description: A suite of ggplot2 compatible functions to be used with air quality
     monitoring data obtained with the PWFSLSmoke package. These functions provide
@@ -22,20 +22,17 @@ Depends:
     PWFSLSmoke (>= 1.1.10)
 Imports:
     dplyr,
-    gridExtra,
-    leaflet,
+    grid,
     lubridate,
     magrittr,
     png,
-    reshape2,
-    rlang,
-    stringr
+    rlang
 Suggests:
+    gridExtra,
     knitr,
-    maps,
     markdown,
-    testthat,
-    rmarkdown
+    rmarkdown,
+    testthat
 License: GPL-3
 VignetteBuilder: knitr
 Repository: CRAN

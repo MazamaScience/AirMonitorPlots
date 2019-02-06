@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add AQI colors to a plot — stat_AQILevel • PWFSLSmokePlots</title>
+<title>Add AQI colors to a plot — stat_AQCategory • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,7 +37,7 @@
 
 
 
-<meta property="og:title" content="Add AQI colors to a plot — stat_AQILevel" />
+<meta property="og:title" content="Add AQI colors to a plot — stat_AQCategory" />
 
 <meta property="og:description" content="This function calculates the AQI PM25 categories for the data, and colors the data
 by AQI cateogry when it is added to a plot. The default is to add them as bars." />
@@ -126,8 +126,8 @@ by AQI cateogry when it is added to a plot. The default is to add them as bars."
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add AQI colors to a plot</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/stat_AQILevel.R'><code>R/stat_AQILevel.R</code></a></small>
-    <div class="hidden name"><code>stat_AQILevel.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/stat_AQCategory.R'><code>R/stat_AQCategory.R</code></a></small>
+    <div class="hidden name"><code>stat_AQCategory.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -137,7 +137,7 @@ by AQI cateogry when it is added to a plot. The default is to add them as bars.<
     
     </div>
 
-    <pre class="usage"><span class='fu'>stat_AQILevel</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>stat_AQCategory</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>nowcast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
@@ -200,14 +200,14 @@ shouldn't inherit behaviour from the default plot specificatino, eg <code>border
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>
 <span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='no'>ws_monitor</span>) +
-  <span class='fu'>stat_AQILevel</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 135 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_AQILevel-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'>stat_AQCategory</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 135 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_AQCategory-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='no'>ws_monitor</span>,
                       <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
                       <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160805</span>) +
   <span class='fu'>geom_line</span>() +
-  <span class='fu'>stat_AQILevel</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"point"</span>,
+  <span class='fu'>stat_AQCategory</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"point"</span>,
                 <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-                <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1391 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1397 rows containing missing values (geom_point).</span></div><div class='img'><img src='stat_AQILevel-2.png' alt='' width='700' height='433' /></div></pre>
+                <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1391 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1397 rows containing missing values (geom_point).</span></div><div class='img'><img src='stat_AQCategory-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

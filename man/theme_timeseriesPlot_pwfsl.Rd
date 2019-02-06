@@ -8,15 +8,15 @@ theme_timeseriesPlot_pwfsl(size = "large")
 }
 \arguments{
 \item{size}{\code{small} or \code{large}. \code{style = small} is 
-appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
-for plots larger than 450x450px.}
+appropriate for plots 450x450px or smaller; \code{style = large} is 
+appropriate for plots larger than 450x450px.}
 }
 \value{
 A **ggplot** theme
 }
 \description{
 Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the \code{\link{tidy_ggTimeseries}} function and
-generates plots suitable for the PWFSL monitoring site. It is suited to
-display of 1-4 weeks of data.
+This theme is intended for use with the \code{\link{tidy_ggTimeseries}} 
+function and generates plots suitable for the PWFSL monitoring site. 
+It is suited to display of 1-4 weeks of data.
 }

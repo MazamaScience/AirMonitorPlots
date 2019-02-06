@@ -1,4 +1,4 @@
-#' @title Create timeseries plot for one or more monitors
+#' @title Create a timeseries plot for one or more monitors
 #'
 #' @description
 #' This function wraps \link{tidy_ggTimeseries}, accepting a `ws_monitor` 
@@ -26,13 +26,14 @@
 #'                      enddate = 20150831,
 #'                      monitorIDs = "160690014_01")
 
-monitor_ggTimeseries <- function(ws_monitor,
-                                 startdate = NULL,
-                                 enddate = NULL,
-                                 style = "small",
-                                 aqiStyle = NULL,
-                                 monitorIDs = NULL,
-                                 title = NULL) {
+monitor_ggTimeseries <- function(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  style = "small",
+  aqiStyle = NULL,
+  monitorIDs = NULL,
+  title = NULL) {
   
   if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)

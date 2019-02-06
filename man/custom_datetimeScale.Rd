@@ -2,7 +2,7 @@
 % Please edit documentation in R/custom_datetimeScale.R
 \name{custom_datetimeScale}
 \alias{custom_datetimeScale}
-\title{Add date scale with custom styling for timezone and daterange}
+\title{Add date scale with custom styling}
 \usage{
 custom_datetimeScale(startdate = NULL, enddate = NULL,
   timezone = NULL, expand = c(0, 0.05), break_width = NULL,

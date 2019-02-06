@@ -14,3 +14,11 @@
 # Ignore pkgdown input and output files
 ^docs$
 ^pkgdown/
+^logo\.png$
+
+# Ignore other directories
+^app$
+^docker$
+
+# Ignore configuration files for other tools
+^\.travis\.yml$

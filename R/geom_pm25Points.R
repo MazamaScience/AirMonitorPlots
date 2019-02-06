@@ -10,7 +10,7 @@
 #' @export
 #' 
 #' @examples 
-#' ggplot_pm25Timeseries(Carmel_Valley) + 
+#' ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley) + 
 #'   geom_pm25Points()
 
 geom_pm25Points <- function(mapping = NULL, 
@@ -22,32 +22,35 @@ geom_pm25Points <- function(mapping = NULL,
                             stat = "identity", 
                             ...) {
   
-  
+  # http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
+  # https://stackoverflow.com/questions/17148679/construct-a-manual-legend-for-a-complicated-plot
   
   list(
     layer(
-      stat = stat, data = data, mapping = mapping, geom = GeomPm25Points,
-      position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+      stat = stat, 
+      data = data, 
+      mapping = mapping, 
+      geom = GeomPm25Points,
+      position = position, 
+      show.legend = show.legend, 
+      inherit.aes = inherit.aes,
       params = list(na.rm = na.rm, ...)
     )
-    
-    
-    # http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
-    # https://stackoverflow.com/questions/17148679/construct-a-manual-legend-for-a-complicated-plot
   )
   
 }
 
 
-GeomPm25Points <- ggproto("GeomPm25Points",
-                          GeomPoint,
-                          # do some styling
-                          required_aes = c("x", "y"),
-                          default_aes = aes(alpha = 0.3,
-                                            colour = "black",
-                                            shape = 19,
-                                            size = 1.5,
-                                            fill = NA,
-                                            stroke = 0.5)
+GeomPm25Points <- ggproto(
+  "GeomPm25Points",
+  GeomPoint,
+  # do some styling
+  required_aes = c("x", "y"),
+  default_aes = aes(alpha = 0.3,
+                    colour = "black",
+                    shape = 19,
+                    size = 1.5,
+                    fill = NA,
+                    stroke = 0.5)
 )
 

@@ -1,4 +1,4 @@
-#' @title Add Branding to a ggplot object
+#' @title Add a logo to a ggplot object
 #'
 #' @description
 #' Add a logo to a ggplot object. 
@@ -22,24 +22,23 @@
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' ws_tidy <- monitor_toTidy(ws_monitor)
 #' p <- ggplot_pm25Timeseries(ws_tidy) +
-#'   stat_dailyAQILevel(adjustylim = TRUE) 
+#'   stat_dailyAQCategory(adjustylim = TRUE) 
 #' brandPlot(p, location = "topright", size = .2)
 #' brandPlot(p, location = "bottomright", brandName = "USFS")
 #' brandPlot(p, brandName = "AirFire", location = "topleft", size = .15)
 
-
-
-
-brandPlot <- function(plot,
-                      brandStyle = 'logo',
-                      brandName = 'MazamaScience',
-                      brandFilePath = NULL,
-                      location = c("topright","topleft","bottomright","bottomleft")[1],
-                      size = .1) {
+brandPlot <- function(
+  plot,
+  brandStyle = 'logo',
+  brandName = 'MazamaScience',
+  brandFilePath = NULL,
+  location = c("topright","topleft","bottomright","bottomleft")[1],
+  size = .1) {
+  
   # Adapted from 
   # https://stackoverflow.com/questions/12463691/inserting-an-image-to-ggplot-outside-the-chart-area/12486301#12486301
-
-  # Parameter Validation 
+  
+  # ----- Parameter Validation  ------------------------------------------------
   
   # Arguments are of the correct class
   if (!is.ggplot(plot)) stop("'plot' must be a ggplot object")
@@ -54,9 +53,11 @@ brandPlot <- function(plot,
     stop("Invalid brandFilePath")
   if (!location %in% c("topright", "topleft", "bottomright", "bottomleft")) 
     stop("Invalid location. Choose from 'topright', 'topleft', bottomright', or 'bottomleft")
-    
+  
+  # ----- Parameter defaults ---------------------------------------------------
+  
   # Get the logo path
-  if (is.null(brandFilePath)) {
+  if ( is.null(brandFilePath) ) {
     if ( brandStyle == "logo" ) {
       brandFileName <- "logo_"
     } else if ( brandStyle == "icon" ) {
@@ -65,7 +66,7 @@ brandPlot <- function(plot,
     brandFileName <- paste0(brandFileName, brandName, ".png")
     brandFilePath <- system.file("brandImages", brandFileName, package = "PWFSLSmokePlots")
   }
-  if (!file.exists(brandFilePath)) {
+  if ( !file.exists(brandFilePath) ) {
     stop(paste0("could not find ", brandFilePath))
   }
   
@@ -76,9 +77,6 @@ brandPlot <- function(plot,
   imgDim <- dim(img)
   size_w <- unit(size, "npc")
   size_h <- unit(size * imgDim[1]/imgDim[2], "npc") 
-  
-  
-  
   
   # Set up the layout for grid 
   if (location == "topright") {
@@ -104,20 +102,21 @@ brandPlot <- function(plot,
   }
   layout = grid.layout(2, 2, widths = widths, heights = heights)
   
-  # Position the elements within the viewports
+  # Position elements within viewports
   grid.newpage()
   pushViewport(viewport(layout = layout))
   
-  # The plot
+  # Put plot in one viewpoert
   pushViewport(viewport(layout.pos.row=1:2, layout.pos.col = 1:2))
   print(plot, newpage=FALSE)
   popViewport()
   
-  # The logo
+  # Put logo in another viewport
   pushViewport(viewport(layout.pos.row=logoRow, layout.pos.col = logoCol))
   print(grid.draw(g), newpage=FALSE)
   popViewport()
-  popViewport()
+  
+  popViewport() # top level Viewport
   
   # To save the object
   g = grid.grab()

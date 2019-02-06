@@ -1,6 +1,7 @@
 context("tidy_ggDailyBarplot")
 
-test_that("Parameters are validated", {
+test_that("parameters are validated", {
+  
   ws_tidy <- monitor_toTidy(PWFSLSmoke::Carmel_Valley)
 
   expect_error(tidy_ggDailyBarplot("ws_tidy"), "ws_tidy must be a ws_tidy object")

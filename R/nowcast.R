@@ -1,14 +1,14 @@
-#' @title Calculate NowCast
+#' @title Calculate NowCast values
 #'
 #' @description
-#' This function calculates the NowCast version of the data.
+#' This function calculates the NowCast version of the incoming data.
 #'
-#' @param x Vector of ordered data for the Nowcast algorithm to be applied to.
+#' @param x vector of ordered PM2.5 data in units of ug/m3
 #' @param version character identity specifying the type of nowcast algorithm to
 #' be used. For details see \link{monitor_nowcast}. 
 #' @param includeShortTerm calculate preliminary NowCast values starting with the 2nd hour
 #'
-#' @return Vector of NowCast data of the same length as \code{x}.
+#' @return Vector of unitless NowCast values of the same length as \code{x}.
 #' 
 #' @export
 
@@ -40,8 +40,8 @@
   }
   
   # Start at the end end of the data (most recent hour) and work backwards
-  # The oldest hour for which we can calculate nowcast is numHrs, unless includeShortTerm=TRUE
-  # in which case we can go back to the 2nd hour.
+  # The oldest hour for which we can calculate nowcast is numHrs, unless 
+  # includeShortTerm=TRUE in which case we can go back to the 2nd hour.
   for ( i in length(x):firstHr ) {
     
     # Apply nowcast algorithm to numHrs data points in order with more recent first
@@ -99,6 +99,7 @@
   x[1:(firstHr-1)] <- NA
   
   return(x)
+
 }
 
 # Calculate the weight factor ('w' in the nowcast formula)

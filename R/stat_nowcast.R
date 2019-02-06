@@ -1,4 +1,4 @@
-#' @title Add NowCast Values to a Plot
+#' @title Add NowCast values to a plot
 #'
 #' @description
 #' This function calculates the NowCast version of the data, and adds it to a plot.
@@ -32,61 +32,82 @@
 #' @export
 #' 
 #' @examples 
-#' ggplot_pm25Timeseries(Carmel_Valley,
+#' ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley,
 #'                       startdate = 20160801, 
 #'                       enddate = 20160810) + 
-#'   stat_nowcast() + 
-#'   geom_pm25Points()
+#'   geom_pm25Points() +
+#'   stat_nowcast()
 
 
-stat_nowcast <- function(mapping = NULL, data = NULL, version='pm',
-                         includeShortTerm=FALSE, geom = "path",
-                         aqiColors = FALSE, mv4Colors = FALSE,
-                         position = "identity", na.rm = FALSE, show.legend = NA, 
-                         inherit.aes = TRUE, 
-                         ...) {
+stat_nowcast <- function(
+  mapping = NULL, 
+  data = NULL, 
+  version='pm',
+  includeShortTerm=FALSE, 
+  geom = "path",
+  aqiColors = FALSE, 
+  mv4Colors = FALSE,
+  position = "identity", 
+  na.rm = FALSE, 
+  show.legend = NA, 
+  inherit.aes = TRUE, 
+  ...) {
   
   layer(
-    stat = StatNowcast, data = data, mapping = mapping, geom = geom, 
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(includeShortTerm = includeShortTerm, version = version, 
-                  mv4Colors = mv4Colors, aqiColors = aqiColors, ...)
+    stat = StatNowcast, 
+    data = data, 
+    mapping = mapping, 
+    geom = geom, 
+    position = position, 
+    show.legend = show.legend, 
+    inherit.aes = inherit.aes,
+    params = list(includeShortTerm = includeShortTerm, 
+                  version = version, 
+                  mv4Colors = mv4Colors, 
+                  aqiColors = aqiColors, 
+                  ...)
   )
   
 }
 
 
-StatNowcast <- ggproto("StatNowcast", StatIdentity,
-                       extra_params =  c("includeShortTerm", "version", "mv4Colors", "aqiColors", "na.rm"),
-                       setup_data = function(data, params) {
-                         
-                         if (!params$version == "identity") {
-                           data$y <- .nowcast(data$y, params$version, params$includeShortTerm)
-                         }
-                         
-                         if ( params$aqiColors ) {
-                           # Add column for AQI level
-                           data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
-                           if (!"colour" %in% names(data)) {
-                             if (params$mv4Colors) {
-                               data$colour <- AQI$mv4Colors[data$aqi]
-                             } else {
-                               data$colour <- AQI$colors[data$aqi] 
-                             }
-                           }
-                           if (!"fill" %in% names(data)) {
-                             if ( params$mv4Colors ) {
-                               data$fill <- AQI$mv4Colors[data$aqi]
-                             } else {
-                               data$fill <- AQI$colors[data$aqi]
-                             }
-                             
-                           }
-                         }
-                         
-                         return(data)
-                       },
-                     
-                     required_aes = c("x", "y")
+StatNowcast <- ggproto(
+  "StatNowcast", 
+  StatIdentity,
+  extra_params =  c("includeShortTerm", "version", "mv4Colors", "aqiColors", "na.rm"),
+  # BEGIN setup_data function
+  setup_data = function(data, params) {
+    
+    if (!params$version == "identity") {
+      data$y <- .nowcast(data$y, params$version, params$includeShortTerm)
+    }
+    
+    if ( params$aqiColors ) {
+      
+      # Add column for AQI level
+      data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
+      if (!"colour" %in% names(data)) {
+        if (params$mv4Colors) {
+          data$colour <- AQI$mv4Colors[data$aqi]
+        } else {
+          data$colour <- AQI$colors[data$aqi] 
+        }
+      }
+      
+      if (!"fill" %in% names(data)) {
+        if ( params$mv4Colors ) {
+          data$fill <- AQI$mv4Colors[data$aqi]
+        } else {
+          data$fill <- AQI$colors[data$aqi]
+        }
+      }
+      
+    }
+    
+    return(data)
+  },
+  # END setup_data function
+  required_aes = c("x", "y")
+  
 )
 

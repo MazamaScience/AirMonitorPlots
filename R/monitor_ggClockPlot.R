@@ -1,9 +1,9 @@
-#' @title Create clock plot for one monitor
+#' @title Create a clock plot for one or more monitors
 #'
 #' @description
-#' This function wraps \link{tidy_ggDailyBarplot}, accepting a `ws_monitor` 
+#' This function wraps \link{tidy_ggClockPlot}, accepting a `ws_monitor` 
 #' object to assemble various layers to create a production-ready
-#' timeseries plot for one or more monitors. 
+#' "clock" plot for one or more monitors. 
 #'
 #' @inheritParams tidy_ggClockPlot
 #' @param ws_monitor A `ws_monitor` object
@@ -24,15 +24,14 @@
 #' monitor_ggClockPlot(ws_monitor, 
 #'                     startdate = 20160801,
 #'                     enddate = 20160810)
-#' 
 
-
-monitor_ggClockPlot <- function(ws_monitor,
-                                startdate = NULL,
-                                enddate = NULL,
-                                monitorID = NULL,
-                                timezone = NULL,
-                                ...) {
+monitor_ggClockPlot <- function(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorID = NULL,
+  timezone = NULL,
+  ...) {
   
   if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)

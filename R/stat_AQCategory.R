@@ -1,8 +1,9 @@
-#' @title Add AQI colors to a plot
+#' @title Add air quality categories to a plot
 #'
 #' @description
-#' This function calculates the AQI PM25 categories for the data, and colors the data
-#' by AQI cateogry when it is added to a plot. The default is to add them as bars. 
+#' This function calculates the air quality categories for the data and colors 
+#' the data by AQ cateogry when it is added to a plot. The default is to add 
+#' them as bars. 
 #' 
 #' @param mapping Set of aesthetic mappings created by \code{aes()}. If specified and 
 #' \code{inherit.aes = TRUE} (the default), it is combined with the default mapping
@@ -29,23 +30,32 @@
 #' @export
 #' 
 #' @examples 
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' ggplot_pm25Timeseries(ws_monitor) +
-#'   stat_AQILevel()
+#' ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley,
+#'                       startdate = 20160801, 
+#'                       enddate = 20160815) +
+#'   stat_AQCategory()
 #'   
-#' ggplot_pm25Timeseries(ws_monitor,
+#' ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley,
 #'                       startdate = 20160801, 
 #'                       enddate = 20160805) +
 #'   geom_line() +
-#'   stat_AQILevel(geom = "point",
+#'   stat_AQCategory(geom = "point",
 #'                 size = 2,
-#'                 shape = 21, color = 1) 
+#'                 shape = 21, 
+#'                 color = 1)
 
-
-stat_AQILevel <- function(mapping = NULL, data = NULL, mv4Colors = FALSE,
-                          nowcast = TRUE, geom = "bar", position = "identity", 
-                          na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, 
-                          ...) {
+stat_AQCategory <- function(
+  mapping = NULL, 
+  data = NULL, 
+  mv4Colors = FALSE,
+  nowcast = TRUE, 
+  geom = "bar", 
+  position = "identity", 
+  na.rm = FALSE, 
+  show.legend = NA, 
+  inherit.aes = TRUE, 
+  ...) {
+  
   if (nowcast) {
     version <- "pm"
   } else {

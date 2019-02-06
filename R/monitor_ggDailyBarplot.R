@@ -1,9 +1,9 @@
-#' @title Create timeseries plot for one or more monitors
+#' @title Create a daily barplot for one or more monitors
 #'
 #' @description
 #' This function wraps \link{tidy_ggDailyBarplot}, accepting a `ws_monitor` 
 #' object to assemble various layers to create a production-ready
-#' timeseries plot for one or more monitors. 
+#' daily barplot for one or more monitors. 
 #'
 #' @inheritParams tidy_ggDailyBarplot
 #' @param ws_monitor A `ws_monitor` object
@@ -25,16 +25,16 @@
 #'                        startdate = 20160801,
 #'                        enddate = 20160810)
 
-
-monitor_ggDailyBarplot <- function(ws_monitor,
-                                   startdate = NULL,
-                                   enddate = NULL,
-                                   monitorIDs = NULL,
-                                   style = "small", 
-                                   title = NULL,
-                                   timezone = NULL,
-                                   today = TRUE, 
-                                   ...) {
+monitor_ggDailyBarplot <- function(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorIDs = NULL,
+  style = "small", 
+  title = NULL,
+  timezone = NULL,
+  today = TRUE, 
+  ...) {
   
   if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)

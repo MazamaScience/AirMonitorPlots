@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_ggDailyBarplot.R
 \name{monitor_ggDailyBarplot}
 \alias{monitor_ggDailyBarplot}
-\title{Create timeseries plot for one or more monitors}
+\title{Create a daily barplot for one or more monitors}
 \usage{
 monitor_ggDailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
   monitorIDs = NULL, style = "small", title = NULL,
@@ -39,7 +39,7 @@ A **ggplot** object
 \description{
 This function wraps \link{tidy_ggDailyBarplot}, accepting a `ws_monitor` 
 object to assemble various layers to create a production-ready
-timeseries plot for one or more monitors.
+daily barplot for one or more monitors.
 }
 \examples{
 \dontrun{

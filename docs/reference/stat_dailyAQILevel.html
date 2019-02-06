@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add AQI colors to a plot — stat_dailyAQILevel • PWFSLSmokePlots</title>
+<title>Add AQI colors to a plot — stat_dailyAQCategory • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,7 +37,7 @@
 
 
 
-<meta property="og:title" content="Add AQI colors to a plot — stat_dailyAQILevel" />
+<meta property="og:title" content="Add AQI colors to a plot — stat_dailyAQCategory" />
 
 <meta property="og:description" content="This function calculates the AQI PM25 categories for the data, and colors the data
 by AQI cateogry when it is added to a plot. The default is to add them as bars." />
@@ -126,8 +126,8 @@ by AQI cateogry when it is added to a plot. The default is to add them as bars."
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add AQI colors to a plot</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/stat_dailyAQILevel.R'><code>R/stat_dailyAQILevel.R</code></a></small>
-    <div class="hidden name"><code>stat_dailyAQILevel.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/stat_dailyAQCategory.R'><code>R/stat_dailyAQCategory.R</code></a></small>
+    <div class="hidden name"><code>stat_dailyAQCategory.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -137,7 +137,7 @@ by AQI cateogry when it is added to a plot. The default is to add them as bars.<
     
     </div>
 
-    <pre class="usage"><span class='fu'>stat_dailyAQILevel</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>stat_dailyAQCategory</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>minHours</span> <span class='kw'>=</span> <span class='fl'>18</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>adjustylim</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>missingDataBar</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
@@ -219,13 +219,13 @@ shouldn't inherit behaviour from the default plot specificatino, eg <code>border
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airsis_loadLatest</span>()
 <span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='no'>ws_monitor</span>) +
-  <span class='fu'><a href='stat_AQILevel.html'>stat_AQILevel</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>3000</span>) +
-  <span class='fu'>stat_dailyAQILevel</span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.5</span>, <span class='kw'>missingDataBar</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>) +
-  <span class='fu'>facet_wrap</span>(~<span class='no'>monitorID</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 646 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 658 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 12 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_dailyAQILevel-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='stat_AQCategory.html'>stat_AQCategory</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>3000</span>) +
+  <span class='fu'>stat_dailyAQCategory</span>(<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.5</span>, <span class='kw'>missingDataBar</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>) +
+  <span class='fu'>facet_wrap</span>(~<span class='no'>monitorID</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 646 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 658 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 12 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_dailyAQCategory-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
 <span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>monitor_subset</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"160590004_01"</span>)
 <span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='no'>ws_monitor</span>) +
-  <span class='fu'>stat_dailyAQILevel</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_dailyAQILevel-2.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'>stat_dailyAQCategory</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_dailyAQCategory-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

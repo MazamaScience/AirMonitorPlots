@@ -1,17 +1,19 @@
 #' @title Theme for PWFSL plots
 #'
 #' @description
-#' Applies a theme to a **ggplot** plot object.
+#' Applies the package standard theme to a **ggplot** plot object.
 #'
 #' @param base_size Base font size.
 #' @param base_family Base font family.
+#' 
 #' @return A **ggplot** theme
 #'
 #' @import ggplot2
 #' @export
 
-theme_pwfsl <- function(base_size = 11,
-                        base_family = "") {
+theme_pwfsl <- function(
+  base_size = 11,
+  base_family = "") {
   
   theme_classic(
     base_size = base_size,
@@ -63,7 +65,6 @@ theme_pwfsl <- function(base_size = 11,
                                  face = "italic",
                                  margin = margin(r = 50)),
       
-      
       # Box outline and grid lines
       panel.border = element_rect(fill = NA),
       
@@ -93,6 +94,7 @@ theme_pwfsl <- function(base_size = 11,
 }
 
 #' @keywords internal
+#' 
 #' @title Custom styling for plots based on size
 #'
 #' @description
@@ -101,8 +103,9 @@ theme_pwfsl <- function(base_size = 11,
 #' PWFSL monitoring site. 
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is 
-#' appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
-#' for plots larger than 450x450px.
+#' appropriate for plots 450x450px or smaller; \code{style = large} is 
+#' appropriate for plots larger than 450x450px.
+#' 
 #' @return A **ggplot** theme
 #'
 #' @import ggplot2
@@ -126,13 +129,14 @@ theme_custom_size <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a **ggplot** plot object.
-#' This theme is intended for use with the \code{\link{tidy_ggTimeseries}} function and
-#' generates plots suitable for the PWFSL monitoring site. It is suited to
-#' display of 1-4 weeks of data.
+#' This theme is intended for use with the \code{\link{tidy_ggTimeseries}} 
+#' function and generates plots suitable for the PWFSL monitoring site. 
+#' It is suited to display of 1-4 weeks of data.
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is 
-#' appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
-#' for plots larger than 450x450px.
+#' appropriate for plots 450x450px or smaller; \code{style = large} is 
+#' appropriate for plots larger than 450x450px.
+#' 
 #' @return A **ggplot** theme
 #'
 #' @import ggplot2
@@ -156,13 +160,14 @@ theme_timeseriesPlot_pwfsl <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a **ggplot** plot object.
-#' This theme is intended for use with the \code{\link{tidy_ggDailyBarplot}} function and
-#' generates plots suitable for the PWFSL monitoring site. It is suited to
-#' display of 1-4 weeks of data.
+#' This theme is intended for use with the \code{\link{tidy_ggDailyBarplot}} 
+#' function and generates plots suitable for the PWFSL monitoring site.
+#' It is suited to display of 1-4 weeks of data.
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is 
-#' appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
-#' for plots larger than 450x450px.
+#' appropriate for plots 450x450px or smaller; \code{style = large} is 
+#' appropriate for plots larger than 450x450px.
+#' 
 #' @return A **ggplot** theme
 #'
 #' @import ggplot2
@@ -180,23 +185,24 @@ theme_dailyBarplot_pwfsl <- function(size = "large") {
 }
 
 
-#' @title Theme for PWFSL daily barplot for use in the monitoring site
+#' @title Theme for PWFSL dailyByHour plot for use in the monitoring site
 #'
 #' @description
 #' Applies a theme to a **ggplot** plot object.
-#' This theme is intended for use with the \code{\link{tidy_ggDailyByHour}} function and
-#' generates plots suitable for the PWFSL monitoring site. 
+#' This theme is intended for use with the \code{\link{tidy_ggDailyByHour}} 
+#' function and generates plots suitable for the PWFSL monitoring site. 
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is 
-#' appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
-#' for plots larger than 450x450px.
+#' appropriate for plots 450x450px or smaller; \code{style = large} is 
+#' appropriate for plots larger than 450x450px.
+#' 
 #' @return A **ggplot** theme
 #'
 #' @import ggplot2
 #' @export
 
 theme_dailyByHour_pwfsl <- function(size = "large") {
-
+  
   theme(legend.key.size = unit(1, "cm"),
         legend.position = "top",
         legend.text.align = 1) +

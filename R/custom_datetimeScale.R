@@ -1,4 +1,4 @@
-#' @title Add date scale with custom styling for timezone and daterange
+#' @title Add date scale with custom styling
 #' 
 #' @description Add a date scale and custom formatting for creating 
 #' consistent timeseries plots. 
@@ -34,20 +34,21 @@
 #' @export
 #' @import ggplot2
 
-custom_datetimeScale <- function(startdate = NULL, 
-                                 enddate = NULL,
-                                 timezone = NULL,
-                                 expand = c(0,0.05),
-                                 break_width = NULL,
-                                 minor_break_width = NULL,
-                                 date_labels = "%b %d",
-                                 tick_location = c("midnight", "midday")[1],
-                                 includeFullEnddate = TRUE, 
-                                 today_label = TRUE,
-                                 ...) {
+custom_datetimeScale <- function(
+  startdate = NULL, 
+  enddate = NULL,
+  timezone = NULL,
+  expand = c(0,0.05),
+  break_width = NULL,
+  minor_break_width = NULL,
+  date_labels = "%b %d",
+  tick_location = c("midnight", "midday")[1],
+  includeFullEnddate = TRUE, 
+  today_label = TRUE,
+  ...) {
   
+  # ----- Parameter validation--------------------------------------------------
   
-  # Parameter validation
   if (is.null(startdate)) stop("startdate must be specified")
   if (is.null(enddate)) stop("enddate must be specified")
   if (!is.null(timezone) && !timezone %in% OlsonNames()) stop("Invalid timezone.")
@@ -56,8 +57,7 @@ custom_datetimeScale <- function(startdate = NULL,
   if (!is.logical(includeFullEnddate)) stop("includeFullEnddate must be logical.")
   if (!is.logical(today_label)) stop("today_label must be logical.")
   
-  
-  # handle various startdates
+  # Handle various startdates
   if ( !is.null(startdate) ) {
     if ( is.numeric(startdate) || is.character(startdate) ) {
       startdate <- parseDatetime(startdate, timezone = timezone)
@@ -70,7 +70,7 @@ custom_datetimeScale <- function(startdate = NULL,
     }
   }
   
-  # handle various enddates
+  # Handle various enddates
   if ( !is.null(enddate) ) {
     if ( is.numeric(enddate) || is.character(enddate) ) {
       enddate <- parseDatetime(enddate, timezone = timezone)
@@ -135,7 +135,6 @@ custom_datetimeScale <- function(startdate = NULL,
     labels <- waiver()
   }
   
-  
   # NOTE:  X-axis must be extended to fit the complete last day.
   # NOTE:  Then a little bit more for style.
   xRangeSecs <- as.numeric(difftime(enddate, startdate, timezone, units = "secs"))
@@ -167,7 +166,6 @@ custom_datetimeScale <- function(startdate = NULL,
       )
     )
   )
-  
   
 }
 

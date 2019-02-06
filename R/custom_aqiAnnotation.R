@@ -1,14 +1,14 @@
-#' @title Add AQI stacked bars to a plot
+#' @title Add AQ category stacked bars to a plot
 #'
 #' @description
-#' Adds AQI stacked bars to a plot. 
+#' Adds AQ category stacked bars to a plot. 
 #'
 #' @param width Width of bars as a fraction of plot width.
 #' @param position Position adjustment, either as a string, or the result of 
 #' a call to a position adjustment function
 #' @param ... additional arguments passed on to layer, such as alpha. 
 #'
-#' @return A `ggplot` plot object with AQI annotations.
+#' @return A `ggplot` plot object with AQ category annotations.
 #' 
 #' @import ggplot2
 #' @export
@@ -17,9 +17,10 @@
 #' p + custom_aqiLines() + custom_aqiStackedBar()
 #' 
 
-custom_aqiStackedBar <- function(width = 0.02,
-                                 position = "identity",
-                                 ...) {
+custom_aqiStackedBar <- function(
+  width = 0.02,
+  position = "identity",
+  ...) {
   
   # Validate parameters
   if (!is.numeric(width)) stop("width must be a number")
@@ -40,6 +41,7 @@ custom_aqiStackedBar <- function(width = 0.02,
 StatAqiBar <- ggproto(
   "StatAqiBar",
   Stat,
+  # BEGIN compute_group function
   compute_group = function(data, scales, params, width) {
     
     # Get the plot dimensions
@@ -68,6 +70,8 @@ StatAqiBar <- ggproto(
     
     return(aqiStackedBarsData)
   }
+  # END compute_group function
+  
 )
 
 #' @title Add AQI lines to a plot
@@ -92,6 +96,7 @@ custom_aqiLines <- function(...) {
       params = list(na.rm = TRUE, color = AQI$colors[2:6], ...)
     )
   )
+  
 }
 
 
@@ -104,7 +109,6 @@ StatAqiLines <- ggproto(
     # Get the plot dimensions
     xrange <- scales$x$get_limits()
     yrange <- scales$y$get_limits()
-    
     
     aqiLinesData <- data.frame(
       x = rep(xrange[1], 5),

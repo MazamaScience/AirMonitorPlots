@@ -8,8 +8,8 @@ theme_custom_size(size = "large")
 }
 \arguments{
 \item{size}{\code{small} or \code{large}. \code{style = small} is 
-appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
-for plots larger than 450x450px.}
+appropriate for plots 450x450px or smaller; \code{style = large} is 
+appropriate for plots larger than 450x450px.}
 }
 \value{
 A **ggplot** theme

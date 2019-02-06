@@ -1,6 +1,6 @@
 context("tidy_ggClockPlot")
 
-test_that("Parameters are validated", {
+test_that("parameters are validated", {
   
   ws_tidy <- monitor_toTidy(PWFSLSmoke::Carmel_Valley)
   
@@ -10,10 +10,9 @@ test_that("Parameters are validated", {
   
 })
 
-test_that("Generates correct output",{
+test_that("return is of type 'ggplot",{
   ws_nm <- monitor_toTidy(PWFSLSmoke::Northwest_Megafires)
   ws_cv <- monitor_toTidy(PWFSLSmoke::Carmel_Valley)
-  
   
   expect_is(tidy_ggClockPlot(ws_cv), "ggplot")
   expect_is(tidy_ggClockPlot(ws_cv, startdate = 20160630, enddate = 20160705), "ggplot")

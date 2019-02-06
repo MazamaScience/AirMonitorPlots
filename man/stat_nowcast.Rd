@@ -2,7 +2,7 @@
 % Please edit documentation in R/stat_nowcast.R
 \name{stat_nowcast}
 \alias{stat_nowcast}
-\title{Add NowCast Values to a Plot}
+\title{Add NowCast values to a plot}
 \usage{
 stat_nowcast(mapping = NULL, data = NULL, version = "pm",
   includeShortTerm = FALSE, geom = "path", aqiColors = FALSE,
@@ -50,9 +50,9 @@ This function calculates the NowCast version of the data, and adds it to a plot.
 The default is to add a NowCast line.
 }
 \examples{
-ggplot_pm25Timeseries(Carmel_Valley,
+ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley,
                       startdate = 20160801, 
                       enddate = 20160810) + 
-  stat_nowcast() + 
-  geom_pm25Points()
+  geom_pm25Points() +
+  stat_nowcast()
 }

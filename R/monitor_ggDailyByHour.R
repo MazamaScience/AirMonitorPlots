@@ -1,4 +1,4 @@
-#' @title Create timeseries plot for one or more monitors
+#' @title Create a dailyByHour plot for one or more monitors
 #'
 #' @description
 #' This function wraps \link{tidy_ggDailyByHour}, accepting a `ws_monitor` 
@@ -25,14 +25,15 @@
 #'                       startdate = 20160801,
 #'                       enddate = 20160810)
 
-monitor_ggDailyByHour <- function(ws_monitor,
-                                  startdate = NULL,
-                                  enddate = NULL,
-                                  monitorID = NULL,
-                                  style = "small",
-                                  title = NULL,
-                                  timezone = NULL,
-                                  ...) {
+monitor_ggDailyByHour <- function(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorID = NULL,
+  style = "small",
+  title = NULL,
+  timezone = NULL,
+  ...) {
   
   if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)

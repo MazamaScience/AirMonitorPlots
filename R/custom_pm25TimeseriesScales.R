@@ -1,4 +1,4 @@
-#' @title PWFSL PM2.5 Timeseries Scales
+#' @title PWFSL PM2.5 timeseries scales
 #'
 #' @description
 #' Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot 
@@ -27,15 +27,16 @@
 #' @export
 #' 
 
-custom_pm25TimeseriesScales <- function(data = NULL,
-                                        startdate = NULL, 
-                                        enddate = NULL, 
-                                        ylim = NULL,
-                                        timezone = NULL,
-                                        xlab = NULL,
-                                        yexp = c(0.05, 0),
-                                        xexp = c(0, 0.05),
-                                        ...) {
+custom_pm25TimeseriesScales <- function(
+  data = NULL,
+  startdate = NULL, 
+  enddate = NULL, 
+  ylim = NULL,
+  timezone = NULL,
+  xlab = NULL,
+  yexp = c(0.05, 0),
+  xexp = c(0, 0.05),
+  ...) {
   
   if (is.null(data)) {
     if (is.null(startdate) || is.null(enddate) || is.null(ylim)) {
@@ -70,7 +71,7 @@ custom_pm25TimeseriesScales <- function(data = NULL,
     xlab <- paste0("Time (", timezone, ")")
   }
   
-  # handle various startdates
+  # Handle various startdates
   if ( !is.null(startdate) ) {
     if ( is.numeric(startdate) || is.character(startdate) ) {
       startdate <- parseDatetime(startdate, timezone = timezone)
@@ -83,7 +84,7 @@ custom_pm25TimeseriesScales <- function(data = NULL,
     }
   }
   
-  # handle various enddates
+  # Handle various enddates
   if ( !is.null(enddate) ) {
     if ( is.numeric(enddate) || is.character(enddate) ) {
       enddate <- parseDatetime(enddate, timezone = timezone)
@@ -96,9 +97,8 @@ custom_pm25TimeseriesScales <- function(data = NULL,
     }
   }
   
-  
+  # Default to well defined y-axis limits for visual stability
   if ( is.null(ylim) ) {
-    # Well defined y-axis limits for visual stability
     ylo <- 0
     ymax <- max(dplyr::filter(.data = data, .data$datetime >= startdate & .data$datetime <= enddate)$pm25, na.rm = TRUE)
     if ( ymax <= 50 ) {
@@ -124,9 +124,7 @@ custom_pm25TimeseriesScales <- function(data = NULL,
     yhi <- ylim[2]
   }
   
-  
-  
-  # add the scales
+  # Add the scales
   list(
     custom_datetimeScale(startdate = startdate, 
                          enddate = enddate, 
@@ -138,8 +136,6 @@ custom_pm25TimeseriesScales <- function(data = NULL,
                        expand = yexp),
     ylab("PM2.5 (\u00b5g/m3)"),
     xlab(xlab)
-    
-    
   )
   
 }

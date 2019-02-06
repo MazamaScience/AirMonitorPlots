@@ -1,10 +1,18 @@
+# PWFSLSmokePlots 0.5.1
+
+Cleanup of refactored code before CRAN submission
+
+ * renamed `_AQILevel()` functions to `_AQCategory()`
+ * general improvements to documentation and code comments
+
 # PWFSLSmokePlots 0.5.0
 
-Helen's refactoring
+Complete refactoring of the code to utilize low level `ggplot` concepts.
   
-  * `tidy_gg*` and `monitor_gg*` functions to create out-of-the-box plots for the monitoring site  
-  * Modularized with custom stats and geoms and `custom_` functions, making it easy 
-    to create customized plots
+  * `tidy_gg*` and `monitor_gg*` functions to create out-of-the-box plots for 
+  the monitoring site  
+  * Modularized with custom stats and geoms and `custom_` functions, making it 
+  easy to create customized plots.
 
 # PWFSLSmokePlots 0.4.4
 

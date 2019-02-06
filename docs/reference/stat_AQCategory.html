@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add NowCast values to a plot — stat_nowcast • PWFSLSmokePlots</title>
+<title>Add air quality categories to a plot — stat_AQCategory • PWFSLSmokePlots</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Add NowCast values to a plot — stat_nowcast" />
+<meta property="og:title" content="Add air quality categories to a plot — stat_AQCategory" />
 
-<meta property="og:description" content="This function calculates the NowCast version of the data, and adds it to a plot.
-The default is to add a NowCast line." />
+<meta property="og:description" content="This function calculates the air quality categories for the data and colors 
+the data by AQ cateogry when it is added to a plot. The default is to add 
+them as bars." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -118,22 +119,22 @@ The default is to add a NowCast line." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add NowCast values to a plot</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/stat_nowcast.R'><code>R/stat_nowcast.R</code></a></small>
-    <div class="hidden name"><code>stat_nowcast.Rd</code></div>
+    <h1>Add air quality categories to a plot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/stat_AQCategory.R'><code>R/stat_AQCategory.R</code></a></small>
+    <div class="hidden name"><code>stat_AQCategory.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function calculates the NowCast version of the data, and adds it to a plot.
-The default is to add a NowCast line.</p>
+    <p>This function calculates the air quality categories for the data and colors 
+the data by AQ cateogry when it is added to a plot. The default is to add 
+them as bars.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>stat_nowcast</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"pm"</span>,
-  <span class='kw'>includeShortTerm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"path"</span>, <span class='kw'>aqiColors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>stat_AQCategory</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>nowcast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,30 +150,21 @@ at the top level of the plot. You must supply <code>mapping</code> if there is n
       <td><p>The data to be displayed in this layer. There are three options: 
 if <code>NULL</code>, the default, the data is inherited from the plot data. 
 A <code>data.frame</code> or other object, will override the plot data. 
-A <code>function</code> will be called with a  single argument, the plot data.
+A <code>function</code> will be called witha  single argument, the plot data.
 The return value must be a <code>data.frame</code>, and will be used as the layer data.</p></td>
     </tr>
     <tr>
-      <th>version</th>
-      <td><p>character identity specifying the type of nowcast algorithm to be used. 
-For details see monitor_nowcast.</p></td>
+      <th>mv4Colors</th>
+      <td><p>If <code>TRUE</code>, use the colors used in the monitoring v4 site. Otherwise,
+use the "official" AQI colors.</p></td>
     </tr>
     <tr>
-      <th>includeShortTerm</th>
-      <td><p>calculate preliminary NowCast values starting with the 2nd hour.</p></td>
+      <th>nowcast</th>
+      <td><p>If <code>TRUE</code>, y values will be transformed using <code><a href='stat_nowcast.html'>stat_nowcast</a></code>.</p></td>
     </tr>
     <tr>
       <th>geom</th>
       <td><p>The geometic object to display the data</p></td>
-    </tr>
-    <tr>
-      <th>aqiColors</th>
-      <td><p>if <code>TRUE</code>, AQI colors will be displayed.</p></td>
-    </tr>
-    <tr>
-      <th>mv4Colors</th>
-      <td><p>if <code>TRUE</code>, AQI colors from the monitoring V4 site will be used. 
-Ignored if <code>aqiColors</code> is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>position</th>
@@ -203,9 +195,16 @@ shouldn't inherit behaviour from the default plot specificatino, eg <code>border
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>,
                       <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
-                      <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>) +
-  <span class='fu'><a href='geom_pm25Points.html'>geom_pm25Points</a></span>() +
-  <span class='fu'>stat_nowcast</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1276 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1265 rows containing missing values (geom_path).</span></div><div class='img'><img src='stat_nowcast-1.png' alt='' width='700' height='433' /></div></pre>
+                      <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160815</span>) +
+  <span class='fu'>stat_AQCategory</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1157 rows containing missing values (geom_bar).</span></div><div class='img'><img src='stat_AQCategory-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span>(<span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>,
+                      <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
+                      <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160805</span>) +
+  <span class='fu'>geom_line</span>() +
+  <span class='fu'>stat_AQCategory</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"point"</span>,
+                <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+                <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>21</span>,
+                <span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1391 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1397 rows containing missing values (geom_point).</span></div><div class='img'><img src='stat_AQCategory-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

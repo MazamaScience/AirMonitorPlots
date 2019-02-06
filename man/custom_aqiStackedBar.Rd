@@ -2,7 +2,7 @@
 % Please edit documentation in R/custom_aqiAnnotation.R
 \name{custom_aqiStackedBar}
 \alias{custom_aqiStackedBar}
-\title{Add AQI stacked bars to a plot}
+\title{Add AQ category stacked bars to a plot}
 \usage{
 custom_aqiStackedBar(width = 0.02, position = "identity", ...)
 }
@@ -15,10 +15,10 @@ a call to a position adjustment function}
 \item{...}{additional arguments passed on to layer, such as alpha.}
 }
 \value{
-A `ggplot` plot object with AQI annotations.
+A `ggplot` plot object with AQ category annotations.
 }
 \description{
-Adds AQI stacked bars to a plot.
+Adds AQ category stacked bars to a plot.
 }
 \examples{
 p <- ggplot_pm25Timeseries(Carmel_Valley)

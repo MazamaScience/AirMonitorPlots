@@ -6,8 +6,7 @@
 #'
 #' @inheritParams custom_pm25TimeseriesScales
 #' @param ws_data Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
-#' @param base_size Base font size for theme
-#' object or \code{ws_tidy} object. 
+#' @param base_size Base font size for theme object or \code{ws_tidy} object. 
 #'
 #' @import ggplot2
 #' @importFrom rlang .data
@@ -18,17 +17,17 @@
 #'   geom_point(shape = "square", 
 #'              alpha = .2)
 
-
-
-ggplot_pm25Timeseries <- function(ws_data,
-                                  startdate = NULL,
-                                  enddate = NULL,
-                                  timezone = NULL,
-                                  ylim = NULL,
-                                  base_size = 11,
-                                  ...) {
+ggplot_pm25Timeseries <- function(
+  ws_data,
+  startdate = NULL,
+  enddate = NULL,
+  timezone = NULL,
+  ylim = NULL,
+  base_size = 11,
+  ...) {
   
-  # Validate parameters
+  # ----- Validate Parameters -------------------------------------------------
+  
   if ( monitor_isMonitor(ws_data) ) {
     ws_tidy <- monitor_toTidy(ws_data)
   } else if ( monitor_isTidy(ws_data) ) {
@@ -40,6 +39,7 @@ ggplot_pm25Timeseries <- function(ws_data,
   if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
     stop("startdate is outside of data date range")
   } 
+  
   if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
     stop("enddate is outside of data date range")
   }
@@ -47,6 +47,7 @@ ggplot_pm25Timeseries <- function(ws_data,
   if (!is.numeric(base_size))
     stop("base_size must be numeric")
   
+  # ----- Create plot ----------------------------------------------------------
   
   ggplot(ws_tidy, aes_(x = ~datetime, y = ~pm25)) +
     theme_pwfsl(base_size) +

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidy_ggClockPlot.R
 \name{tidy_ggClockPlot}
 \alias{tidy_ggClockPlot}
-\title{Create a daily barplot timeseries for one or more monitors}
+\title{Create a "clock" plot for a single monitor}
 \usage{
 tidy_ggClockPlot(ws_tidy, startdate = NULL, enddate = NULL,
   monitorID = NULL, timezone = NULL, ...)
@@ -30,7 +30,7 @@ A **ggplot** object
 }
 \description{
 This function assembles various layers to create a production-ready
-dailyByHour diurnal plot for one monitor.
+"clock" plot for one monitor.
 }
 \examples{
 \dontrun{

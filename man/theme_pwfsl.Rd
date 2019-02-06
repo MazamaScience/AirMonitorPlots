@@ -15,5 +15,5 @@ theme_pwfsl(base_size = 11, base_family = "")
 A **ggplot** theme
 }
 \description{
-Applies a theme to a **ggplot** plot object.
+Applies the package standard theme to a **ggplot** plot object.
 }

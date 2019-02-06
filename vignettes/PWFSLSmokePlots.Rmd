@@ -143,7 +143,7 @@ Once the plot is initiated, you can add layers.
 ```{r}
 nmPlot + 
   geom_pm25Points(shape = "square", alpha = .1) + 
-  stat_dailyAQILevel(alpha = .5) + 
+  stat_dailyAQCategory(alpha = .5) + 
   scale_y_continuous(limits = c(0, 500)) +
   custom_aqiStackedBar(width = 0.01) 
 
@@ -169,11 +169,11 @@ spokanePlot +
   geom_pm25Points(aes(color = monitorID)) + 
   stat_nowcast(aes(color = monitorID))
 spokanePlot + 
-  stat_dailyAQILevel(timezone = "America/Los_Angeles") + 
+  stat_dailyAQCategory(timezone = "America/Los_Angeles") + 
   facet_grid(rows = vars(monitorID))
 spokanePlot + 
-  stat_AQILevel(color = NA) + 
-  stat_dailyAQILevel(alpha = .5, timezone = "America/Los_Angeles") + 
+  stat_AQCategory(color = NA) + 
+  stat_dailyAQCategory(alpha = .5, timezone = "America/Los_Angeles") + 
   facet_grid(rows = vars(monitorID)) 
 spokanePlot + 
   custom_aqiStackedBar(width = 1, alpha = .3) + 

@@ -1,8 +1,8 @@
-#' @title Create a daily barplot timeseries for one or more monitors
+#' @title Create a diurnal plot for one or more monitors
 #'
 #' @description
 #' This function assembles various layers to create a production-ready
-#' dailyByHour diurnal plot for one monitor.  
+#' diurnal plot for one or more monitors.  
 #'
 #' @inheritParams ggplot_pm25Diurnal
 #' @param ws_tidy dataframe of monitor data, created from a \code{ws_monitor}
@@ -15,11 +15,11 @@
 #' @param timezone Timezone for x-axis scale. If NULL and only one timezone present
 #' in the data, the data timezone will be used. If NULL and multiple timezones 
 #' present, the default is UTC. 
+#' 
 #' @return A **ggplot** object
 #'
 #' @import ggplot2
 #' @importFrom rlang .data
-#' 
 #' @export
 #' 
 #' @examples
@@ -27,32 +27,31 @@
 #' ws_monitor <- airnow_loadLatest()
 #' ws_tidy <- monitor_toTidy(ws_monitor)
 #' tidy_ggDailyByHour(ws_tidy, monitorID = "060631010_01")
-#' }
 #' 
 #' ws_monitor <- Carmel_Valley
 #' ws_tidy <- monitor_toTidy(ws_monitor)
 #' tidy_ggDailyByHour(ws_tidy, 
 #'                    startdate = 20160801, 
 #'                    enddate = 20160810)
+#' }
 
 
-tidy_ggDailyByHour <- function(ws_tidy,
-                               startdate = NULL,
-                               enddate = NULL,
-                               monitorID = NULL,
-                               style = "small",
-                               title = NULL,
-                               timezone = NULL,
-                               ...) {
+tidy_ggDailyByHour <- function(
+  ws_tidy,
+  startdate = NULL,
+  enddate = NULL,
+  monitorID = NULL,
+  style = "small",
+  title = NULL,
+  timezone = NULL,
+  ...) {
   
-
+  # ----- Validate Parameters -------------------------------------------------
   
-  # Parameter Validation
   if (!monitor_isTidy(ws_tidy)) 
     stop("ws_tidy must be a ws_tidy object")
   if (!style %in% c("small", "large"))
     stop("Invalid style. Choose from 'small' or 'large'.")
-
   
   if (any(!monitorID %in% unique(ws_tidy$monitorID))) {
     invalidIDs <- monitorID[which(!monitorID %in% unique(ws_tidy$monitorID))]
@@ -66,7 +65,8 @@ tidy_ggDailyByHour <- function(ws_tidy,
     stop("enddate is outside of data date range")
   }
   
-  # Prepare Data
+  # ----- Prepare data ---------------------------------------------------------
+  
   if (!is.null(monitorID)) {
     ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID == !!monitorID)
   }
@@ -82,8 +82,6 @@ tidy_ggDailyByHour <- function(ws_tidy,
   } else {
     timezone <- unique(ws_tidy$timezone)
   }
-  
-  
   
   # Subset based on startdate and enddate
   if (!is.null(startdate)) {
@@ -102,13 +100,11 @@ tidy_ggDailyByHour <- function(ws_tidy,
     enddate <- max(ws_tidy$datetime)
   }
   
-  
   # Get title
   if (is.null(title)) {
     title <- paste0("NowCast by Time of Day\n",
                     "Site: ", unique(ws_tidy$siteName)) 
   }
-  
   
   # Add column for 'hour', 'day', and 'nowcast'. 
   ws_tidy$hour <- as.numeric(strftime(ws_tidy$datetime, "%H", tz = timezone))
@@ -124,8 +120,8 @@ tidy_ggDailyByHour <- function(ws_tidy,
   # Get labels for legend
   meanText <- paste0(as.integer(difftime(enddate, startdate, units = "days")), " Day Mean")
   
-  # Set custom styling 
-  # Custom style formatting
+  # ----- Style ----------------------------------------------------------------
+  
   if (style == "large") {
     meanSize <- 8
     yesterdayPointSize <- 4
@@ -142,13 +138,14 @@ tidy_ggDailyByHour <- function(ws_tidy,
     base_size <- 11
   }
   
-  # Make the plot
+  # ----- Create plot ----------------------------------------------------------
+  
   plot <- ggplot_pm25Diurnal(ws_tidy, 
-                     startdate = startdate,
-                     enddate = enddate,
-                     mapping = aes_(x = ~hour, y = ~nowcast),
-                     base_size = base_size,
-                     ...) +
+                             startdate = startdate,
+                             enddate = enddate,
+                             mapping = aes_(x = ~hour, y = ~nowcast),
+                             base_size = base_size,
+                             ...) +
     custom_aqiLines() +
     custom_aqiStackedBar() +
     # large mean line
@@ -156,11 +153,11 @@ tidy_ggDailyByHour <- function(ws_tidy,
     # Yesterday line
     geom_line(aes(color = "Yesterday"), data=yesterday, size = yesterdayLineSize) +
     # Yesterday points
-    stat_AQILevel(aes(color = "Yesterday"), data = yesterday, geom = "point", nowcast = FALSE, shape = 21, size = yesterdayPointSize) +
+    stat_AQCategory(aes(color = "Yesterday"), data = yesterday, geom = "point", nowcast = FALSE, shape = 21, size = yesterdayPointSize) +
     # Today line
     geom_line(aes(color = "Today"), data=today, size = todayLineSize) +
     # Today points
-    stat_AQILevel(aes(color = "Today"), data = today, geom = "point", nowcast = FALSE, shape = 21, size = todayPointSize)  +
+    stat_AQCategory(aes(color = "Today"), data = today, geom = "point", nowcast = FALSE, shape = 21, size = todayPointSize)  +
     # Title
     ggtitle(title) +
     # Theme
@@ -180,7 +177,9 @@ tidy_ggDailyByHour <- function(ws_tidy,
                                          lineend = c(NA, NA, "round"),
                                          alpha = c(1, 1, .1)
                                        )))
-  plot + scale + guide 
-
+  
+  plot <- plot + scale + guide 
+  
+  return(plot)
   
 }
