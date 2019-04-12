@@ -1,12 +1,13 @@
 #' @title Instantiate a pm25 timeseries ggplot
 #'
 #' @description
-#' Create a plot using ggplot with default mappings and styling. Layers can then 
-#' be added to this plot using \code{ggplot2} syntax. 
+#' Create a plot using ggplot with default mappings and styling. Layers can then
+#' be added to this plot using \code{ggplot2} syntax.
 #'
 #' @inheritParams custom_pm25TimeseriesScales
-#' @param ws_data Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
-#' @param base_size Base font size for theme object or \code{ws_tidy} object. 
+#' @param ws_data Default dataset to use when adding layers. Must be either a
+#'   \code{ws_monitor}
+#' @param base_size Base font size for theme object or \code{ws_tidy} object.
 #'
 #' @import ggplot2
 #' @importFrom rlang .data
@@ -14,9 +15,8 @@
 #' @examples
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' ggplot_pm25Timeseries(ws_monitor) +
-#'   geom_point(shape = "square", 
+#'   geom_point(shape = "square",
 #'              alpha = .2)
-
 ggplot_pm25Timeseries <- function(
   ws_data,
   startdate = NULL,
@@ -24,38 +24,36 @@ ggplot_pm25Timeseries <- function(
   timezone = NULL,
   ylim = NULL,
   base_size = 11,
-  ...) {
-  
-  # ----- Validate Parameters -------------------------------------------------
-  
-  if ( monitor_isMonitor(ws_data) ) {
-    ws_tidy <- monitor_toTidy(ws_data)
-  } else if ( monitor_isTidy(ws_data) ) {
-    ws_tidy <- ws_data
-  } else {
-    stop("ws_data must be either a ws_monitor object or ws_tidy object.")
-  }
-  
-  if ( !is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2] ) {
+  ...
+) {
+
+  # Validate Parameters --------------------------------------------------------
+
+  if (monitor_isMonitor(ws_data)) ws_tidy <- monitor_toTidy(ws_data)
+  else if (monitor_isTidy(ws_data)) ws_tidy <- ws_data
+  else stop("ws_data must be either a ws_monitor object or ws_tidy object.")
+
+  if (!is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2]) {
     stop("startdate is outside of data date range")
-  } 
-  
-  if ( !is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1] ) {
+  }
+
+  if (!is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1]) {
     stop("enddate is outside of data date range")
   }
-  
-  if (!is.numeric(base_size))
-    stop("base_size must be numeric")
-  
+
+  if (!is.numeric(base_size)) stop("base_size must be numeric")
+
   # ----- Create plot ----------------------------------------------------------
-  
+
   ggplot(ws_tidy, aes_(x = ~datetime, y = ~pm25)) +
-    theme_pwfsl(base_size) +
-    custom_pm25TimeseriesScales(ws_tidy, 
-                                startdate = startdate, 
-                                enddate = enddate, 
-                                timezone = timezone, 
-                                ylim = ylim,
-                                ...)
-  
+      theme_pwfsl(base_size) +
+      custom_pm25TimeseriesScales(
+        ws_tidy,
+        startdate = startdate,
+        enddate = enddate,
+        timezone = timezone,
+        ylim = ylim,
+        ...
+      )
+
 }
