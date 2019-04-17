@@ -33,11 +33,17 @@ ggplot_pm25Timeseries <- function(
   else if (monitor_isTidy(ws_data)) ws_tidy <- ws_data
   else stop("ws_data must be either a ws_monitor object or ws_tidy object.")
 
-  if (!is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2]) {
+  if (
+    !is.null(startdate) &&
+    parseDatetime(startdate) > range(ws_tidy$datetime)[2]
+  ) {
     stop("startdate is outside of data date range")
   }
 
-  if (!is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1]) {
+  if (
+    !is.null(enddate) &&
+    parseDatetime(enddate) < range(ws_tidy$datetime)[1]
+  ) {
     stop("enddate is outside of data date range")
   }
 
