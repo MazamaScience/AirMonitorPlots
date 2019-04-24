@@ -94,7 +94,7 @@ StatNowcast <- ggproto(
       # Add column for AQI level
       data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
       if (!"colour" %in% names(data)) {
-        if (params$mv4colour) {
+        if (params$mv4Colors) {
           data$colour <- AQI$mv4Colors[data$aqi]
         } else {
           data$colour <- AQI$colors[data$aqi]
