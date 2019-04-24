@@ -114,7 +114,11 @@ StatDailyAQILevel <- ggproto(
 
     # Get timezone
     if (is.null(timezone)) {
-      timezone <- ifelse(!is.null(attr(scales$x$breaks, "tzone")), attr(scales$x$breaks, "tzone"), "UTC")
+      if (!is.null(attr(scales$x$breaks, "tzone"))) {
+        timezone <- attr(scales$x$breaks, "tzone")
+      } else {
+        timezone <- "UTC"
+      }
     }
 
     # Get date from numeric to posixct
