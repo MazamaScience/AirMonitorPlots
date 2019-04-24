@@ -121,18 +121,28 @@ StatDailyAQILevel <- ggproto(
       }
     }
 
-    # Get date from numeric to posixct
-    df <- data
-    df$datetime <- as.POSIXct(data$x, tz = timezone, origin = "1970-01-01")
+    ## STEPS:
+    #  * Get date from numeric to POSIXct
+    #  * Get Daily Mean
 
-    # Get Daily Mean
-    dailyMeans <- df %>%
-      mutate(date = strftime(.data$datetime, "%Y%m%d", tz = timezone)) %>%
+    dailyMeans <- data %>%
+      mutate(
+        datetime = as.POSIXct(.data$x, tz = timezone, origin = "1970-01-01"),
+        date = strftime(.data$datetime, "%Y%m%d", tz = timezone)
+      ) %>%
       group_by(date) %>%
-      summarise(dailyMean = mean(.data$y), count = sum(!is.na(.data$y)) )
-
-    dailyMeans$dailyMean <- ifelse(dailyMeans$count < minHours, NA, dailyMeans$dailyMean)
-    dailyMeans$datetime <- as.numeric(as.POSIXct(strptime(dailyMeans$date, "%Y%m%d", tz = timezone)) + lubridate::dhours(12))
+      summarise(
+        dailyMean = mean(.data$y),
+        count = sum(!is.na(.data$y))
+      ) %>%
+      mutate(
+        dailyMean = if_else(.data$count < minHours, NA_real_, .data$dailyMean),
+        datetime = .data$date %>%
+          strptime("%Y%m%d", tz = timezone) %>%
+          as.POSIXct() %>%
+          magrittr::add(lubridate::dhours(12)) %>%
+          as.numeric()
+      )
 
     data <- select(
       dailyMeans,
