@@ -62,23 +62,20 @@ stat_AQCategory <- function(
   ...
 ) {
 
-  if (nowcast) {
-    version <- "pm"
-  } else {
-    version <- "identity"
-  }
+  version <- ifelse(nowcast, "pm", "identity")
 
-  stat_nowcast(mapping = mapping,
-               data = data,
-               mv4Colors = mv4Colors,
-               geom = geom,
-               position = position,
-               na.rm = na.rm,
-               show.legend = show.legend,
-               inherit.aes = inherit.aes,
-               aqiColors = TRUE,
-               version = version,
-               ...)
+  stat_nowcast(
+    mapping = mapping,
+    data = data,
+    mv4Colors = mv4Colors,
+    geom = geom,
+    position = position,
+    na.rm = na.rm,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    aqiColors = TRUE,
+    version = version,
+    ...
+  )
 
 }
-
