@@ -4,7 +4,7 @@
 #' Add a logo to a ggplot object.
 #'
 #' @param plot \code{ggplot} object
-#' @param brandStyle \code{"logo"} or \code{"icond"}.
+#' @param brandStyle \code{"logo"} or \code{"icon"}.
 #' @param brandName Name of brand: \code{"MazamaScience"}, \code{"USFS"}, or
 #'   \code{"AirFire"}.
 #' @param brandFilePath Path to brand logo or icon. If not \code{NULL},
@@ -44,9 +44,7 @@ brandPlot <- function(
 
   # Arguments are of the correct class
   if (!is.ggplot(plot)) stop("'plot' must be a ggplot object")
-
   if (!is.numeric(size)) stop("size must be a number")
-
 
   # Validate strings
   if (!brandStyle %in% c("logo", "icon"))
@@ -67,16 +65,17 @@ brandPlot <- function(
   # Get the logo path
   if (is.null(brandFilePath)) {
 
-    if (brandStyle == "logo")      brandFileName <- "logo_"
-    else if (brandStyle == "icon") brandFileName <- "icon_"
+    if (brandStyle == "logo") {
+      brandFileName <- "logo_"
+    } else if (brandStyle == "icon") {
+      brandFileName <- "icon_"
+    }
 
     brandFileName <- paste0(brandFileName, brandName, ".png")
     brandFilePath <- system.file("brandImages", brandFileName, package = "PWFSLSmokePlots")
   }
 
-  if (!file.exists(brandFilePath)) {
-    stop(paste0("could not find ", brandFilePath))
-  }
+  if (!file.exists(brandFilePath)) stop(paste0("could not find ", brandFilePath))
 
   img <- suppressWarnings(png::readPNG(brandFilePath))
   g <- rasterGrob(img)

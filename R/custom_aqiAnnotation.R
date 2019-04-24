@@ -8,7 +8,7 @@
 #'   call to a position adjustment function
 #' @param ... additional arguments passed on to layer, such as alpha.
 #'
-#' @return A \code{ggplot} plot object with AQ category annotations.
+#' @return A \emph{ggplot} plot object with AQ category annotations.
 #'
 #' @import ggplot2
 #' @export
@@ -82,7 +82,7 @@ StatAqiBar <- ggproto(
 #' @param ... Arguments passed on to layer, such as aesthetic properties like
 #'   size or alpha.
 #'
-#' @return A `ggplot` plot object with AQI annotations.
+#' @return A \emph{ggplot} plot object with AQI annotations.
 #'
 #' @import ggplot2
 #' @export
@@ -90,8 +90,13 @@ custom_aqiLines <- function(...) {
 
   list(
     layer(
-      stat = StatAqiLines, data = NULL, mapping = NULL, geom = GeomSegment,
-      position = "identity", show.legend = NA, inherit.aes = TRUE,
+      stat = StatAqiLines,
+      data = NULL,
+      mapping = NULL,
+      geom = GeomSegment,
+      position = "identity",
+      show.legend = NA,
+      inherit.aes = TRUE,
       params = list(na.rm = TRUE, color = AQI$colors[2:6], ...)
     )
   )

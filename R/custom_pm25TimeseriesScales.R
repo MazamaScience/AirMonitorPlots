@@ -49,9 +49,13 @@ custom_pm25TimeseriesScales <- function(
     }
   }
 
-  if (monitor_isMonitor(data)) data <- monitor_toTidy(data)
-  else if (monitor_isTidy(data)) data <- data
-  else stop("data must be either a ws_monitor object or ws_tidy object.")
+  if (monitor_isMonitor(data)) {
+    data <- monitor_toTidy(data)
+  } else if (monitor_isTidy(data)) {
+    data <- data
+  } else {
+    stop("data must be either a ws_monitor object or ws_tidy object.")
+  }
 
   if (is.null(startdate)) startdate <- min(data$datetime)
   if (is.null(enddate)) enddate <- max(data$datetime)
@@ -110,14 +114,16 @@ custom_pm25TimeseriesScales <- function(
       magrittr::use_series("pm25") %>%
       max(na.rm = TRUE)
 
-    if (ymax <= 50) yhi <- 50
-    else if (ymax <= 100) yhi <- 100
-    else if (ymax <= 200) yhi <- 200
-    else if (ymax <= 400) yhi <- 400
-    else if (ymax <= 600) yhi <- 600
-    else if (ymax <= 1000) yhi <- 1000
-    else if (ymax <= 1500) yhi <- 1500
-    else yhi <- 1.05 * ymax
+    yhi <- dplyr::case_when(
+      ymax <= 50   ~ 50,
+      ymax <= 100  ~ 100,
+      ymax <= 200  ~ 200,
+      ymax <= 400  ~ 400,
+      ymax <= 600  ~ 600,
+      ymax <= 1000 ~ 1000,
+      ymax <= 1500 ~ 1500,
+      TRUE         ~ 1.05 * ymax
+    )
 
   } else {
     # Standard y-axis limits

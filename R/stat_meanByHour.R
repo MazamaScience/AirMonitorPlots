@@ -107,12 +107,16 @@ StatMeanByGroup <- ggproto(
 
     means <- df %>%
       dplyr::group_by(.data$x) %>%
-      dplyr::summarise(mean = mean(.data$input, na.rm = na.rm),
-                       mean_y = mean(.data$y, na.rm = TRUE))
+      dplyr::summarise(
+        mean = mean(.data$input, na.rm = na.rm),
+        mean_y = mean(.data$y, na.rm = TRUE)
+      )
 
     # Set x and y
-    data <- data.frame(x = means$x,
-                       y = means$mean_y)
+    data <- data.frame(
+      x = means$x,
+      y = means$mean_y
+    )
 
     # Set output aesthetic
     if (output %in% c("AQIColors", "mv4Colors")) {
@@ -120,17 +124,19 @@ StatMeanByGroup <- ggproto(
       # Add column for AQI level
       data$aqi <- .bincode(means$mean, AQI$breaks_24, include.lowest = TRUE)
       if (!"colour" %in% names(data)) {
-        data$colour <- ifelse(output == "mv4Colors",
-          AQI$mv4Colors[data$aqi],
-          AQI$colors[data$aqi]
-        )
+        if (output == "mv4Colors") {
+          data$colour <- AQI$mv4Colors[data$aqi]
+        } else {
+          data$colour <- AQI$colors[data$aqi]
+        }
       }
 
       if (!"fill" %in% names(data)) {
-        data$fill <- ifelse(output == "mv4Colors",
-          AQI$mv4Colors[data$aqi],
-          AQI$colors[data$aqi]
-        )
+        if (output == "mv4Colors") {
+          data$fill <- AQI$mv4Colors[data$aqi]
+        } else {
+          data$fill <- AQI$colors[data$aqi]
+        }
       }
 
     } else {

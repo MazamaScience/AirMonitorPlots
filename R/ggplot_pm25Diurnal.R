@@ -53,9 +53,13 @@ ggplot_pm25Diurnal <- function(
   if (!is.logical(shadedNight)) stop("shadedNight must be logical")
   if (!is.numeric(base_size)) stop("base_size must be numeric")
 
-  if (monitor_isMonitor(ws_data)) ws_tidy <- monitor_toTidy(ws_data)
-  else if (monitor_isTidy(ws_data)) ws_tidy <- ws_data
-  else stop("ws_data must be either a ws_monitor object or ws_tidy object.")
+  if (monitor_isMonitor(ws_data)) {
+    ws_tidy <- monitor_toTidy(ws_data)
+  } else if (monitor_isTidy(ws_data)) {
+    ws_tidy <- ws_data
+  } else {
+    stop("ws_data must be either a ws_monitor object or ws_tidy object.")
+  }
 
   if (!is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2]) {
     stop("startdate is outside of data date range")
@@ -100,10 +104,7 @@ ggplot_pm25Diurnal <- function(
 
   plot <- ggplot(ws_tidy, mapping) +
     theme_pwfsl(base_size = base_size) +
-    custom_pm25DiurnalScales(ws_tidy,
-                             xlab = xlab,
-                             ylim = ylim,
-                             ...)
+    custom_pm25DiurnalScales(ws_tidy, xlab = xlab, ylim = ylim, ...)
 
   # Calculate day/night shading
   if (shadedNight) {
@@ -125,20 +126,25 @@ ggplot_pm25Diurnal <- function(
     # Add shaded night
     scales <- layer_scales(plot)
 
-    morning <- annotate("rect",
-                        xmin = scales$x$limits[1],
-                        xmax = sunrise,
-                        ymin = scales$y$limits[1],
-                        ymax = scales$y$limits[2],
-                        fill = "black",
-                        alpha = 0.1)
-    night <-   annotate("rect",
-                        xmin = sunset,
-                        xmax = scales$x$limits[2],
-                        ymin = scales$y$limits[1],
-                        ymax = scales$y$limits[2],
-                        fill = "black",
-                        alpha = 0.1)
+    morning <- annotate(
+      "rect",
+      xmin = scales$x$limits[1],
+      xmax = sunrise,
+      ymin = scales$y$limits[1],
+      ymax = scales$y$limits[2],
+      fill = "black",
+      alpha = 0.1
+    )
+    night <-   annotate(
+      "rect",
+      xmin = sunset,
+      xmax = scales$x$limits[2],
+      ymin = scales$y$limits[1],
+      ymax = scales$y$limits[2],
+      fill = "black",
+      alpha = 0.1
+    )
+
     plot <- plot + morning + night
   }
 

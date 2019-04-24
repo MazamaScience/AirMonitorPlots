@@ -62,7 +62,11 @@ stat_AQCategory <- function(
   ...
 ) {
 
-  version <- ifelse(nowcast, "pm", "identity")
+  ## NOTE:
+  #  `if(test) yes else no` is more efficient than `ifelse(test, yes, no)` when
+  #  test is of length 1.
+
+  if (nowcast) version <- "pm" else version <- "identity"
 
   stat_nowcast(
     mapping = mapping,
