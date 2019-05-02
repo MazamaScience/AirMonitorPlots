@@ -2,11 +2,11 @@ test_that("parameters are validated", {
 
   ws_cv <- PWFSLSmoke::Carmel_Valley
 
-  expect_error(tidy_ggTimeseries("ws_cv"))
-  expect_error(tidy_ggTimeseries(ws_cv, startdate = 20200101))
-  expect_error(tidy_ggTimeseries(ws_cv, enddate = 11111111111111))
-  expect_error(tidy_ggTimeseries(ws_cv, style = "invalid"))
-  expect_error(tidy_ggTimeseries(ws_cv, monitorIDs = "invalid"))
+  expect_error(monitor_ggTimeseries("ws_cv"))
+  expect_error(monitor_ggTimeseries(ws_cv, startdate = 20200101))
+  expect_error(monitor_ggTimeseries(ws_cv, enddate = 11111111111111))
+  expect_error(monitor_ggTimeseries(ws_cv, style = "invalid"))
+  expect_error(monitor_ggTimeseries(ws_cv, monitorIDs = "invalid"))
 
 })
 

@@ -35,26 +35,32 @@ startdate <- enddate - lubridate::ddays(7)
 ## Timeseries
 
 ```{r}
-monitor_ggTimeseries(ws_monitor, 
-                     startdate = startdate, 
-                     enddate = enddate, 
-                     monitorIDs = monitorID)
+monitor_ggTimeseries(
+  ws_monitor,
+  startdate = startdate,
+  enddate = enddate,
+  monitorIDs = monitorID
+)
 ```
 
 ## Daily Barplots
 
 ```{r}
-monitor_ggDailyBarplot(ws_monitor, 
-                       startdate = startdate,
-                       enddate = enddate, 
-                       monitorIDs = monitorID)
+monitor_ggDailyBarplot(
+  ws_monitor,
+  startdate = startdate,
+  enddate = enddate,
+  monitorIDs = monitorID
+)
 ```
 
 ## Diurnal (dailyByHour)
 
 ```{r}
-tidy_ggDailyByHour(monitor_toTidy(ws_monitor), 
-                   startdate = startdate,
-                   enddate = enddate,
-                   monitorID = monitorID) 
+monitor_ggDailyByHour(
+  ws_monitor,
+  startdate = startdate,
+  enddate = enddate,
+  monitorID = monitorID
+) 
 ```

@@ -127,7 +127,7 @@ theme_custom_size <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#' use with the \code{\link{tidy_ggTimeseries}} function and generates plots
+#' use with the \code{\link{monitor_ggTimeseries}} function and generates plots
 #' suitable for the PWFSL monitoring site. It is suited to display of 1-4 weeks
 #' of data.
 #'
@@ -163,9 +163,9 @@ theme_timeseriesPlot_pwfsl <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#' use with the \code{\link{tidy_ggDailyBarplot}} function and generates plots
-#' suitable for the PWFSL monitoring site. It is suited to display of 1-4 weeks
-#' of data.
+#' use with the \code{\link{monitor_ggDailyBarplot}} function and generates
+#' plots suitable for the PWFSL monitoring site. It is suited to display of 1-4
+#' weeks of data.
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is appropriate
 #'   for plots 450x450px or smaller; \code{style = large} is appropriate for
@@ -193,7 +193,7 @@ theme_dailyBarplot_pwfsl <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#' use with the \code{\link{tidy_ggDailyByHour}} function and generates plots
+#' use with the \code{\link{monitor_ggDailyByHour}} function and generates plots
 #' suitable for the PWFSL monitoring site.
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is appropriate
@@ -220,7 +220,7 @@ theme_dailyByHour_pwfsl <- function(size = "large") {
 #'
 #' @description
 #' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#' use with the \code{\link{tidy_ggClockPlot}} function and generates plots
+#' use with the \code{\link{monitor_ggClockPlot}} function and generates plots
 #' suitable for the PWFSL monitoring site.
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is appropriate
