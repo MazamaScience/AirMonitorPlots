@@ -9,54 +9,58 @@ stat_meanByHour(mapping = NULL, data = NULL, input = NULL,
   show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{aes()}. If specified and 
-\code{inherit.aes = TRUE} (the default), it is combined with the default mapping
-at the top level of the plot. You must supply \code{mapping} if there is no plot mapping.}
+\item{mapping}{Set of aesthetic mappings created by \code{aes()}. If
+specified and \code{inherit.aes = TRUE} (the default), it is combined with
+the default mapping at the top level of the plot. You must supply
+\code{mapping} if there is no plot mapping.}
 
-\item{data}{The data to be displayed in this layer. There are three options: 
-if \code{NULL}, the default, the data is inherited from the plot data. 
-A \code{data.frame} or other object, will override the plot data. 
-A \code{function} will be called witha  single argument, the plot data.
-The return value must be a \code{data.frame}, and will be used as the layer data.}
+\item{data}{The data to be displayed in this layer. There are three options:
+if \code{NULL}, the default, the data is inherited from the plot data. A
+\code{data.frame} or other object, will override the plot data. A
+\code{function} will be called witha  single argument, the plot data. The
+return value must be a \code{data.frame}, and will be used as the layer
+data.}
 
-\item{input}{The value to find the mean of. If \code{NULL}, the default \code{y} value
-will be used.}
+\item{input}{The value to find the mean of. If \code{NULL}, the default
+\code{y} value will be used.}
 
 \item{output}{"AQIColors", "mv4Colors", "y"}
 
 \item{geom}{The geometic object to display the data}
 
-\item{position}{Position adjustment, either as a string, or the result of a call to a
-position adjustment function.}
+\item{position}{Position adjustment, either as a string, or the result of a
+call to a position adjustment function.}
 
 \item{na.rm}{remove NA values from data}
 
-\item{show.legend}{logical indicating whether this layer should be included in legends.}
+\item{show.legend}{logical indicating whether this layer should be included
+in legends.}
 
-\item{inherit.aes}{if \code{FALSE}, overrides the default aesthetics, rather than combining with them. 
-This is most useful for helper functions that define both data and the aesthetics and
-shouldn't inherit behaviour from the default plot specificatino, eg \code{borders()}.}
+\item{inherit.aes}{if \code{FALSE}, overrides the default aesthetics, rather
+than combining with them. This is most useful for helper functions that
+define both data and the aesthetics and shouldn't inherit behaviour from
+the default plot specificatino, eg \code{borders()}.}
 
-\item{...}{additional arguments passed on to \code{layer()}, such as aesthetics.}
+\item{...}{additional arguments passed on to \code{layer()}, such as
+aesthetics.}
 }
 \description{
-This function calculates the mean y-value for each x-value. Should be used only
-when \code{x} is discrete. 
-The resulting mean can be mapped to any aesthetic, specified 
-with the \code{output} parameter.
+This function calculates the mean y-value for each x-value. Should be used
+only when \code{x} is discrete. The resulting mean can be mapped to any
+aesthetic, specified with the \code{output} parameter.
 }
 \examples{
 \dontrun{
 ggplot_pm25Timeseries(PWFSLSmoke::Northwest_Megafires,
                       startdate = 20150820,
-                      enddate = 20150831) + 
-  geom_point(shape = "square", alpha = 0.05) + 
+                      enddate = 20150831) +
+  geom_point(shape = "square", alpha = 0.05) +
   stat_meanByHour(geom = "line", color = "orange", size = 3)
-  
+
 ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley,
                    startdate = 20160801,
                    enddate = 20160810) +
   geom_path(aes(group = day), color = "gray50") +
-  stat_meanByHour(geom = "line", size = 4) 
+  stat_meanByHour(geom = "line", size = 4)
 }
 }

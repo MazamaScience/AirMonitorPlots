@@ -9,13 +9,13 @@ custom_aqiStackedBar(width = 0.02, position = "identity", ...)
 \arguments{
 \item{width}{Width of bars as a fraction of plot width.}
 
-\item{position}{Position adjustment, either as a string, or the result of 
-a call to a position adjustment function}
+\item{position}{Position adjustment, either as a string, or the result of a
+call to a position adjustment function}
 
 \item{...}{additional arguments passed on to layer, such as alpha.}
 }
 \value{
-A `ggplot` plot object with AQ category annotations.
+A \emph{ggplot} plot object with AQ category annotations.
 }
 \description{
 Adds AQ category stacked bars to a plot.
@@ -23,5 +23,4 @@ Adds AQ category stacked bars to a plot.
 \examples{
 p <- ggplot_pm25Timeseries(Carmel_Valley)
 p + custom_aqiLines() + custom_aqiStackedBar()
-
 }

@@ -45,7 +45,7 @@ monitor_ggClockPlot <- function(
   }
 
   if (!is.null(timezone) && !timezone %in% OlsonNames())
-    stop("Invalid timezone")
+    stop("Invalid timezone.")
 
   if (length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID))
     stop("monitorID must be specified.")

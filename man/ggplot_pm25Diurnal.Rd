@@ -9,30 +9,32 @@ ggplot_pm25Diurnal(ws_data, startdate = NULL, enddate = NULL,
   mapping = aes_(x = ~hour, y = ~pm25), base_size = 11, ...)
 }
 \arguments{
-\item{ws_data}{Default dataset to use when adding layers. Must be either a \code{ws_monitor} 
-object or \code{ws_tidy} object.}
+\item{ws_data}{Default dataset to use when adding layers. Must be either a
+\code{ws_monitor} object or \code{ws_tidy} object.}
 
-\item{startdate}{Desired startdate for data to include, in a format that can be 
+\item{startdate}{Desired startdate for data to include, in a format that can
+be parsed with \link{parseDatetime}.}
+
+\item{enddate}{Desired enddate for data to include, in a format that can be
 parsed with \link{parseDatetime}.}
-
-\item{enddate}{Desired enddate for data to include, in a format that can be parsed 
-with \link{parseDatetime}.}
 
 \item{timezone}{Timezone to use to set hours of the day}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
 
-\item{shadedNight}{add nighttime shading based on of middle day in selected period}
+\item{shadedNight}{add nighttime shading based on of middle day in selected
+period}
 
 \item{mapping}{Default mapping for the plot}
 
 \item{base_size}{Base font size for theme}
 
-\item{...}{Additional arguments passed on to \code{\link{custom_pm25DiurnalScales}}.}
+\item{...}{Additional arguments passed on to
+\code{\link{custom_pm25DiurnalScales}}.}
 }
 \description{
-Create a plot using ggplot with default mappings and styling. Layers can then 
+Create a plot using ggplot with default mappings and styling. Layers can then
 be added to this plot using \code{ggplot2} syntax.
 }
 \examples{
@@ -40,11 +42,11 @@ ws_monitor <- PWFSLSmoke::Carmel_Valley
 ggplot_pm25Diurnal(ws_monitor) +
   coord_polar() +
   geom_pm25Points() +
-  custom_aqiStackedBar(width = 1, alpha = .3) 
+  custom_aqiStackedBar(width = 1, alpha = .3)
 
-ggplot_pm25Diurnal(ws_monitor, 
-                   startdate = 20160801, 
-                   enddate = 20160810) + 
-  stat_boxplot(aes(group = hour)) 
-  
+ggplot_pm25Diurnal(ws_monitor,
+                   startdate = 20160801,
+                   enddate = 20160810) +
+  stat_boxplot(aes(group = hour))
+
 }

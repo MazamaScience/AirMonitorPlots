@@ -10,49 +10,57 @@ stat_dailyAQCategory(mapping = NULL, data = NULL, mv4Colors = FALSE,
   na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{aes()}. If specified and 
-\code{inherit.aes = TRUE} (the default), it is combined with the default mapping
-at the top level of the plot. You must supply \code{mapping} if there is no plot mapping.}
+\item{mapping}{Set of aesthetic mappings created by \code{aes()}. If
+specified and \code{inherit.aes = TRUE} (the default), it is combined with
+the default mapping at the top level of the plot. You must supply
+\code{mapping} if there is no plot mapping.}
 
-\item{data}{The data to be displayed in this layer. There are three options: 
-if \code{NULL}, the default, the data is inherited from the plot data. 
-A \code{data.frame} or other object, will override the plot data. 
-A \code{function} will be called witha  single argument, the plot data.
-The return value must be a \code{data.frame}, and will be used as the layer data.}
+\item{data}{The data to be displayed in this layer. There are three options:
+if \code{NULL}, the default, the data is inherited from the plot data. A
+\code{data.frame} or other object, will override the plot data. A
+\code{function} will be called witha  single argument, the plot data. The
+return value must be a \code{data.frame}, and will be used as the layer
+data.}
 
-\item{mv4Colors}{If \code{TRUE}, use the colors used in the monitoring v4 site. Otherwise,
-use the "official" AQI colors.}
+\item{mv4Colors}{If \code{TRUE}, use the colors used in the monitoring v4
+site. Otherwise, use the "official" AQI colors.}
 
-\item{timezone}{timezone for day start and end for averaging. If \code{NULL}, uses the timezone
-used by the x-axis datetime scale. If the x-axis datetime scale has no timezone, it defaults to UTC.}
+\item{timezone}{timezone for day start and end for averaging. If \code{NULL},
+uses the timezone used by the x-axis datetime scale. If the x-axis datetime
+scale has no timezone, it defaults to UTC.}
 
-\item{minHours}{Minimum number oof valid data hours required to calculate each daily statistic}
+\item{minHours}{Minimum number oof valid data hours required to calculate
+each daily statistic}
 
 \item{width}{bar width in units of days.}
 
-\item{adjustylim}{if \code{TRUE}, the ylim of the plot will automatically be adjusted for the 
-range of the daily means.}
+\item{adjustylim}{if \code{TRUE}, the ylim of the plot will automatically be
+adjusted for the range of the daily means.}
 
-\item{missingDataBar}{if \code{TRUE}, a transparent gray bar will be plotted where data is missing.}
+\item{missingDataBar}{if \code{TRUE}, a transparent gray bar will be plotted
+where data is missing.}
 
 \item{geom}{The geometic object to display the data}
 
-\item{position}{Position adjustment, either as a string, or the result of a call to a
-position adjustment function.}
+\item{position}{Position adjustment, either as a string, or the result of a
+call to a position adjustment function.}
 
 \item{na.rm}{remove NA values from data}
 
-\item{show.legend}{logical indicating whether this layer should be included in legends.}
+\item{show.legend}{logical indicating whether this layer should be included
+in legends.}
 
-\item{inherit.aes}{if \code{FALSE}, overrides the default aesthetics, rather than combining with them. 
-This is most useful for helper functions that define both data and the aesthetics and
-shouldn't inherit behaviour from the default plot specificatino, eg \code{borders()}.}
+\item{inherit.aes}{if \code{FALSE}, overrides the default aesthetics, rather
+than combining with them. This is most useful for helper functions that
+define both data and the aesthetics and shouldn't inherit behaviour from
+the default plot specificatino, eg \code{borders()}.}
 
-\item{...}{additional arguments passed on to \code{layer()}, such as aesthetics.}
+\item{...}{additional arguments passed on to \code{layer()}, such as
+aesthetics.}
 }
 \description{
 This function calculates the daily averaged AQI PM25 categories for the data
-and colors the data by AQI cateogry when it is added to a plot. The default 
+and colors the data by AQI cateogry when it is added to a plot. The default
 is to add them as bars.
 }
 \examples{
@@ -62,10 +70,9 @@ ggplot_pm25Timeseries(ws_monitor) +
   stat_AQCategory(color = NA, width = 3000) +
   stat_dailyAQCategory(alpha = .5, missingDataBar = FALSE, width = 1, size = 1) +
   facet_wrap(~monitorID)
-  
-ws_monitor <- airnow_loadLatest() 
+
+ws_monitor <- airnow_loadLatest()
 ws_monitor <- monitor_subset(ws_monitor, monitorID = "160590004_01")
-ggplot_pm25Timeseries(ws_monitor) +
-  stat_dailyAQCategory()
+ggplot_pm25Timeseries(ws_monitor) + stat_dailyAQCategory()
 }
 }

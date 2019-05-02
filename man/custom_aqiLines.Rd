@@ -11,7 +11,7 @@ custom_aqiLines(...)
 size or alpha.}
 }
 \value{
-A `ggplot` plot object with AQI annotations.
+A \emph{ggplot} plot object with AQI annotations.
 }
 \description{
 Adds AQI lines to a plot

@@ -15,19 +15,23 @@ plot.}
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
 
-\item{xlab}{Custom x-axis label. If \code{NULL} a default xlab will be generated.}
+\item{xlab}{Custom x-axis label. If \code{NULL} a default xlab will be
+generated.}
 
 \item{ylab}{Custam y-axis label.}
 
-\item{yexp}{Vector of range expansion constants used to add some padding around the 
-data on the y-axis, to ensure that they are placed some distance away from the axes.}
+\item{yexp}{Vector of range expansion constants used to add some padding
+around the data on the y-axis, to ensure that they are placed some distance
+away from the axes.}
 
-\item{xexp}{Vector of range expansion constants used to add some padding around the 
-data on the x-axis, to ensure that they are placed some distance away from the axes.}
+\item{xexp}{Vector of range expansion constants used to add some padding
+around the data on the x-axis, to ensure that they are placed some distance
+away from the axes.}
 
-\item{offsetBreaks}{if \code{TRUE}, x-axis ticks and guides are offset by 0.5.}
+\item{offsetBreaks}{if \code{TRUE}, x-axis ticks and guides are offset by
+0.5.}
 }
 \description{
-Add PWFSL-style x-axis and y-axis scales suitable for a plot showing PM2.5 
+Add PWFSL-style x-axis and y-axis scales suitable for a plot showing PM2.5
 data as a funciton of hour of the day.
 }

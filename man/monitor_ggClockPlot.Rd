@@ -8,38 +8,37 @@ monitor_ggClockPlot(ws_monitor, startdate = NULL, enddate = NULL,
   monitorID = NULL, timezone = NULL, ...)
 }
 \arguments{
-\item{ws_monitor}{A `ws_monitor` object}
+\item{ws_monitor}{A \link{ws_monitor} object.}
 
-\item{startdate}{Desired startdate for data to include, in a format that can be 
+\item{startdate}{Desired startdate for data to include, in a format that can
+be parsed with \link{parseDatetime}.}
+
+\item{enddate}{Desired enddate for data to include, in a format that can be
 parsed with \link{parseDatetime}.}
-
-\item{enddate}{Desired enddate for data to include, in a format that can be parsed 
-with \link{parseDatetime}.}
 
 \item{monitorID}{monitorID to include in the plot.}
 
-\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
-in the data, the data timezone will be used. If NULL and multiple timezones 
-present, the default is UTC.}
+\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
+present in the data, the data timezone will be used. If NULL and multiple
+timezones present, the default is UTC.}
 
-\item{...}{Additional arguments passed on to \code{\link{custom_pm25DiurnalScales}}.}
+\item{...}{Additional arguments passed on to
+\code{\link{custom_pm25DiurnalScales}}.}
 }
 \value{
-A **ggplot** object
+A \emph{ggplot} object
 }
 \description{
-This function wraps \link{tidy_ggClockPlot}, accepting a `ws_monitor` 
-object to assemble various layers to create a production-ready
-"clock" plot for one or more monitors.
+This function assembles various layers to create a production-ready "clock"
+plot for one monitor.
 }
 \examples{
+ws_monitor <- PWFSLSmoke::Carmel_Valley
+monitor_ggClockPlot(ws_monitor, startdate = 20160801, enddate = 20160810)
+
 \dontrun{
 ws_monitor <- airnow_loadLatest()
 monitor_ggClockPlot(ws_monitor, monitorID = "410432002_01")
 }
 
-ws_monitor <- Carmel_Valley
-monitor_ggClockPlot(ws_monitor, 
-                    startdate = 20160801,
-                    enddate = 20160810)
 }

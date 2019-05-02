@@ -8,32 +8,34 @@ ggplot_pm25Timeseries(ws_data, startdate = NULL, enddate = NULL,
   timezone = NULL, ylim = NULL, base_size = 11, ...)
 }
 \arguments{
-\item{ws_data}{Default dataset to use when adding layers. Must be either a \code{ws_monitor}}
+\item{ws_data}{Default dataset to use when adding layers. Must be either a
+\code{ws_monitor}}
 
-\item{startdate}{Desired startdate for x-axis, in a format that can be 
-parsed with \link{parseDatetime}.}
-
-\item{enddate}{Desired enddate for x-axis, in a format that can be parsed 
+\item{startdate}{Desired startdate for x-axis, in a format that can be parsed
 with \link{parseDatetime}.}
 
-\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
-in the data, the data timezone will be used. If NULL and multiple timezones 
-present, the default is UTC.}
+\item{enddate}{Desired enddate for x-axis, in a format that can be parsed
+with \link{parseDatetime}.}
+
+\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
+present in the data, the data timezone will be used. If NULL and multiple
+timezones present, the default is UTC.}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
 
 \item{base_size}{Base font size for theme object or \code{ws_tidy} object.}
 
-\item{...}{Additional arguments passed on to \code{\link{custom_datetimeScale}}.}
+\item{...}{Additional arguments passed on to
+\code{\link{custom_datetimeScale}}.}
 }
 \description{
-Create a plot using ggplot with default mappings and styling. Layers can then 
+Create a plot using ggplot with default mappings and styling. Layers can then
 be added to this plot using \code{ggplot2} syntax.
 }
 \examples{
 ws_monitor <- PWFSLSmoke::Carmel_Valley
 ggplot_pm25Timeseries(ws_monitor) +
-  geom_point(shape = "square", 
+  geom_point(shape = "square",
              alpha = .2)
 }

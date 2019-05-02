@@ -64,7 +64,7 @@ monitor_ggDailyBarplot <- function(
     stop("Invalid timezone.")
 
   if (!is.logical(today))
-    stop("'today' must be logical (TRUE or FALSE).")
+    stop("'today' must be a logical (TRUE or FALSE).")
 
   if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
     invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
