@@ -12,8 +12,8 @@ theme_pwfsl(base_size = 11, base_family = "")
 \item{base_family}{Base font family.}
 }
 \value{
-A **ggplot** theme
+A \emph{ggplot} theme.
 }
 \description{
-Applies the package standard theme to a **ggplot** plot object.
+Applies the package standard theme to a \emph{ggplot} plot object.
 }

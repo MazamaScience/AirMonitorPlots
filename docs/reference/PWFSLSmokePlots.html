@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a clock plot for one or more monitors — monitor_ggClockPlot • PWFSLSmokePlots</title>
+<title>Depend on PWFSLSmoke — PWFSLSmokePlots • PWFSLSmokePlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,10 +37,9 @@
 
 
 
-<meta property="og:title" content="Create a clock plot for one or more monitors — monitor_ggClockPlot" />
+<meta property="og:title" content="Depend on PWFSLSmoke — PWFSLSmokePlots" />
 
-<meta property="og:description" content="This function assembles various layers to create a production-ready &quot;clock&quot;
-plot for one monitor." />
+<meta property="og:description" content="Depend on PWFSLSmoke" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -127,78 +126,24 @@ plot for one monitor." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a clock plot for one or more monitors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/monitor_ggClockPlot.R'><code>R/monitor_ggClockPlot.R</code></a></small>
-    <div class="hidden name"><code>monitor_ggClockPlot.Rd</code></div>
+    <h1>Depend on PWFSLSmoke</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/PWFSLSmokePlots/blob/master/R/PWFSLSmokePlots.R'><code>R/PWFSLSmokePlots.R</code></a></small>
+    <div class="hidden name"><code>PWFSLSmokePlots.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function assembles various layers to create a production-ready "clock"
-plot for one monitor.</p>
+    <p>Depend on PWFSLSmoke</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_ggClockPlot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>ws_monitor</th>
-      <td><p>A <em>ws_monitor</em> object.</p></td>
-    </tr>
-    <tr>
-      <th>startdate</th>
-      <td><p>Desired startdate for data to include, in a format that can
-be parsed with parseDatetime.</p></td>
-    </tr>
-    <tr>
-      <th>enddate</th>
-      <td><p>Desired enddate for data to include, in a format that can be
-parsed with parseDatetime.</p></td>
-    </tr>
-    <tr>
-      <th>monitorID</th>
-      <td><p>monitorID to include in the plot.</p></td>
-    </tr>
-    <tr>
-      <th>timezone</th>
-      <td><p>Timezone for x-axis scale. If NULL and only one timezone
-present in the data, the data timezone will be used. If NULL and multiple
-timezones present, the default is UTC.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed on to
-<code><a href='custom_pm25DiurnalScales.html'>custom_pm25DiurnalScales</a></code>.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+        
 
-    <p>A <em>ggplot</em> object</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>
-<span class='fu'>monitor_ggClockPlot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Ignoring unknown aesthetics: input</span></div><div class='img'><img src='monitor_ggClockPlot-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
-<span class='fu'>monitor_ggClockPlot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"410432002_01"</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

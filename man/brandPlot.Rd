@@ -11,16 +11,17 @@ brandPlot(plot, brandStyle = "logo", brandName = "MazamaScience",
 \arguments{
 \item{plot}{\code{ggplot} object}
 
-\item{brandStyle}{\code{"logo"} or \code{"icond"}.}
+\item{brandStyle}{\code{"logo"} or \code{"icon"}.}
 
-\item{brandName}{Name of brand: \code{"MazamaScience"}, \code{"USFS"}, or \code{"AirFire"}.}
+\item{brandName}{Name of brand: \code{"MazamaScience"}, \code{"USFS"}, or
+\code{"AirFire"}.}
 
-\item{brandFilePath}{Path to brand logo or icon. If not \code{NULL}, overrides
-\code{brandStyle} and \code{brandName}.}
+\item{brandFilePath}{Path to brand logo or icon. If not \code{NULL},
+overrides \code{brandStyle} and \code{brandName}.}
 
-\item{location}{string indicating the location where the logo should be 
-printed. Options are: \code{"topright"}, \code{"topleft"}, \code{"bottomright"}, 
-or \code{"bottomleft"}.}
+\item{location}{String indicating the location where the logo should be
+printed. Options are: \code{"topright"}, \code{"topleft"},
+\code{"bottomright"}, or \code{"bottomleft"}.}
 
 \item{size}{Brand icon or logo width, in fraction of plot width.}
 }
@@ -34,7 +35,7 @@ Add a logo to a ggplot object.
 ws_monitor <- PWFSLSmoke::Carmel_Valley
 ws_tidy <- monitor_toTidy(ws_monitor)
 p <- ggplot_pm25Timeseries(ws_tidy) +
-  stat_dailyAQCategory(adjustylim = TRUE) 
+  stat_dailyAQCategory(adjustylim = TRUE)
 brandPlot(p, location = "topright", size = .2)
 brandPlot(p, location = "bottomright", brandName = "USFS")
 brandPlot(p, brandName = "AirFire", location = "topleft", size = .15)

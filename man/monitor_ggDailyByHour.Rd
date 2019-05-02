@@ -2,42 +2,42 @@
 % Please edit documentation in R/monitor_ggDailyByHour.R
 \name{monitor_ggDailyByHour}
 \alias{monitor_ggDailyByHour}
-\title{Create a dailyByHour plot for one or more monitors}
+\title{Create a diurnal plot for one or more monitors}
 \usage{
 monitor_ggDailyByHour(ws_monitor, startdate = NULL, enddate = NULL,
   monitorID = NULL, style = "small", title = NULL, timezone = NULL,
   ...)
 }
 \arguments{
-\item{ws_monitor}{A `ws_monitor` object}
+\item{ws_monitor}{A \code{ws_monitor} object.}
 
-\item{startdate}{Desired startdate for data to include, in a format that can be 
+\item{startdate}{Desired startdate for data to include, in a format that can
+be parsed with \link{parseDatetime}.}
+
+\item{enddate}{Desired enddate for data to include, in a format that can be
 parsed with \link{parseDatetime}.}
-
-\item{enddate}{Desired enddate for data to include, in a format that can be parsed 
-with \link{parseDatetime}.}
 
 \item{monitorID}{monitorID to include in the plot.}
 
-\item{style}{String indicating plotting style. Either \code{"large"} or \code{"small"}.
-\code{style = "large"} is suitable for plots larger than 450x450px, and \code{"small"}
-is suitable for plots 450x450px or smaller.}
+\item{style}{String indicating plotting style. Either \code{"large"} or
+\code{"small"}. \code{style = "large"} is suitable for plots larger than
+450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.}
 
 \item{title}{Plot title. If NULL, a suitable title will be constructed.}
 
-\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
-in the data, the data timezone will be used. If NULL and multiple timezones 
-present, the default is UTC.}
+\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
+present in the data, the data timezone will be used. If NULL and multiple
+timezones present, the default is UTC.}
 
-\item{...}{Additional arguments passed on to \code{\link{custom_pm25DiurnalScales}}.}
+\item{...}{Additional arguments passed on to
+\code{\link{custom_pm25DiurnalScales}}.}
 }
 \value{
-A **ggplot** object
+A \emph{ggplot} object.
 }
 \description{
-This function wraps \link{tidy_ggDailyByHour}, accepting a `ws_monitor` 
-object to assemble various layers to create a production-ready
-timeseries plot for one or more monitors.
+This function assembles various layers to create a production-ready
+diurnal plot for one or more monitors.
 }
 \examples{
 \dontrun{
@@ -46,7 +46,5 @@ monitor_ggDailyByHour(ws_monitor, monitorID = "410432002_01")
 }
 
 ws_monitor <- Carmel_Valley
-monitor_ggDailyByHour(ws_monitor,
-                      startdate = 20160801,
-                      enddate = 20160810)
+monitor_ggDailyByHour(ws_monitor, startdate = 20160801, enddate = 20160810)
 }

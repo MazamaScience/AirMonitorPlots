@@ -7,15 +7,15 @@
 theme_clockPlot_pwfsl(size = "large")
 }
 \arguments{
-\item{size}{\code{small} or \code{large}. \code{style = small} is 
-appropriate for plots 450x450px or smaller; \code{style = large} is appropriate
-for plots larger than 450x450px.}
+\item{size}{\code{small} or \code{large}. \code{style = small} is appropriate
+for plots 450x450px or smaller; \code{style = large} is appropriate for
+plots larger than 450x450px.}
 }
 \value{
-A **ggplot** theme
+A \emph{ggplot} theme.
 }
 \description{
-Applies a theme to a **ggplot** plot object.
-This theme is intended for use with the \code{\link{tidy_ggClockPlot}} function and
-generates plots suitable for the PWFSL monitoring site.
+Applies a theme to a \emph{ggplot} plot object. This theme is intended for
+use with the \code{\link{monitor_ggClockPlot}} function and generates plots
+suitable for the PWFSL monitoring site.
 }

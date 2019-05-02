@@ -25,7 +25,7 @@ data. All objects will be fortified to produce a data frame. See
 \code{\link[=fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
-the plot data. The return value must be a \code{data.frame.}, and
+the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data.}
 
 \item{position}{Position adjustment, either as a string, or the result of
@@ -50,14 +50,13 @@ layer, as a string.}
 
 \item{...}{Other arguments passed on to \code{\link[=layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
-\code{color = "red"} or \code{size = 3}. They may also be parameters
+\code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 }
 \description{
-This is a wrapper around \code{\link[ggplot2]{geom_point}} with
-default aesthetics.
+This is a wrapper around \code{\link[ggplot2]{geom_point}} with default
+aesthetics.
 }
 \examples{
-ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley) + 
-  geom_pm25Points()
+ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley) + geom_pm25Points()
 }

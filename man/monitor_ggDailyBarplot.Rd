@@ -9,46 +9,45 @@ monitor_ggDailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
   timezone = NULL, today = TRUE, ...)
 }
 \arguments{
-\item{ws_monitor}{A `ws_monitor` object}
+\item{ws_monitor}{A \code{ws_monitor} object.}
 
-\item{startdate}{Desired start date (integer or character in ymd format or POSIXct)}
+\item{startdate}{Desired start date (integer or character in ymd format or
+POSIXct).}
 
-\item{enddate}{Desired end date (integer or character in ymd format or POSIXct)}
+\item{enddate}{Desired end date (integer or character in ymd format or
+POSIXct).}
 
-\item{monitorIDs}{vector of monitorIDs to include in the plot. If 
-more than one, different monitors will be plotted in different colors.}
+\item{monitorIDs}{vector of monitorIDs to include in the plot. If more than
+one, different monitors will be plotted in different colors.}
 
-\item{style}{String indicating plotting style. Either \code{"large"} or \code{"small"}.
-\code{style = "large"} is suitable for plots larger than 450x450px, and \code{"small"}
-is suitable for plots 450x450px or smaller.}
+\item{style}{String indicating plotting style. Either \code{"large"} or
+\code{"small"}. \code{style = "large"} is suitable for plots larger than
+450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.}
 
 \item{title}{Plot title. If NULL, a suitable title will be constructed.}
 
-\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone present
-in the data, the data timezone will be used. If NULL and multiple timezones 
-present, the default is UTC.}
+\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
+present in the data, the data timezone will be used. If NULL and multiple
+timezones present, the default is UTC.}
 
-\item{today}{Logical indicating whether to include a shaded "current NowCast" bar 
-for Today. Ignored if data is not current.}
+\item{today}{Logical indicating whether to include a shaded "current NowCast"
+bar for Today. Ignored if data is not current.}
 
 \item{...}{Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.}
 }
 \value{
-A **ggplot** object
+A \emph{ggplot} object
 }
 \description{
-This function wraps \link{tidy_ggDailyBarplot}, accepting a `ws_monitor` 
-object to assemble various layers to create a production-ready
+This function assembles various layers to create a production-ready
 daily barplot for one or more monitors.
 }
 \examples{
+ws_monitor <- PWFSLSmoke::Carmel_Valley
+monitor_ggDailyBarplot(ws_monitor, startdate = 20160801, enddate = 20160810)
+
 \dontrun{
 ws_monitor <- airnow_loadLatest()
 monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01", today = TRUE)
 }
-
-ws_monitor <- Carmel_Valley
-monitor_ggDailyBarplot(ws_monitor,
-                       startdate = 20160801,
-                       enddate = 20160810)
 }
