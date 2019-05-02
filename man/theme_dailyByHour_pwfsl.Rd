@@ -16,6 +16,6 @@ A \emph{ggplot} theme
 }
 \description{
 Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-use with the \code{\link{tidy_ggDailyByHour}} function and generates plots
+use with the \code{\link{monitor_ggDailyByHour}} function and generates plots
 suitable for the PWFSL monitoring site.
 }

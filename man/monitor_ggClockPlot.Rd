@@ -8,7 +8,7 @@ monitor_ggClockPlot(ws_monitor, startdate = NULL, enddate = NULL,
   monitorID = NULL, timezone = NULL, ...)
 }
 \arguments{
-\item{ws_monitor}{A \link{ws_monitor} object.}
+\item{ws_monitor}{A \emph{ws_monitor} object.}
 
 \item{startdate}{Desired startdate for data to include, in a format that can
 be parsed with \link{parseDatetime}.}

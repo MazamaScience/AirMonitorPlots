@@ -16,7 +16,7 @@ A \emph{ggplot} theme.
 }
 \description{
 Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-use with the \code{\link{tidy_ggDailyBarplot}} function and generates plots
-suitable for the PWFSL monitoring site. It is suited to display of 1-4 weeks
-of data.
+use with the \code{\link{monitor_ggDailyBarplot}} function and generates
+plots suitable for the PWFSL monitoring site. It is suited to display of 1-4
+weeks of data.
 }

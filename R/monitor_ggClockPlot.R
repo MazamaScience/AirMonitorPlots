@@ -5,7 +5,7 @@
 #' plot for one monitor.
 #'
 #' @inheritParams ggplot_pm25Diurnal
-#' @param ws_monitor A \link{ws_monitor} object.
+#' @param ws_monitor A \emph{ws_monitor} object.
 #' @param monitorID monitorID to include in the plot.
 #' @param timezone Timezone for x-axis scale. If NULL and only one timezone
 #'   present in the data, the data timezone will be used. If NULL and multiple
