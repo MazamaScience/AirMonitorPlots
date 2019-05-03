@@ -1,3 +1,8 @@
+# AirMonitorPlots 0.5.3
+
+**Rename package from `PWFSLSmokePlots` to `AirMonitorPlots`.**
+
+
 # AirMonitorPlots 0.5.2
 
 Style refactoring and coalescing functions.
