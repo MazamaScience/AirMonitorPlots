@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plot Utilities for the PWFSLSmoke Package • PWFSLSmokePlots</title>
+<title>Plot Utilities for the PWFSLSmoke Package • AirMonitorPlots</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -38,8 +38,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">PWFSLSmokePlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
+        <a class="navbar-link" href="index.html">AirMonitorPlots</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3</span>
       </span>
     </div>
 
@@ -52,7 +52,7 @@
   </a>
 </li>
 <li>
-  <a href="articles/PWFSLSmokePlots.html">Get started</a>
+  <a href="articles/AirMonitorPlots.html">Get started</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
@@ -75,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/MazamaScience/PWFSLSmokePlots">
+  <a href="https://github.com/MazamaScience/AirMonitorPlots">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -91,41 +91,38 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
-
-<hr>
-<p>title: “PWFSLSmokePlots” pagetitle: PWFSLSmokePlots —</p>
-<p><a href="https://cran.r-project.org/package=PWFSLSmokePlots"><img src="http://www.r-pkg.org/badges/version/PWFSLSmokePlots" alt="CRAN_Status_Badge"></a> <a href="https://cran.r-project.org/package=PWFSLSmokePlots"><img src="http://cranlogs.r-pkg.org/badges/PWFSLSmokePlots" alt="Downloads"></a> <a href="https://travis-ci.org/MazamaScience/PWFSLSmokePlots"><img src="https://travis-ci.org/MazamaScience/PWFSLSmokePlots.svg?branch=master" alt="Build Status"></a></p>
-<div id="pwfslsmokeplots-r-package" class="section level1">
+<div id="airmonitorplots-r-package" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#pwfslsmokeplots-r-package" class="anchor"></a>PWFSLSmokePlots R Package</h1></div>
-<pre><code>Plot utilities for the PWFSLSmoke package.</code></pre>
+<a href="#airmonitorplots-r-package" class="anchor"></a>AirMonitorPlots R Package <img src="reference/figures/logo.png" align="right" height="81.5">
+</h1></div>
+
+<pre><code>Plot utilities for air quality monitoring data.</code></pre>
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h2>
 <p>The USFS Pacific Wildland Fire Sciences Lab <a href="http://www.airfire.org">AirFire</a> team works to model wildland fire emissions and has created the BlueSky Modeling Framework. This system integrates a wide collection of models along the smoke modeling chain (fire information, fuel loadings, consumption modeling, emissions modeling, time rate ofemissions modeling, plume height estimations, and smoke trajectory and dispersion modeling). The resulting model output has been integrated into many different smoke prediction systems and scientific modeling efforts;</p>
 <p>The <strong>PWFSLSmoke</strong> R package is being developed for PWFSL to help modelers and scientists more easily work with PM2.5 data from monitoring locations across North America.</p>
-<p>The <strong>PWFSLSmokePlots</strong> R package is being developed to provide plotting componenents for building up custom plots needed by air quality specialists.</p>
+<p>The <strong>AirMonitorPlots</strong> R package is being developed to provide plotting componenents for building up custom plots needed by air quality specialists.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Users will want to install the <strong>devtools</strong> package to have access to latest versions of this package that may not yet be available on CRAN.</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github('mazamascience/PWFSLSmoke', build_vignettes=TRUE)
-devtools::install_github('mazamascience/PWFSLSmokePlots', build_vignettes=TRUE)</a></code></pre>
+devtools::install_github('mazamascience/AirMonitorPlots', build_vignettes=TRUE)</a></code></pre>
 <hr>
 <p>This project is being funded in part by the USFS Pacific Wildland Fire Sciences Laboratory.</p>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/MazamaScience/PWFSLSmokePlots">https://​github.com/​MazamaScience/​PWFSLSmokePlots</a>
+<li>Browse source code at <br><a href="https://github.com/MazamaScience/AirMonitorPlots">https://​github.com/​MazamaScience/​AirMonitorPlots</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/MazamaScience/PWFSLSmokePlots/issues">https://​github.com/​MazamaScience/​PWFSLSmokePlots/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/MazamaScience/AirMonitorPlots/issues">https://​github.com/​MazamaScience/​AirMonitorPlots/​issues</a>
 </li>
 </ul>
 </div>
@@ -145,7 +142,15 @@ devtools::install_github('mazamascience/PWFSLSmokePlots', build_vignettes=TRUE)<
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=AirMonitorPlots"><img src="http://www.r-pkg.org/badges/version/AirMonitorPlots" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://cran.r-project.org/package=AirMonitorPlots"><img src="http://cranlogs.r-pkg.org/badges/AirMonitorPlots" alt="Downloads"></a></li>
+<li><a href="https://travis-ci.org/MazamaScience/AirMonitorPlots"><img src="https://travis-ci.org/MazamaScience/AirMonitorPlots.svg?branch=master" alt="Build Status"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
       <footer><div class="copyright">
