@@ -1,6 +1,6 @@
 ########################################################################################
-img <- system.file("brandImages", "logo_USFS.png", package = "PWFSLSmokePlots")
-icon <- system.file("brandImages", "logo_USFS.png", package = "PWFSLSmokePlots")
+img <- system.file("brandImages", "logo_USFS.png", package = "AirMonitorPlots")
+icon <- system.file("brandImages", "logo_USFS.png", package = "AirMonitorPlots")
 usfs <- png::readPNG(img)
 
 # Get location of white space

@@ -72,7 +72,7 @@ brandPlot <- function(
     }
 
     brandFileName <- paste0(brandFileName, brandName, ".png")
-    brandFilePath <- system.file("brandImages", brandFileName, package = "PWFSLSmokePlots")
+    brandFilePath <- system.file("brandImages", brandFileName, package = "AirMonitorPlots")
   }
 
   if (!file.exists(brandFilePath)) stop(paste0("could not find ", brandFilePath))

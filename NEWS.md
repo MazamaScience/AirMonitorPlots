@@ -1,4 +1,4 @@
-# PWFSLSmokePlots 0.5.2
+# AirMonitorPlots 0.5.2
 
 Style refactoring and coalescing functions.
 
@@ -16,7 +16,7 @@ Style refactoring was done to make the package more consistent with current
 Mazama Science coding practices.
 
 
-# PWFSLSmokePlots 0.5.1
+# AirMonitorPlots 0.5.1
 
 Cleanup of refactored code before CRAN submission
 
@@ -24,7 +24,7 @@ Cleanup of refactored code before CRAN submission
  * general improvements to documentation and code comments
 
 
-# PWFSLSmokePlots 0.5.0
+# AirMonitorPlots 0.5.0
 
 Complete refactoring of the code to utilize low level `ggplot` concepts.
 
@@ -34,7 +34,7 @@ Complete refactoring of the code to utilize low level `ggplot` concepts.
     easy to create customized plots.
 
 
-# PWFSLSmokePlots 0.4.4
+# AirMonitorPlots 0.4.4
 
 Adding standard plots used in the
 [USFS Monitoring site](https://tools.airfire.org/monitoring/v4).
@@ -45,7 +45,7 @@ Adding standard plots used in the
  * now importing **gridExtra**
 
 
-# PWFSLSmokePlots 0.4.3
+# AirMonitorPlots 0.4.3
 
 Moving all base plot related code from **PWFSLSmokePlot** to **PWFSLSmoke** so
 that all functionality in the former is purely **ggplot2** based.
@@ -55,12 +55,12 @@ that all functionality in the former is purely **ggplot2** based.
  * removed `monitor_getDailyMean()`
 
 
-# PWFSLSmokePlots 0.4.2
+# AirMonitorPlots 0.4.2
 
  * updated for latest **devtools** package
 
 
-# PWFSLSmokePlots 0.4.1
+# AirMonitorPlots 0.4.1
 
  * added `monitor_getDailyMean()` function
  * added `clockPlot()` function
@@ -68,7 +68,7 @@ that all functionality in the former is purely **ggplot2** based.
  * added `aqiPalette()` function and unit test
 
 
-# PWFSLSmokePlots 0.4.0
+# AirMonitorPlots 0.4.0
 
  * added unit test for `dailyHourlyBarplot()`
  * deprecated `createTarnayPlot()` in favor of `dailyHourlyBarplot()`
@@ -78,12 +78,12 @@ that all functionality in the former is purely **ggplot2** based.
  * wind barbs grow in length between zero and 5 knots
 
 
-# PWFSLSmokePlots 0.3.4
+# AirMonitorPlots 0.3.4
 
  * added windBarbs function
 
 
-# PWFSLSmokePlots 0.3.3 -- daily-hourly barplot refinements
+# AirMonitorPlots 0.3.3 -- daily-hourly barplot refinements
 
 This release tweaks the calculation of NowCast in the daily-hourly-barplot:
 
@@ -94,7 +94,7 @@ This release also reverses the legend scale ordering for better visual
 consistency
 
 
-# PWFSLSmokePlots 0.3.2 -- daily-hourly barplot refinements
+# AirMonitorPlots 0.3.2 -- daily-hourly barplot refinements
 
 This release focuses on refining the visual aesthetics of the
 daily-hourly-barplot:
@@ -106,7 +106,7 @@ daily-hourly-barplot:
    (Currently contains only dummy text and off by default.)
 
 
-# PWFSLSmokePlots 0.3.1 -- daily-hourly barplot refinements
+# AirMonitorPlots 0.3.1 -- daily-hourly barplot refinements
 
 Addresses the following issues regarding the daily-hourly-barplot:
 
@@ -117,7 +117,7 @@ Addresses the following issues regarding the daily-hourly-barplot:
  *  Add an option to include a footnote caption linking to an AQI explainer
 
 
-# PWFSLSmokePlots 0.3.0 -- daily-hourly barplot
+# AirMonitorPlots 0.3.0 -- daily-hourly barplot
 
  * Added `daily-hourly barplot`(). This is  a
 timeseries barplot showing PM2.5 data for the given monitors. The overall plot
@@ -125,14 +125,14 @@ is faceted by monitor, and each facet has two sets of columns: one for daily
 levels, and one for hourly levels.
 
 
-# PWFSLSmokePlots 0.2.1
+# AirMonitorPlots 0.2.1
 
  * Removed `isWSMon()`, This functionality is now in [`PWFSLSmoke::monitor_isMonitor()`](https://github.com/MazamaScience/PWFSLSmoke/blob/master/R/monitor_isMonitor.R)
  * Renamed `isTidy()` -> `monitor_isTidy()`
  * Renamed `wsMonToTidy()` -> `monitor_toTidy()`
 
 
-# PWFSLSmokePlots 0.2.0
+# AirMonitorPlots 0.2.0
 
  * Added `isWSMon()` function to test an object for the `ws_monitor` class.
  * Added `isTidy()` function to test if an object is in tidy format.
@@ -140,7 +140,7 @@ levels, and one for hourly levels.
    format.
 
 
-# PWFSLSmokePlots 0.1.0
+# AirMonitorPlots 0.1.0
 
  * added `addPolygon()` function
 

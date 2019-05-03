@@ -1,16 +1,16 @@
 ---
-title: "PWFSLSmokePlots"
-pagetitle: PWFSLSmokePlots
+title: "AirMonitorPlots"
+pagetitle: AirMonitorPlots
 ---
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/PWFSLSmokePlots)](https://cran.r-project.org/package=PWFSLSmokePlots)
-[![Downloads](http://cranlogs.r-pkg.org/badges/PWFSLSmokePlots)](https://cran.r-project.org/package=PWFSLSmokePlots)
-[![Build Status](https://travis-ci.org/MazamaScience/PWFSLSmokePlots.svg?branch=master)](https://travis-ci.org/MazamaScience/PWFSLSmokePlots)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
+[![Downloads](http://cranlogs.r-pkg.org/badges/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
+[![Build Status](https://travis-ci.org/MazamaScience/AirMonitorPlots.svg?branch=master)](https://travis-ci.org/MazamaScience/AirMonitorPlots)
 
-# PWFSLSmokePlots R Package
+# AirMonitorPlots R Package
 
 ```
-Plot utilities for the PWFSLSmoke package.
+Plot utilities for air quality monitoring data.
 ```
 
 ## Background
@@ -28,7 +28,7 @@ The **PWFSLSmoke** R package is being developed for PWFSL to help modelers and
 scientists more easily work with PM2.5 data from monitoring locations across 
 North America.
 
-The **PWFSLSmokePlots** R package is being developed to provide plotting 
+The **AirMonitorPlots** R package is being developed to provide plotting 
 componenents for building up  custom plots needed by air quality specialists.
 
 ## Installation
@@ -38,7 +38,7 @@ versions of this package that may not yet be available on CRAN.
 
 ```
 devtools::install_github('mazamascience/PWFSLSmoke', build_vignettes=TRUE)
-devtools::install_github('mazamascience/PWFSLSmokePlots', build_vignettes=TRUE)
+devtools::install_github('mazamascience/AirMonitorPlots', build_vignettes=TRUE)
 ```
 
 ----

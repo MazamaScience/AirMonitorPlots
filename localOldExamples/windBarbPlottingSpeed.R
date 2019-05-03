@@ -4,7 +4,7 @@
 # than just plotting circles but it is within a reasonable speed. The speed is about the same
 # when plotting 100 vs 10000 barbs (as in it takes 100 times longer to plot 10000 barbs than 100 barbs.)
 library(rbenchmark)
-library(PWFSLSmokePlots)
+library(AirMonitorPlots)
 
 # 100
 # get a random set of lat, lon, speed, dir

@@ -1,5 +1,5 @@
 
-library(PWFSLSmokePlots)
+library(AirMonitorPlots)
 library(gridExtra)
 
 mon <- PWFSLSmoke::Carmel_Valley

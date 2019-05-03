@@ -1,4 +1,4 @@
 library(testthat)
-library(PWFSLSmokePlots)
+library(AirMonitorPlots)
 
-test_check("PWFSLSmokePlots")
+test_check("AirMonitorPlots")

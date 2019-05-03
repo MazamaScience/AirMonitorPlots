@@ -1,10 +1,10 @@
 ---
-title: "Introduction to PWFSLSmokePlots"
+title: "Introduction to AirMonitorPlots"
 author: "Helen Miller"
 date: "Jan 17, 2019"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{PWFSLSmokePlots}
+  %\VignetteIndexEntry{AirMonitorPlots}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `PWFSLSmokePlots` package provides plotting functionality to create production-ready plots for
+The `AirMonitorPlots` package provides plotting functionality to create production-ready plots for
 qir quality monitoring data. It builds on the `PWFLSmoke` package, integrating the data
 with `ggplot2` plotting functions. High-level plotting functions make it easy for users to create beautiful 
 plots of monitoring data. Since these functions are built on `ggplot2`, users familiar with `ggplot2` can easily 
@@ -36,7 +36,7 @@ The default Timeseries plot is optimized for one monitor.
 
 ```{r}
 library(PWFSLSmoke)
-library(PWFSLSmokePlots)
+library(AirMonitorPlots)
 monitor_ggTimeseries(PWFSLSmoke::Northwest_Megafires, 
                      monitorIDs = "160050015_01",
                      startdate = 20150815,

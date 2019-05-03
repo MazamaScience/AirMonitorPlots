@@ -1,5 +1,5 @@
 library(leaflet)
-library(PWFSLSmokePlots)
+library(AirMonitorPlots)
 
 airnow <- airnow_loadAnnual(2018)
 
@@ -11,22 +11,22 @@ goodMonitorsMask <- rep(TRUE, length(monitorIDs))
 
 i <- 1
 for (monitorID in monitorIDs) {
-  
+
   filename <- paste0(monitorID, "_clockIcon.png")
   png(filename, 64, 64, bg="transparent")
   result <- try({
-    print( clockPlot(monitors, 
-                     monitorID, 
+    print( clockPlot(monitors,
+                     monitorID,
                      startdate = "2018-08-25",
                      enddate = "2018-08-27",
                      style = "icon") )
   }, silent = TRUE)
   dev.off()
-  
+
   if ( "try-error" %in% class(result) ) {
     goodMonitorsMask[i] <- FALSE
   }
-  
+
   i <- i + 1
 }
 
