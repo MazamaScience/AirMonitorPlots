@@ -1,13 +1,8 @@
----
-title: "AirMonitorPlots"
-pagetitle: AirMonitorPlots
----
+# AirMonitorPlots R Package <img src='man/figures/logo.png' align="right" height="81.5" />
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
 [![Downloads](http://cranlogs.r-pkg.org/badges/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
 [![Build Status](https://travis-ci.org/MazamaScience/AirMonitorPlots.svg?branch=master)](https://travis-ci.org/MazamaScience/AirMonitorPlots)
-
-# AirMonitorPlots R Package
 
 ```
 Plot utilities for air quality monitoring data.
