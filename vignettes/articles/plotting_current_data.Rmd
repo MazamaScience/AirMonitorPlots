@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-`PWFSLSmokePlots` provides functions to easily generate stylized plots of current data. 
+`AirMonitorPlots` provides functions to easily generate stylized plots of current data. 
 
 
 ```{r loadData}
-library(PWFSLSmokePlots)
+library(AirMonitorPlots)
 # Load current Data
 ws_monitor <- loadLatest()
 ```
