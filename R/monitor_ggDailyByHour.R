@@ -2,18 +2,18 @@
 #'
 #' @description
 #' This function assembles various layers to create a production-ready
-#' diurnal plot for one or more monitors.
+#' diurnal plot for a single monitor.
 #'
 #' @inheritParams ggplot_pm25Diurnal
 #' @param ws_monitor A \code{ws_monitor} object.
-#' @param monitorID monitorID to include in the plot.
+#' @param monitorID monitorID to include in the plot. This can be NULL if
+#'   \emph{ws_monitor} only has one unique monitorID.
 #' @param style String indicating plotting style. Either \code{"large"} or
 #'   \code{"small"}. \code{style = "large"} is suitable for plots larger than
 #'   450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.
 #' @param title Plot title. If NULL, a suitable title will be constructed.
-#' @param timezone Timezone for x-axis scale. If NULL and only one timezone
-#'   present in the data, the data timezone will be used. If NULL and multiple
-#'   timezones present, the default is UTC.
+#' @param timezone Olson timezone name for x-axis scale and date parsing. If
+#'   NULL the timezone of the specified monitor will be used.
 #'
 #' @return A \emph{ggplot} object.
 #'
@@ -43,40 +43,38 @@ monitor_ggDailyByHour <- function(
 
   # Validate Parameters --------------------------------------------------------
 
+  # Convert ws_monitor to tidy structure
   if (monitor_isMonitor(ws_monitor)) {
     ws_tidy <- monitor_toTidy(ws_monitor)
   } else {
     stop("ws_monitor is not a ws_monitor object.")
   }
 
+  # Check style
   if (!style %in% c("small", "large"))
     stop("Invalid style. Choose from 'small' or 'large'.")
 
-  if (any(!monitorID %in% unique(ws_tidy$monitorID))) {
-    invalidIDs <- monitorID[which(!monitorID %in% unique(ws_tidy$monitorID))]
-    stop(paste0(
-      "Invalid monitorID. monitorID not present in data: ",
-      paste0(invalidIDs, collapse = ", ")
-    ))
+  # Check monitorID
+  if (is.null(monitorID)) {
+
+    if (length(unique(ws_tidy$monitorID)) > 1) {
+      stop("monitorID is required if `ws_monitor` has multiple monitors.")
+    } else {
+      monitorID <- ws_tidy$monitorID[1]
+    }
+
+  } else {
+
+    if (length(monitorID) > 1) {
+      stop("`monitorID` contain a single monitorID.")
+    } else if (!monitorID %in% unique(ws_tidy$monitorID)) {
+      stop("monitorID not present in data.")
+    }
   }
 
-  if (!is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2]) {
-    stop("startdate is outside of data date range")
-  }
-  if (!is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1]) {
-    stop("enddate is outside of data date range")
-  }
+  ws_tidy <- filter(ws_tidy, .data$monitorID == !!monitorID)
 
-  # Prepare data ---------------------------------------------------------------
-
-  if (!is.null(monitorID)) {
-    ws_tidy <- dplyr::filter(ws_tidy, .data$monitorID == !!monitorID)
-  }
-
-  if (length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID)) {
-    stop("monitorID must be specified")
-  }
-
+  # Check timezone
   if (!is.null(timezone)) {
     if (!timezone %in% OlsonNames()) {
       stop("Invalid timezone")
@@ -85,25 +83,22 @@ monitor_ggDailyByHour <- function(
     timezone <- unique(ws_tidy$timezone)
   }
 
+  # Prepare data ---------------------------------------------------------------
 
-  # * Subset time range --------------------------------------------------------
+  print(timezone)
 
-  if (!is.null(startdate)) {
-    startdate <- parseDatetime(startdate, timezone = timezone)
-    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime >= startdate)
-  } else {
-    startdate <- min(ws_tidy$datetime)
-  }
+  dateRng <- MazamaCoreUtils::dateRange(
+    startdate = startdate,
+    enddate = enddate,
+    timezone = timezone,
+    unit = "day"
+  )
 
-  if (!is.null(enddate)) {
-    enddate <- parseDatetime(enddate, timezone = timezone)
-    if (enddate == lubridate::floor_date(enddate, "day")) {
-      enddate <- lubridate::ceiling_date(enddate, "day") - lubridate::dminutes(1)
-    }
-    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime <= enddate)
-  } else {
-    enddate <- max(ws_tidy$datetime)
-  }
+  ws_tidy <- ws_tidy %>%
+    filter(
+      .data$datetime >= dateRng[1],
+      .data$datetime < dateRng[2]
+    )
 
 
   # * Add 'hour', 'day', and 'nowcast' columns ---------------------------------
@@ -122,8 +117,13 @@ monitor_ggDailyByHour <- function(
 
   # * Separate data for 'yesterday' and 'today' --------------------------------
 
-  today_string <- strftime(enddate, "%Y%m%d")
-  yesterday_string <- strftime(enddate - lubridate::ddays(1), "%Y%m%d")
+  today_string <- dateRng[2] %>%
+    magrittr::subtract(lubridate::days(1)) %>%
+    strftime("%Y%m%d", tz = timezone)
+  yesterday_string <- dateRng[2] %>%
+    magrittr::subtract(lubridate::days(2)) %>%
+    strftime("%Y%m%d", tz = timezone)
+
   yesterday <- dplyr::filter(ws_tidy, .data$day == yesterday_string)
   today <- dplyr::filter(ws_tidy, .data$day == today_string)
 
@@ -137,7 +137,7 @@ monitor_ggDailyByHour <- function(
   }
 
   # Get labels for legend
-  meanText <- paste0(as.integer(difftime(enddate, startdate, units = "days")), " Day Mean")
+  meanText <- paste0(as.integer(difftime(dateRng[2], dateRng[1], units = "days")), " Day Mean")
 
   if (style == "large") {
     meanSize <- 8
@@ -161,8 +161,8 @@ monitor_ggDailyByHour <- function(
   plot <-
     ggplot_pm25Diurnal(
       ws_tidy,
-      startdate = startdate,
-      enddate = enddate,
+      startdate = dateRng[1],
+      enddate = dateRng[2],
       mapping = aes_(x = ~ hour, y = ~ nowcast),
       base_size = base_size,
       ...
