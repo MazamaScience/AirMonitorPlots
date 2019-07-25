@@ -41,6 +41,7 @@ monitor_ggDailyByHour <- function(
   ...
 ) {
 
+
   # Validate Parameters --------------------------------------------------------
 
   # Convert ws_monitor to tidy structure
@@ -66,12 +67,13 @@ monitor_ggDailyByHour <- function(
   } else {
 
     if (length(monitorID) > 1) {
-      stop("`monitorID` contain a single monitorID.")
+      stop("`monitorID` must contain a single monitorID.")
     } else if (!monitorID %in% unique(ws_tidy$monitorID)) {
       stop("monitorID not present in data.")
     }
   }
 
+  # NOTE: Include before getting timezone
   ws_tidy <- filter(ws_tidy, .data$monitorID == !!monitorID)
 
   # Check timezone
@@ -83,9 +85,8 @@ monitor_ggDailyByHour <- function(
     timezone <- unique(ws_tidy$timezone)
   }
 
-  # Prepare data ---------------------------------------------------------------
 
-  print(timezone)
+  # Prepare data ---------------------------------------------------------------
 
   dateRng <- MazamaCoreUtils::dateRange(
     startdate = startdate,

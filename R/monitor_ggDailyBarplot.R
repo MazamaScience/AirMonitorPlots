@@ -9,15 +9,14 @@
 #'   POSIXct).
 #' @param enddate Desired end date (integer or character in ymd format or
 #'   POSIXct).
-#' @param monitorIDs vector of monitorIDs to include in the plot. If more than
-#'   one, different monitors will be plotted in different colors.
+#' @param monitorID monitorID to include in the plot. This can be NULL if
+#'   \emph{ws_monitor} only has one unique monitorID.
 #' @param style String indicating plotting style. Either \code{"large"} or
 #'   \code{"small"}. \code{style = "large"} is suitable for plots larger than
 #'   450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.
 #' @param title Plot title. If NULL, a suitable title will be constructed.
-#' @param timezone Timezone for x-axis scale. If NULL and only one timezone
-#'   present in the data, the data timezone will be used. If NULL and multiple
-#'   timezones present, the default is UTC.
+#' @param timezone Olson timezone name for x-axis scale and date parsing. If
+#'   NULL the timezone of the specified monitor will be used.
 #' @param today Logical indicating whether to include a shaded "current NowCast"
 #'   bar for Today. Ignored if data is not current.
 #' @param ... Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.
@@ -41,7 +40,7 @@ monitor_ggDailyBarplot <- function(
   ws_monitor,
   startdate = NULL,
   enddate = NULL,
-  monitorIDs = NULL,
+  monitorID = NULL,
   style = "small",
   title = NULL,
   timezone = NULL,
@@ -51,74 +50,88 @@ monitor_ggDailyBarplot <- function(
 
   # Validate Parameters --------------------------------------------------------
 
+  # Convert ws_monitor to tidy structure
   if (monitor_isMonitor(ws_monitor)) {
     ws_tidy <- monitor_toTidy(ws_monitor)
   } else {
-    stop("ws_monitor must be a `ws_monitor` object.")
+    stop("ws_monitor is not a ws_monitor object.")
   }
 
+  # Check style
   if (!style %in% c("small", "large"))
-    stop("Invalid 'style'. Choose from 'small' or 'large'.")
+    stop("Invalid style. Choose from 'small' or 'large'.")
 
-  if (!is.null(timezone) && !timezone %in% OlsonNames())
-    stop("Invalid timezone.")
-
+  # Check today bar inclusion
   if (!is.logical(today))
     stop("'today' must be a logical (TRUE or FALSE).")
 
-  if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
-    invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
-    stop(paste0("monitorIDs not present in data: ", paste0(invalidIDs, collapse = ", ")))
+  # Check monitorID
+  if (is.null(monitorID)) {
+
+    if (length(unique(ws_tidy$monitorID)) > 1) {
+      stop("monitorID is required if `ws_monitor` has multiple monitors.")
+    } else {
+      monitorID <- ws_tidy$monitorID[1]
+    }
+
+  } else {
+
+    if (length(monitorID) > 1) {
+      stop("`monitorID` must contain a single monitorID.")
+    } else if (!monitorID %in% unique(ws_tidy$monitorID)) {
+      stop("monitorID not present in data.")
+    }
   }
 
-  if (!is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2]) {
-    stop("'startdate' is outside of data date range.")
+  # NOTE: Include before getting timezone
+  ws_tidy <- filter(ws_tidy, .data$monitorID == !!monitorID)
+
+  # Check timezone
+  if (!is.null(timezone)) {
+    if (!timezone %in% OlsonNames()) {
+      stop("Invalid timezone")
+    }
+  } else {
+    timezone <- unique(ws_tidy$timezone)
   }
-  if (!is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1]) {
-    stop("'enddate' is outside of data date range.")
-  }
+
 
   # Prepare data ---------------------------------------------------------------
 
-  # Subset Data
-  if (!is.null(monitorIDs)) {
-    ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID %in% monitorIDs)
-  }
+  # # Set default startdate and enddate
+  # if (is.null(startdate)) startdate <- min(ws_tidy$datetime)
+  # if (is.null(enddate)) enddate <- max(ws_tidy$datetime)
+  #
+  # # Parse startdate and enddate
+  # startdate <- lubridate::floor_date(parseDatetime(startdate, timezone = timezone), "day")
+  # enddate <- min(c(
+  #   lubridate::floor_date(lubridate::now(timezone), "day"),
+  #   lubridate::floor_date(parseDatetime(enddate, timezone = timezone), "day")
+  # )) + lubridate::dhours(23)
 
-  if (length(unique(ws_tidy$monitorID)) > 1) {
-    if (is.null(title)) {
-      title <- paste0("Daily Average PM2.5 for ",
-                      length(unique(ws_tidy$monitorID)),
-                      " monitors")
-    }
-  } else {
-    if (is.null(title)) {
-      title <- paste0("Daily Average PM2.5\n",
-                      "Site: ", unique(ws_tidy$siteName))
-    }
-  }
+  dateRng <- MazamaCoreUtils::dateRange(
+    startdate = startdate,
+    enddate = enddate,
+    timezone = timezone,
+    unit = "day"
+  )
 
-  # Get timezone
-  if (length(unique(ws_tidy$timezone)) > 1) {
-    timezone <- "UTC"
-    xlab <- "Time (UTC)"
-  } else {
-    timezone <- unique(ws_tidy$timezone)
-    xlab <- "Local Time"
-  }
+  startdate <- dateRng[1]
+  enddate <- min(c(dateRng[2], lubridate::now(timezone)))
 
-  # Set default startdate and enddate
-  if (is.null(startdate)) startdate <- min(ws_tidy$datetime)
-  if (is.null(enddate)) enddate <- max(ws_tidy$datetime)
+  ws_tidy <- ws_tidy %>%
+    filter(
+      .data$datetime >= startdate,
+      .data$datetime < enddate
+    )
 
-  # Parse startdate and enddate
-  startdate <- lubridate::floor_date(parseDatetime(startdate, timezone = timezone), "day")
-  enddate <- min(c(
-    lubridate::floor_date(lubridate::now(timezone), "day"),
-    lubridate::floor_date(parseDatetime(enddate, timezone = timezone), "day")
-  )) + lubridate::dhours(23)
 
   # Style ----------------------------------------------------------------------
+
+  # Get title
+  if (is.null(title)) {
+    title <- paste0("Daily Average PM2.5", "\n", "Site: ", unique(ws_tidy$siteName))
+  }
 
   if (style == "large") {
     nowcastTextSize <- 4.5
@@ -133,7 +146,7 @@ monitor_ggDailyBarplot <- function(
   }
 
   # Set "today"
-  if (!enddate == lubridate::ceiling_date(lubridate::now(timezone), "day") - lubridate::dhours(1)) {
+  if (isFALSE(all.equal(enddate, lubridate::ceiling_date(lubridate::now(timezone), "day")))) {
     today <- FALSE
   }
 
