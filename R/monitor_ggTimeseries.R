@@ -46,10 +46,10 @@ monitor_ggTimeseries <- function(
   ws_monitor,
   startdate = NULL,
   enddate = NULL,
-  style = "small",
-  aqiStyle = NULL,
   monitorIDs = NULL,
+  style = "small",
   title = NULL,
+  aqiStyle = NULL,
   ...
 ) {
 
