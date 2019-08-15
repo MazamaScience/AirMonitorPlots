@@ -98,17 +98,6 @@ monitor_ggDailyBarplot <- function(
 
   # Prepare data ---------------------------------------------------------------
 
-  # # Set default startdate and enddate
-  # if (is.null(startdate)) startdate <- min(ws_tidy$datetime)
-  # if (is.null(enddate)) enddate <- max(ws_tidy$datetime)
-  #
-  # # Parse startdate and enddate
-  # startdate <- lubridate::floor_date(parseDatetime(startdate, timezone = timezone), "day")
-  # enddate <- min(c(
-  #   lubridate::floor_date(lubridate::now(timezone), "day"),
-  #   lubridate::floor_date(parseDatetime(enddate, timezone = timezone), "day")
-  # )) + lubridate::dhours(23)
-
   dateRng <- MazamaCoreUtils::dateRange(
     startdate = startdate,
     enddate = enddate,
