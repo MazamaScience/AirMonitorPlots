@@ -40,7 +40,9 @@
 <meta property="og:title" content="Create a diurnal plot for one or more monitors — monitor_ggDailyByHour" />
 
 <meta property="og:description" content="This function assembles various layers to create a production-ready
-diurnal plot for one or more monitors." />
+diurnal plot for a single monitor.
+The full range of data in ws_monitor will be used unless both
+startdate and enddate are specified." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -73,7 +75,7 @@ diurnal plot for one or more monitors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
       </span>
     </div>
 
@@ -135,7 +137,9 @@ diurnal plot for one or more monitors." />
     <div class="ref-description">
     
     <p>This function assembles various layers to create a production-ready
-diurnal plot for one or more monitors.</p>
+diurnal plot for a single monitor.</p>
+<p>The full range of data in <code>ws_monitor</code> will be used unless both
+<code>startdate</code> and <code>enddate</code> are specified.</p>
     
     </div>
 
@@ -162,7 +166,8 @@ parsed with parseDatetime.</p></td>
     </tr>
     <tr>
       <th>monitorID</th>
-      <td><p>monitorID to include in the plot.</p></td>
+      <td><p>monitorID to include in the plot. This can be NULL if
+<em>ws_monitor</em> only has one unique monitorID.</p></td>
     </tr>
     <tr>
       <th>style</th>
@@ -176,9 +181,8 @@ parsed with parseDatetime.</p></td>
     </tr>
     <tr>
       <th>timezone</th>
-      <td><p>Timezone for x-axis scale. If NULL and only one timezone
-present in the data, the data timezone will be used. If NULL and multiple
-timezones present, the default is UTC.</p></td>
+      <td><p>Olson timezone name for x-axis scale and date parsing. If
+NULL the timezone of the specified monitor will be used.</p></td>
     </tr>
     <tr>
       <th>...</th>

@@ -7,8 +7,6 @@ test_that("parameters are validated", {
   expect_error(monitor_ggDailyBarplot(ws_cv, style = "invalid"))
   expect_error(monitor_ggDailyBarplot(ws_cv, timezone = "invalid"))
   expect_error(monitor_ggDailyBarplot(ws_cv, today = "true"))
-  expect_error(monitor_ggDailyBarplot(ws_cv, startdate = 22000101))
-  expect_error(monitor_ggDailyBarplot(ws_cv, enddate = 18010101))
 
 })
 

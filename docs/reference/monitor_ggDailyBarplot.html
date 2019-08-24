@@ -40,7 +40,9 @@
 <meta property="og:title" content="Create a daily barplot for one or more monitors — monitor_ggDailyBarplot" />
 
 <meta property="og:description" content="This function assembles various layers to create a production-ready
-daily barplot for one or more monitors." />
+daily barplot for one or more monitors.
+The full range of data in ws_monitor will be used unless both
+startdate and enddate are specified." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -73,7 +75,7 @@ daily barplot for one or more monitors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
       </span>
     </div>
 
@@ -136,12 +138,14 @@ daily barplot for one or more monitors." />
     
     <p>This function assembles various layers to create a production-ready
 daily barplot for one or more monitors.</p>
+<p>The full range of data in <code>ws_monitor</code> will be used unless both
+<code>startdate</code> and <code>enddate</code> are specified.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>monitor_ggDailyBarplot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"small"</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>today</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"small"</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>today</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,9 +165,9 @@ POSIXct).</p></td>
 POSIXct).</p></td>
     </tr>
     <tr>
-      <th>monitorIDs</th>
-      <td><p>vector of monitorIDs to include in the plot. If more than
-one, different monitors will be plotted in different colors.</p></td>
+      <th>monitorID</th>
+      <td><p>monitorID to include in the plot. This can be NULL if
+<em>ws_monitor</em> only has one unique monitorID.</p></td>
     </tr>
     <tr>
       <th>style</th>
@@ -177,9 +181,8 @@ one, different monitors will be plotted in different colors.</p></td>
     </tr>
     <tr>
       <th>timezone</th>
-      <td><p>Timezone for x-axis scale. If NULL and only one timezone
-present in the data, the data timezone will be used. If NULL and multiple
-timezones present, the default is UTC.</p></td>
+      <td><p>Olson timezone name for x-axis scale and date parsing. If
+NULL the timezone of the specified monitor will be used.</p></td>
     </tr>
     <tr>
       <th>today</th>
@@ -200,7 +203,7 @@ bar for Today. Ignored if data is not current.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/PWFSLSmoke/topics/Carmel_Valley'>Carmel_Valley</a></span>
 <span class='fu'>monitor_ggDailyBarplot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>)</div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1272 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_bar).</span></div><div class='img'><img src='monitor_ggDailyBarplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 7 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_rect).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_rect).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_text).</span></div><div class='img'><img src='monitor_ggDailyBarplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
 <span class='fu'>monitor_ggDailyBarplot</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='st'>"410432002_01"</span>, <span class='kw'>today</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)

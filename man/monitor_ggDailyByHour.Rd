@@ -17,7 +17,8 @@ be parsed with \link{parseDatetime}.}
 \item{enddate}{Desired enddate for data to include, in a format that can be
 parsed with \link{parseDatetime}.}
 
-\item{monitorID}{monitorID to include in the plot.}
+\item{monitorID}{monitorID to include in the plot. This can be NULL if
+\emph{ws_monitor} only has one unique monitorID.}
 
 \item{style}{String indicating plotting style. Either \code{"large"} or
 \code{"small"}. \code{style = "large"} is suitable for plots larger than
@@ -25,9 +26,8 @@ parsed with \link{parseDatetime}.}
 
 \item{title}{Plot title. If NULL, a suitable title will be constructed.}
 
-\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
-present in the data, the data timezone will be used. If NULL and multiple
-timezones present, the default is UTC.}
+\item{timezone}{Olson timezone name for x-axis scale and date parsing. If
+NULL the timezone of the specified monitor will be used.}
 
 \item{...}{Additional arguments passed on to
 \code{\link{custom_pm25DiurnalScales}}.}
@@ -37,7 +37,10 @@ A \emph{ggplot} object.
 }
 \description{
 This function assembles various layers to create a production-ready
-diurnal plot for one or more monitors.
+diurnal plot for a single monitor.
+
+The full range of data in \code{ws_monitor} will be used unless both
+\code{startdate} and \code{enddate} are specified.
 }
 \examples{
 \dontrun{

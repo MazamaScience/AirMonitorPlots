@@ -4,6 +4,9 @@
 #' This function assembles various layers to create a production-ready
 #' daily barplot for one or more monitors.
 #'
+#' The full range of data in \code{ws_monitor} will be used unless both
+#' \code{startdate} and \code{enddate} are specified.
+#'
 #' @param ws_monitor A \code{ws_monitor} object.
 #' @param startdate Desired start date (integer or character in ymd format or
 #'   POSIXct).
@@ -84,7 +87,7 @@ monitor_ggDailyBarplot <- function(
   }
 
   # NOTE: Include before getting timezone
-  ws_tidy <- filter(ws_tidy, .data$monitorID == !!monitorID)
+  ws_tidy <- dplyr::filter(ws_tidy, .data$monitorID == !!monitorID)
 
   # Check timezone
   if (!is.null(timezone)) {
@@ -98,18 +101,25 @@ monitor_ggDailyBarplot <- function(
 
   # Prepare data ---------------------------------------------------------------
 
-  dateRng <- MazamaCoreUtils::dateRange(
+  # Use full time range if startdate or enddate is missing
+  if ( is.null(startdate) || is.null(enddate) ) {
+    timeRange <- range(ws_tidy$datetime)
+    startdate <- timeRange[1]
+    enddate <- timeRange[2]
+  }
+
+  dateRange <- MazamaCoreUtils::dateRange(
     startdate = startdate,
     enddate = enddate,
     timezone = timezone,
     unit = "day"
   )
 
-  startdate <- dateRng[1]
-  enddate <- min(c(dateRng[2], lubridate::now(timezone)))
+  startdate <- dateRange[1]
+  enddate <- min(c(dateRange[2], lubridate::now(timezone)))
 
   ws_tidy <- ws_tidy %>%
-    filter(
+    dplyr::filter(
       .data$datetime >= startdate,
       .data$datetime < enddate
     )

@@ -5,8 +5,8 @@
 \title{Create a timeseries plot for one or more monitors}
 \usage{
 monitor_ggTimeseries(ws_monitor, startdate = NULL, enddate = NULL,
-  style = "small", aqiStyle = NULL, monitorIDs = NULL,
-  title = NULL, ...)
+  monitorIDs = NULL, style = "small", title = NULL,
+  aqiStyle = NULL, ...)
 }
 \arguments{
 \item{ws_monitor}{A \code{ws_monitor} object.}
@@ -17,17 +17,17 @@ POSIXct).}
 \item{enddate}{Desired end date (integer or character in ymd format or
 POSIXct).}
 
+\item{monitorIDs}{vector of monitorIDs to include in the plot. If more than
+one, different monitors will be plotted in different colors.}
+
 \item{style}{Plot style. \code{small} or \code{large}. \code{style = small}
 is appropriate for plots 450x450px or smaller; \code{style = large} is
 appropriate for plots larger than 450x450px.}
 
+\item{title}{Plot title. If NULL, a suitable title will be constructed.}
+
 \item{aqiStyle}{AQI style to add AQI color bars, lines, and labels. Not
 currently supported.}
-
-\item{monitorIDs}{vector of monitorIDs to include in the plot. If more than
-one, different monitors will be plotted in different colors.}
-
-\item{title}{Plot title. If NULL, a suitable title will be constructed.}
 
 \item{...}{Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.}
 }

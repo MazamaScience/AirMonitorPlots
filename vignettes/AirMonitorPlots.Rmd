@@ -64,21 +64,13 @@ monitor_ggDailyBarplot(ws_monitor = PWFSLSmoke::Carmel_Valley,
                        enddate = 20160808)
 ```
 
-It can also show aggregated daily averages for many monitors.
-
-```{r}
-monitor_ggDailyBarplot(PWFSLSmoke::Northwest_Megafires,
-                       startdate = 20150820, 
-                       enddate = 20150825)
-```
-
 If using current data, it will include a bar for "today", displaying the current NowCast, if available. 
 
 ```{r}
 latest <- airnow_loadLatest()
 monitor_ggDailyBarplot(latest,
                        startdate = lubridate::now() - lubridate::ddays(7),
-                      monitorID = "060631010_01")
+                       monitorID = "060631010_01")
 ```
 
 ### Daily By Hour

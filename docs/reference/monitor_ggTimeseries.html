@@ -73,7 +73,7 @@ timeseries plot for one or more monitors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
       </span>
     </div>
 
@@ -140,8 +140,8 @@ timeseries plot for one or more monitors.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_ggTimeseries</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"small"</span>, <span class='kw'>aqiStyle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"small"</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>aqiStyle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,24 +161,24 @@ POSIXct).</p></td>
 POSIXct).</p></td>
     </tr>
     <tr>
+      <th>monitorIDs</th>
+      <td><p>vector of monitorIDs to include in the plot. If more than
+one, different monitors will be plotted in different colors.</p></td>
+    </tr>
+    <tr>
       <th>style</th>
       <td><p>Plot style. <code>small</code> or <code>large</code>. <code>style = small</code>
 is appropriate for plots 450x450px or smaller; <code>style = large</code> is
 appropriate for plots larger than 450x450px.</p></td>
     </tr>
     <tr>
+      <th>title</th>
+      <td><p>Plot title. If NULL, a suitable title will be constructed.</p></td>
+    </tr>
+    <tr>
       <th>aqiStyle</th>
       <td><p>AQI style to add AQI color bars, lines, and labels. Not
 currently supported.</p></td>
-    </tr>
-    <tr>
-      <th>monitorIDs</th>
-      <td><p>vector of monitorIDs to include in the plot. If more than
-one, different monitors will be plotted in different colors.</p></td>
-    </tr>
-    <tr>
-      <th>title</th>
-      <td><p>Plot title. If NULL, a suitable title will be constructed.</p></td>
     </tr>
     <tr>
       <th>...</th>

@@ -5,8 +5,8 @@
 \title{Create a daily barplot for one or more monitors}
 \usage{
 monitor_ggDailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
-  monitorIDs = NULL, style = "small", title = NULL,
-  timezone = NULL, today = TRUE, ...)
+  monitorID = NULL, style = "small", title = NULL, timezone = NULL,
+  today = TRUE, ...)
 }
 \arguments{
 \item{ws_monitor}{A \code{ws_monitor} object.}
@@ -17,8 +17,8 @@ POSIXct).}
 \item{enddate}{Desired end date (integer or character in ymd format or
 POSIXct).}
 
-\item{monitorIDs}{vector of monitorIDs to include in the plot. If more than
-one, different monitors will be plotted in different colors.}
+\item{monitorID}{monitorID to include in the plot. This can be NULL if
+\emph{ws_monitor} only has one unique monitorID.}
 
 \item{style}{String indicating plotting style. Either \code{"large"} or
 \code{"small"}. \code{style = "large"} is suitable for plots larger than
@@ -26,9 +26,8 @@ one, different monitors will be plotted in different colors.}
 
 \item{title}{Plot title. If NULL, a suitable title will be constructed.}
 
-\item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
-present in the data, the data timezone will be used. If NULL and multiple
-timezones present, the default is UTC.}
+\item{timezone}{Olson timezone name for x-axis scale and date parsing. If
+NULL the timezone of the specified monitor will be used.}
 
 \item{today}{Logical indicating whether to include a shaded "current NowCast"
 bar for Today. Ignored if data is not current.}
@@ -41,6 +40,9 @@ A \emph{ggplot} object
 \description{
 This function assembles various layers to create a production-ready
 daily barplot for one or more monitors.
+
+The full range of data in \code{ws_monitor} will be used unless both
+\code{startdate} and \code{enddate} are specified.
 }
 \examples{
 ws_monitor <- PWFSLSmoke::Carmel_Valley

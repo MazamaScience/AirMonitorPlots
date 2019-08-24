@@ -3,8 +3,6 @@ test_that("parameters are validated", {
   ws_cv <- PWFSLSmoke::Carmel_Valley
 
   expect_error(monitor_ggDailyByHour("ws_cv"))
-  expect_error(monitor_ggDailyByHour(ws_cv, startdate = 20200101))
-  expect_error(monitor_ggDailyByHour(ws_cv, enddate = 18080808))
   expect_error(monitor_ggDailyByHour(ws_cv, monitorID = "invalid"))
   expect_error(monitor_ggDailyByHour(ws_cv, style = "invalid"))
   expect_error(monitor_ggDailyByHour(ws_cv, timezone = "invalid"))

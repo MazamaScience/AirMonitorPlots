@@ -4,6 +4,9 @@
 #' This function assembles various layers to create a production-ready
 #' diurnal plot for a single monitor.
 #'
+#' The full range of data in \code{ws_monitor} will be used unless both
+#' \code{startdate} and \code{enddate} are specified.
+#'
 #' @inheritParams ggplot_pm25Diurnal
 #' @param ws_monitor A \code{ws_monitor} object.
 #' @param monitorID monitorID to include in the plot. This can be NULL if
@@ -74,7 +77,7 @@ monitor_ggDailyByHour <- function(
   }
 
   # NOTE: Include before getting timezone
-  ws_tidy <- filter(ws_tidy, .data$monitorID == !!monitorID)
+  ws_tidy <- dplyr::filter(ws_tidy, .data$monitorID == !!monitorID)
 
   # Check timezone
   if (!is.null(timezone)) {
@@ -88,17 +91,25 @@ monitor_ggDailyByHour <- function(
 
   # Prepare data ---------------------------------------------------------------
 
-  dateRng <- MazamaCoreUtils::dateRange(
+  # Use full time range if startdate or enddate is missing
+  if ( is.null(startdate) || is.null(enddate) ) {
+    timeRange <- range(ws_tidy$datetime)
+    startdate <- timeRange[1]
+    enddate <- timeRange[2]
+  }
+
+  dateRange <- MazamaCoreUtils::dateRange(
     startdate = startdate,
     enddate = enddate,
     timezone = timezone,
     unit = "day"
   )
 
-  ws_tidy <- ws_tidy %>%
-    filter(
-      .data$datetime >= dateRng[1],
-      .data$datetime < dateRng[2]
+  ws_tidy <-
+    ws_tidy %>%
+    dplyr::filter(
+      .data$datetime >= dateRange[1],
+      .data$datetime < dateRange[2]
     )
 
 
@@ -118,10 +129,10 @@ monitor_ggDailyByHour <- function(
 
   # * Separate data for 'yesterday' and 'today' --------------------------------
 
-  today_string <- dateRng[2] %>%
+  today_string <- dateRange[2] %>%
     magrittr::subtract(lubridate::days(1)) %>%
     strftime("%Y%m%d", tz = timezone)
-  yesterday_string <- dateRng[2] %>%
+  yesterday_string <- dateRange[2] %>%
     magrittr::subtract(lubridate::days(2)) %>%
     strftime("%Y%m%d", tz = timezone)
 
@@ -138,7 +149,7 @@ monitor_ggDailyByHour <- function(
   }
 
   # Get labels for legend
-  meanText <- paste0(as.integer(difftime(dateRng[2], dateRng[1], units = "days")), " Day Mean")
+  meanText <- paste0(as.integer(difftime(dateRange[2], dateRange[1], units = "days")), " Day Mean")
 
   if (style == "large") {
     meanSize <- 8
@@ -162,8 +173,8 @@ monitor_ggDailyByHour <- function(
   plot <-
     ggplot_pm25Diurnal(
       ws_tidy,
-      startdate = dateRng[1],
-      enddate = dateRng[2],
+      startdate = dateRange[1],
+      enddate = dateRange[2],
       mapping = aes_(x = ~ hour, y = ~ nowcast),
       base_size = base_size,
       ...

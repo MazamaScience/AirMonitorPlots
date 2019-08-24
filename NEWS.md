@@ -1,7 +1,13 @@
+# AirMonitorPlots 0.5.4
+
+* Now using `MazamaCoreUtils::dateRange()`.
+* Consistent ordering of monitor_* function arguments.
+* Regularize `monitor_ggDailyBarplot()`.
+* Make `monitor_ggDailyByHour()` more consistent.
+
 # AirMonitorPlots 0.5.3
 
 **Rename package from `PWFSLSmokePlots` to `AirMonitorPlots`.**
-
 
 # AirMonitorPlots 0.5.2
 
