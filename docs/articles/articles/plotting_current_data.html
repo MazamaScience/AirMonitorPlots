@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.5</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
       <h1>Plotting Current Data</h1>
                         <h4 class="author">Helen Miller</h4>
             
-            <h4 class="date">2019-08-24</h4>
+            <h4 class="date">2019-08-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitorPlots/blob/master/vignettes/articles/plotting_current_data.Rmd"><code>vignettes/articles/plotting_current_data.Rmd</code></a></small>
       <div class="hidden name"><code>plotting_current_data.Rmd</code></div>
@@ -103,44 +103,44 @@
     
     
 <p><code>AirMonitorPlots</code> provides functions to easily generate stylized plots of current data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(AirMonitorPlots)
-<span class="co"># Load current Data</span>
-ws_monitor &lt;-<span class="st"> </span><span class="kw">loadLatest</span>()</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set parameters</span>
-monitorID &lt;-<span class="st"> "060771002_01"</span>
-enddate &lt;-<span class="st"> </span>lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/now.html">now</a></span>()
-startdate &lt;-<span class="st"> </span>enddate <span class="op">-</span><span class="st"> </span>lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/duration.html">ddays</a></span>(<span class="dv">7</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(AirMonitorPlots)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># Load current Data</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">ws_monitor &lt;-<span class="st"> </span><span class="kw">loadLatest</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Set parameters</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">monitorID &lt;-<span class="st"> "060771002_01"</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">enddate &lt;-<span class="st"> </span>lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/now.html">now</a></span>()</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">startdate &lt;-<span class="st"> </span>enddate <span class="op">-</span><span class="st"> </span>lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/duration.html">ddays</a></span>(<span class="dv">7</span>)</a></code></pre></div>
 <div id="timeseries" class="section level2">
 <h2 class="hasAnchor">
 <a href="#timeseries" class="anchor"></a>Timeseries</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span>(
-  ws_monitor,
-  <span class="dt">startdate =</span> startdate,
-  <span class="dt">enddate =</span> enddate,
-  <span class="dt">monitorIDs =</span> monitorID
-)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span>(</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  ws_monitor,</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="dt">startdate =</span> startdate,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">enddate =</span> enddate,</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="dt">monitorIDs =</span> monitorID</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">)</a></code></pre></div>
 <p><img src="plotting_current_data_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div id="daily-barplots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#daily-barplots" class="anchor"></a>Daily Barplots</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span>(
-  ws_monitor,
-  <span class="dt">startdate =</span> startdate,
-  <span class="dt">enddate =</span> enddate,
-  <span class="dt">monitorID =</span> monitorID
-)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span>(</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  ws_monitor,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">startdate =</span> startdate,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">enddate =</span> enddate,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">monitorID =</span> monitorID</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">)</a></code></pre></div>
 <p><img src="plotting_current_data_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
 <div id="diurnal-dailybyhour" class="section level2">
 <h2 class="hasAnchor">
 <a href="#diurnal-dailybyhour" class="anchor"></a>Diurnal (dailyByHour)</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span>(
-  ws_monitor,
-  <span class="dt">startdate =</span> startdate,
-  <span class="dt">enddate =</span> enddate,
-  <span class="dt">monitorID =</span> monitorID
-) </code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  ws_monitor,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">startdate =</span> startdate,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">enddate =</span> enddate,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">monitorID =</span> monitorID</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">) </a></code></pre></div>
 <p><img src="plotting_current_data_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
   </div>
