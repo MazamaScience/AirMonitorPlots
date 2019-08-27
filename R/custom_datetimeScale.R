@@ -143,9 +143,9 @@ custom_datetimeScale <- function(
   # Calculate labels -----------------------------------------------------------
 
   if (!today_label) {
-    labels <- strftime(breaks, date_labels)
+    labels <- strftime(breaks, date_labels, tz = timezone)
     if (
-      lubridate::floor_date(lubridate::now(timezone), "day") %in%
+      lubridate::floor_date(lubridate::now(tzone = timezone), "day") %in%
       lubridate::floor_date(breaks, "day")
     ) {
       labels[length(labels)] <- ""
