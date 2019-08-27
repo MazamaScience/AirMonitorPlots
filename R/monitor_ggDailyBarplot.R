@@ -116,7 +116,7 @@ monitor_ggDailyBarplot <- function(
   )
 
   startdate <- dateRange[1]
-  enddate <- min(c(dateRange[2], lubridate::now(timezone)))
+  enddate <- min(c(dateRange[2], lubridate::now(tzone = timezone)))
 
   ws_tidy <- ws_tidy %>%
     dplyr::filter(
@@ -145,14 +145,14 @@ monitor_ggDailyBarplot <- function(
   }
 
   # Set "today"
-  if (isFALSE(all.equal(enddate, lubridate::ceiling_date(lubridate::now(timezone), "day")))) {
+  if (isFALSE(all.equal(enddate, lubridate::ceiling_date(lubridate::now(tzone = timezone), "day")))) {
     today <- FALSE
   }
 
   # Create "current nowcast" bar
   if (today) {
 
-    now <- lubridate::now()
+    now <- lubridate::now(tzone = timezone)
     lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
 
     if (now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(5)) {

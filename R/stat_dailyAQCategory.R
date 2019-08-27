@@ -222,10 +222,10 @@ StatDailyAQILevel <- ggproto(
     }
 
     # Make sure there is no mean for today
-    date <- strftime(as.POSIXct(data$x, origin = "1970-01-01"), "%Y%m%d")
-    if (strftime(lubridate::now(timezone), "%Y%m%d") %in% date) {
-      data$y[which(date == strftime(lubridate::now(timezone), "%Y%m%d"))] <- NA
-      data$fill[which(date == strftime(lubridate::now(timezone), "%Y%m%d"))] <- NA
+    date <- strftime(as.POSIXct(data$x, origin = "1970-01-01"), "%Y%m%d", tz = timezone)
+    if (strftime(lubridate::now(tzone = timezone), "%Y%m%d", tz = timezone) %in% date) {
+      data$y[which(date == strftime(lubridate::now(tzone = timezone), "%Y%m%d", tz = timezone))] <- NA
+      data$fill[which(date == strftime(lubridate::now(tzone = timezone), "%Y%m%d", tz = timezone))] <- NA
     }
 
     return(data)
