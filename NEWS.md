@@ -1,3 +1,7 @@
+# AirMonitorPlots 0.5.5
+
+Use explicit timezones throughout package
+
 # AirMonitorPlots 0.5.4
 
 * Now using `MazamaCoreUtils::dateRange()`.
