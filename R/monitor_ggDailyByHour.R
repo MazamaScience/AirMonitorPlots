@@ -170,7 +170,7 @@ monitor_ggDailyByHour <- function(
 
   # Create plot ----------------------------------------------------------------
 
-  plot <-
+  gg <-
     ggplot_pm25Diurnal(
       ws_tidy,
       startdate = dateRange[1],
@@ -188,29 +188,39 @@ monitor_ggDailyByHour <- function(
       size = meanSize,
       alpha = .3,
       lineend = "round"
-    ) +
-    # Yesterday line
-    geom_line(aes(color = "Yesterday"), data = yesterday, size = yesterdayLineSize) +
-    # Yesterday points
-    stat_AQCategory(
-      aes(color = "Yesterday"),
-      data = yesterday,
-      geom = "point",
-      nowcast = FALSE,
-      shape = 21,
-      size = yesterdayPointSize
-    ) +
-    # Today line
-    geom_line(aes(color = "Today"), data = today, size = todayLineSize) +
-    # Today points
-    stat_AQCategory(
-      aes(color = "Today"),
-      data = today,
-      geom = "point",
-      nowcast = FALSE,
-      shape = 21,
-      size = todayPointSize
-    )  +
+    )
+
+  if ( nrow(yesterday) > 0 ) {
+    gg <- gg +
+      # Yesterday line
+      geom_line(aes(color = "Yesterday"), data = yesterday, size = yesterdayLineSize) +
+      # Yesterday points
+      stat_AQCategory(
+        aes(color = "Yesterday"),
+        data = yesterday,
+        geom = "point",
+        nowcast = FALSE,
+        shape = 21,
+        size = yesterdayPointSize
+      )
+  }
+
+  if ( nrow(today) > 0 ) {
+    gg <- gg +
+      # Today line
+      geom_line(aes(color = "Today"), data = today, size = todayLineSize) +
+      # Today points
+      stat_AQCategory(
+        aes(color = "Today"),
+        data = today,
+        geom = "point",
+        nowcast = FALSE,
+        shape = 21,
+        size = todayPointSize
+      )
+  }
+
+  gg <- gg +
     # Title
     ggtitle(title) +
     # Theme
@@ -237,9 +247,9 @@ monitor_ggDailyByHour <- function(
     )
   )
 
-  plot <- plot + scale + guide
+  gg <- gg + scale + guide
 
-  return(plot)
+  return(gg)
 
 }
 
@@ -253,7 +263,7 @@ if ( FALSE ) {
 
   dateRange <- MazamaCoreUtils::dateRange(enddate = 20190828,
                                           timezone = "UTC",
-                                          period = "hour")
+                                          unit = "hour")
 
   startdate <- dateRange[1]
   enddate <- dateRange[2]

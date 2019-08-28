@@ -1,7 +1,9 @@
 # AirMonitorPlots 0.5.6
 
-Add option for SCAQMD coloring in `stat_meanByHour()`, accessible by calling
+* Added option for SCAQMD coloring in `stat_meanByHour()`, accessible by calling
 `stat_meanByHour(output = "scaqmd")`.
+* `monitor_ggDailyByHour()` now checks for available data for "yesterday" and
+"today" before attempting to plot those lines.
 
 # AirMonitorPlots 0.5.5
 
