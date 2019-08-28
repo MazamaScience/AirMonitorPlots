@@ -139,7 +139,7 @@ StatDailyAQILevel <- ggproto(
         dailyMean = if_else(.data$count < minHours, NA_real_, .data$dailyMean),
         datetime = .data$date %>%
           strptime("%Y%m%d", tz = timezone) %>%
-          as.POSIXct() %>%
+          as.POSIXct(tz = timezone) %>%
           magrittr::add(lubridate::dhours(12)) %>%
           as.numeric()
       )
@@ -222,7 +222,7 @@ StatDailyAQILevel <- ggproto(
     }
 
     # Make sure there is no mean for today
-    date <- strftime(as.POSIXct(data$x, origin = "1970-01-01"), "%Y%m%d", tz = timezone)
+    date <- strftime(as.POSIXct(data$x, tz = timezone, origin = "1970-01-01"), "%Y%m%d", tz = timezone)
     if (strftime(lubridate::now(tzone = timezone), "%Y%m%d", tz = timezone) %in% date) {
       data$y[which(date == strftime(lubridate::now(tzone = timezone), "%Y%m%d", tz = timezone))] <- NA
       data$fill[which(date == strftime(lubridate::now(tzone = timezone), "%Y%m%d", tz = timezone))] <- NA
