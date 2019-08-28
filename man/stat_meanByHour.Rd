@@ -17,14 +17,14 @@ the default mapping at the top level of the plot. You must supply
 \item{data}{The data to be displayed in this layer. There are three options:
 if \code{NULL}, the default, the data is inherited from the plot data. A
 \code{data.frame} or other object, will override the plot data. A
-\code{function} will be called witha  single argument, the plot data. The
+\code{function} will be called with a single argument, the plot data. The
 return value must be a \code{data.frame}, and will be used as the layer
 data.}
 
 \item{input}{The value to find the mean of. If \code{NULL}, the default
 \code{y} value will be used.}
 
-\item{output}{"AQIColors", "mv4Colors", "y"}
+\item{output}{"AQIColors", "mv4Colors", "scaqmd", "y"}
 
 \item{geom}{The geometic object to display the data}
 
