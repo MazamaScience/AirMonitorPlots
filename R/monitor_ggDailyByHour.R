@@ -242,3 +242,29 @@ monitor_ggDailyByHour <- function(
   return(plot)
 
 }
+
+# ===== DEBUGGING ==============================================================
+
+if ( FALSE ) {
+
+  # BUG ==> ggplot errors when plotting ddata right after UTC midnight
+  # Most likely issue is today/yesterday tibbles with zero rows. We should
+  # check for this before these separate, custom points
+
+  dateRange <- MazamaCoreUtils::dateRange(enddate = 20190828,
+                                          timezone = "UTC",
+                                          period = "hour")
+
+  startdate <- dateRange[1]
+  enddate <- dateRange[2]
+
+  monitorID <- "530030004_01"
+
+  ws_monitor <-
+    monitor_load(startdate, enddate, monitorID)
+
+  style <- "small"
+  title <- NULL
+  timezone <- "UTC"
+
+}
