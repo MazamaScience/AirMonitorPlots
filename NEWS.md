@@ -1,6 +1,11 @@
+# AirMonitorPlots 0.5.6
+
+Add option for SCAQMD coloring in `stat_meanByHour()`, accessible by calling
+`stat_meanByHour(output = "scaqmd")`.
+
 # AirMonitorPlots 0.5.5
 
-Use explicit timezones throughout package
+Use explicit time zones throughout package
 
 # AirMonitorPlots 0.5.4
 
@@ -135,7 +140,7 @@ Addresses the following issues regarding the daily-hourly-barplot:
 # AirMonitorPlots 0.3.0 -- daily-hourly barplot
 
  * Added `daily-hourly barplot`(). This is  a
-timeseries barplot showing PM2.5 data for the given monitors. The overall plot
+time series barplot showing PM2.5 data for the given monitors. The overall plot
 is faceted by monitor, and each facet has two sets of columns: one for daily
 levels, and one for hourly levels.
 
