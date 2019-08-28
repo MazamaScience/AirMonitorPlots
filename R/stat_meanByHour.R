@@ -12,10 +12,10 @@
 #' @param data The data to be displayed in this layer. There are three options:
 #'   if \code{NULL}, the default, the data is inherited from the plot data. A
 #'   \code{data.frame} or other object, will override the plot data. A
-#'   \code{function} will be called witha  single argument, the plot data. The
+#'   \code{function} will be called with a single argument, the plot data. The
 #'   return value must be a \code{data.frame}, and will be used as the layer
 #'   data.
-#' @param output "AQIColors", "mv4Colors", "y"
+#' @param output "AQIColors", "mv4Colors", "scaqmd", "y"
 #' @param input The value to find the mean of. If \code{NULL}, the default
 #'   \code{y} value will be used.
 #' @param geom The geometic object to display the data
@@ -123,6 +123,7 @@ StatMeanByGroup <- ggproto(
 
       # Add column for AQI level
       data$aqi <- .bincode(means$mean, AQI$breaks_24, include.lowest = TRUE)
+
       if (!"colour" %in% names(data)) {
         if (output == "mv4Colors") {
           data$colour <- AQI$mv4Colors[data$aqi]
@@ -137,6 +138,21 @@ StatMeanByGroup <- ggproto(
         } else {
           data$fill <- AQI$colors[data$aqi]
         }
+      }
+
+    } else if (output == "scaqmd") {
+
+      scaqmd_breaks <- c(0, 12, 35, 55, 75, 6000)
+      scaqmd_colors <- c("#ABEBFF", "#3B8AFF", "#002ADE", "#9F00DE", "#6B0096")
+
+      data$aqi <- .bincode(means$mean, breaks = scaqmd_breaks, include.lowest = TRUE)
+
+      if (!"colour" %in% names(data)) {
+        data$colour <- scaqmd_colors[data$aqi]
+      }
+
+      if (!"fill" %in% names(data)) {
+        data$fill <- scaqmd_colors[data$aqi]
       }
 
     } else {
