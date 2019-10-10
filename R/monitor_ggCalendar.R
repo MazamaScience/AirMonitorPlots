@@ -1,3 +1,20 @@
+#' Calendar Plot
+#'
+#' Annual calendar view of a daily reading using a selected input.
+#'
+#' @param ws_monitor a \emph{ws_monitor} object.
+#' @param monitorID a monitorID in the \emph{ws_monitor} object.
+#' @param ncol the amount of columns in the plot.
+#' @param title an optional title.
+#' @param discrete a boolean that determines the color scale.
+#' @param breaks the color scale break points.
+#' @param break_labels the scale breaks names.
+#' @param aspect_ratio the plot aspect ratio.
+#' @param legend_title an optional title used in the legend.
+#' @param stat the statistic used for daily aggregation (default: "mean").
+#'
+#' @return ggobject
+#' @export
 monitor_ggCalendar <-
   function( ws_monitor = NULL,
             monitorID = NULL,
@@ -70,18 +87,18 @@ monitor_ggCalendar <-
     names(df)[2] <- "pm25"
 
     # Create calendar plot handler data frame
-    df$datetime <- zoo::as.Date(df$datetime)  # format date
-    df$day <- as.numeric(strftime(df$datetime, format = "%d"))
-    df$yearmonth <- zoo::as.yearmon(df$datetime)
+    df$datetime   <- zoo::as.Date(df$datetime)  # format date
+    df$day        <- as.numeric(strftime(df$datetime, format = "%d"))
+    df$yearmonth  <- zoo::as.yearmon(df$datetime)
     df$yearmonthf <- factor(df$yearmonth)
-    df$week <- as.numeric(strftime(df$datetime, format = "%W"))
-    df$year <- as.numeric(strftime(df$datetime, format = "%Y"))
-    df$month <- as.numeric(strftime(df$datetime, format = "%m"))
-    df$monthf <- months.Date(df$datetime, abbreviate = TRUE)
-    df$weekdayf <- weekdays.Date(df$datetime, abbreviate = TRUE)
-    df$weekday <- as.numeric(strftime(df$datetime, format = "%d"))
-    df$monthweek <- as.numeric(NA) # placeholder
-    df$weekd <- ordered(df$weekdayf,
+    df$week       <- as.numeric(strftime(df$datetime, format = "%W"))
+    df$year       <- as.numeric(strftime(df$datetime, format = "%Y"))
+    df$month      <- as.numeric(strftime(df$datetime, format = "%m"))
+    df$monthf     <- months.Date(df$datetime, abbreviate = TRUE)
+    df$weekdayf   <- weekdays.Date(df$datetime, abbreviate = TRUE)
+    df$weekday    <- as.numeric(strftime(df$datetime, format = "%d"))
+    df$monthweek  <- as.numeric(NA) # placeholder
+    df$weekd      <- ordered(df$weekdayf,
                         levels = c( "Mon", "Tue", "Wed",
                                     "Thu", "Fri", "Sat", "Sun" ))
 
@@ -127,12 +144,13 @@ monitor_ggCalendar <-
     # ----- Create plot --------------------------------------------------------
 
     gg <-
-      ggplot2::ggplot( df,
-                       ggplot2::aes(
-                         stats::reorder(.data$monthweek,
-                                        dplyr::desc(.data$monthweek)),
-                         .data$weekd,
-                         fill = fill )
+      ggplot2::ggplot(
+        df,
+        ggplot2::aes(
+          stats::reorder(.data$monthweek, dplyr::desc(.data$monthweek) ),
+          .data$weekd,
+          fill = fill
+        )
       ) +
       ggplot2::geom_tile(color = "grey88", size=0.5) +
       ggplot2::facet_wrap( drop = TRUE,
