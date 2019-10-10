@@ -35,14 +35,14 @@ ggplot_pm25Timeseries <- function(
 
   if (
     !is.null(startdate) &&
-    parseDatetime(startdate) > range(ws_tidy$datetime)[2]
+    parseDatetime(startdate, timezone = timezone) > range(ws_tidy$datetime)[2]
   ) {
     stop("startdate is outside of data date range")
   }
 
   if (
     !is.null(enddate) &&
-    parseDatetime(enddate) < range(ws_tidy$datetime)[1]
+    parseDatetime(enddate, timezone = timezone) < range(ws_tidy$datetime)[1]
   ) {
     stop("enddate is outside of data date range")
   }

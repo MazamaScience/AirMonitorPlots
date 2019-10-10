@@ -57,10 +57,10 @@ monitor_ggClockPlot <- function(
 
   if (!is.null(startdate) & !is.null(enddate)) {
     daterange <- range(ws_tidy$datetime)
-    if (parseDatetime(startdate) > daterange[2]) {
+    if (parseDatetime(startdate, timezone = timezone) > daterange[2]) {
       stop("startdate is outside of data date range")
     }
-    if (parseDatetime(enddate) < daterange[1]) {
+    if (parseDatetime(enddate, timezone = timezone) < daterange[1]) {
       stop("enddate is outside of data date range")
     }
   }

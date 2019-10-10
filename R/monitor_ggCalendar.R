@@ -69,13 +69,11 @@ monitor_ggCalendar <-
           from = as.POSIXct(paste0(strftime( df$datetime,
                                              format = "%Y",
                                              tz = timezone )[2], "-01-01"),
-                            tz = strftime( df$datetime,
-                                           format = "%Z",
-                                           tz = timezone )[1]
-          ),
+                            tz = timezone),
           to = as.POSIXct(paste0(strftime( df$datetime,
                                            format = "%Y",
-                                           tz = timezone )[2], "-12-31")),
+                                           tz = timezone )[2], "-12-31"),
+                          tz = timezone ),
           by = "1 day"
         )
       )
@@ -87,16 +85,16 @@ monitor_ggCalendar <-
     names(df)[2] <- "pm25"
 
     # Create calendar plot handler data frame
-    df$datetime   <- zoo::as.Date(df$datetime)  # format date
-    df$day        <- as.numeric(strftime(df$datetime, format = "%d"))
-    df$yearmonth  <- zoo::as.yearmon(df$datetime)
+    df$datetime   <- zoo::as.Date(df$datetime, tz = timezone)  # format date
+    df$day        <- as.numeric(strftime(df$datetime, format = "%d", tz = timezone))
+    df$yearmonth  <- zoo::as.yearmon(df$datetime, tz = timezone)
     df$yearmonthf <- factor(df$yearmonth)
-    df$week       <- as.numeric(strftime(df$datetime, format = "%W"))
-    df$year       <- as.numeric(strftime(df$datetime, format = "%Y"))
-    df$month      <- as.numeric(strftime(df$datetime, format = "%m"))
+    df$week       <- as.numeric(strftime(df$datetime, format = "%W", tz = timezone))
+    df$year       <- as.numeric(strftime(df$datetime, format = "%Y", tz = timezone))
+    df$month      <- as.numeric(strftime(df$datetime, format = "%m", tz = timezone))
     df$monthf     <- months.Date(df$datetime, abbreviate = TRUE)
     df$weekdayf   <- weekdays.Date(df$datetime, abbreviate = TRUE)
-    df$weekday    <- as.numeric(strftime(df$datetime, format = "%d"))
+    df$weekday    <- as.numeric(strftime(df$datetime, format = "%d",tz = timezone))
     df$monthweek  <- as.numeric(NA) # placeholder
     df$weekd      <- ordered(df$weekdayf,
                         levels = c( "Mon", "Tue", "Wed",

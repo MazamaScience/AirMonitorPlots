@@ -50,6 +50,7 @@ monitor_ggTimeseries <- function(
   style = "small",
   title = NULL,
   aqiStyle = NULL,
+  timezone = NULL,
   ...
 ) {
 
@@ -72,10 +73,10 @@ monitor_ggTimeseries <- function(
     ))
   }
 
-  if (!is.null(startdate) && parseDatetime(startdate) > range(ws_tidy$datetime)[2]) {
+  if (!is.null(startdate) && parseDatetime(startdate, timezone = timezone) > range(ws_tidy$datetime)[2]) {
     stop("startdate is outside of data date range")
   }
-  if (!is.null(enddate) && parseDatetime(enddate) < range(ws_tidy$datetime)[1]) {
+  if (!is.null(enddate) && parseDatetime(enddate, timezone = timezone) < range(ws_tidy$datetime)[1]) {
     stop("enddate is outside of data date range")
   }
 
