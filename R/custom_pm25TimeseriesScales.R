@@ -6,10 +6,10 @@
 #'
 #' @param data pm25 timeseries data. Should match the default dataset of the
 #'   plot
-#' @param startdate Desired startdate for x-axis, in a format that can be parsed
-#'   with \link{parseDatetime}.
-#' @param enddate Desired enddate for x-axis, in a format that can be parsed
-#'   with \link{parseDatetime}.
+#' @param startdate Desired start date (integer or character in ymd format or
+#'   POSIXct).
+#' @param enddate Desired end date (integer or character in ymd format or
+#'   POSIXct).
 #' @param ylim custom y-axis limits. This function will apply a default limit
 #'   depending on the data.
 #' @param timezone Timezone for x-axis scale. If NULL and only one timezone
@@ -75,12 +75,12 @@ custom_pm25TimeseriesScales <- function(
 
   # Handle start/end dates -----------------------------------------------------
 
-  # TODO: can this all just be replaced with `parseDatetime`?
+  # TODO: can this all just be replaced with ``?
 
   # Handle various startdates
   if (!is.null(startdate)) {
     if (is.numeric(startdate) || is.character(startdate)) {
-      startdate <- parseDatetime(startdate, timezone = timezone)
+      startdate <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
     } else if (lubridate::is.POSIXct(startdate)) {
       startdate <- lubridate::force_tz(startdate, tzone = timezone)
     } else if (!is.null(startdate)) {
@@ -93,7 +93,7 @@ custom_pm25TimeseriesScales <- function(
   # Handle various enddates
   if (!is.null(enddate)) {
     if (is.numeric(enddate) || is.character(enddate)) {
-      enddate <- parseDatetime(enddate, timezone = timezone)
+      enddate <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
     } else if (lubridate::is.POSIXct(enddate)) {
       enddate <- lubridate::force_tz(enddate, tzone = timezone)
     } else if (!is.null(enddate)) {

@@ -1,6 +1,6 @@
 Type: Package
 Package: AirMonitorPlots
-Version: 0.5.6
+Version: 0.5.7
 Title: Plot Utilities for the PWFSLSmoke Package
 Description: A suite of ggplot2 compatible functions to be used with air quality
     monitoring data obtained with the PWFSLSmoke package. These functions provide
@@ -25,9 +25,12 @@ Imports:
     grid,
     lubridate,
     magrittr,
-    MazamaCoreUtils (>= 0.3.1),
+    MazamaCoreUtils (>= 0.3.10),
+    plyr,
     png,
-    rlang
+    rlang,
+    tidyr,
+    zoo
 Suggests:
     gridExtra,
     knitr,

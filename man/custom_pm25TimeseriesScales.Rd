@@ -12,11 +12,11 @@ custom_pm25TimeseriesScales(data = NULL, startdate = NULL,
 \item{data}{pm25 timeseries data. Should match the default dataset of the
 plot}
 
-\item{startdate}{Desired startdate for x-axis, in a format that can be parsed
-with \link{parseDatetime}.}
+\item{startdate}{Desired start date (integer or character in ymd format or
+POSIXct).}
 
-\item{enddate}{Desired enddate for x-axis, in a format that can be parsed
-with \link{parseDatetime}.}
+\item{enddate}{Desired end date (integer or character in ymd format or
+POSIXct).}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}

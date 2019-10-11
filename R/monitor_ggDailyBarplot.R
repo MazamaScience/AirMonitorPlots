@@ -54,22 +54,22 @@ monitor_ggDailyBarplot <- function(
   # Validate Parameters --------------------------------------------------------
 
   # Convert ws_monitor to tidy structure
-  if (monitor_isMonitor(ws_monitor)) {
+  if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)
   } else {
     stop("ws_monitor is not a ws_monitor object.")
   }
 
   # Check style
-  if (!style %in% c("small", "large"))
+  if ( !style %in% c("small", "large") )
     stop("Invalid style. Choose from 'small' or 'large'.")
 
   # Check today bar inclusion
-  if (!is.logical(today))
+  if ( !is.logical(today) )
     stop("'today' must be a logical (TRUE or FALSE).")
 
   # Check monitorID
-  if (is.null(monitorID)) {
+  if ( is.null(monitorID) ) {
 
     if (length(unique(ws_tidy$monitorID)) > 1) {
       stop("monitorID is required if `ws_monitor` has multiple monitors.")
@@ -90,7 +90,7 @@ monitor_ggDailyBarplot <- function(
   ws_tidy <- dplyr::filter(ws_tidy, .data$monitorID == !!monitorID)
 
   # Check timezone
-  if (!is.null(timezone)) {
+  if ( !is.null(timezone) ) {
     if (!timezone %in% OlsonNames()) {
       stop("Invalid timezone")
     }

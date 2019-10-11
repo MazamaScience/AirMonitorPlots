@@ -38,16 +38,28 @@ monitor_ggClockPlot <- function(
 
   # Validate parameters --------------------------------------------------------
 
-  if (monitor_isMonitor(ws_monitor)) {
+  if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)
   } else {
     stop("ws_monitor must be a `ws_monitor` object.")
   }
 
-  if (!is.null(timezone) && !timezone %in% OlsonNames())
-    stop("Invalid timezone.")
+  # Determine the timezone (code borrowed from custom_pm25TimeseriesScales.R)
+  if ( is.null(timezone) ) {
+    if ( length(unique(ws_tidy$timezone)) > 1 ) {
+      timezone <- "UTC"
+    } else {
+      timezone <- ws_tidy$timezone[1]
+    }
+  }
+  # Check timezone
+  if ( !is.null(timezone) ) {
+    if ( !timezone %in% OlsonNames() ) {
+      stop("Invalid timezone")
+    }
+  }
 
-  if (length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID))
+  if ( length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID) )
     stop("monitorID must be specified.")
 
   if (any(!monitorID %in% unique(ws_tidy$monitorID))) {
@@ -55,12 +67,12 @@ monitor_ggClockPlot <- function(
     stop(paste0("monitorID not present in data: ", paste0(invalidIDs, collapse = ", ")))
   }
 
-  if (!is.null(startdate) & !is.null(enddate)) {
+  if ( !is.null(startdate) & !is.null(enddate) ) {
     daterange <- range(ws_tidy$datetime)
-    if (parseDatetime(startdate, timezone = timezone) > daterange[2]) {
+    if (MazamaCoreUtils::parseDatetime(startdate, timezone = timezone) > daterange[2]) {
       stop("startdate is outside of data date range")
     }
-    if (parseDatetime(enddate, timezone = timezone) < daterange[1]) {
+    if (MazamaCoreUtils::parseDatetime(enddate, timezone = timezone) < daterange[1]) {
       stop("enddate is outside of data date range")
     }
   }
@@ -77,14 +89,14 @@ monitor_ggClockPlot <- function(
 
   # Subset based on startdate and enddate
   if (!is.null(startdate)) {
-    s <- parseDatetime(startdate, timezone = timezone)
+    s <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
     ws_tidy <- dplyr::filter(ws_tidy, .data$datetime >= lubridate::floor_date(s, unit = "day"))
   } else {
     startdate <- min(ws_tidy$datetime)
   }
 
   if (!is.null(enddate)) {
-    e <- parseDatetime(enddate, timezone = timezone)
+    e <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
     ws_tidy <- dplyr::filter(ws_tidy, .data$datetime <= lubridate::ceiling_date(e, unit = "day"))
   } else {
     enddate <- max(ws_tidy$datetime)

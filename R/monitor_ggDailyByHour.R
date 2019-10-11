@@ -80,8 +80,8 @@ monitor_ggDailyByHour <- function(
   ws_tidy <- dplyr::filter(ws_tidy, .data$monitorID == !!monitorID)
 
   # Check timezone
-  if (!is.null(timezone)) {
-    if (!timezone %in% OlsonNames()) {
+  if ( !is.null(timezone) ) {
+    if ( !timezone %in% OlsonNames() ) {
       stop("Invalid timezone")
     }
   } else {

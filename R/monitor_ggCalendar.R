@@ -1,6 +1,7 @@
-#' Calendar Plot
+#' @export
+#' @title Calendar plot
 #'
-#' Annual calendar view of a daily reading using a selected input.
+#' @description Annual calendar view of a daily reading using a selected input.
 #'
 #' @param ws_monitor a \emph{ws_monitor} object.
 #' @param monitorID a monitorID in the \emph{ws_monitor} object.
@@ -14,7 +15,7 @@
 #' @param stat the statistic used for daily aggregation (default: "mean").
 #'
 #' @return ggobject
-#' @export
+#'
 monitor_ggCalendar <-
   function( ws_monitor = NULL,
             monitorID = NULL,
@@ -27,27 +28,34 @@ monitor_ggCalendar <-
             legend_title = NULL,
             stat = "mean" ) {
 
-    # ---- Debugging ----
+    # ===== Debugging ==========================================================
+
     if (FALSE) {
+
       ws_monitor <- PWFSLSmoke::Northwest_Megafires
       monitorID <- ws_monitor$meta$monitorID[1]
       ncol = 4
       discrete = TRUE
       aspect_ratio = 1
+
     }
 
-    # Checks
+    # ----- Validate parameters ------------------------------------------------
+
     if ( !PWFSLSmoke::monitor_isMonitor(ws_monitor) )
       stop("Parameter 'ws_monitor' is not a valid 'ws_monitor' object.")
+
     if ( PWFSLSmoke::monitor_isEmpty(ws_monitor) )
       stop("Parameter 'ws_monitor' has no data")
+
     # Use first monitor if undefined
     if ( is.null(monitorID) ) {
       warning("Undefined monitorID: Using first monitor")
       monitorID <- ws_monitor$meta$monitorID[1]
     }
 
-    # Define the data used
+    # ----- Define the data used -----------------------------------------------
+
     monitor <-
       PWFSLSmoke::monitor_dailyStatistic(
         FUN = get(stat),
@@ -79,7 +87,7 @@ monitor_ggCalendar <-
       )
 
 
-    # ----- Prepare plot data -------------------------------------------------
+    # ----- Prepare plot data --------------------------------------------------
 
     # Rename the data column to "pm25"
     names(df)[2] <- "pm25"
@@ -111,7 +119,8 @@ monitor_ggCalendar <-
                   "week", "monthweek", "weekdayf",
                   "weekd", "day", "pm25" )]
 
-    # Defaults
+    # ----- Set plot defaults --------------------------------------------------
+
     if ( is.null(legend_title) ) {
       legend_title <- "PM2.5 (\u03bcg / m\u00b3)"
     }

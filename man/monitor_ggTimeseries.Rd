@@ -6,7 +6,7 @@
 \usage{
 monitor_ggTimeseries(ws_monitor, startdate = NULL, enddate = NULL,
   monitorIDs = NULL, style = "small", title = NULL,
-  aqiStyle = NULL, ...)
+  aqiStyle = NULL, timezone = NULL, ...)
 }
 \arguments{
 \item{ws_monitor}{A \code{ws_monitor} object.}
@@ -28,6 +28,9 @@ appropriate for plots larger than 450x450px.}
 
 \item{aqiStyle}{AQI style to add AQI color bars, lines, and labels. Not
 currently supported.}
+
+\item{timezone}{Olson timezone name for x-axis scale and date parsing. If
+NULL the timezone of the specified monitor will be used.}
 
 \item{...}{Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.}
 }

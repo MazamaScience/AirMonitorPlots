@@ -14,6 +14,8 @@
 #'   appropriate for plots larger than 450x450px.
 #' @param aqiStyle AQI style to add AQI color bars, lines, and labels. Not
 #'   currently supported.
+#' @param timezone Olson timezone name for x-axis scale and date parsing. If
+#'   NULL the timezone of the specified monitor will be used.
 #' @param monitorIDs vector of monitorIDs to include in the plot. If more than
 #'   one, different monitors will be plotted in different colors.
 #' @param title Plot title. If NULL, a suitable title will be constructed.
@@ -73,11 +75,33 @@ monitor_ggTimeseries <- function(
     ))
   }
 
-  if (!is.null(startdate) && parseDatetime(startdate, timezone = timezone) > range(ws_tidy$datetime)[2]) {
-    stop("startdate is outside of data date range")
+  # Determine the timezone (code borrowed from custom_pm25TimeseriesScales.R)
+  if ( is.null(timezone) ) {
+    if ( length(unique(ws_tidy$timezone)) > 1 ) {
+      timezone <- "UTC"
+    } else {
+      timezone <- ws_tidy$timezone[1]
+    }
   }
-  if (!is.null(enddate) && parseDatetime(enddate, timezone = timezone) < range(ws_tidy$datetime)[1]) {
-    stop("enddate is outside of data date range")
+  # Check timezone
+  if ( !is.null(timezone) ) {
+    if ( !timezone %in% OlsonNames() ) {
+      stop("Invalid timezone")
+    }
+  }
+
+  if ( !is.null(startdate) ) {
+    startdate <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
+    if ( startdate > range(ws_tidy$datetime)[2] ) {
+      stop("startdate is outside of data date range")
+    }
+  }
+
+  if ( !is.null(enddate) ) {
+    enddate <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
+    if ( enddate < range(ws_tidy$datetime)[1] ) {
+      stop("enddate is outside of data date range")
+    }
   }
 
   # Prepare data ---------------------------------------------------------------

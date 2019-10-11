@@ -11,11 +11,11 @@ custom_datetimeScale(startdate = NULL, enddate = NULL,
   includeFullEnddate = TRUE, today_label = TRUE, ...)
 }
 \arguments{
-\item{startdate}{Desired axis start date limit, in a format that can be
-parsed with \link{parseDatetime}.}
+\item{startdate}{Desired start date (integer or character in ymd format or
+POSIXct).}
 
-\item{enddate}{Desired axis end date limit, in a format that can be parsed
-with \link{parseDatetime}.}
+\item{enddate}{Desired end date (integer or character in ymd format or
+POSIXct).}
 
 \item{timezone}{Timezone for label formatting.}
 

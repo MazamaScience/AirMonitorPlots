@@ -4,10 +4,10 @@
 #' Add a date scale and custom formatting for creating
 #' consistent timeseries plots.
 #'
-#' @param startdate Desired axis start date limit, in a format that can be
-#'   parsed with \link{parseDatetime}.
-#' @param enddate Desired axis end date limit, in a format that can be parsed
-#'   with \link{parseDatetime}.
+#' @param startdate Desired start date (integer or character in ymd format or
+#'   POSIXct).
+#' @param enddate Desired end date (integer or character in ymd format or
+#'   POSIXct).
 #' @param timezone Timezone for label formatting.
 #' @param expand Vector of range expansion constants used to add some padding
 #'   around the data, to ensure that they are placed some distance away from the
@@ -72,7 +72,7 @@ custom_datetimeScale <- function(
   # Handle various startdates
   if (!is.null(startdate)) {
     if (is.numeric(startdate) || is.character(startdate)) {
-      startdate <- parseDatetime(startdate, timezone = timezone)
+      startdate <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
     } else if (lubridate::is.POSIXct(startdate)) {
       startdate <- lubridate::force_tz(startdate, tzone = timezone)
     } else if (!is.null(startdate)) {
@@ -85,7 +85,7 @@ custom_datetimeScale <- function(
   # Handle various enddates
   if (!is.null(enddate)) {
     if (is.numeric(enddate) || is.character(enddate)) {
-      enddate <- parseDatetime(enddate, timezone = timezone)
+      enddate <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
     } else if (lubridate::is.POSIXct(enddate)) {
       enddate <- lubridate::force_tz(enddate, tzone = timezone)
     } else if (!is.null(enddate)) {

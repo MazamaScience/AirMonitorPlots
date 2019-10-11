@@ -9,13 +9,13 @@ ggplot_pm25Timeseries(ws_data, startdate = NULL, enddate = NULL,
 }
 \arguments{
 \item{ws_data}{Default dataset to use when adding layers. Must be either a
-\code{ws_monitor}}
+\code{ws_monitor} or \code{ws_tidy} object.}
 
-\item{startdate}{Desired startdate for x-axis, in a format that can be parsed
-with \link{parseDatetime}.}
+\item{startdate}{Desired start date (integer or character in ymd format or
+POSIXct).}
 
-\item{enddate}{Desired enddate for x-axis, in a format that can be parsed
-with \link{parseDatetime}.}
+\item{enddate}{Desired end date (integer or character in ymd format or
+POSIXct).}
 
 \item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
 present in the data, the data timezone will be used. If NULL and multiple
@@ -24,7 +24,7 @@ timezones present, the default is UTC.}
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
 
-\item{base_size}{Base font size for theme object or \code{ws_tidy} object.}
+\item{base_size}{Base font size for theme}
 
 \item{...}{Additional arguments passed on to
 \code{\link{custom_datetimeScale}}.}
@@ -38,4 +38,5 @@ ws_monitor <- PWFSLSmoke::Carmel_Valley
 ggplot_pm25Timeseries(ws_monitor) +
   geom_point(shape = "square",
              alpha = .2)
+
 }

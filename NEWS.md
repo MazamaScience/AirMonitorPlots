@@ -1,3 +1,9 @@
+# AirMonitorPlots 0.5.7
+
+* New `monitor_ggCalendar()` function.
+* Updated to use *MazamaCoreUtils 0.3.10*.
+* Minor cleanup/refactoring.
+
 # AirMonitorPlots 0.5.6
 
 * Added option for SCAQMD coloring in `stat_meanByHour()`, accessible by calling
