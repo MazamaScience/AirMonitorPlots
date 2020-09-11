@@ -102,7 +102,8 @@ monitor_ggDailyByHour <- function(
     startdate = startdate,
     enddate = enddate,
     timezone = timezone,
-    unit = "day"
+    unit = "day",
+    ceilingEnd = TRUE
   )
 
   ws_tidy <-
