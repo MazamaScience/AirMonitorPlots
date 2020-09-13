@@ -4,9 +4,17 @@
 \alias{monitor_ggTimeseries}
 \title{Create a timeseries plot for one or more monitors}
 \usage{
-monitor_ggTimeseries(ws_monitor, startdate = NULL, enddate = NULL,
-  monitorIDs = NULL, style = "small", title = NULL,
-  aqiStyle = NULL, timezone = NULL, ...)
+monitor_ggTimeseries(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorIDs = NULL,
+  style = "small",
+  title = NULL,
+  aqiStyle = NULL,
+  timezone = NULL,
+  ...
+)
 }
 \arguments{
 \item{ws_monitor}{A \code{ws_monitor} object.}

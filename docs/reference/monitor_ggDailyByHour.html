@@ -80,7 +80,7 @@ startdate and enddate are specified." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -146,9 +146,16 @@ diurnal plot for a single monitor.</p>
 <code>startdate</code> and <code>enddate</code> are specified.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_ggDailyByHour</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"small"</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>monitor_ggDailyByHour</span>(
+  <span class='no'>ws_monitor</span>,
+  <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"small"</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,7 +212,7 @@ NULL the timezone of the specified monitor will be used.</p></td>
 }
 
 <span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='no'>Carmel_Valley</span>
-<span class='fu'>monitor_ggDailyByHour</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 5 rows containing missing values (geom_point).</span></div><div class='img'><img src='monitor_ggDailyByHour-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>monitor_ggDailyByHour</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 5 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='img'><img src='monitor_ggDailyByHour-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

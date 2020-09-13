@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -140,10 +140,18 @@
     <p>Annual calendar view of a daily reading using a selected input.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_ggCalendar</span>(<span class='kw'>ws_monitor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>discrete</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>break_labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>aspect_ratio</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>legend_title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"mean"</span>)</pre>
+    <pre class="usage"><span class='fu'>monitor_ggCalendar</span>(
+  <span class='kw'>ws_monitor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>discrete</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>break_labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>aspect_ratio</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>legend_title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"mean"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -78,7 +78,7 @@ plot. The default is to add a NowCast line." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -142,10 +142,20 @@ plot. The default is to add a NowCast line." />
 plot. The default is to add a NowCast line.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>stat_nowcast</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"pm"</span>,
-  <span class='kw'>includeShortTerm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"path"</span>, <span class='kw'>aqiColors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>stat_nowcast</span>(
+  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"pm"</span>,
+  <span class='kw'>includeShortTerm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"path"</span>,
+  <span class='kw'>aqiColors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -223,7 +233,7 @@ aesthetics.</p></td>
                       <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>,
                       <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>) +
   <span class='fu'><a href='geom_pm25Points.html'>geom_pm25Points</a></span>() +
-  <span class='fu'>stat_nowcast</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1276 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1265 rows containing missing values (geom_path).</span></div><div class='img'><img src='stat_nowcast-1.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'>stat_nowcast</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1276 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1265 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='stat_nowcast-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

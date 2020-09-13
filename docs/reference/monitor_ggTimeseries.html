@@ -78,7 +78,7 @@ timeseries plot for one or more monitors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -142,9 +142,17 @@ timeseries plot for one or more monitors." />
 timeseries plot for one or more monitors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_ggTimeseries</span>(<span class='no'>ws_monitor</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"small"</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>aqiStyle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>monitor_ggTimeseries</span>(
+  <span class='no'>ws_monitor</span>,
+  <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"small"</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>aqiStyle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,9 +213,9 @@ NULL the timezone of the specified monitor will be used.</p></td>
   <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20150815</span>,
   <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20150831</span>,
   <span class='kw'>monitorIDs</span> <span class='kw'>=</span> <span class='st'>"160690014_01"</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3304 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3298 rows containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries-1.png' alt='' width='700' height='433' /></div><div class='input'>
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3304 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3298 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>CV</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>PWFSLSmoke</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html'>Carmel_Valley</a></span>
-<span class='fu'>monitor_ggTimeseries</span>(<span class='no'>CV</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1299 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1288 rows containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>monitor_ggTimeseries</span>(<span class='no'>CV</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20160801</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20160810</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1299 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1288 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>ws_monitor</span> <span class='kw'>&lt;-</span> <span class='fu'>airnow_loadLatest</span>()
 <span class='fu'>monitor_ggTimeseries</span>(<span class='no'>ws_monitor</span>, <span class='kw'>monitorID</span> <span class='kw'>=</span> <span class='st'>"410432002_01"</span>)

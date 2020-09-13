@@ -78,7 +78,7 @@ consistent timeseries plots." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -142,11 +142,19 @@ consistent timeseries plots." />
 consistent timeseries plots.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>custom_datetimeScale</span>(<span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.05</span>), <span class='kw'>break_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>minor_break_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>date_labels</span> <span class='kw'>=</span> <span class='st'>"%b %d"</span>,
+    <pre class="usage"><span class='fu'>custom_datetimeScale</span>(
+  <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.05</span>),
+  <span class='kw'>break_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>minor_break_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>date_labels</span> <span class='kw'>=</span> <span class='st'>"%b %d"</span>,
   <span class='kw'>tick_location</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"midnight"</span>, <span class='st'>"midday"</span>)[<span class='fl'>1</span>],
-  <span class='kw'>includeFullEnddate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>today_label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>includeFullEnddate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>today_label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

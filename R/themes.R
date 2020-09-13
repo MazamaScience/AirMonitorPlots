@@ -27,7 +27,7 @@ theme_pwfsl <- function(
 
     # A little white space around the edges
     plot.margin = margin(
-      unit(1.5 * base_size, "pt"),    # Top
+      unit(2.0 * base_size, "pt"),    # Top
       unit(1.0 * base_size, "pt"),    # Right
       unit(1.5 * base_size, "pt"),    # Bottom
       unit(1.0 * base_size, "pt")     # Left

@@ -4,9 +4,17 @@
 \alias{custom_pm25TimeseriesScales}
 \title{PWFSL PM2.5 timeseries scales}
 \usage{
-custom_pm25TimeseriesScales(data = NULL, startdate = NULL,
-  enddate = NULL, ylim = NULL, timezone = NULL, xlab = NULL,
-  yexp = c(0.05, 0), xexp = c(0, 0.05), ...)
+custom_pm25TimeseriesScales(
+  data = NULL,
+  startdate = NULL,
+  enddate = NULL,
+  ylim = NULL,
+  timezone = NULL,
+  xlab = NULL,
+  yexp = c(0.05, 0),
+  xexp = c(0, 0.05),
+  ...
+)
 }
 \arguments{
 \item{data}{pm25 timeseries data. Should match the default dataset of the

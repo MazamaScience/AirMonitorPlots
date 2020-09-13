@@ -4,10 +4,22 @@
 \alias{stat_dailyAQCategory}
 \title{Add daily average air quality categories to a plot}
 \usage{
-stat_dailyAQCategory(mapping = NULL, data = NULL, mv4Colors = FALSE,
-  timezone = NULL, minHours = 18, width = 0.8, adjustylim = FALSE,
-  missingDataBar = TRUE, geom = "bar", position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+stat_dailyAQCategory(
+  mapping = NULL,
+  data = NULL,
+  mv4Colors = FALSE,
+  timezone = NULL,
+  minHours = 18,
+  width = 0.8,
+  adjustylim = FALSE,
+  missingDataBar = TRUE,
+  geom = "bar",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{aes()}. If

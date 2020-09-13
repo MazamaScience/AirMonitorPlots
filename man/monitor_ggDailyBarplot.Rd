@@ -4,9 +4,17 @@
 \alias{monitor_ggDailyBarplot}
 \title{Create a daily barplot for one or more monitors}
 \usage{
-monitor_ggDailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
-  monitorID = NULL, style = "small", title = NULL, timezone = NULL,
-  today = TRUE, ...)
+monitor_ggDailyBarplot(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorID = NULL,
+  style = "small",
+  title = NULL,
+  timezone = NULL,
+  today = TRUE,
+  ...
+)
 }
 \arguments{
 \item{ws_monitor}{A \code{ws_monitor} object.}

@@ -4,9 +4,18 @@
 \alias{stat_AQCategory}
 \title{Add air quality categories to a plot}
 \usage{
-stat_AQCategory(mapping = NULL, data = NULL, mv4Colors = FALSE,
-  nowcast = TRUE, geom = "bar", position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+stat_AQCategory(
+  mapping = NULL,
+  data = NULL,
+  mv4Colors = FALSE,
+  nowcast = TRUE,
+  geom = "bar",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{aes()}. If

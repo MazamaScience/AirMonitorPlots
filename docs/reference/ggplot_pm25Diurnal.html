@@ -78,7 +78,7 @@ be added to this plot using ggplot2 syntax." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -142,9 +142,17 @@ be added to this plot using ggplot2 syntax." />
 be added to this plot using <code>ggplot2</code> syntax.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggplot_pm25Diurnal</span>(<span class='no'>ws_data</span>, <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>shadedNight</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'>aes_</span>(<span class='kw'>x</span> <span class='kw'>=</span> ~<span class='no'>hour</span>, <span class='kw'>y</span> <span class='kw'>=</span> ~<span class='no'>pm25</span>), <span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>ggplot_pm25Diurnal</span>(
+  <span class='no'>ws_data</span>,
+  <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>shadedNight</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='fu'>aes_</span>(<span class='kw'>x</span> <span class='kw'>=</span> ~<span class='no'>hour</span>, <span class='kw'>y</span> <span class='kw'>=</span> ~<span class='no'>pm25</span>),
+  <span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>11</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

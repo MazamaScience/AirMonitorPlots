@@ -79,7 +79,7 @@ them as bars." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.8</span>
       </span>
     </div>
 
@@ -144,9 +144,18 @@ the data by AQ cateogry when it is added to a plot. The default is to add
 them as bars.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>stat_AQCategory</span>(<span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>nowcast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>stat_AQCategory</span>(
+  <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>mv4Colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>nowcast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"bar"</span>,
+  <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"identity"</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -222,7 +231,7 @@ aesthetics.</p></td>
   <span class='fu'>stat_AQCategory</span>(<span class='kw'>geom</span> <span class='kw'>=</span> <span class='st'>"point"</span>,
                   <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>,
                   <span class='kw'>shape</span> <span class='kw'>=</span> <span class='fl'>21</span>,
-                  <span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1391 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1397 rows containing missing values (geom_point).</span></div><div class='img'><img src='stat_AQCategory-2.png' alt='' width='700' height='433' /></div></pre>
+                  <span class='kw'>color</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1391 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1397 rows containing missing values (geom_point).</span></div><div class='img'><img src='stat_AQCategory-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

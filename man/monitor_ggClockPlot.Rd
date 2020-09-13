@@ -4,8 +4,14 @@
 \alias{monitor_ggClockPlot}
 \title{Create a clock plot for one or more monitors}
 \usage{
-monitor_ggClockPlot(ws_monitor, startdate = NULL, enddate = NULL,
-  monitorID = NULL, timezone = NULL, ...)
+monitor_ggClockPlot(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorID = NULL,
+  timezone = NULL,
+  ...
+)
 }
 \arguments{
 \item{ws_monitor}{A \emph{ws_monitor} object.}
