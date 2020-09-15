@@ -1,3 +1,9 @@
+# AirMonitorPlots 0.5.8
+
+* Bug fix for `monitor_ggDailyByHour()` so that it doesn't ignore data from
+"today".
+* Increased whitespace above titles.
+
 # AirMonitorPlots 0.5.7
 
 * New `monitor_ggCalendar()` function.

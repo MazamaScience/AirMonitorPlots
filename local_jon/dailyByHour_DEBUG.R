@@ -46,7 +46,7 @@ AirMonitorPlots::monitor_ggDailyByHour(
 
 # ----- With enddate just before midnight UTC, data is one day behind
 
-enddate <- MazamaCoreUtils::parseDatetime("2020-09-08 22:00:00", timezone = "UTC")
+enddate <- MazamaCoreUtils::parseDatetime("2020-09-12 22:00:00", timezone = "America/Los_Angeles")
 startdate <- enddate - lubridate::ddays(10)
 
 strftime(enddate, "%Y-%m-%d %H:%M:%S", tz = "America/Los_Angeles")
@@ -61,7 +61,7 @@ AirMonitorPlots::monitor_ggDailyByHour(
 
 # ----- With enddate just after midnight UTC, data is still one day behind
 
-enddate <- MazamaCoreUtils::parseDatetime("2020-09-09 02:00:00", timezone = "UTC")
+enddate <- MazamaCoreUtils::parseDatetime("2020-09-13 02:00:00", timezone = "America/Los_Angeles")
 startdate <- enddate - lubridate::ddays(10)
 
 strftime(enddate, "%Y-%m-%d %H:%M:%S", tz = "America/Los_Angeles")
