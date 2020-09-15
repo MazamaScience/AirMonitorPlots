@@ -37,7 +37,7 @@
 #'
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
-#' monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01", today = TRUE)
+#' monitor_ggDailyBarplot(ws_monitor, monitorID = "410432002_01", today = TRUE)
 #' }
 monitor_ggDailyBarplot <- function(
   ws_monitor,

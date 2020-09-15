@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@
 
 <meta property="og:title" content="Changelog" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -112,7 +115,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/MazamaScience/AirMonitorPlots">
+  <a href="https://github.com/MazamaScience/AirMonitorPlots/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -130,36 +133,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="airmonitorplots-0-5-7" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-5-7" class="anchor"></a>AirMonitorPlots 0.5.7</h1>
+    <div id="airmonitorplots-057" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.7">
+<a href="#airmonitorplots-057" class="anchor"></a>AirMonitorPlots 0.5.7</h1>
 <ul>
 <li>New <code><a href="../reference/monitor_ggCalendar.html">monitor_ggCalendar()</a></code> function.</li>
 <li>Updated to use <em>MazamaCoreUtils 0.3.10</em>.</li>
 <li>Minor cleanup/refactoring.</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-5-6" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-5-6" class="anchor"></a>AirMonitorPlots 0.5.6</h1>
+    <div id="airmonitorplots-056" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.6">
+<a href="#airmonitorplots-056" class="anchor"></a>AirMonitorPlots 0.5.6</h1>
 <ul>
 <li>Added option for SCAQMD coloring in <code><a href="../reference/stat_meanByHour.html">stat_meanByHour()</a></code>, accessible by calling <code><a href="../reference/stat_meanByHour.html">stat_meanByHour(output = "scaqmd")</a></code>.</li>
 <li>
 <code><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour()</a></code> now checks for available data for “yesterday” and “today” before attempting to plot those lines.</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-5-5" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-5-5" class="anchor"></a>AirMonitorPlots 0.5.5</h1>
+    <div id="airmonitorplots-055" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.5">
+<a href="#airmonitorplots-055" class="anchor"></a>AirMonitorPlots 0.5.5</h1>
 <p>Use explicit time zones throughout package</p>
 </div>
-    <div id="airmonitorplots-0-5-4" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-5-4" class="anchor"></a>AirMonitorPlots 0.5.4</h1>
+    <div id="airmonitorplots-054" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.4">
+<a href="#airmonitorplots-054" class="anchor"></a>AirMonitorPlots 0.5.4</h1>
 <ul>
 <li>Now using <code><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/dateRange.html">MazamaCoreUtils::dateRange()</a></code>.</li>
 <li>Consistent ordering of monitor_* function arguments.</li>
@@ -167,14 +170,14 @@
 <li>Make <code><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour()</a></code> more consistent.</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-5-3" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-5-3" class="anchor"></a>AirMonitorPlots 0.5.3</h1>
+    <div id="airmonitorplots-053" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.3">
+<a href="#airmonitorplots-053" class="anchor"></a>AirMonitorPlots 0.5.3</h1>
 <p><strong>Rename package from <code>PWFSLSmokePlots</code> to <code>AirMonitorPlots</code>.</strong></p>
 </div>
-    <div id="airmonitorplots-0-5-2" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-5-2" class="anchor"></a>AirMonitorPlots 0.5.2</h1>
+    <div id="airmonitorplots-052" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.2">
+<a href="#airmonitorplots-052" class="anchor"></a>AirMonitorPlots 0.5.2</h1>
 <p>Style refactoring and coalescing functions.</p>
 <div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
@@ -187,9 +190,9 @@
 <p>Style refactoring was done to make the package more consistent with current Mazama Science coding practices.</p>
 </div>
 </div>
-    <div id="airmonitorplots-0-5-1" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-5-1" class="anchor"></a>AirMonitorPlots 0.5.1</h1>
+    <div id="airmonitorplots-051" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.1">
+<a href="#airmonitorplots-051" class="anchor"></a>AirMonitorPlots 0.5.1</h1>
 <p>Cleanup of refactored code before CRAN submission</p>
 <ul>
 <li>renamed <code>_AQILevel()</code> functions to <code>_AQCategory()</code>
@@ -197,9 +200,9 @@
 <li>general improvements to documentation and code comments</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-5-0" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-5-0" class="anchor"></a>AirMonitorPlots 0.5.0</h1>
+    <div id="airmonitorplots-050" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.0">
+<a href="#airmonitorplots-050" class="anchor"></a>AirMonitorPlots 0.5.0</h1>
 <p>Complete refactoring of the code to utilize low level <code>ggplot</code> concepts.</p>
 <ul>
 <li>
@@ -207,9 +210,9 @@
 <li>Modularized with custom stats and geoms and <code>custom_</code> functions, making it easy to create customized plots.</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-4-4" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-4-4" class="anchor"></a>AirMonitorPlots 0.4.4</h1>
+    <div id="airmonitorplots-044" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.4">
+<a href="#airmonitorplots-044" class="anchor"></a>AirMonitorPlots 0.4.4</h1>
 <p>Adding standard plots used in the <a href="https://tools.airfire.org/monitoring/v4">USFS Monitoring site</a>.</p>
 <ul>
 <li>added <code>dailyBarplot()</code> and <code>dailyBarplotBase()</code>
@@ -222,9 +225,9 @@
 </li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-4-3" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-4-3" class="anchor"></a>AirMonitorPlots 0.4.3</h1>
+    <div id="airmonitorplots-043" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.3">
+<a href="#airmonitorplots-043" class="anchor"></a>AirMonitorPlots 0.4.3</h1>
 <p>Moving all base plot related code from <strong>PWFSLSmokePlot</strong> to <strong>PWFSLSmoke</strong> so that all functionality in the former is purely <strong>ggplot2</strong> based.</p>
 <ul>
 <li>removed <code>addPolygon()</code>, <code>addWindBarb()</code> and <code>addWindBarbs()</code>
@@ -235,16 +238,16 @@
 </li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-4-2" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-4-2" class="anchor"></a>AirMonitorPlots 0.4.2</h1>
+    <div id="airmonitorplots-042" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.2">
+<a href="#airmonitorplots-042" class="anchor"></a>AirMonitorPlots 0.4.2</h1>
 <ul>
 <li>updated for latest <strong>devtools</strong> package</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-4-1" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-4-1" class="anchor"></a>AirMonitorPlots 0.4.1</h1>
+    <div id="airmonitorplots-041" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.1">
+<a href="#airmonitorplots-041" class="anchor"></a>AirMonitorPlots 0.4.1</h1>
 <ul>
 <li>added <code>monitor_getDailyMean()</code> function</li>
 <li>added <code>clockPlot()</code> function</li>
@@ -252,9 +255,9 @@
 <li>added <code>aqiPalette()</code> function and unit test</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-4-0" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-4-0" class="anchor"></a>AirMonitorPlots 0.4.0</h1>
+    <div id="airmonitorplots-040" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.0">
+<a href="#airmonitorplots-040" class="anchor"></a>AirMonitorPlots 0.4.0</h1>
 <ul>
 <li>added unit test for <code>dailyHourlyBarplot()</code>
 </li>
@@ -268,25 +271,25 @@
 <li>wind barbs grow in length between zero and 5 knots</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-3-4" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-3-4" class="anchor"></a>AirMonitorPlots 0.3.4</h1>
+    <div id="airmonitorplots-034" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.4">
+<a href="#airmonitorplots-034" class="anchor"></a>AirMonitorPlots 0.3.4</h1>
 <ul>
 <li>added windBarbs function</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-3-3-daily-hourly-barplot-refinements" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-3-3-daily-hourly-barplot-refinements" class="anchor"></a>AirMonitorPlots 0.3.3 – daily-hourly barplot refinements</h1>
+    <div id="airmonitorplots-033--daily-hourly-barplot-refinements" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.3">
+<a href="#airmonitorplots-033--daily-hourly-barplot-refinements" class="anchor"></a>AirMonitorPlots 0.3.3 – daily-hourly barplot refinements</h1>
 <p>This release tweaks the calculation of NowCast in the daily-hourly-barplot:</p>
 <ul>
 <li>add the option to subset data with <code>tlim</code> argument (allows for proper NowCast calculation)</li>
 </ul>
 <p>This release also reverses the legend scale ordering for better visual consistency</p>
 </div>
-    <div id="airmonitorplots-0-3-2-daily-hourly-barplot-refinements" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-3-2-daily-hourly-barplot-refinements" class="anchor"></a>AirMonitorPlots 0.3.2 – daily-hourly barplot refinements</h1>
+    <div id="airmonitorplots-032--daily-hourly-barplot-refinements" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.2">
+<a href="#airmonitorplots-032--daily-hourly-barplot-refinements" class="anchor"></a>AirMonitorPlots 0.3.2 – daily-hourly barplot refinements</h1>
 <p>This release focuses on refining the visual aesthetics of the daily-hourly-barplot:</p>
 <ul>
 <li>Refactored the plot theme into its own function</li>
@@ -295,9 +298,9 @@
 <li>introduced the option to include a third column in the legend (Currently contains only dummy text and off by default.)</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-3-1-daily-hourly-barplot-refinements" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-3-1-daily-hourly-barplot-refinements" class="anchor"></a>AirMonitorPlots 0.3.1 – daily-hourly barplot refinements</h1>
+    <div id="airmonitorplots-031--daily-hourly-barplot-refinements" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.1">
+<a href="#airmonitorplots-031--daily-hourly-barplot-refinements" class="anchor"></a>AirMonitorPlots 0.3.1 – daily-hourly barplot refinements</h1>
 <p>Addresses the following issues regarding the daily-hourly-barplot:</p>
 <ul>
 <li>Add control over hourly data calculation</li>
@@ -307,16 +310,16 @@
 <li>Add an option to include a footnote caption linking to an AQI explainer</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-3-0-daily-hourly-barplot" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-3-0-daily-hourly-barplot" class="anchor"></a>AirMonitorPlots 0.3.0 – daily-hourly barplot</h1>
+    <div id="airmonitorplots-030--daily-hourly-barplot" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#airmonitorplots-030--daily-hourly-barplot" class="anchor"></a>AirMonitorPlots 0.3.0 – daily-hourly barplot</h1>
 <ul>
 <li>Added <code>daily-hourly barplot</code>(). This is a time series barplot showing PM2.5 data for the given monitors. The overall plot is faceted by monitor, and each facet has two sets of columns: one for daily levels, and one for hourly levels.</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-2-1" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-2-1" class="anchor"></a>AirMonitorPlots 0.2.1</h1>
+    <div id="airmonitorplots-021" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.1">
+<a href="#airmonitorplots-021" class="anchor"></a>AirMonitorPlots 0.2.1</h1>
 <ul>
 <li>Removed <code>isWSMon()</code>, This functionality is now in <a href="https://github.com/MazamaScience/PWFSLSmoke/blob/master/R/monitor_isMonitor.R"><code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_isMonitor.html">PWFSLSmoke::monitor_isMonitor()</a></code></a>
 </li>
@@ -326,51 +329,28 @@
 </li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-2-0" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-2-0" class="anchor"></a>AirMonitorPlots 0.2.0</h1>
+    <div id="airmonitorplots-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#airmonitorplots-020" class="anchor"></a>AirMonitorPlots 0.2.0</h1>
 <ul>
 <li>Added <code>isWSMon()</code> function to test an object for the <code>ws_monitor</code> class.</li>
 <li>Added <code>isTidy()</code> function to test if an object is in tidy format.</li>
 <li>Added <code>wsMonToTidy()</code> function to convert <code>ws_monitor</code> objects to a tidy format.</li>
 </ul>
 </div>
-    <div id="airmonitorplots-0-1-0" class="section level1">
-<h1 class="page-header">
-<a href="#airmonitorplots-0-1-0" class="anchor"></a>AirMonitorPlots 0.1.0</h1>
+    <div id="airmonitorplots-010" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.0">
+<a href="#airmonitorplots-010" class="anchor"></a>AirMonitorPlots 0.1.0</h1>
 <ul>
 <li>added <code>addPolygon()</code> function</li>
 </ul>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#airmonitorplots-0-5-7">0.5.7</a></li>
-        <li><a href="#airmonitorplots-0-5-6">0.5.6</a></li>
-        <li><a href="#airmonitorplots-0-5-5">0.5.5</a></li>
-        <li><a href="#airmonitorplots-0-5-4">0.5.4</a></li>
-        <li><a href="#airmonitorplots-0-5-3">0.5.3</a></li>
-        <li><a href="#airmonitorplots-0-5-2">0.5.2</a></li>
-        <li><a href="#airmonitorplots-0-5-1">0.5.1</a></li>
-        <li><a href="#airmonitorplots-0-5-0">0.5.0</a></li>
-        <li><a href="#airmonitorplots-0-4-4">0.4.4</a></li>
-        <li><a href="#airmonitorplots-0-4-3">0.4.3</a></li>
-        <li><a href="#airmonitorplots-0-4-2">0.4.2</a></li>
-        <li><a href="#airmonitorplots-0-4-1">0.4.1</a></li>
-        <li><a href="#airmonitorplots-0-4-0">0.4.0</a></li>
-        <li><a href="#airmonitorplots-0-3-4">0.3.4</a></li>
-        <li><a href="#airmonitorplots-0-3-3-daily-hourly-barplot-refinements">0.3.3</a></li>
-        <li><a href="#airmonitorplots-0-3-2-daily-hourly-barplot-refinements">0.3.2</a></li>
-        <li><a href="#airmonitorplots-0-3-1-daily-hourly-barplot-refinements">0.3.1</a></li>
-        <li><a href="#airmonitorplots-0-3-0-daily-hourly-barplot">0.3.0</a></li>
-        <li><a href="#airmonitorplots-0-2-1">0.2.1</a></li>
-        <li><a href="#airmonitorplots-0-2-0">0.2.0</a></li>
-        <li><a href="#airmonitorplots-0-1-0">0.1.0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -382,7 +362,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

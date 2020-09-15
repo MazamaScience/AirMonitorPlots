@@ -4,9 +4,18 @@
 \alias{stat_meanByHour}
 \title{Add hourly averages to a plot}
 \usage{
-stat_meanByHour(mapping = NULL, data = NULL, input = NULL,
-  output = "y", geom = "bar", position = "identity", na.rm = TRUE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+stat_meanByHour(
+  mapping = NULL,
+  data = NULL,
+  input = NULL,
+  output = "y",
+  geom = "bar",
+  position = "identity",
+  na.rm = TRUE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{aes()}. If

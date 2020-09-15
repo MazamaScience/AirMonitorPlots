@@ -4,10 +4,20 @@
 \alias{stat_nowcast}
 \title{Add NowCast values to a plot}
 \usage{
-stat_nowcast(mapping = NULL, data = NULL, version = "pm",
-  includeShortTerm = FALSE, geom = "path", aqiColors = FALSE,
-  mv4Colors = FALSE, position = "identity", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+stat_nowcast(
+  mapping = NULL,
+  data = NULL,
+  version = "pm",
+  includeShortTerm = FALSE,
+  geom = "path",
+  aqiColors = FALSE,
+  mv4Colors = FALSE,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{aes()}. If

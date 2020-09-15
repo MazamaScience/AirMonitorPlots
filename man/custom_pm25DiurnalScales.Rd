@@ -4,9 +4,15 @@
 \alias{custom_pm25DiurnalScales}
 \title{PWFSL PM2.5 diurnal scales}
 \usage{
-custom_pm25DiurnalScales(data = NULL, ylim = NULL, xlab = NULL,
-  ylab = "PM2.5 (µg/m3)", yexp = c(0.05, 0.05), xexp = c(0.05,
-  0.05), offsetBreaks = FALSE)
+custom_pm25DiurnalScales(
+  data = NULL,
+  ylim = NULL,
+  xlab = NULL,
+  ylab = "PM2.5 (µg/m3)",
+  yexp = c(0.05, 0.05),
+  xexp = c(0.05, 0.05),
+  offsetBreaks = FALSE
+)
 }
 \arguments{
 \item{data}{pm25 timeseries data. Should match the default dataset of the

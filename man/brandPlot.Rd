@@ -4,9 +4,14 @@
 \alias{brandPlot}
 \title{Add a logo to a ggplot object}
 \usage{
-brandPlot(plot, brandStyle = "logo", brandName = "MazamaScience",
-  brandFilePath = NULL, location = c("topright", "topleft",
-  "bottomright", "bottomleft")[1], size = 0.1)
+brandPlot(
+  plot,
+  brandStyle = "logo",
+  brandName = "MazamaScience",
+  brandFilePath = NULL,
+  location = c("topright", "topleft", "bottomright", "bottomleft")[1],
+  size = 0.1
+)
 }
 \arguments{
 \item{plot}{\code{ggplot} object}

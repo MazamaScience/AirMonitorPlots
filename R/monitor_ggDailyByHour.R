@@ -150,6 +150,21 @@ monitor_ggDailyByHour <- function(
   }
 
   # Get labels for legend
+  mostRecentTime <- ws_tidy$datetime[nrow(ws_tidy)]
+
+  if ( enddate == mostRecentTime ) {
+    todayLabel <- "Today"
+    yesterdayLabel <- "Yesterday"
+  } else {
+    todayLabel <- dateRange[2] %>%
+      magrittr::subtract(lubridate::days(1)) %>%
+      strftime("%Y-%m-%d", tz = timezone)
+
+    yesterdayLabel <- dateRange[2] %>%
+      magrittr::subtract(lubridate::days(2)) %>%
+      strftime("%Y-%m-%d", tz = timezone)
+  }
+
   meanText <- paste0(as.integer(difftime(dateRange[2], dateRange[1], units = "days")), " Day Mean")
 
   if (style == "large") {
@@ -231,7 +246,7 @@ monitor_ggDailyByHour <- function(
   # * Add legend ---------------------------------------------------------------
 
   values <- c("black", "gray50", "black")
-  names(values) <- c("Today", "Yesterday", meanText)
+  names(values) <- c(todayLabel, yesterdayLabel, meanText)
   scale <- scale_color_manual(name = "", values = values, labels = names(values))
   guide <- guides(
     color = guide_legend(
@@ -277,5 +292,13 @@ if ( FALSE ) {
   style <- "small"
   title <- NULL
   timezone <- "UTC"
+
+  ws_monitor <- airnow_loadLatest()
+  startdate <- NULL
+  enddate <- NULL
+  monitorID <- "410432002_01"
+  style <- "small"
+  title <- NULL
+  timezone <- NULL
 
 }

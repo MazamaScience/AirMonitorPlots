@@ -4,11 +4,19 @@
 \alias{custom_datetimeScale}
 \title{Add date scale with custom styling}
 \usage{
-custom_datetimeScale(startdate = NULL, enddate = NULL,
-  timezone = NULL, expand = c(0, 0.05), break_width = NULL,
-  minor_break_width = NULL, date_labels = "\%b \%d",
+custom_datetimeScale(
+  startdate = NULL,
+  enddate = NULL,
+  timezone = NULL,
+  expand = c(0, 0.05),
+  break_width = NULL,
+  minor_break_width = NULL,
+  date_labels = "\%b \%d",
   tick_location = c("midnight", "midday")[1],
-  includeFullEnddate = TRUE, today_label = TRUE, ...)
+  includeFullEnddate = TRUE,
+  today_label = TRUE,
+  ...
+)
 }
 \arguments{
 \item{startdate}{Desired start date (integer or character in ymd format or

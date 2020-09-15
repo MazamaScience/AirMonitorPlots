@@ -4,9 +4,17 @@
 \alias{ggplot_pm25Diurnal}
 \title{Instantiate a pm25 diurnal ggplot}
 \usage{
-ggplot_pm25Diurnal(ws_data, startdate = NULL, enddate = NULL,
-  timezone = NULL, ylim = NULL, shadedNight = TRUE,
-  mapping = aes_(x = ~hour, y = ~pm25), base_size = 11, ...)
+ggplot_pm25Diurnal(
+  ws_data,
+  startdate = NULL,
+  enddate = NULL,
+  timezone = NULL,
+  ylim = NULL,
+  shadedNight = TRUE,
+  mapping = aes_(x = ~hour, y = ~pm25),
+  base_size = 11,
+  ...
+)
 }
 \arguments{
 \item{ws_data}{Default dataset to use when adding layers. Must be either a

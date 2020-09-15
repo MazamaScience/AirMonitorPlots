@@ -4,10 +4,18 @@
 \alias{monitor_ggCalendar}
 \title{Calendar plot}
 \usage{
-monitor_ggCalendar(ws_monitor = NULL, monitorID = NULL, ncol = 4,
-  title = NULL, discrete = TRUE, breaks = NULL,
-  break_labels = NULL, aspect_ratio = 1, legend_title = NULL,
-  stat = "mean")
+monitor_ggCalendar(
+  ws_monitor = NULL,
+  monitorID = NULL,
+  ncol = 4,
+  title = NULL,
+  discrete = TRUE,
+  breaks = NULL,
+  break_labels = NULL,
+  aspect_ratio = 1,
+  legend_title = NULL,
+  stat = "mean"
+)
 }
 \arguments{
 \item{ws_monitor}{a \emph{ws_monitor} object.}

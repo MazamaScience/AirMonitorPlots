@@ -4,9 +4,16 @@
 \alias{monitor_ggDailyByHour}
 \title{Create a diurnal plot for one or more monitors}
 \usage{
-monitor_ggDailyByHour(ws_monitor, startdate = NULL, enddate = NULL,
-  monitorID = NULL, style = "small", title = NULL, timezone = NULL,
-  ...)
+monitor_ggDailyByHour(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorID = NULL,
+  style = "small",
+  title = NULL,
+  timezone = NULL,
+  ...
+)
 }
 \arguments{
 \item{ws_monitor}{A \code{ws_monitor} object.}

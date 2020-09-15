@@ -4,8 +4,15 @@
 \alias{ggplot_pm25Timeseries}
 \title{Instantiate a pm25 timeseries ggplot}
 \usage{
-ggplot_pm25Timeseries(ws_data, startdate = NULL, enddate = NULL,
-  timezone = NULL, ylim = NULL, base_size = 11, ...)
+ggplot_pm25Timeseries(
+  ws_data,
+  startdate = NULL,
+  enddate = NULL,
+  timezone = NULL,
+  ylim = NULL,
+  base_size = 11,
+  ...
+)
 }
 \arguments{
 \item{ws_data}{Default dataset to use when adding layers. Must be either a

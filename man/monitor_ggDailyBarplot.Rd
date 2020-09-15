@@ -4,9 +4,17 @@
 \alias{monitor_ggDailyBarplot}
 \title{Create a daily barplot for one or more monitors}
 \usage{
-monitor_ggDailyBarplot(ws_monitor, startdate = NULL, enddate = NULL,
-  monitorID = NULL, style = "small", title = NULL, timezone = NULL,
-  today = TRUE, ...)
+monitor_ggDailyBarplot(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorID = NULL,
+  style = "small",
+  title = NULL,
+  timezone = NULL,
+  today = TRUE,
+  ...
+)
 }
 \arguments{
 \item{ws_monitor}{A \code{ws_monitor} object.}
@@ -50,6 +58,6 @@ monitor_ggDailyBarplot(ws_monitor, startdate = 20160801, enddate = 20160810)
 
 \dontrun{
 ws_monitor <- airnow_loadLatest()
-monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01", today = TRUE)
+monitor_ggDailyBarplot(ws_monitor, monitorID = "410432002_01", today = TRUE)
 }
 }
