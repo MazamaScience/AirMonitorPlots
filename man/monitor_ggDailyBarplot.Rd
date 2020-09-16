@@ -58,6 +58,6 @@ monitor_ggDailyBarplot(ws_monitor, startdate = 20160801, enddate = 20160810)
 
 \dontrun{
 ws_monitor <- airnow_loadLatest()
-monitor_ggDailyBarplot(ws_monitor, monitorIDs = "410432002_01", today = TRUE)
+monitor_ggDailyBarplot(ws_monitor, monitorID = "410432002_01", today = TRUE)
 }
 }
