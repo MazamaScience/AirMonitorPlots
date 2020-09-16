@@ -1,3 +1,7 @@
+# AirMonitorPlots 0.5.9
+
+* Completely refactored `monitor_ggDailyByHour()` to get at that "today" bug.
+
 # AirMonitorPlots 0.5.8
 
 * Bug fix for `monitor_ggDailyByHour()` so that it doesn't ignore data from

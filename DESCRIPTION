@@ -1,6 +1,6 @@
 Type: Package
 Package: AirMonitorPlots
-Version: 0.5.8
+Version: 0.5.9
 Title: Plot Utilities for the PWFSLSmoke Package
 Description: A suite of ggplot2 compatible functions to be used with air quality
     monitoring data obtained with the PWFSLSmoke package. These functions provide

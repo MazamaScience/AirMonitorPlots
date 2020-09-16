@@ -36,8 +36,7 @@ parsed with \link{parseDatetime}.}
 \item{timezone}{Olson timezone name for x-axis scale and date parsing. If
 NULL the timezone of the specified monitor will be used.}
 
-\item{...}{Additional arguments passed on to
-\code{\link{custom_pm25DiurnalScales}}.}
+\item{...}{Extra arguments passed to \code{ggplot_pm25Diurnal()}.}
 }
 \value{
 A \emph{ggplot} object.

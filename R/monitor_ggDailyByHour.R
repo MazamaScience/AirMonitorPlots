@@ -17,6 +17,7 @@
 #' @param title Plot title. If NULL, a suitable title will be constructed.
 #' @param timezone Olson timezone name for x-axis scale and date parsing. If
 #'   NULL the timezone of the specified monitor will be used.
+#' @param ... Extra arguments passed to \code{ggplot_pm25Diurnal()}.
 #'
 #' @return A \emph{ggplot} object.
 #'
@@ -44,124 +45,130 @@ monitor_ggDailyByHour <- function(
   ...
 ) {
 
+  # ----- Validate Parameters --------------------------------------------------
 
-  # Validate Parameters --------------------------------------------------------
+  MazamaCoreUtils::stopIfNull(ws_monitor)
 
-  # Convert ws_monitor to tidy structure
-  if (monitor_isMonitor(ws_monitor)) {
-    ws_tidy <- monitor_toTidy(ws_monitor)
-  } else {
-    stop("ws_monitor is not a ws_monitor object.")
-  }
+  if ( !monitor_isMonitor(ws_monitor) )
+    stop("Parameter 'ws_monitor' is not a valid ws_monitor object.")
 
-  # Check style
-  if (!style %in% c("small", "large"))
-    stop("Invalid style. Choose from 'small' or 'large'.")
+  if ( monitor_isEmpty(ws_monitor) )
+    stop("Parameter 'ws_monitor' contains no data.")
 
   # Check monitorID
-  if (is.null(monitorID)) {
+  if ( is.null(monitorID) ) {
 
-    if (length(unique(ws_tidy$monitorID)) > 1) {
-      stop("monitorID is required if `ws_monitor` has multiple monitors.")
+    if ( nrow(ws_monitor$meta) > 1 ) {
+      stop("Parameter 'monitorID' is required if 'ws_monitor' has multiple monitors.")
     } else {
-      monitorID <- ws_tidy$monitorID[1]
+      monitorID <- ws_monitor$meta$monitorID
     }
 
   } else {
 
-    if (length(monitorID) > 1) {
-      stop("`monitorID` must contain a single monitorID.")
-    } else if (!monitorID %in% unique(ws_tidy$monitorID)) {
-      stop("monitorID not present in data.")
+    if ( length(monitorID) > 1 ) {
+      stop("Parameter 'monitorID' must contain a single monitorID.")
+    } else if ( !monitorID %in% ws_monitor$meta$monitorID ) {
+      stop(sprintf("monitorID '%s' is not found in 'ws_monitor'.", monitorID))
     }
+
   }
 
-  # NOTE: Include before getting timezone
-  ws_tidy <- dplyr::filter(ws_tidy, .data$monitorID == !!monitorID)
+  if ( !style %in% c("small", "large") )
+    stop(sprintf("Invalid style = '%s'. Choose from 'small' or 'large'.", style))
 
-  # Check timezone
   if ( !is.null(timezone) ) {
     if ( !timezone %in% OlsonNames() ) {
-      stop("Invalid timezone")
+      stop(sprintf("Invalid timezone = '%s'. See ?OlsonNames.", timezone))
     }
-  } else {
-    timezone <- unique(ws_tidy$timezone)
   }
 
+  # ----- Subset ws_monitor ----------------------------------------------------
 
-  # Prepare data ---------------------------------------------------------------
+  singleMonitor <- PWFSLSmoke::monitor_subset(ws_monitor, monitorIDs = monitorID)
 
-  # Use full time range if startdate or enddate is missing
+  # Get timezone
+  if ( is.null(timezone) )
+    timezone <- singleMonitor$meta$timezone
+
+  timeRange <- range(singleMonitor$data$datetime)
+
+  # Create POSIXct startdate and enddate
   if ( is.null(startdate) || is.null(enddate) ) {
-    timeRange <- range(ws_tidy$datetime)
     startdate <- timeRange[1]
     enddate <- timeRange[2]
+  } else {
+    startdate <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
+    enddate <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
+  }
+
+  if ( (startdate < timeRange[1] && enddate < timeRange[1]) ||
+       (startdate > timeRange[2] && enddate > timeRange[2]) ) {
+    stop("Both 'startdate' and 'enddate' are outside the 'ws_monitor' time range")
   }
 
   dateRange <- MazamaCoreUtils::dateRange(
     startdate = startdate,
     enddate = enddate,
     timezone = timezone,
-    unit = "day",
+    unit = "hour",
     ceilingEnd = TRUE
   )
 
+  singleMonitor <-
+    singleMonitor %>%
+    monitor_subset(tlim = dateRange)
+
+  # ----- Create "tidy" version --------------------------------------------------
+
+  # NOTE:  Prefixing 'timezone' with '!!' tells dplyr to use the local variable
+  # NOTE:  'timezone' instead of the ws_tidy$timezone column.
+
+  # Convert ws_monitor to tidy structure with 'hour', 'datestamp' and 'nowcast
   ws_tidy <-
-    ws_tidy %>%
-    dplyr::filter(
-      .data$datetime >= dateRange[1],
-      .data$datetime < dateRange[2]
-    )
-
-
-  # * Add 'hour', 'day', and 'nowcast' columns ---------------------------------
-
-  ## NOTE:
-  #  Prefixing `timezone` with `!!` tells dplyr to use the variable `timezone`
-  #  instead of the column "timezone" in `ws_tidy`.
-
-  ws_tidy <- ws_tidy %>%
+    monitor_toTidy(singleMonitor) %>%
     dplyr::mutate(
       hour = as.numeric(strftime(.data$datetime, "%H", tz = !!timezone)),
-      day = strftime(.data$datetime, "%Y%m%d", tz = !!timezone),
+      datestamp = strftime(.data$datetime, "%Y%m%d", tz = !!timezone),
       nowcast = .nowcast(.data$pm25)
     )
 
-
   # * Separate data for 'yesterday' and 'today' --------------------------------
 
-  today_string <- dateRange[2] %>%
+  today_datestamp <-
+    dateRange[2] %>%
+    strftime("%Y%m%d", tz = timezone)
+  yesterday_datestamp <-
+    dateRange[2] %>%
     magrittr::subtract(lubridate::days(1)) %>%
     strftime("%Y%m%d", tz = timezone)
-  yesterday_string <- dateRange[2] %>%
-    magrittr::subtract(lubridate::days(2)) %>%
-    strftime("%Y%m%d", tz = timezone)
 
-  yesterday <- dplyr::filter(ws_tidy, .data$day == yesterday_string)
-  today <- dplyr::filter(ws_tidy, .data$day == today_string)
+  yesterday <- dplyr::filter(ws_tidy, .data$datestamp == yesterday_datestamp)
+  today <- dplyr::filter(ws_tidy, .data$datestamp == today_datestamp)
 
-
-  # Style ----------------------------------------------------------------------
+  # ----- Style ----------------------------------------------------------------
 
   # Get title
-  if (is.null(title)) {
+  if ( is.null(title) ) {
     title <- paste0("NowCast by Time of Day\n",
                     "Site: ", unique(ws_tidy$siteName))
   }
 
   # Get labels for legend
-  mostRecentTime <- ws_tidy$datetime[nrow(ws_tidy)]
+  now_datestamp <-
+    lubridate::now(tzone = timezone) %>%
+    strftime("%Y%m%d", tz = timezone)
+  end_datestamp <- strftime(enddate, "%Y%m%d", tz = timezone)
 
-  if ( enddate == mostRecentTime ) {
+  if ( end_datestamp == now_datestamp ) {
     todayLabel <- "Today"
     yesterdayLabel <- "Yesterday"
   } else {
     todayLabel <- dateRange[2] %>%
-      magrittr::subtract(lubridate::days(1)) %>%
       strftime("%Y-%m-%d", tz = timezone)
 
     yesterdayLabel <- dateRange[2] %>%
-      magrittr::subtract(lubridate::days(2)) %>%
+      magrittr::subtract(lubridate::days(1)) %>%
       strftime("%Y-%m-%d", tz = timezone)
   }
 
@@ -184,7 +191,7 @@ monitor_ggDailyByHour <- function(
   }
 
 
-  # Create plot ----------------------------------------------------------------
+  # ----- Create plot ----------------------------------------------------------
 
   gg <-
     ggplot_pm25Diurnal(
@@ -209,10 +216,10 @@ monitor_ggDailyByHour <- function(
   if ( nrow(yesterday) > 0 ) {
     gg <- gg +
       # Yesterday line
-      geom_line(aes(color = "Yesterday"), data = yesterday, size = yesterdayLineSize) +
+      geom_line(aes(color = !!yesterdayLabel), data = yesterday, size = yesterdayLineSize) +
       # Yesterday points
       stat_AQCategory(
-        aes(color = "Yesterday"),
+        aes(color = !!yesterdayLabel),
         data = yesterday,
         geom = "point",
         nowcast = FALSE,
@@ -224,10 +231,10 @@ monitor_ggDailyByHour <- function(
   if ( nrow(today) > 0 ) {
     gg <- gg +
       # Today line
-      geom_line(aes(color = "Today"), data = today, size = todayLineSize) +
+      geom_line(aes(color = todayLabel), data = today, size = todayLineSize) +
       # Today points
       stat_AQCategory(
-        aes(color = "Today"),
+        aes(color = todayLabel),
         data = today,
         geom = "point",
         nowcast = FALSE,
@@ -277,28 +284,40 @@ if ( FALSE ) {
   # Most likely issue is today/yesterday tibbles with zero rows. We should
   # check for this before these separate, custom points
 
-  dateRange <- MazamaCoreUtils::dateRange(enddate = 20190828,
-                                          timezone = "UTC",
-                                          unit = "hour")
-
-  startdate <- dateRange[1]
-  enddate <- dateRange[2]
-
-  monitorID <- "530030004_01"
-
-  ws_monitor <-
-    monitor_load(startdate, enddate, monitorID)
-
-  style <- "small"
-  title <- NULL
-  timezone <- "UTC"
-
   ws_monitor <- airnow_loadLatest()
-  startdate <- NULL
-  enddate <- NULL
-  monitorID <- "410432002_01"
-  style <- "small"
+  monitorID <- "060431001_01"
+  style <- "large"
   title <- NULL
   timezone <- NULL
+
+
+  startdate <- NULL
+  enddate <- NULL
+
+  enddate <-
+    lubridate::now(tzone = "America/Los_Angeles") %>%
+    lubridate::floor_date(unit = "day") - lubridate::dhours(1)
+  startdate <- enddate - lubridate::ddays(10)
+
+  enddate <-
+    lubridate::now(tzone = "America/Los_Angeles") %>%
+    lubridate::floor_date(unit = "day") - lubridate::ddays(3) - lubridate::dhours(1)
+  startdate <- enddate - lubridate::ddays(4)
+
+  enddate <-
+    lubridate::now(tzone = "America/Los_Angeles") %>%
+    lubridate::floor_date(unit = "day") + lubridate::dhours(1)
+  startdate <- enddate - lubridate::ddays(10)
+
+
+  monitor_ggDailyByHour(
+    ws_monitor = ws_monitor,
+    startdate = startdate,
+    enddate = enddate,
+    monitorID = monitorID,
+    style = style,
+    title = title,
+    timezone = timezone
+  )
 
 }
