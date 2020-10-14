@@ -53,6 +53,8 @@ The full range of data in \code{ws_monitor} will be used unless both
 \code{startdate} and \code{enddate} are specified.
 }
 \examples{
+library(AirMonitorPlots)
+
 ws_monitor <- PWFSLSmoke::Carmel_Valley
 monitor_ggDailyBarplot(ws_monitor, startdate = 20160801, enddate = 20160810)
 

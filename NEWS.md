@@ -1,3 +1,7 @@
+# AirMonitorPlots 0.5.10
+
+* Bug fix for `monitor_ggDailyBarplot()` to the NowCast value for "today".
+
 # AirMonitorPlots 0.5.9
 
 * Completely refactored `monitor_ggDailyByHour()` to get at that "today" bug.

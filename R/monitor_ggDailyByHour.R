@@ -119,7 +119,7 @@ monitor_ggDailyByHour <- function(
     singleMonitor %>%
     monitor_subset(tlim = dateRange)
 
-  # ----- Create "tidy" version --------------------------------------------------
+  # ----- Create "tidy" version ------------------------------------------------
 
   # NOTE:  Prefixing 'timezone' with '!!' tells dplyr to use the local variable
   # NOTE:  'timezone' instead of the ws_tidy$timezone column.
@@ -308,6 +308,11 @@ if ( FALSE ) {
     lubridate::now(tzone = "America/Los_Angeles") %>%
     lubridate::floor_date(unit = "day") + lubridate::dhours(1)
   startdate <- enddate - lubridate::ddays(10)
+
+  enddate <-
+    lubridate::now(tzone = "UTC") %>%
+    lubridate::floor_date(unit = "day")
+  startdate <- enddate - lubridate::ddays(6)
 
 
   monitor_ggDailyByHour(

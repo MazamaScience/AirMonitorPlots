@@ -1,3 +1,8 @@
+#' @export
+#'
+#' @import ggplot2
+#' @importFrom rlang .data
+#'
 #' @title Create a daily barplot for one or more monitors
 #'
 #' @description
@@ -26,12 +31,9 @@
 #'
 #' @return A \emph{ggplot} object
 #'
-#' @import ggplot2
-#' @importFrom rlang .data
-#'
-#' @export
-#'
 #' @examples
+#' library(AirMonitorPlots)
+#'
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
 #' monitor_ggDailyBarplot(ws_monitor, startdate = 20160801, enddate = 20160810)
 #'
@@ -51,7 +53,7 @@ monitor_ggDailyBarplot <- function(
   ...
 ) {
 
-  # Validate Parameters --------------------------------------------------------
+  # ----- Validate Parameters --------------------------------------------------
 
   # Convert ws_monitor to tidy structure
   if ( monitor_isMonitor(ws_monitor) ) {
@@ -79,7 +81,7 @@ monitor_ggDailyBarplot <- function(
 
   } else {
 
-    if (length(monitorID) > 1) {
+    if ( length(monitorID) > 1 ) {
       stop("`monitorID` must contain a single monitorID.")
     } else if (!monitorID %in% unique(ws_tidy$monitorID)) {
       stop("monitorID not present in data.")
@@ -91,7 +93,7 @@ monitor_ggDailyBarplot <- function(
 
   # Check timezone
   if ( !is.null(timezone) ) {
-    if (!timezone %in% OlsonNames()) {
+    if ( !timezone %in% OlsonNames() ) {
       stop("Invalid timezone")
     }
   } else {
@@ -99,7 +101,7 @@ monitor_ggDailyBarplot <- function(
   }
 
 
-  # Prepare data ---------------------------------------------------------------
+  # ----- Prepare data ---------------------------------------------------------
 
   # Use full time range if startdate or enddate is missing
   if ( is.null(startdate) || is.null(enddate) ) {
@@ -112,7 +114,8 @@ monitor_ggDailyBarplot <- function(
     startdate = startdate,
     enddate = enddate,
     timezone = timezone,
-    unit = "day"
+    unit = "day",
+    ceilingEnd = TRUE
   )
 
   startdate <- dateRange[1]
@@ -125,37 +128,44 @@ monitor_ggDailyBarplot <- function(
     )
 
 
-  # Style ----------------------------------------------------------------------
+  # ----- Style ----------------------------------------------------------------
 
   # Get title
-  if (is.null(title)) {
+  if ( is.null(title) ) {
     title <- paste0("Daily Average PM2.5", "\n", "Site: ", unique(ws_tidy$siteName))
   }
 
-  if (style == "large") {
+  if ( style == "large" ) {
     nowcastTextSize <- 4.5
     nowcastText <- "Current\nNowCast"
     date_format <- "%b %d"
     base_size <- 15
-  } else if (style == "small") {
+  } else if ( style == "small" ) {
     nowcastTextSize <- 4
     nowcastText <- "Now-\nCast"
     date_format <- "%b\n%d"
     base_size <- 11
   }
 
-  # Set "today"
-  if (isFALSE(all.equal(enddate, lubridate::ceiling_date(lubridate::now(tzone = timezone), "day")))) {
+  # Check for any data from "today"
+  if ( isFALSE(enddate > lubridate::floor_date(lubridate::now(tzone = timezone), unit = "day")) ) {
     today <- FALSE
   }
 
   # Create "current nowcast" bar
-  if (today) {
+  if ( today ) {
+
+    lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
+    lastValidDatetime <- ws_tidy$datetime[lastValidIndex]
+
+    todayHour <-
+      lubridate::with_tz(lastValidDatetime, tzone = timezone) %>%
+      lubridate::hour()
 
     now <- lubridate::now(tzone = timezone)
-    lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
 
-    if (now - ws_tidy$datetime[lastValidIndex] > lubridate::dhours(5)) {
+    # Don't show 'current nowcast' before 5am
+    if ( todayHour < 5 ) {
       ## TODO: Handle missing 'current nowcast'
       currentNowcast <- 0
     } else {
@@ -214,7 +224,7 @@ monitor_ggDailyBarplot <- function(
 
   }
 
-  # Create plot ----------------------------------------------------------------
+  # ----- Create plot ----------------------------------------------------------
 
   plot <-
     ggplot_pm25Timeseries(
@@ -231,6 +241,7 @@ monitor_ggDailyBarplot <- function(
     custom_aqiLines(size = 1, alpha = .8) +
     stat_dailyAQCategory(timezone = timezone, adjustylim = TRUE, color = "black") +
     custom_aqiStackedBar(width = .015) +
+
     ## Format/theme tweaks
     # Remove padding on y scale
     scale_y_continuous(expand = c(0, 0)) +
@@ -240,5 +251,34 @@ monitor_ggDailyBarplot <- function(
     theme_dailyBarplot_pwfsl(size = style)
 
   return(plot)
+
+}
+
+# ===== DEBUGGING ==============================================================
+
+if ( FALSE ) {
+
+  ws_monitor <- airnow_loadLatest()
+
+  startdate = NULL
+  enddate = NULL
+  monitorID = "060530002_01" # Carmel Valley
+  style = "small"
+  title = NULL
+  timezone = NULL
+  today = TRUE
+
+
+  monitor_ggDailyBarplot(
+    ws_monitor = ws_monitor,
+    startdate = startdate,
+    enddate = enddate,
+    monitorID = monitorID,
+    style = style,
+    title = title,
+    timezone = timezone,
+    today = today
+  )
+
 
 }
