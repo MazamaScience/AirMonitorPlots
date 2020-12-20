@@ -1,3 +1,8 @@
+# AirMonitorPlots 0.5.11
+
+* Transferred in the `monitor_ggDailyHourlyBarplot()` plot function.
+* Transferred in the `theme_dailyHourlyBarplot_pwfsl()` plot theme.
+
 # AirMonitorPlots 0.5.10
 
 * Bug fix for `monitor_ggDailyBarplot()` to the NowCast value for "today".
