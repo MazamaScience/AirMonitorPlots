@@ -4,7 +4,7 @@ author: "Helen Miller"
 date: "Jan 17, 2019"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{AirMonitorPlots}
+  %\VignetteIndexEntry{Introduction to AirMonitorPlots}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
