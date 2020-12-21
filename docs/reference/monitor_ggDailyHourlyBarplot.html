@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a daily barplot for one or more monitors — monitor_ggDailyBarplot • AirMonitorPlots</title>
+<title>Create a Daily-Hourly plot for many monitors — monitor_ggDailyHourlyBarplot • AirMonitorPlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,14 @@
 
 
 
-<meta property="og:title" content="Create a daily barplot for one or more monitors — monitor_ggDailyBarplot" />
-<meta property="og:description" content="This function assembles various layers to create a production-ready
-daily barplot for one or more monitors.
+<meta property="og:title" content="Create a Daily-Hourly plot for many monitors — monitor_ggDailyHourlyBarplot" />
+<meta property="og:description" content="Create a time series barplot showing PM2.5 data for the given monitors. The
+overall plot is faceted by monitor, and each facet has two sets of columns:
+one for daily levels, and one for hourly levels.
 The full range of data in ws_monitor will be used unless both
-startdate and enddate are specified." />
+startdate and enddate are specified.
+The timezone specified or, if timezone = NULL, that of the first
+monitor encountered will be used for all time axes." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -137,28 +140,35 @@ startdate and enddate are specified." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a daily barplot for one or more monitors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/R/monitor_ggDailyBarplot.R'><code>R/monitor_ggDailyBarplot.R</code></a></small>
-    <div class="hidden name"><code>monitor_ggDailyBarplot.Rd</code></div>
+    <h1>Create a Daily-Hourly plot for many monitors</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/R/monitor_ggDailyHourlyBarplot.R'><code>R/monitor_ggDailyHourlyBarplot.R</code></a></small>
+    <div class="hidden name"><code>monitor_ggDailyHourlyBarplot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function assembles various layers to create a production-ready
-daily barplot for one or more monitors.</p>
+    <p>Create a time series barplot showing PM2.5 data for the given monitors. The
+overall plot is faceted by monitor, and each facet has two sets of columns:
+one for daily levels, and one for hourly levels.</p>
 <p>The full range of data in <code>ws_monitor</code> will be used unless both
 <code>startdate</code> and <code>enddate</code> are specified.</p>
+<p>The timezone specified or, if <code>timezone = NULL</code>, that of the first
+monitor encountered will be used for all time axes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_ggDailyBarplot</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>monitor_ggDailyHourlyBarplot</span><span class='op'>(</span>
   <span class='va'>ws_monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  monitorID <span class='op'>=</span> <span class='cn'>NULL</span>,
-  style <span class='op'>=</span> <span class='st'>"small"</span>,
+  monitorIDs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  columns <span class='op'>=</span> <span class='fl'>1</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
-  today <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
+  xLabel <span class='op'>=</span> <span class='cn'>NULL</span>,
+  yLabel <span class='op'>=</span> <span class='cn'>NULL</span>,
+  includeLink <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  hourlyDataType <span class='op'>=</span> <span class='st'>"nowcast"</span>,
+  palette <span class='op'>=</span> <span class='st'>"epa_aqi"</span>,
+  includeLegendAdvice <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -179,19 +189,17 @@ POSIXct).</p></td>
 POSIXct).</p></td>
     </tr>
     <tr>
-      <th>monitorID</th>
-      <td><p>monitorID to include in the plot. This can be NULL if
-<em>ws_monitor</em> only has one unique monitorID.</p></td>
+      <th>monitorIDs</th>
+      <td><p>Optional vector of monitor IDs used to filter the data.</p></td>
     </tr>
     <tr>
-      <th>style</th>
-      <td><p>String indicating plotting style. Either <code>"large"</code> or
-<code>"small"</code>. <code>style = "large"</code> is suitable for plots larger than
-450x450px, and <code>"small"</code> is suitable for plots 450x450px or smaller.</p></td>
+      <th>columns</th>
+      <td><p>Number of columns the faceted plot should have (default 1).</p></td>
     </tr>
     <tr>
       <th>title</th>
-      <td><p>Plot title. If NULL, a suitable title will be constructed.</p></td>
+      <td><p>The title of the plot. Defaults to specifying the types of
+data present in the plot.</p></td>
     </tr>
     <tr>
       <th>timezone</th>
@@ -199,30 +207,57 @@ POSIXct).</p></td>
 NULL the timezone of the specified monitor will be used.</p></td>
     </tr>
     <tr>
-      <th>today</th>
-      <td><p>Logical indicating whether to include a shaded "current NowCast"
-bar for Today. Ignored if data is not current.</p></td>
+      <th>xLabel</th>
+      <td><p>The x-axis label of the plot. Defaults to years present in
+data.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Arguments passed onto <code><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></code>.</p></td>
+      <th>yLabel</th>
+      <td><p>The y-axis label of the plot. Defaults to PM2.5.</p></td>
+    </tr>
+    <tr>
+      <th>includeLink</th>
+      <td><p>Option to include a link to an AQI help page at the bottom
+of the plot (default `TRUE`).</p></td>
+    </tr>
+    <tr>
+      <th>hourlyDataType</th>
+      <td><p>The type of hourly data to include in the plot. The
+options include "nowcast" (hourly nowcast values), "raw" (raw hourly values),
+or "none" (no hourly data at all) (default "nowcast").</p></td>
+    </tr>
+    <tr>
+      <th>palette</th>
+      <td><p>The ordered color palette used to represent each AQI
+category. Currently defaults to (and only accepts) "epa_aqi".</p></td>
+    </tr>
+    <tr>
+      <th>includeLegendAdvice</th>
+      <td><p>Option to include a third column in the legend for
+AQI level advice. Currently in testing (default `False`).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>ggplot</em> object</p>
+    <p>A **ggplot** plot of the given monitors and data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitorPlots'>AirMonitorPlots</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>SF_IDs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"060010011_01"</span>,<span class='st'>"060010013_01"</span>,<span class='st'>"060010012_01"</span>,<span class='st'>"060750005_01"</span><span class='op'>)</span>
+<span class='va'>SF_daily</span> <span class='op'>&lt;-</span> <span class='fu'>loadDaily</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>monitor_subset</span><span class='op'>(</span>monitorIDs <span class='op'>=</span> <span class='va'>SF_IDs</span><span class='op'>)</span>
+<span class='va'>SF_latest</span> <span class='op'>&lt;-</span> <span class='fu'>loadLatest</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>monitor_subset</span><span class='op'>(</span>monitorIDs <span class='op'>=</span> <span class='va'>SF_IDs</span><span class='op'>)</span>
+<span class='va'>SF_full</span> <span class='op'>&lt;-</span> <span class='fu'>monitor_join</span><span class='op'>(</span><span class='va'>SF_daily</span>, <span class='va'>SF_latest</span><span class='op'>)</span>
+<span class='va'>today</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/now.html'>now</a></span><span class='op'>(</span><span class='st'>'America/Los_Angeles'</span><span class='op'>)</span>, unit<span class='op'>=</span><span class='st'>'day'</span><span class='op'>)</span>
+<span class='va'>now</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/now.html'>now</a></span><span class='op'>(</span><span class='st'>'America/Los_Angeles'</span><span class='op'>)</span>, unit<span class='op'>=</span><span class='st'>'hour'</span><span class='op'>)</span>
+<span class='va'>starttime</span> <span class='op'>&lt;-</span> <span class='va'>today</span> <span class='op'>-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/duration.html'>ddays</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span>
+<span class='va'>SF_4day</span> <span class='op'>&lt;-</span> <span class='fu'>monitor_subset</span><span class='op'>(</span><span class='va'>SF_full</span>, tlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>starttime</span>, <span class='va'>now</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>ws_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>PWFSLSmoke</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html'>Carmel_Valley</a></span>
-<span class='fu'>monitor_ggDailyBarplot</span><span class='op'>(</span><span class='va'>ws_monitor</span>, startdate <span class='op'>=</span> <span class='fl'>20160801</span>, enddate <span class='op'>=</span> <span class='fl'>20160810</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 7 rows containing non-finite values (stat_daily_aqi_level).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_bar).</span></div><div class='img'><img src='monitor_ggDailyBarplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>ws_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>airnow_loadLatest</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>monitor_ggDailyBarplot</span><span class='op'>(</span><span class='va'>ws_monitor</span>, monitorID <span class='op'>=</span> <span class='st'>"410432002_01"</span>, today <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='co'># Create plot using pre subset data</span>
+<span class='fu'>monitor_ggDailyHourlyBarplot</span><span class='op'>(</span><span class='va'>SF_4day</span>, monitorIDs <span class='op'>=</span> <span class='va'>SF_IDs</span><span class='op'>)</span>
+
+<span class='co'># Create plot using data subset by function</span>
+<span class='fu'>monitor_ggDailyHourlyBarplot</span><span class='op'>(</span><span class='va'>SF_full</span>, <span class='va'>starttime</span>, <span class='va'>now</span>, <span class='va'>SF_IDs</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

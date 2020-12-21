@@ -9,16 +9,16 @@
 #'   POSIXct).
 #' @param enddate Desired end date (integer or character in ymd format or
 #'   POSIXct).
+#' @param monitorIDs vector of monitorIDs to include in the plot. If more than
+#'   one, different monitors will be plotted in different colors.
 #' @param style Plot style. \code{small} or \code{large}. \code{style = small}
 #'   is appropriate for plots 450x450px or smaller; \code{style = large} is
 #'   appropriate for plots larger than 450x450px.
+#' @param title Plot title. If NULL, a suitable title will be constructed.
 #' @param aqiStyle AQI style to add AQI color bars, lines, and labels. Not
 #'   currently supported.
 #' @param timezone Olson timezone name for x-axis scale and date parsing. If
 #'   NULL the timezone of the specified monitor will be used.
-#' @param monitorIDs vector of monitorIDs to include in the plot. If more than
-#'   one, different monitors will be plotted in different colors.
-#' @param title Plot title. If NULL, a suitable title will be constructed.
 #' @param ... Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.
 #'
 #' @return A \emph{ggplot} object.
@@ -58,16 +58,21 @@ monitor_ggTimeseries <- function(
 
   # Validate Parameters --------------------------------------------------------
 
+  MazamaCoreUtils::stopIfNull(ws_monitor)
+
+  # Convert ws_monitor to tidy structure
   if (monitor_isMonitor(ws_monitor)) {
     ws_tidy <- monitor_toTidy(ws_monitor)
   } else {
     stop("ws_monitor is not a ws_monitor object.")
   }
 
+  # Check style
   if (!style %in% c("small", "large"))
     stop("Invalid style. Choose from 'small' or 'large'.")
 
-  if (any(!monitorIDs %in% unique(ws_tidy$monitorID))) {
+  # Check monitorIDs
+  if ( any(!monitorIDs %in% unique(ws_tidy$monitorID)) ) {
     invalidIDs <- monitorIDs[which(!monitorIDs %in% unique(ws_tidy$monitorID))]
     stop(paste0(
       "Invalid monitorIDs. MonitorIDs not present in data: ",
@@ -83,6 +88,7 @@ monitor_ggTimeseries <- function(
       timezone <- ws_tidy$timezone[1]
     }
   }
+
   # Check timezone
   if ( !is.null(timezone) ) {
     if ( !timezone %in% OlsonNames() ) {

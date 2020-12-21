@@ -1,5 +1,7 @@
 #' @export
-#' @importFrom dplyr mutate
+#'
+#' @import ggplot2
+#' @importFrom rlang .data
 #'
 #' @title Create a Daily-Hourly plot for many monitors
 #'
@@ -8,14 +10,23 @@
 #' overall plot is faceted by monitor, and each facet has two sets of columns:
 #' one for daily levels, and one for hourly levels.
 #'
-#' @param ws_monitor \emph{ws_monitor} object.
+#' The full range of data in \code{ws_monitor} will be used unless both
+#' \code{startdate} and \code{enddate} are specified.
+#'
+#' The timezone specified or, if \code{timezone = NULL}, that of the first
+#' monitor encountered will be used for all time axes.
+#'
+#' @param ws_monitor A \code{ws_monitor} object.
+#' @param startdate Desired start date (integer or character in ymd format or
+#'   POSIXct).
+#' @param enddate Desired end date (integer or character in ymd format or
+#'   POSIXct).
 #' @param monitorIDs Optional vector of monitor IDs used to filter the data.
-#' @param tlim Optional vector with start and end times. Can either be a
-#'   character/numeric vector in form of 'yyyymmdd', or a POSIXct object.
-#'   Defaults to `NULL` (no subsetting).
 #' @param columns Number of columns the faceted plot should have (default 1).
 #' @param title The title of the plot. Defaults to specifying the types of
 #'   data present in the plot.
+#' @param timezone Olson timezone name for x-axis scale and date parsing. If
+#'   NULL the timezone of the specified monitor will be used.
 #' @param xLabel The x-axis label of the plot. Defaults to years present in
 #'   data.
 #' @param yLabel The y-axis label of the plot. Defaults to PM2.5.
@@ -43,18 +54,20 @@
 #' SF_4day <- monitor_subset(SF_full, tlim=c(starttime, now))
 #'
 #' # Create plot using pre subset data
-#' monitor_ggDailyHourlyBarplot(SF_4day, SF_IDs)
+#' monitor_ggDailyHourlyBarplot(SF_4day, monitorIDs = SF_IDs)
 #'
 #' # Create plot using data subset by function
-#' monitor_ggDailyHourlyBarplot(SF_full, SF_IDs, tlim = c(starttime, now))
+#' monitor_ggDailyHourlyBarplot(SF_full, starttime, now, SF_IDs)
 #' }
 
 monitor_ggDailyHourlyBarplot <- function(
   ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
   monitorIDs = NULL,
-  tlim = NULL,
   columns = 1,
   title = NULL,
+  timezone = NULL,
   xLabel = NULL,
   yLabel = NULL,
   includeLink = TRUE,
@@ -65,15 +78,17 @@ monitor_ggDailyHourlyBarplot <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
+  MazamaCoreUtils::stopIfNull(ws_monitor)
+
   # TODO: make function work with tidy monitor data
-  ##      Need to implement a `monitor_dailyStatistic()` function for tidy
-  ##      monitor data
-  if (!monitor_isMonitor(ws_monitor)) {
+  #      Need to implement a `monitor_dailyStatistic()` function for tidy
+  #      monitor data
+  if ( !monitor_isMonitor(ws_monitor) ) {
     stop("This function can currently only take in a `ws_monitor` object")
   }
 
   validHourlyDataTypes <- c("nowcast", "raw", "none")
-  if (!(hourlyDataType %in% validHourlyDataTypes)) {
+  if ( !(hourlyDataType %in% validHourlyDataTypes) ) {
     stop(
       paste0(
         hourlyDataType, " is not a valid hourlyDataType. \n",
@@ -82,31 +97,42 @@ monitor_ggDailyHourlyBarplot <- function(
     )
   }
 
+  # Check timezone
+  if ( !is.null(timezone) ) {
+    if ( !timezone %in% OlsonNames() ) {
+      stop("Invalid timezone")
+    }
+  } else {
+    timezone <- unique(ws_monitor$meta$timezone[1])
+  }
+
+
   # ----- Set up data ----------------------------------------------------------
 
-  ## Get data from monitors
+  # Get data from monitors
 
   monData <-
     ws_monitor %>%
     monitor_subset(monitorIDs = monitorIDs)
 
-  ## Get time limits
+  # Get time limits
 
-  timezone <- monData$meta$timezone[1]
-
-  if ( is.numeric(tlim) || is.character(tlim) ) {
-    tlim <- lubridate::ymd(tlim, tz = timezone) %>%
-      lubridate::with_tz(tzone = "UTC")
-    tlim[2] <- tlim[2] - lubridate::hours(1)
-  } else if ( lubridate::is.POSIXct(tlim) ) {
-    tlim <- lubridate::with_tz(tlim, tzone = "UTC")
-  } else if ( !is.null(tlim) ) {
-    stop(paste0(
-      "Argument 'tlim' must be a numeric/charcter vector of the form yyyymmdd",
-      "or of class POSIXct."))
+  # Use full time range if startdate or enddate is missing
+  if ( is.null(startdate) || is.null(enddate) ) {
+    timeRange <- range(ws_monitor$data$datetime)
+    startdate <- timeRange[1]
+    enddate <- timeRange[2]
   }
 
-  ## Transform data
+  dateRange <- MazamaCoreUtils::dateRange(
+    startdate = startdate,
+    enddate = enddate,
+    timezone = timezone,
+    unit = "day",
+    ceilingEnd = TRUE
+  )
+
+  # Transform data
 
   # Calculate daily data (or none)
   # TODO: Add ability to include only hourly values (no daily)
@@ -116,9 +142,9 @@ monitor_ggDailyHourlyBarplot <- function(
     dailyData <-
       monData %>%
       monitor_dailyStatistic() %>%
-      monitor_subset(tlim = tlim) %>%
+      monitor_subset(tlim = dateRange) %>%
       monitor_toTidy() %>%
-      mutate(
+      dplyr::mutate(
         aqiCategory = cut(
           .data$pm25,
           AQI$breaks_24,
@@ -134,16 +160,16 @@ monitor_ggDailyHourlyBarplot <- function(
   }
 
   # Calculate the appropriate hourly values (or none)
-  if (hourlyDataType != "none") {
+  if ( hourlyDataType != "none" ) {
 
-    if (hourlyDataType == "nowcast") {
+    if ( hourlyDataType == "nowcast" ) {
 
       hourlyData <-
         monData %>%
         monitor_nowcast(includeShortTerm = TRUE) %>%
-        monitor_subset(tlim = tlim) %>%
+        monitor_subset(tlim = dateRange) %>%
         monitor_toTidy() %>%
-        mutate(
+        dplyr::mutate(
           aqiCategory = cut(
             .data$pm25,
             AQI$breaks_24,
@@ -152,14 +178,14 @@ monitor_ggDailyHourlyBarplot <- function(
           )
         )
 
-      # hourlyDataType == "raw"
     } else {
 
+      # hourlyDataType == "raw"
       hourlyData <-
         monData %>%
-        monitor_subset(tlim = tlim) %>%
+        monitor_subset(tlim = dateRange) %>%
         monitor_toTidy() %>%
-        mutate(
+        dplyr::mutate(
           aqiCategory = cut(
             .data$pm25,
             AQI$breaks_24,
@@ -172,27 +198,28 @@ monitor_ggDailyHourlyBarplot <- function(
   } else {
 
     hourlyData <- NULL
+
   }
 
   # ----- Set up labels --------------------------------------------------------
 
-  if (is.null(title)) {
+  if ( is.null(title) ) {
 
-    if (includeDaily) {
+    if ( includeDaily ) {
       dailyPart <- "Daily (AQI)"
     } else {
       dailyPart <- NULL
     }
 
-    if (hourlyDataType == "nowcast") {
+    if ( hourlyDataType == "nowcast" ) {
       hourlyPart <- "Hourly (NowCast)"
-    } else if (hourlyDataType == "raw") {
+    } else if ( hourlyDataType == "raw" ) {
       hourlyPart <- "Hourly (raw)"
     } else {
       hourlyPart <- NULL
     }
 
-    if (includeDaily && hourlyDataType != "none") {
+    if ( includeDaily && hourlyDataType != "none" ) {
       titlePart <- paste(dailyPart, hourlyPart, sep = " and ")
     } else {
       titlePart <- paste0(dailyPart, hourlyPart)
@@ -202,7 +229,7 @@ monitor_ggDailyHourlyBarplot <- function(
 
   }
 
-  if (is.null(xLabel)) {
+  if ( is.null(xLabel) ) {
     yearPart <- paste(
       unique(lubridate::year(dailyData$datetime)),
       collapse = ", ")
@@ -210,11 +237,11 @@ monitor_ggDailyHourlyBarplot <- function(
     xLabel <- paste0("Date, midnight to midnight (", yearPart, ")")
   }
 
-  if (is.null(yLabel)) {
+  if ( is.null(yLabel) ) {
     yLabel <- expression(paste("PM"[2.5] * " (", mu, "g/m"^3 * ")"))
   }
 
-  if (includeLink) {
+  if ( includeLink ) {
     caption <-
       "Learn more about AQI at: airnow.gov/index.cfm?action=aqibasics.aqi"
   } else {
@@ -223,20 +250,23 @@ monitor_ggDailyHourlyBarplot <- function(
 
   # ----- Define scales --------------------------------------------------------
 
-  ## color scale
+  # Color scale
 
   aqiNames <- AQI$names
   aqiActions <- AQI$actions
 
-  if (palette == "epa_aqi") {
+  if ( palette == "epa_aqi" ) {
     aqiColors <- AQI$colors
   } else {
-    message("Color scale not recognized: ", palette,
-            ". Defaulting to EPA AQI colors.")
+    message(
+      "Color scale not recognized: ",
+      palette,
+      ". Defaulting to EPA AQI colors."
+    )
     aqiColors <- AQI$colors
   }
 
-  ## time scale
+  # Time scale
 
   minDate <- lubridate::as_datetime(min(dailyData$datetime))
   maxDate <- lubridate::as_datetime(max(dailyData$datetime))
@@ -256,7 +286,7 @@ monitor_ggDailyHourlyBarplot <- function(
 
   ## datetime vector for date labels
 
-  if (is.null(hourlyData)) {
+  if ( is.null(hourlyData) ) {
     datetimeValues <- dailyData$datetime
   } else {
     datetimeValues <- hourlyData$datetime

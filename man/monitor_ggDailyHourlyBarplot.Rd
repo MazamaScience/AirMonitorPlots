@@ -6,10 +6,12 @@
 \usage{
 monitor_ggDailyHourlyBarplot(
   ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
   monitorIDs = NULL,
-  tlim = NULL,
   columns = 1,
   title = NULL,
+  timezone = NULL,
   xLabel = NULL,
   yLabel = NULL,
   includeLink = TRUE,
@@ -19,18 +21,23 @@ monitor_ggDailyHourlyBarplot(
 )
 }
 \arguments{
-\item{ws_monitor}{\emph{ws_monitor} object.}
+\item{ws_monitor}{A \code{ws_monitor} object.}
+
+\item{startdate}{Desired start date (integer or character in ymd format or
+POSIXct).}
+
+\item{enddate}{Desired end date (integer or character in ymd format or
+POSIXct).}
 
 \item{monitorIDs}{Optional vector of monitor IDs used to filter the data.}
-
-\item{tlim}{Optional vector with start and end times. Can either be a
-character/numeric vector in form of 'yyyymmdd', or a POSIXct object.
-Defaults to `NULL` (no subsetting).}
 
 \item{columns}{Number of columns the faceted plot should have (default 1).}
 
 \item{title}{The title of the plot. Defaults to specifying the types of
 data present in the plot.}
+
+\item{timezone}{Olson timezone name for x-axis scale and date parsing. If
+NULL the timezone of the specified monitor will be used.}
 
 \item{xLabel}{The x-axis label of the plot. Defaults to years present in
 data.}
@@ -57,6 +64,12 @@ A **ggplot** plot of the given monitors and data.
 Create a time series barplot showing PM2.5 data for the given monitors. The
 overall plot is faceted by monitor, and each facet has two sets of columns:
 one for daily levels, and one for hourly levels.
+
+The full range of data in \code{ws_monitor} will be used unless both
+\code{startdate} and \code{enddate} are specified.
+
+The timezone specified or, if \code{timezone = NULL}, that of the first
+monitor encountered will be used for all time axes.
 }
 \examples{
 \dontrun{
@@ -70,9 +83,9 @@ starttime <- today - lubridate::ddays(4)
 SF_4day <- monitor_subset(SF_full, tlim=c(starttime, now))
 
 # Create plot using pre subset data
-monitor_ggDailyHourlyBarplot(SF_4day, SF_IDs)
+monitor_ggDailyHourlyBarplot(SF_4day, monitorIDs = SF_IDs)
 
 # Create plot using data subset by function
-monitor_ggDailyHourlyBarplot(SF_full, SF_IDs, tlim = c(starttime, now))
+monitor_ggDailyHourlyBarplot(SF_full, starttime, now, SF_IDs)
 }
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Instantiate a pm25 diurnal ggplot — ggplot_pm25Diurnal • AirMonitorPlots</title>
+<title>Theme for PWFSL Daily Hourly Barplot — theme_dailyHourlyBarplot_pwfsl • AirMonitorPlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,9 @@
 
 
 
-<meta property="og:title" content="Instantiate a pm25 diurnal ggplot — ggplot_pm25Diurnal" />
-<meta property="og:description" content="Create a plot using ggplot with default mappings and styling. Layers can then
-be added to this plot using ggplot2 syntax." />
+<meta property="og:title" content="Theme for PWFSL Daily Hourly Barplot — theme_dailyHourlyBarplot_pwfsl" />
+<meta property="og:description" content="Applies a theme to a **ggplot** plot object. This is a minimal theme tailored
+for faceted bar plots." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -135,89 +135,35 @@ be added to this plot using ggplot2 syntax." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Instantiate a pm25 diurnal ggplot</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/R/ggplot_pm25Diurnal.R'><code>R/ggplot_pm25Diurnal.R</code></a></small>
-    <div class="hidden name"><code>ggplot_pm25Diurnal.Rd</code></div>
+    <h1>Theme for PWFSL Daily Hourly Barplot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/R/themes.R'><code>R/themes.R</code></a></small>
+    <div class="hidden name"><code>theme_dailyHourlyBarplot_pwfsl.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a plot using ggplot with default mappings and styling. Layers can then
-be added to this plot using <code>ggplot2</code> syntax.</p>
+    <p>Applies a theme to a **ggplot** plot object. This is a minimal theme tailored
+for faceted bar plots.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span>
-  <span class='va'>ws_data</span>,
-  startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ylim <span class='op'>=</span> <span class='cn'>NULL</span>,
-  shadedNight <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  mapping <span class='op'>=</span> <span class='fu'>aes_</span><span class='op'>(</span>x <span class='op'>=</span> <span class='op'>~</span><span class='va'>hour</span>, y <span class='op'>=</span> <span class='op'>~</span><span class='va'>pm25</span><span class='op'>)</span>,
-  base_size <span class='op'>=</span> <span class='fl'>11</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>theme_dailyHourlyBarplot_pwfsl</span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>11</span>, base_family <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ws_data</th>
-      <td><p>Default dataset to use when adding layers. Must be either a
-<code>ws_monitor</code> object or <code>ws_tidy</code> object.</p></td>
-    </tr>
-    <tr>
-      <th>startdate</th>
-      <td><p>Desired startdate for data to include, in a format that can
-be parsed with parseDatetime.</p></td>
-    </tr>
-    <tr>
-      <th>enddate</th>
-      <td><p>Desired enddate for data to include, in a format that can be
-parsed with parseDatetime.</p></td>
-    </tr>
-    <tr>
-      <th>timezone</th>
-      <td><p>Timezone to use to set hours of the day</p></td>
-    </tr>
-    <tr>
-      <th>ylim</th>
-      <td><p>custom y-axis limits. This function will apply a default limit
-depending on the data.</p></td>
-    </tr>
-    <tr>
-      <th>shadedNight</th>
-      <td><p>add nighttime shading based on of middle day in selected
-period</p></td>
-    </tr>
-    <tr>
-      <th>mapping</th>
-      <td><p>Default mapping for the plot</p></td>
-    </tr>
-    <tr>
       <th>base_size</th>
-      <td><p>Base font size for theme</p></td>
+      <td><p>Base font size.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed on to
-<code><a href='custom_pm25DiurnalScales.html'>custom_pm25DiurnalScales</a></code>.</p></td>
+      <th>base_family</th>
+      <td><p>Base font family.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>ws_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>PWFSLSmoke</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html'>Carmel_Valley</a></span>
-<span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span><span class='va'>ws_monitor</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>coord_polar</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='geom_pm25Points.html'>geom_pm25Points</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='custom_aqiStackedBar.html'>custom_aqiStackedBar</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>1</span>, alpha <span class='op'>=</span> <span class='fl'>.3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing missing values (geom_pm25points).</span></div><div class='img'><img src='ggplot_pm25Diurnal-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span><span class='va'>ws_monitor</span>,
-                   startdate <span class='op'>=</span> <span class='fl'>20160801</span>,
-                   enddate <span class='op'>=</span> <span class='fl'>20160810</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>stat_boxplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>hour</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 7 rows containing non-finite values (stat_boxplot).</span></div><div class='img'><img src='ggplot_pm25Diurnal-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <p>A **ggplot** theme</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

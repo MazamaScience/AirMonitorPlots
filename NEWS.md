@@ -1,7 +1,7 @@
 # AirMonitorPlots 0.5.11
 
-* Transferred in the `monitor_ggDailyHourlyBarplot()` plot function.
-* Transferred in the `theme_dailyHourlyBarplot_pwfsl()` plot theme.
+* New `monitor_ggDailyHourlyBarplot()` plot function.
+* New `theme_dailyHourlyBarplot_pwfsl()` plot theme.
 
 # AirMonitorPlots 0.5.10
 

@@ -55,6 +55,8 @@ monitor_ggDailyBarplot <- function(
 
   # ----- Validate Parameters --------------------------------------------------
 
+  MazamaCoreUtils::stopIfNull(ws_monitor)
+
   # Convert ws_monitor to tidy structure
   if ( monitor_isMonitor(ws_monitor) ) {
     ws_tidy <- monitor_toTidy(ws_monitor)
