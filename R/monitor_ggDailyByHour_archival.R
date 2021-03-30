@@ -139,7 +139,8 @@ monitor_ggDailyByHour_archival <- function(
   # Get title
   if ( is.null(title) ) {
     title <- paste0("NowCast by Time of Day\n",
-                    "Site: ", unique(ws_tidy$siteName))
+                    "Site: ", unique(ws_tidy$siteName),
+                    " (", unique(ws_tidy$monitorID), ")")
   }
 
   # Get labels for legend
