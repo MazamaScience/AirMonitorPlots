@@ -1,0 +1,253 @@
+#' @title Create an archival diurnal plot for one or more monitors
+#'
+#' @description
+#' This function assembles various layers to create a production-ready archival
+#' diurnal plot for a single monitor.
+#'
+#' The full range of data in \code{ws_monitor} will be used unless both
+#' \code{startdate} and \code{enddate} are specified.
+#'
+#' @inheritParams ggplot_pm25Diurnal
+#' @param ws_monitor A \code{ws_monitor} object.
+#' @param monitorID monitorID to include in the plot. This can be NULL if
+#'   \emph{ws_monitor} only has one unique monitorID.
+#' @param style String indicating plotting style. Either \code{"large"} or
+#'   \code{"small"}. \code{style = "large"} is suitable for plots larger than
+#'   450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.
+#' @param title Plot title. If NULL, a suitable title will be constructed.
+#' @param timezone Olson timezone name for x-axis scale and date parsing. If
+#'   NULL the timezone of the specified monitor will be used.
+#' @param ... Extra arguments passed to \code{ggplot_pm25Diurnal()}.
+#'
+#' @return A \emph{ggplot} object.
+#'
+#' @import ggplot2
+#' @importFrom rlang .data
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' ws_monitor <- airnow_loadLatest()
+#' monitor_ggDailyByHour_archival_meanBars(ws_monitor, monitorID = "410432002_01")
+#' }
+#'
+#' ws_monitor <- Carmel_Valley
+#' monitor_ggDailyByHour_archival_meanBars(ws_monitor, startdate = 20160720, enddate = 20160810, style = "large")
+
+monitor_ggDailyByHour_archival_meanBars <- function(
+  ws_monitor,
+  startdate = NULL,
+  enddate = NULL,
+  monitorID = NULL,
+  style = "small",
+  title = NULL,
+  timezone = NULL,
+  ...
+) {
+
+  # ----- Validate Parameters --------------------------------------------------
+
+  MazamaCoreUtils::stopIfNull(ws_monitor)
+
+  if ( !monitor_isMonitor(ws_monitor) )
+    stop("Parameter 'ws_monitor' is not a valid ws_monitor object.")
+
+  if ( monitor_isEmpty(ws_monitor) )
+    stop("Parameter 'ws_monitor' contains no data.")
+
+  # Check monitorID
+  if ( is.null(monitorID) ) {
+
+    if ( nrow(ws_monitor$meta) > 1 ) {
+      stop("Parameter 'monitorID' is required if 'ws_monitor' has multiple monitors.")
+    } else {
+      monitorID <- ws_monitor$meta$monitorID
+    }
+
+  } else {
+
+    if ( length(monitorID) > 1 ) {
+      stop("Parameter 'monitorID' must contain a single monitorID.")
+    } else if ( !monitorID %in% ws_monitor$meta$monitorID ) {
+      stop(sprintf("monitorID '%s' is not found in 'ws_monitor'.", monitorID))
+    }
+
+  }
+
+  if ( !style %in% c("small", "large") )
+    stop(sprintf("Invalid style = '%s'. Choose from 'small' or 'large'.", style))
+
+  if ( !is.null(timezone) ) {
+    if ( !timezone %in% OlsonNames() ) {
+      stop(sprintf("Invalid timezone = '%s'. See ?OlsonNames.", timezone))
+    }
+  }
+
+  # ----- Subset ws_monitor ----------------------------------------------------
+
+  singleMonitor <- PWFSLSmoke::monitor_subset(ws_monitor, monitorIDs = monitorID)
+
+  # Get timezone
+  if ( is.null(timezone) )
+    timezone <- singleMonitor$meta$timezone
+
+  timeRange <- range(singleMonitor$data$datetime)
+
+  # Create POSIXct startdate and enddate
+  if ( is.null(startdate) || is.null(enddate) ) {
+    startdate <- timeRange[1]
+    enddate <- timeRange[2]
+  } else {
+    startdate <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
+    enddate <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
+  }
+
+  if ( (startdate < timeRange[1] && enddate < timeRange[1]) ||
+       (startdate > timeRange[2] && enddate > timeRange[2]) ) {
+    stop("Both 'startdate' and 'enddate' are outside the 'ws_monitor' time range")
+  }
+
+  dateRange <- MazamaCoreUtils::dateRange(
+    startdate = startdate,
+    enddate = enddate,
+    timezone = timezone,
+    unit = "hour",
+    ceilingEnd = TRUE
+  )
+
+  singleMonitor <-
+    singleMonitor %>%
+    monitor_subset(tlim = dateRange)
+
+  # ----- Create "tidy" version ------------------------------------------------
+
+  # NOTE:  Prefixing 'timezone' with '!!' tells dplyr to use the local variable
+  # NOTE:  'timezone' instead of the ws_tidy$timezone column.
+
+  # Convert ws_monitor to tidy structure with 'hour', 'datestamp' and 'nowcast
+  ws_tidy <-
+    monitor_toTidy(singleMonitor) %>%
+    dplyr::mutate(
+      hour = as.numeric(strftime(.data$datetime, "%H", tz = !!timezone)),
+      datestamp = strftime(.data$datetime, "%Y%m%d", tz = !!timezone),
+      nowcast = .nowcast(.data$pm25)
+    )
+
+  # ----- Style ----------------------------------------------------------------
+
+  # Get title
+  if ( is.null(title) ) {
+    title <- paste0("NowCast by Time of Day\n",
+                    "Site: ", unique(ws_tidy$siteName),
+                    " (", unique(ws_tidy$monitorID), ")")
+  }
+
+  # Create start and end date labels
+  startdateLabel <- strftime(
+    x = MazamaCoreUtils::parseDatetime(startdate, timezone = timezone),
+    tz = timezone,
+    format = "%Y/%m/%d"
+  )
+  enddateLabel <- strftime(
+    x = MazamaCoreUtils::parseDatetime(enddate, timezone = timezone),
+    tz = timezone,
+    format = "%Y/%m/%d"
+  )
+
+  # Get labels for legend
+  now_datestamp <-
+    lubridate::now(tzone = timezone) %>%
+    strftime("%Y%m%d", tz = timezone)
+  end_datestamp <- strftime(enddate, "%Y%m%d", tz = timezone)
+
+  meanText <- paste0(as.integer(difftime(dateRange[2], dateRange[1], units = "days")), " Day Mean")
+
+  if (style == "large") {
+    meanSize <- 8
+    base_size <- 15
+  } else if (style == "small") {
+    meanSize <- 5
+    base_size <- 11
+  }
+
+  # ----- Create plot ----------------------------------------------------------
+
+  gg <-
+    ggplot_pm25Diurnal(
+      ws_tidy,
+      startdate = dateRange[1],
+      enddate = dateRange[2],
+      mapping = aes_(x = ~ hour, y = ~ nowcast),
+      base_size = base_size,
+      ...
+    ) +
+    custom_aqiLines() +
+    custom_aqiStackedBar() +
+    # Mean bars
+    stat_meanByHour(output = "AQIColors") +
+    # Data points
+    stat_nowcast(geom = "pm25Points")
+
+  gg <- gg +
+    # Title
+    ggtitle(title) +
+    # x-axis label
+    xlab(paste0("Time of day during ", startdateLabel, " - ", enddateLabel)) +
+    # Theme
+    theme_dailyByHour_pwfsl(size = style)
+
+  return(gg)
+
+}
+
+# ===== DEBUGGING ==============================================================
+
+if ( FALSE ) {
+
+  # BUG ==> ggplot errors when plotting ddata right after UTC midnight
+  # Most likely issue is today/yesterday tibbles with zero rows. We should
+  # check for this before these separate, custom points
+
+  ws_monitor <- airnow_loadLatest()
+  monitorID <- "060431001_01"
+  style <- "large"
+  title <- NULL
+  timezone <- NULL
+
+
+  startdate <- NULL
+  enddate <- NULL
+
+  enddate <-
+    lubridate::now(tzone = "America/Los_Angeles") %>%
+    lubridate::floor_date(unit = "day") - lubridate::dhours(1)
+  startdate <- enddate - lubridate::ddays(10)
+
+  enddate <-
+    lubridate::now(tzone = "America/Los_Angeles") %>%
+    lubridate::floor_date(unit = "day") - lubridate::ddays(3) - lubridate::dhours(1)
+  startdate <- enddate - lubridate::ddays(4)
+
+  enddate <-
+    lubridate::now(tzone = "America/Los_Angeles") %>%
+    lubridate::floor_date(unit = "day") + lubridate::dhours(1)
+  startdate <- enddate - lubridate::ddays(10)
+
+  enddate <-
+    lubridate::now(tzone = "UTC") %>%
+    lubridate::floor_date(unit = "day")
+  startdate <- enddate - lubridate::ddays(6)
+
+
+  monitor_ggDailyByHour(
+    ws_monitor = ws_monitor,
+    startdate = startdate,
+    enddate = enddate,
+    monitorID = monitorID,
+    style = style,
+    title = title,
+    timezone = timezone
+  )
+
+}
