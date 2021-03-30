@@ -33,7 +33,7 @@
 #' }
 #'
 #' ws_monitor <- Carmel_Valley
-#' monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160801, enddate = 20160810)
+#' monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160801, enddate = 20160810, style = "large")
 
 monitor_ggDailyByHour_archival <- function(
   ws_monitor,
@@ -143,6 +143,18 @@ monitor_ggDailyByHour_archival <- function(
                     " (", unique(ws_tidy$monitorID), ")")
   }
 
+  # Create start and end date labels
+  startdateLabel <- strftime(
+    x = MazamaCoreUtils::parseDatetime(startdate, timezone = timezone),
+    tz = timezone,
+    format = "%Y/%m/%d"
+  )
+  enddateLabel <- strftime(
+    x = MazamaCoreUtils::parseDatetime(enddate, timezone = timezone),
+    tz = timezone,
+    format = "%Y/%m/%d"
+  )
+
   # Get labels for legend
   now_datestamp <-
     lubridate::now(tzone = timezone) %>%
@@ -184,6 +196,8 @@ monitor_ggDailyByHour_archival <- function(
   gg <- gg +
     # Title
     ggtitle(title) +
+    # x-axis label
+    xlab(paste0("Time of day during ", startdateLabel, " - ", enddateLabel)) +
     # Theme
     theme_dailyByHour_pwfsl(size = style)
 
