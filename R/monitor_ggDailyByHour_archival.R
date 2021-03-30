@@ -33,7 +33,7 @@
 #' }
 #'
 #' ws_monitor <- Carmel_Valley
-#' monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160801, enddate = 20160810, style = "large")
+#' monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160720, enddate = 20160810, style = "large")
 
 monitor_ggDailyByHour_archival <- function(
   ws_monitor,
@@ -189,9 +189,10 @@ monitor_ggDailyByHour_archival <- function(
       aes(color = !!meanText),
       geom = "line",
       size = meanSize,
-      alpha = .3,
+      alpha = .4,
       lineend = "round"
-    )
+    ) +
+    stat_nowcast(geom = "pm25Points")
 
   gg <- gg +
     # Title
@@ -216,7 +217,7 @@ monitor_ggDailyByHour_archival <- function(
         cex = c(meanSize),
         linetype = c(1),
         lineend = c("round"),
-        alpha = c(.3)
+        alpha = c(.4)
       )
     )
   )
