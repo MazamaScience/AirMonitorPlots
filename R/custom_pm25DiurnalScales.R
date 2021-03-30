@@ -98,7 +98,7 @@ custom_pm25DiurnalScales <- function(
     scale_x_continuous(
       breaks = breaks,
       minor_breaks = seq(0, 23, by = 1),
-      labels = c("midnight", "3am", "6am", "9am", "Noon", "3pm", "6pm", "9pm"),
+      labels = c("Midnight", "3am", "6am", "9am", "Noon", "3pm", "6pm", "9pm"),
       limits = c(xmin, xmax),
       expand = c(0, 0)
     ),
