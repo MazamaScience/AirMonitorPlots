@@ -35,7 +35,7 @@
 #' library(AirMonitorPlots)
 #'
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160801, enddate = 20160810)
+#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160801, enddate = 20160810, style = "large")
 #'
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
@@ -130,6 +130,11 @@ monitor_ggDailyBarplot_archival <- function(
       .data$datetime < enddate
     )
 
+  year <- strftime(
+    x = MazamaCoreUtils::parseDatetime(startdate, timezone = "UTC"),
+    tz = "UTC",
+    format = "%Y"
+  )
 
   # ----- Style ----------------------------------------------------------------
 
@@ -143,7 +148,7 @@ monitor_ggDailyBarplot_archival <- function(
   if ( style == "large" ) {
     nowcastTextSize <- 4.5
     nowcastText <- "Current\nNowCast"
-    date_format <- "%b %d"
+    date_format <- "%b\n%d"
     base_size <- 15
   } else if ( style == "small" ) {
     nowcastTextSize <- 4
@@ -251,9 +256,16 @@ monitor_ggDailyBarplot_archival <- function(
     # Remove padding on y scale
     scale_y_continuous(expand = c(0, 0)) +
     ggtitle(title) +
-    xlab(xlab) +
+    xlab(year) +
     nowcastBar +
-    theme_dailyBarplot_pwfsl(size = style)
+    theme(
+      axis.line.x.bottom = element_blank(), # remove line on x-axis
+      panel.border = element_blank(),       # remove box around plot
+      panel.grid = element_blank(),         # remove background grid lines
+      axis.ticks.x.bottom = element_blank() # remove x-axis ticks
+    ) +
+    theme_custom_size(size = size)
+    #theme_dailyBarplot_pwfsl(size = style)
 
   return(plot)
 
