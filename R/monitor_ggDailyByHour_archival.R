@@ -155,6 +155,10 @@ monitor_ggDailyByHour_archival <- function(
     format = "%Y/%m/%d"
   )
 
+  # Get subtitle
+  subtitle <- paste0("Hourly values and averages: ",
+                     startdateLabel, " to ", enddateLabel)
+
   # Get labels for legend
   now_datestamp <-
     lubridate::now(tzone = timezone) %>%
@@ -191,7 +195,7 @@ monitor_ggDailyByHour_archival <- function(
 
   gg <- gg +
     # Title
-    ggtitle(title) +
+    ggtitle(title, subtitle) +
     # Theme
     theme_dailyByHour_pwfsl(size = style)
 
