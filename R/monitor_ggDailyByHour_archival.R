@@ -29,13 +29,13 @@
 #' @examples
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
-#' monitor_ggDailyByHour_archival_meanLine(ws_monitor, monitorID = "410432002_01")
+#' monitor_ggDailyByHour_archival(ws_monitor, monitorID = "410432002_01")
 #' }
 #'
 #' ws_monitor <- Carmel_Valley
-#' monitor_ggDailyByHour_archival_meanLine(ws_monitor, startdate = 20160720, enddate = 20160810, style = "large")
+#' monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160720, enddate = 20160810, style = "large")
 
-monitor_ggDailyByHour_archival_meanLine <- function(
+monitor_ggDailyByHour_archival <- function(
   ws_monitor,
   startdate = NULL,
   enddate = NULL,
@@ -184,14 +184,9 @@ monitor_ggDailyByHour_archival_meanLine <- function(
     ) +
     custom_aqiLines() +
     custom_aqiStackedBar() +
-    # large mean line
-    stat_meanByHour(
-      aes(color = !!meanText),
-      geom = "line",
-      size = meanSize,
-      alpha = .4,
-      lineend = "round"
-    ) +
+    # Mean bars
+    stat_meanByHour(output = "AQIColors") +
+    # Data points
     stat_nowcast(geom = "pm25Points")
 
   gg <- gg +
@@ -201,28 +196,6 @@ monitor_ggDailyByHour_archival_meanLine <- function(
     xlab(paste0("Time of day during ", startdateLabel, " - ", enddateLabel)) +
     # Theme
     theme_dailyByHour_pwfsl(size = style)
-
-  # * Add legend ---------------------------------------------------------------
-
-  values <- c("black")
-  names(values) <- c(meanText)
-  scale <- scale_color_manual(name = "", values = values, labels = names(values))
-  guide <- guides(
-    color = guide_legend(
-      title = "",
-      override.aes = list(
-        fill = c(NA),
-        color = c("black"),
-        shape = c(NA),
-        cex = c(meanSize),
-        linetype = c(1),
-        lineend = c("round"),
-        alpha = c(.4)
-      )
-    )
-  )
-
-  gg <- gg + scale + guide
 
   return(gg)
 
