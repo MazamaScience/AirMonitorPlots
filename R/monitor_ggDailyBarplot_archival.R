@@ -35,7 +35,7 @@
 #' library(AirMonitorPlots)
 #'
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160801, enddate = 20160810, style = "large")
+#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160701, enddate = 20160930, style = "large")
 #'
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
@@ -157,6 +157,12 @@ monitor_ggDailyBarplot_archival <- function(
     base_size <- 11
   }
 
+  # Don't draw bar borders if there are a lot of bars
+  startdatePosix <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
+  enddatePosix <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
+  daysCoveredCount <- difftime(enddatePosix, startdatePosix, timezone, "days")
+  barBorderColor <- ifelse(daysCoveredCount <= 96, "black", "transparent")
+
   # Check for any data from "today"
   if ( isFALSE(enddate > lubridate::floor_date(lubridate::now(tzone = timezone), unit = "day")) ) {
     today <- FALSE
@@ -249,7 +255,7 @@ monitor_ggDailyBarplot_archival <- function(
       ...
     ) +
     custom_aqiLines(size = 1, alpha = .8) +
-    stat_dailyAQCategory(timezone = timezone, adjustylim = TRUE, color = "black") +
+    stat_dailyAQCategory(timezone = timezone, adjustylim = TRUE, color = barBorderColor) +
     custom_aqiStackedBar(width = .015) +
 
     ## Format/theme tweaks
