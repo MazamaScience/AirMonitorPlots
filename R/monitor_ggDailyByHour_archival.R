@@ -192,8 +192,6 @@ monitor_ggDailyByHour_archival <- function(
   gg <- gg +
     # Title
     ggtitle(title) +
-    # x-axis label
-    xlab(paste0("Time of day during ", startdateLabel, " - ", enddateLabel)) +
     # Theme
     theme_dailyByHour_pwfsl(size = style)
 
