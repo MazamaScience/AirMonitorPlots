@@ -261,8 +261,7 @@ monitor_ggDailyBarplot_archival <- function(
     theme(
       axis.line.x.bottom = element_blank(), # remove line on x-axis
       panel.border = element_blank(),       # remove box around plot
-      panel.grid = element_blank(),         # remove background grid lines
-      axis.ticks.x.bottom = element_blank() # remove x-axis ticks
+      panel.grid = element_blank()          # remove background grid lines
     ) +
     theme_custom_size(size = style)
     #theme_dailyBarplot_pwfsl(size = style)
