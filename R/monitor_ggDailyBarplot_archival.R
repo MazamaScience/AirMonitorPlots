@@ -264,7 +264,7 @@ monitor_ggDailyBarplot_archival <- function(
       panel.grid = element_blank(),         # remove background grid lines
       axis.ticks.x.bottom = element_blank() # remove x-axis ticks
     ) +
-    theme_custom_size(size = size)
+    theme_custom_size(size = style)
     #theme_dailyBarplot_pwfsl(size = style)
 
   return(plot)
