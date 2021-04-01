@@ -53,8 +53,8 @@ archival timeseries plot for one or more monitors.
 NM <- PWFSLSmoke::Northwest_Megafires
 monitor_ggTimeseries_archival(
   NM,
-  startdate = 20150815,
-  enddate = 20150831,
+  startdate = 20150809,
+  enddate = 20150820,
   monitorIDs = "160690014_01"
 )
 

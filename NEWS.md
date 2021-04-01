@@ -1,3 +1,16 @@
+# AirMonitorPlots 0.7.0
+
+Starting the 2021 fire season at version 0.7 with minor fixes and several new 
+plots.
+
+New "archival plots are designed to create fully annotated, nice looking plots
+for longer time periods than the default plots which are designed for the most
+recent 10 days.
+
+* `monitor_ggDailyBarplot_archival()`
+* `monitor_ggDailyByHour_archival()`
+* `monitor_ggTimeseries_archival()`
+
 # AirMonitorPlots 0.5.11
 
 * New `monitor_ggDailyHourlyBarplot()` plot function.
