@@ -9,7 +9,7 @@ monitor_ggTimeseries_archival(
   startdate = NULL,
   enddate = NULL,
   monitorIDs = NULL,
-  style = "small",
+  style = "large",
   title = NULL,
   aqiStyle = NULL,
   timezone = NULL,
@@ -50,16 +50,19 @@ This function assembles various layers to create a production-ready
 archival timeseries plot for one or more monitors.
 }
 \examples{
-NM <- PWFSLSmoke::Northwest_Megafires
-monitor_ggTimeseries_archival(
-  NM,
-  startdate = 20150809,
-  enddate = 20150820,
-  monitorIDs = "160690014_01"
-)
+library(AirMonitorPlots)
 
-CV <- PWFSLSmoke::Carmel_Valley
-monitor_ggTimeseries_archival(CV, startdate = 20160801, enddate = 20160810)
+PWFSLSmoke::Northwest_Megafires \%>\%
+  monitor_ggTimeseries_archival(
+    startdate = 20150809,
+    enddate = 20150820,
+    monitorIDs = "160690014_01",
+    timezone = "America/Los_Angeles" # because multiple timezones are present
+ )
+
+PWFSLSmoke::Carmel_Valley \%>\%
+  monitor_trimDate() \%>\%
+  monitor_ggTimeseries_archival()
 
 \dontrun{
 ws_monitor <- airnow_loadLatest()

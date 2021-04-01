@@ -5,11 +5,15 @@ plots.
 
 New "archival plots are designed to create fully annotated, nice looking plots
 for longer time periods than the default plots which are designed for the most
-recent 10 days.
+recent 10 days:
 
 * `monitor_ggDailyBarplot_archival()`
 * `monitor_ggDailyByHour_archival()`
 * `monitor_ggTimeseries_archival()`
+
+Additional helper functions:
+
+* `monitor_trimDate()`
 
 # AirMonitorPlots 0.5.11
 

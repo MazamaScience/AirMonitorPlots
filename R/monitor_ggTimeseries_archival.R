@@ -29,16 +29,19 @@
 #' @export
 #'
 #' @examples
-#' NM <- PWFSLSmoke::Northwest_Megafires
-#' monitor_ggTimeseries_archival(
-#'   NM,
-#'   startdate = 20150809,
-#'   enddate = 20150820,
-#'   monitorIDs = "160690014_01"
-#')
+#' library(AirMonitorPlots)
 #'
-#' CV <- PWFSLSmoke::Carmel_Valley
-#' monitor_ggTimeseries_archival(CV, startdate = 20160801, enddate = 20160810)
+#' PWFSLSmoke::Northwest_Megafires %>%
+#'   monitor_ggTimeseries_archival(
+#'     startdate = 20150809,
+#'     enddate = 20150820,
+#'     monitorIDs = "160690014_01",
+#'     timezone = "America/Los_Angeles" # because multiple timezones are present
+#'  )
+#'
+#' PWFSLSmoke::Carmel_Valley %>%
+#'   monitor_trimDate() %>%
+#'   monitor_ggTimeseries_archival()
 #'
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
@@ -50,14 +53,14 @@ monitor_ggTimeseries_archival <- function(
   startdate = NULL,
   enddate = NULL,
   monitorIDs = NULL,
-  style = "small",
+  style = "large",
   title = NULL,
   aqiStyle = NULL,
   timezone = NULL,
   ...
 ) {
 
-  # Validate Parameters --------------------------------------------------------
+  # ----- Validate Parameters --------------------------------------------------
 
   MazamaCoreUtils::stopIfNull(ws_monitor)
 
@@ -111,7 +114,7 @@ monitor_ggTimeseries_archival <- function(
     }
   }
 
-  # Prepare data ---------------------------------------------------------------
+  # ----- Prepare data ---------------------------------------------------------
 
   if (!is.null(monitorIDs)) {
     ws_tidy <- dplyr::filter(ws_tidy, .data$monitorID %in% monitorIDs)
@@ -123,7 +126,6 @@ monitor_ggTimeseries_archival <- function(
   if (length(unique(ws_tidy$monitorID)) > 1) {
     mapping_pm25 <- mapping_nowcast <- aes_(color = ~monitorID)
     if (is.null(title)) title <- ""
-
   } else {
     mapping_pm25 <- aes(color = !!pm25LegendLabel)
     mapping_nowcast <- aes(color = !!nowcastLegendLabel)
@@ -134,13 +136,9 @@ monitor_ggTimeseries_archival <- function(
     }
   }
 
-  year <- strftime(
-    x = MazamaCoreUtils::parseDatetime(startdate, timezone = "UTC"),
-    tz = "UTC",
-    format = "%Y"
-  )
+  year <- strftime(startdate, "%Y", tz = "UTC")
 
-  # Style ----------------------------------------------------------------------
+  # ----- Style ----------------------------------------------------------------
 
   if (style == "large") {
     pointsize <- 2
@@ -156,7 +154,7 @@ monitor_ggTimeseries_archival <- function(
     base_size <- 11
   }
 
-  # Create plot ----------------------------------------------------------------
+  # ----- Create plot ----------------------------------------------------------
 
   plot <-
     ggplot_pm25Timeseries(

@@ -9,7 +9,7 @@ monitor_ggDailyBarplot_archival(
   startdate = NULL,
   enddate = NULL,
   monitorID = NULL,
-  style = "small",
+  style = "large",
   title = NULL,
   timezone = NULL,
   today = TRUE,
@@ -55,11 +55,16 @@ The full range of data in \code{ws_monitor} will be used unless both
 \examples{
 library(AirMonitorPlots)
 
-ws_monitor <- PWFSLSmoke::Carmel_Valley
-monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160801, enddate = 20160810)
+PWFSLSmoke::Carmel_Valley \%>\%
+  monitor_trimDate() \%>\%
+  monitor_ggDailyBarplot_archival()
 
 \dontrun{
 ws_monitor <- airnow_loadLatest()
-monitor_ggDailyBarplot_archival(ws_monitor, monitorID = "410432002_01", today = TRUE)
+monitor_ggDailyBarplot_archival(
+  ws_monitor,
+  monitorID = "410432002_01",
+  today = TRUE
+)
 }
 }

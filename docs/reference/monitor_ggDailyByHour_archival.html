@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add hourly averages to a plot — stat_meanByHour • AirMonitorPlots</title>
+<title>Create an archival diurnal plot for one or more monitors — monitor_ggDailyByHour_archival • AirMonitorPlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,11 @@
 
 
 
-<meta property="og:title" content="Add hourly averages to a plot — stat_meanByHour" />
-<meta property="og:description" content="This function calculates the mean y-value for each x-value. Should be used
-only when x is discrete. The resulting mean can be mapped to any
-aesthetic, specified with the output parameter." />
+<meta property="og:title" content="Create an archival diurnal plot for one or more monitors — monitor_ggDailyByHour_archival" />
+<meta property="og:description" content="This function assembles various layers to create a production-ready archival
+diurnal plot for a single monitor.
+The full range of data in ws_monitor will be used unless both
+startdate and enddate are specified." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -136,27 +137,26 @@ aesthetic, specified with the output parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add hourly averages to a plot</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/R/stat_meanByHour.R'><code>R/stat_meanByHour.R</code></a></small>
-    <div class="hidden name"><code>stat_meanByHour.Rd</code></div>
+    <h1>Create an archival diurnal plot for one or more monitors</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/R/monitor_ggDailyByHour_archival.R'><code>R/monitor_ggDailyByHour_archival.R</code></a></small>
+    <div class="hidden name"><code>monitor_ggDailyByHour_archival.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function calculates the mean y-value for each x-value. Should be used
-only when <code>x</code> is discrete. The resulting mean can be mapped to any
-aesthetic, specified with the <code>output</code> parameter.</p>
+    <p>This function assembles various layers to create a production-ready archival
+diurnal plot for a single monitor.</p>
+<p>The full range of data in <code>ws_monitor</code> will be used unless both
+<code>startdate</code> and <code>enddate</code> are specified.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>stat_meanByHour</span><span class='op'>(</span>
-  mapping <span class='op'>=</span> <span class='cn'>NULL</span>,
-  data <span class='op'>=</span> <span class='cn'>NULL</span>,
-  input <span class='op'>=</span> <span class='cn'>NULL</span>,
-  output <span class='op'>=</span> <span class='st'>"y"</span>,
-  geom <span class='op'>=</span> <span class='st'>"bar"</span>,
-  position <span class='op'>=</span> <span class='st'>"identity"</span>,
-  na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  show.legend <span class='op'>=</span> <span class='cn'>NA</span>,
-  inherit.aes <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    <pre class="usage"><span class='fu'>monitor_ggDailyByHour_archival</span><span class='op'>(</span>
+  <span class='va'>ws_monitor</span>,
+  startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  monitorID <span class='op'>=</span> <span class='cn'>NULL</span>,
+  style <span class='op'>=</span> <span class='st'>"large"</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -164,76 +164,59 @@ aesthetic, specified with the <code>output</code> parameter.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mapping</th>
-      <td><p>Set of aesthetic mappings created by <code>aes()</code>. If
-specified and <code>inherit.aes = TRUE</code> (the default), it is combined with
-the default mapping at the top level of the plot. You must supply
-<code>mapping</code> if there is no plot mapping.</p></td>
+      <th>ws_monitor</th>
+      <td><p>A <code>ws_monitor</code> object.</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>The data to be displayed in this layer. There are three options:
-if <code>NULL</code>, the default, the data is inherited from the plot data. A
-<code>data.frame</code> or other object, will override the plot data. A
-<code>function</code> will be called with a single argument, the plot data. The
-return value must be a <code>data.frame</code>, and will be used as the layer
-data.</p></td>
+      <th>startdate</th>
+      <td><p>Desired startdate for data to include, in a format that can
+be parsed with parseDatetime.</p></td>
     </tr>
     <tr>
-      <th>input</th>
-      <td><p>The value to find the mean of. If <code>NULL</code>, the default
-<code>y</code> value will be used.</p></td>
+      <th>enddate</th>
+      <td><p>Desired enddate for data to include, in a format that can be
+parsed with parseDatetime.</p></td>
     </tr>
     <tr>
-      <th>output</th>
-      <td><p>"AQIColors", "mv4Colors", "scaqmd", "y"</p></td>
+      <th>monitorID</th>
+      <td><p>monitorID to include in the plot. This can be NULL if
+<em>ws_monitor</em> only has one unique monitorID.</p></td>
     </tr>
     <tr>
-      <th>geom</th>
-      <td><p>The geometic object to display the data</p></td>
+      <th>style</th>
+      <td><p>String indicating plotting style. Either <code>"large"</code> or
+<code>"small"</code>. <code>style = "large"</code> is suitable for plots larger than
+450x450px, and <code>"small"</code> is suitable for plots 450x450px or smaller.</p></td>
     </tr>
     <tr>
-      <th>position</th>
-      <td><p>Position adjustment, either as a string, or the result of a
-call to a position adjustment function.</p></td>
+      <th>title</th>
+      <td><p>Plot title. If NULL, a suitable title will be constructed.</p></td>
     </tr>
     <tr>
-      <th>na.rm</th>
-      <td><p>remove NA values from data</p></td>
-    </tr>
-    <tr>
-      <th>show.legend</th>
-      <td><p>logical indicating whether this layer should be included
-in legends.</p></td>
-    </tr>
-    <tr>
-      <th>inherit.aes</th>
-      <td><p>if <code>FALSE</code>, overrides the default aesthetics, rather
-than combining with them. This is most useful for helper functions that
-define both data and the aesthetics and shouldn't inherit behaviour from
-the default plot specificatino, eg <code>borders()</code>.</p></td>
+      <th>timezone</th>
+      <td><p>Olson timezone name for x-axis scale and date parsing. If
+NULL the timezone of the specified monitor will be used.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional arguments passed on to <code>layer()</code>, such as
-aesthetics.</p></td>
+      <td><p>Extra arguments passed to <code><a href='ggplot_pm25Diurnal.html'>ggplot_pm25Diurnal()</a></code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <em>ggplot</em> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='ggplot_pm25Timeseries.html'>ggplot_pm25Timeseries</a></span><span class='op'>(</span><span class='fu'>PWFSLSmoke</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Northwest_Megafires.html'>Northwest_Megafires</a></span>,
-                      startdate <span class='op'>=</span> <span class='fl'>20150820</span>,
-                      enddate <span class='op'>=</span> <span class='fl'>20150831</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_point</span><span class='op'>(</span>shape <span class='op'>=</span> <span class='st'>"square"</span>, alpha <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>stat_meanByHour</span><span class='op'>(</span>geom <span class='op'>=</span> <span class='st'>"line"</span>, color <span class='op'>=</span> <span class='st'>"orange"</span>, size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitorPlots'>AirMonitorPlots</a></span><span class='op'>)</span>
 
-<span class='fu'><a href='ggplot_pm25Diurnal.html'>ggplot_pm25Diurnal</a></span><span class='op'>(</span><span class='fu'>PWFSLSmoke</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html'>Carmel_Valley</a></span>,
-                   startdate <span class='op'>=</span> <span class='fl'>20160801</span>,
-                   enddate <span class='op'>=</span> <span class='fl'>20160810</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_path</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>day</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"gray50"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>stat_meanByHour</span><span class='op'>(</span>geom <span class='op'>=</span> <span class='st'>"line"</span>, size <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
+<span class='fu'>PWFSLSmoke</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html'>Carmel_Valley</a></span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_trimDate.html'>monitor_trimDate</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>monitor_ggDailyByHour_archival</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 33 rows containing missing values (geom_pm25points).</span></div><div class='img'><img src='monitor_ggDailyByHour_archival-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>ws_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>airnow_loadLatest</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>monitor_ggDailyByHour_archival</span><span class='op'>(</span><span class='va'>ws_monitor</span>, monitorID <span class='op'>=</span> <span class='st'>"410432002_01"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

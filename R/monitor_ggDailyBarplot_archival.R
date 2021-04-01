@@ -34,12 +34,17 @@
 #' @examples
 #' library(AirMonitorPlots)
 #'
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160701, enddate = 20160930, style = "large")
+#' PWFSLSmoke::Carmel_Valley %>%
+#'   monitor_trimDate() %>%
+#'   monitor_ggDailyBarplot_archival()
 #'
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
-#' monitor_ggDailyBarplot_archival(ws_monitor, monitorID = "410432002_01", today = TRUE)
+#' monitor_ggDailyBarplot_archival(
+#'   ws_monitor,
+#'   monitorID = "410432002_01",
+#'   today = TRUE
+#' )
 #' }
 
 monitor_ggDailyBarplot_archival <- function(
@@ -47,7 +52,7 @@ monitor_ggDailyBarplot_archival <- function(
   startdate = NULL,
   enddate = NULL,
   monitorID = NULL,
-  style = "small",
+  style = "large",
   title = NULL,
   timezone = NULL,
   today = TRUE,

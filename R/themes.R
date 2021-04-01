@@ -108,6 +108,7 @@ theme_pwfsl <- function(
 #' @return A \emph{ggplot} theme.
 #'
 #' @import ggplot2
+#' @export
 theme_custom_size <- function(size = "large") {
   if (size == "large") {
     theme()
