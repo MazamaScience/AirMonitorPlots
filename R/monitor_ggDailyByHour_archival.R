@@ -33,7 +33,12 @@
 #' }
 #'
 #' ws_monitor <- Carmel_Valley
-#' monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160720, enddate = 20160810, style = "large")
+#' monitor_ggDailyByHour_archival(
+#'   ws_monitor,
+#'   startdate = 20160720,
+#'   enddate = 20160810,
+#'   style = "large"
+#' )
 
 monitor_ggDailyByHour_archival <- function(
   ws_monitor,

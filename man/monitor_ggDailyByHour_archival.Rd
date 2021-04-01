@@ -55,5 +55,10 @@ monitor_ggDailyByHour_archival(ws_monitor, monitorID = "410432002_01")
 }
 
 ws_monitor <- Carmel_Valley
-monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160720, enddate = 20160810, style = "large")
+monitor_ggDailyByHour_archival(
+  ws_monitor,
+  startdate = 20160720,
+  enddate = 20160810,
+  style = "large"
+)
 }
