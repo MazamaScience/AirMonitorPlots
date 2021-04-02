@@ -35,11 +35,11 @@
 #' library(AirMonitorPlots)
 #'
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160701, enddate = 20160930, style = "large")
+#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160701, enddate = 20160730, style = "large")
 #'
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
-#' monitor_ggDailyBarplot_archival(ws_monitor, monitorID = "410432002_01", today = TRUE)
+#' monitor_ggDailyBarplot_archival(ws_monitor, monitorID = "410432002_01", startd)
 #' }
 
 monitor_ggDailyBarplot_archival <- function(
@@ -131,7 +131,7 @@ monitor_ggDailyBarplot_archival <- function(
     )
 
   year <- strftime(
-    x = MazamaCoreUtils::parseDatetime(startdate, timezone = "UTC"),
+    x = MazamaCoreUtils::parseDatetime(startdate, timezone = timezone),
     tz = "UTC",
     format = "%Y"
   )
@@ -252,6 +252,7 @@ monitor_ggDailyBarplot_archival <- function(
       tick_location = "midday",
       today_label = !today,
       base_size = base_size,
+      includeFullEnddate = FALSE,
       ...
     ) +
     custom_aqiLines(size = 1, alpha = .8) +
