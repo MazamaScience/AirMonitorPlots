@@ -252,7 +252,6 @@ monitor_ggDailyBarplot_archival <- function(
       tick_location = "midday",
       today_label = !today,
       base_size = base_size,
-      includeFullEnddate = FALSE,
       ...
     ) +
     custom_aqiLines(size = 1, alpha = .8) +
