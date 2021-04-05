@@ -27,20 +27,20 @@
 #' @export
 #'
 #' @examples
+#' ws_monitor <- Carmel_Valley
+#' monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160720, enddate = 20160810)
+#'
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
 #' monitor_ggDailyByHour_archival(ws_monitor, monitorID = "410432002_01")
 #' }
-#'
-#' ws_monitor <- Carmel_Valley
-#' monitor_ggDailyByHour_archival(ws_monitor, startdate = 20160720, enddate = 20160810, style = "large")
 
 monitor_ggDailyByHour_archival <- function(
   ws_monitor,
   startdate = NULL,
   enddate = NULL,
   monitorID = NULL,
-  style = "small",
+  style = "large",
   title = NULL,
   timezone = NULL,
   ...

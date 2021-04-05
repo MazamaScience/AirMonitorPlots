@@ -35,7 +35,7 @@
 #' library(AirMonitorPlots)
 #'
 #' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160701, enddate = 20160730, style = "large")
+#' monitor_ggDailyBarplot_archival(ws_monitor, startdate = 20160701, enddate = 20160730)
 #'
 #' \dontrun{
 #' ws_monitor <- airnow_loadLatest()
@@ -47,7 +47,7 @@ monitor_ggDailyBarplot_archival <- function(
   startdate = NULL,
   enddate = NULL,
   monitorID = NULL,
-  style = "small",
+  style = "large",
   title = NULL,
   timezone = NULL,
   today = TRUE,

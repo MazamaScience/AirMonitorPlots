@@ -50,7 +50,7 @@ monitor_ggTimeseries_archival <- function(
   startdate = NULL,
   enddate = NULL,
   monitorIDs = NULL,
-  style = "small",
+  style = "large",
   title = NULL,
   aqiStyle = NULL,
   timezone = NULL,

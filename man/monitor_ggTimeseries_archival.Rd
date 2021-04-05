@@ -9,7 +9,7 @@ monitor_ggTimeseries_archival(
   startdate = NULL,
   enddate = NULL,
   monitorIDs = NULL,
-  style = "small",
+  style = "large",
   title = NULL,
   aqiStyle = NULL,
   timezone = NULL,
