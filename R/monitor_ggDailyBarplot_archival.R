@@ -136,7 +136,7 @@ monitor_ggDailyBarplot_archival <- function(
     )
 
   year <- strftime(
-    x = MazamaCoreUtils::parseDatetime(startdate, timezone = "UTC"),
+    x = MazamaCoreUtils::parseDatetime(startdate, timezone = timezone),
     tz = "UTC",
     format = "%Y"
   )
