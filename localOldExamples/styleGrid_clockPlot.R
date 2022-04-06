@@ -2,8 +2,8 @@
 library(AirMonitorPlots)
 library(gridExtra)
 
-mon <- PWFSLSmoke::Carmel_Valley
-id <- mon$meta$monitorID[1]
+mon <- AirMonitor::Carmel_Valley
+id <- mon$meta$deviceDeploymentID[1]
 start <- "2016-08-07"
 end <- "2016-08-09"
 icon1 <- clockPlot(mon, id, start, end, "icon", "black", title = "icon")

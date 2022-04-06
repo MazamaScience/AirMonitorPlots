@@ -4,13 +4,13 @@
 #' This function assembles various layers to create a production-ready
 #' diurnal plot for a single monitor.
 #'
-#' The full range of data in \code{ws_monitor} will be used unless both
+#' The full range of data in \code{mts_monitor} will be used unless both
 #' \code{startdate} and \code{enddate} are specified.
 #'
 #' @inheritParams ggplot_pm25Diurnal
-#' @param ws_monitor A \code{ws_monitor} object.
-#' @param monitorID monitorID to include in the plot. This can be NULL if
-#'   \emph{ws_monitor} only has one unique monitorID.
+#' @param mts_monitor A \code{mts_monitor} object.
+#' @param deviceDeploymentID deviceDeploymentID to include in the plot. This can be NULL if
+#'   \emph{mts_monitor} only has one unique deviceDeploymentID.
 #' @param style String indicating plotting style. Either \code{"large"} or
 #'   \code{"small"}. \code{style = "large"} is suitable for plots larger than
 #'   450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.
@@ -28,17 +28,17 @@
 #'
 #' @examples
 #' \dontrun{
-#' ws_monitor <- airnow_loadLatest()
-#' monitor_ggDailyByHour(ws_monitor, monitorID = "410432002_01")
+#' mts_monitor <- airnow_loadLatest()
+#' monitor_ggDailyByHour(mts_monitor, deviceDeploymentID = "410432002_01")
 #' }
 #'
-#' ws_monitor <- Carmel_Valley
-#' monitor_ggDailyByHour(ws_monitor, startdate = 20160801, enddate = 20160810)
+#' mts_monitor <- Carmel_Valley
+#' monitor_ggDailyByHour(mts_monitor, startdate = 20160801, enddate = 20160810)
 monitor_ggDailyByHour <- function(
-  ws_monitor,
+  mts_monitor,
   startdate = NULL,
   enddate = NULL,
-  monitorID = NULL,
+  deviceDeploymentID = NULL,
   style = "small",
   title = NULL,
   timezone = NULL,
@@ -47,29 +47,29 @@ monitor_ggDailyByHour <- function(
 
   # ----- Validate Parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(ws_monitor)
+  MazamaCoreUtils::stopIfNull(mts_monitor)
 
-  if ( !monitor_isMonitor(ws_monitor) )
-    stop("Parameter 'ws_monitor' is not a valid ws_monitor object.")
+  if ( !monitor_isValid(mts_monitor) )
+    stop("Parameter 'mts_monitor' is not a valid mts_monitor object.")
 
-  if ( monitor_isEmpty(ws_monitor) )
-    stop("Parameter 'ws_monitor' contains no data.")
+  if ( monitor_isEmpty(mts_monitor) )
+    stop("Parameter 'mts_monitor' contains no data.")
 
-  # Check monitorID
-  if ( is.null(monitorID) ) {
+  # Check deviceDeploymentID
+  if ( is.null(deviceDeploymentID) ) {
 
-    if ( nrow(ws_monitor$meta) > 1 ) {
-      stop("Parameter 'monitorID' is required if 'ws_monitor' has multiple monitors.")
+    if ( nrow(mts_monitor$meta) > 1 ) {
+      stop("Parameter 'deviceDeploymentID' is required if 'mts_monitor' has multiple monitors.")
     } else {
-      monitorID <- ws_monitor$meta$monitorID
+      deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID
     }
 
   } else {
 
-    if ( length(monitorID) > 1 ) {
-      stop("Parameter 'monitorID' must contain a single monitorID.")
-    } else if ( !monitorID %in% ws_monitor$meta$monitorID ) {
-      stop(sprintf("monitorID '%s' is not found in 'ws_monitor'.", monitorID))
+    if ( length(deviceDeploymentID) > 1 ) {
+      stop("Parameter 'deviceDeploymentID' must contain a single deviceDeploymentID.")
+    } else if ( !deviceDeploymentID %in% mts_monitor$meta$deviceDeploymentID ) {
+      stop(sprintf("deviceDeploymentID '%s' is not found in 'mts_monitor'.", deviceDeploymentID))
     }
 
   }
@@ -83,9 +83,9 @@ monitor_ggDailyByHour <- function(
     }
   }
 
-  # ----- Subset ws_monitor ----------------------------------------------------
+  # ----- Subset mts_monitor ----------------------------------------------------
 
-  singleMonitor <- PWFSLSmoke::monitor_subset(ws_monitor, monitorIDs = monitorID)
+  singleMonitor <- AirMonitor::monitor_subset(mts_monitor, deviceDeploymentIDs = deviceDeploymentID)
 
   # Get timezone
   if ( is.null(timezone) )
@@ -104,7 +104,7 @@ monitor_ggDailyByHour <- function(
 
   if ( (startdate < timeRange[1] && enddate < timeRange[1]) ||
        (startdate > timeRange[2] && enddate > timeRange[2]) ) {
-    stop("Both 'startdate' and 'enddate' are outside the 'ws_monitor' time range")
+    stop("Both 'startdate' and 'enddate' are outside the 'mts_monitor' time range")
   }
 
   dateRange <- MazamaCoreUtils::dateRange(
@@ -122,10 +122,10 @@ monitor_ggDailyByHour <- function(
   # ----- Create "tidy" version ------------------------------------------------
 
   # NOTE:  Prefixing 'timezone' with '!!' tells dplyr to use the local variable
-  # NOTE:  'timezone' instead of the ws_tidy$timezone column.
+  # NOTE:  'timezone' instead of the mts_tidy$timezone column.
 
-  # Convert ws_monitor to tidy structure with 'hour', 'datestamp' and 'nowcast
-  ws_tidy <-
+  # Convert mts_monitor to tidy structure with 'hour', 'datestamp' and 'nowcast
+  mts_tidy <-
     monitor_toTidy(singleMonitor) %>%
     dplyr::mutate(
       hour = as.numeric(strftime(.data$datetime, "%H", tz = !!timezone)),
@@ -143,15 +143,15 @@ monitor_ggDailyByHour <- function(
     magrittr::subtract(lubridate::days(1)) %>%
     strftime("%Y%m%d", tz = timezone)
 
-  yesterday <- dplyr::filter(ws_tidy, .data$datestamp == yesterday_datestamp)
-  today <- dplyr::filter(ws_tidy, .data$datestamp == today_datestamp)
+  yesterday <- dplyr::filter(mts_tidy, .data$datestamp == yesterday_datestamp)
+  today <- dplyr::filter(mts_tidy, .data$datestamp == today_datestamp)
 
   # ----- Style ----------------------------------------------------------------
 
   # Get title
   if ( is.null(title) ) {
     title <- paste0("NowCast by Time of Day\n",
-                    "Site: ", unique(ws_tidy$siteName))
+                    "Site: ", unique(mts_tidy$siteName))
   }
 
   # Get labels for legend
@@ -195,7 +195,7 @@ monitor_ggDailyByHour <- function(
 
   gg <-
     ggplot_pm25Diurnal(
-      ws_tidy,
+      mts_tidy,
       startdate = dateRange[1],
       enddate = dateRange[2],
       mapping = aes_(x = ~ hour, y = ~ nowcast),
@@ -284,8 +284,8 @@ if ( FALSE ) {
   # Most likely issue is today/yesterday tibbles with zero rows. We should
   # check for this before these separate, custom points
 
-  ws_monitor <- airnow_loadLatest()
-  monitorID <- "060431001_01"
+  mts_monitor <- airnow_loadLatest()
+  deviceDeploymentID <- "060431001_01"
   style <- "large"
   title <- NULL
   timezone <- NULL
@@ -316,10 +316,10 @@ if ( FALSE ) {
 
 
   monitor_ggDailyByHour(
-    ws_monitor = ws_monitor,
+    mts_monitor = mts_monitor,
     startdate = startdate,
     enddate = enddate,
-    monitorID = monitorID,
+    deviceDeploymentID = deviceDeploymentID,
     style = style,
     title = title,
     timezone = timezone

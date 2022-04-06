@@ -20,9 +20,9 @@
 #' @export
 #'
 #' @examples
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' ws_tidy <- monitor_toTidy(ws_monitor)
-#' p <- ggplot_pm25Timeseries(ws_tidy) +
+#' mts_monitor <- AirMonitor::Carmel_Valley
+#' mts_tidy <- monitor_toTidy(mts_monitor)
+#' p <- ggplot_pm25Timeseries(mts_tidy) +
 #'   stat_dailyAQCategory(adjustylim = TRUE)
 #' brandPlot(p, location = "topright", size = .2)
 #' brandPlot(p, location = "bottomright", brandName = "USFS")

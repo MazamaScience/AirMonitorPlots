@@ -4,7 +4,7 @@
 #' Create a bar plot showing daily average PM2.5 data over a period for the given 
 #' monitor. Colored bars represent the PM2.5 readings for each day.
 #' 
-#' @param ws_monitor \emph{ws_monitor} object containing a single monitor.
+#' @param mts_monitor \emph{mts_monitor} object containing a single monitor.
 #' @param startdate Desired start date (integer or character in Ymd format 
 #'        or \code{POSIXct}).
 #' @param enddate Desired end date (integer or character in Ymd format
@@ -27,12 +27,12 @@
 #' @importFrom rlang .data
 #' @export
 #' @examples
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
+#' mts_monitor <- AirMonitor::Carmel_Valley
 #' startdate <- "2016-08-05"
 #' enddate <- "2016-08-19"
-#' dailyBarplotBase(ws_monitor, startdate, enddate)
+#' dailyBarplotBase(mts_monitor, startdate, enddate)
 
-dailyBarplotBase <- function(ws_monitor,
+dailyBarplotBase <- function(mts_monitor,
                              startdate = NULL,
                              enddate = NULL,
                              colorPalette = aqiPalette("aqi"),
@@ -50,7 +50,7 @@ dailyBarplotBase <- function(ws_monitor,
   if (FALSE) {
     
     # Carmel Valley
-    ws_monitor <- PWFSLSmoke::Carmel_Valley
+    mts_monitor <- AirMonitor::Carmel_Valley
     startdate <- "2016-07-01"
     enddate <- "2016-08-28"
     colorPalette <- aqiPalette("aqi")
@@ -66,14 +66,14 @@ dailyBarplotBase <- function(ws_monitor,
   
   # Validate arguments ---------------------------------------------------------
   
-  if ( !monitor_isMonitor(ws_monitor) ) {
-    stop("Required parameter 'ws_monitor' is not a valid ws_monitor object.")
-  } else if ( monitor_isEmpty(ws_monitor) ) {
-    stop("Required parameter 'ws_monitor' is empty.")
+  if ( !monitor_isValid(mts_monitor) ) {
+    stop("Required parameter 'mts_monitor' is not a valid mts_monitor object.")
+  } else if ( monitor_isEmpty(mts_monitor) ) {
+    stop("Required parameter 'mts_monitor' is empty.")
   }
   
-  if ( !nrow(ws_monitor$meta) == 1 ) {
-    stop("Required parameter 'ws_monitor' must contain only one monitor.")
+  if ( !nrow(mts_monitor$meta) == 1 ) {
+    stop("Required parameter 'mts_monitor' must contain only one monitor.")
   }
   
   if ( is.null(startdate) && is.null(enddate) ) {
@@ -89,7 +89,7 @@ dailyBarplotBase <- function(ws_monitor,
   
   # Time limits ----------------------------------------------------------------
   
-  timezone <- ws_monitor$meta$timezone[1]
+  timezone <- mts_monitor$meta$timezone[1]
   
   # handle various startdates
   if ( !is.null(startdate) ) {
@@ -136,7 +136,7 @@ dailyBarplotBase <- function(ws_monitor,
   # Barplot data ---------------------------------------------------------------
   
   # Subset based on startdate and enddate
-  mon <- monitor_subset(ws_monitor,
+  mon <- monitor_subset(mts_monitor,
                         tlim = c(startdate, enddate + lubridate::dhours(23)),
                         timezone = timezone)
   

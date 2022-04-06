@@ -2,9 +2,9 @@
 #'
 #' @description
 #' Create a timeseries plot with points or lines showing PM2.5 data over a 
-#' period for one or more monitors in a \emph{ws_monitor} object.
+#' period for one or more monitors in a \emph{mts_monitor} object.
 #' 
-#' @param ws_monitor \emph{ws_monitor} object.
+#' @param mts_monitor \emph{mts_monitor} object.
 #' @param startdate Desired start date (integer or character in Ymd format 
 #'        or \code{POSIXct}).
 #' @param enddate Desired end date (integer or character in Ymd format
@@ -23,14 +23,14 @@
 #' @importFrom rlang .data
 #' @export
 #' @examples
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
+#' mts_monitor <- AirMonitor::Carmel_Valley
 #' startdate <- "2016-07-25"
 #' enddate <- "2016-08-03"
-#' timeseriesPlotBase(ws_monitor, startdate, enddate,
+#' timeseriesPlotBase(mts_monitor, startdate, enddate,
 #'                    title = "Carmel Valley\n2016")
 
 
-timeseriesPlotBase <- function(ws_monitor,
+timeseriesPlotBase <- function(mts_monitor,
                                startdate = NULL,
                                enddate = NULL,
                                colorPalette = aqiPalette("aqi"),
@@ -46,7 +46,7 @@ timeseriesPlotBase <- function(ws_monitor,
   if (FALSE) {
     
     # Carmel Valley
-    ws_monitor <- PWFSLSmoke::Carmel_Valley
+    mts_monitor <- AirMonitor::Carmel_Valley
     startdate <- "2016-07-25"
     enddate <- "2016-08-03"
     colorPalette <- aqiPalette("aqi")
@@ -61,10 +61,10 @@ timeseriesPlotBase <- function(ws_monitor,
   
   # Validate arguments ---------------------------------------------------------
   
-  if ( !monitor_isMonitor(ws_monitor) ) {
-    stop("Required parameter 'ws_monitor' is not a valid ws_monitor object.")
-  } else if ( monitor_isEmpty(ws_monitor) ) {
-    stop("Required parameter 'ws_monitor' is empty.")
+  if ( !monitor_isValid(mts_monitor) ) {
+    stop("Required parameter 'mts_monitor' is not a valid mts_monitor object.")
+  } else if ( monitor_isEmpty(mts_monitor) ) {
+    stop("Required parameter 'mts_monitor' is empty.")
   }
   
   if ( is.null(startdate) && is.null(enddate) ) {
@@ -81,7 +81,7 @@ timeseriesPlotBase <- function(ws_monitor,
   
   # TODO:  The "pwfsl" style should be for single monitors only
   
-  timezone <- ws_monitor$meta$timezone[1]
+  timezone <- mts_monitor$meta$timezone[1]
   
   # handle various startdates
   if ( !is.null(startdate) ) {
@@ -135,14 +135,14 @@ timeseriesPlotBase <- function(ws_monitor,
   # Timeseries data ------------------------------------------------------------
   
   # Create nowcast before subsetting because we need hours from the previous day
-  mon_nowcast <- monitor_nowcast(ws_monitor, includeShortTerm = TRUE) %>%
+  mon_nowcast <- monitor_nowcast(mts_monitor, includeShortTerm = TRUE) %>%
     monitor_subset(tlim = c(startdate, enddate + lubridate::dhours(23)),
                    timezone = timezone)
 
   tidyNowcast <- reshape2::melt(mon_nowcast$data, id.vars = "datetime")
   
   # Subset based on startdate and enddate
-  mon <- monitor_subset(ws_monitor,
+  mon <- monitor_subset(mts_monitor,
                         tlim = c(startdate, enddate + lubridate::dhours(23)),
                         timezone = timezone)
   

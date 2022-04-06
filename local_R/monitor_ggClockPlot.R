@@ -5,8 +5,8 @@
 #' plot for one monitor.
 #'
 #' @inheritParams ggplot_pm25Diurnal
-#' @param ws_monitor A \emph{ws_monitor} object.
-#' @param monitorID monitorID to include in the plot.
+#' @param mts_monitor A \emph{mts_monitor} object.
+#' @param deviceDeploymentID deviceDeploymentID to include in the plot.
 #' @param timezone Timezone for x-axis scale. If NULL and only one timezone
 #'   present in the data, the data timezone will be used. If NULL and multiple
 #'   timezones present, the default is UTC.
@@ -19,37 +19,37 @@
 #' @export
 #'
 #' @examples
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' monitor_ggClockPlot(ws_monitor, startdate = 20160801, enddate = 20160810)
+#' mts_monitor <- AirMonitor::Carmel_Valley
+#' monitor_ggClockPlot(mts_monitor, startdate = 20160801, enddate = 20160810)
 #'
 #' \dontrun{
-#' ws_monitor <- airnow_loadLatest()
-#' monitor_ggClockPlot(ws_monitor, monitorID = "410432002_01")
+#' mts_monitor <- airnow_loadLatest()
+#' monitor_ggClockPlot(mts_monitor, deviceDeploymentID = "410432002_01")
 #' }
 #'
 monitor_ggClockPlot <- function(
-  ws_monitor,
+  mts_monitor,
   startdate = NULL,
   enddate = NULL,
-  monitorID = NULL,
+  deviceDeploymentID = NULL,
   timezone = NULL,
   ...
 ) {
 
   # Validate parameters --------------------------------------------------------
 
-  if ( monitor_isMonitor(ws_monitor) ) {
-    ws_tidy <- monitor_toTidy(ws_monitor)
+  if ( monitor_isValid(mts_monitor) ) {
+    mts_tidy <- monitor_toTidy(mts_monitor)
   } else {
-    stop("ws_monitor must be a `ws_monitor` object.")
+    stop("mts_monitor must be a `mts_monitor` object.")
   }
 
   # Determine the timezone (code borrowed from custom_pm25TimeseriesScales.R)
   if ( is.null(timezone) ) {
-    if ( length(unique(ws_tidy$timezone)) > 1 ) {
+    if ( length(unique(mts_tidy$timezone)) > 1 ) {
       timezone <- "UTC"
     } else {
-      timezone <- ws_tidy$timezone[1]
+      timezone <- mts_tidy$timezone[1]
     }
   }
   # Check timezone
@@ -59,16 +59,16 @@ monitor_ggClockPlot <- function(
     }
   }
 
-  if ( length(unique(ws_tidy$monitorID)) > 1 & is.null(monitorID) )
-    stop("monitorID must be specified.")
+  if ( length(unique(mts_tidy$deviceDeploymentID)) > 1 & is.null(deviceDeploymentID) )
+    stop("deviceDeploymentID must be specified.")
 
-  if (any(!monitorID %in% unique(ws_tidy$monitorID))) {
-    invalidIDs <- monitorID[which(!monitorID %in% unique(ws_tidy$monitorID))]
-    stop(paste0("monitorID not present in data: ", paste0(invalidIDs, collapse = ", ")))
+  if (any(!deviceDeploymentID %in% unique(mts_tidy$deviceDeploymentID))) {
+    invalidIDs <- deviceDeploymentID[which(!deviceDeploymentID %in% unique(mts_tidy$deviceDeploymentID))]
+    stop(paste0("deviceDeploymentID not present in data: ", paste0(invalidIDs, collapse = ", ")))
   }
 
   if ( !is.null(startdate) & !is.null(enddate) ) {
-    daterange <- range(ws_tidy$datetime)
+    daterange <- range(mts_tidy$datetime)
     if (MazamaCoreUtils::parseDatetime(startdate, timezone = timezone) > daterange[2]) {
       stop("startdate is outside of data date range")
     }
@@ -79,27 +79,27 @@ monitor_ggClockPlot <- function(
 
   # Prepare data ---------------------------------------------------------------
 
-  if (!is.null(monitorID)) {
-    ws_tidy <- dplyr::filter(.data = ws_tidy, .data$monitorID == !!monitorID)
+  if (!is.null(deviceDeploymentID)) {
+    mts_tidy <- dplyr::filter(.data = mts_tidy, .data$deviceDeploymentID == !!deviceDeploymentID)
   }
 
   if (is.null(timezone)) {
-    timezone <- unique(ws_tidy$timezone)
+    timezone <- unique(mts_tidy$timezone)
   }
 
   # Subset based on startdate and enddate
   if (!is.null(startdate)) {
     s <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
-    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime >= lubridate::floor_date(s, unit = "day"))
+    mts_tidy <- dplyr::filter(mts_tidy, .data$datetime >= lubridate::floor_date(s, unit = "day"))
   } else {
-    startdate <- min(ws_tidy$datetime)
+    startdate <- min(mts_tidy$datetime)
   }
 
   if (!is.null(enddate)) {
     e <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
-    ws_tidy <- dplyr::filter(ws_tidy, .data$datetime <= lubridate::ceiling_date(e, unit = "day"))
+    mts_tidy <- dplyr::filter(mts_tidy, .data$datetime <= lubridate::ceiling_date(e, unit = "day"))
   } else {
-    enddate <- max(ws_tidy$datetime)
+    enddate <- max(mts_tidy$datetime)
   }
 
   # Create plot ----------------------------------------------------------------
@@ -110,7 +110,7 @@ monitor_ggClockPlot <- function(
   #  0 to 23.
 
   plot <- ggplot_pm25Diurnal(
-    ws_tidy,
+    mts_tidy,
     startdate = startdate,
     enddate = enddate,
     offsetBreaks = TRUE,

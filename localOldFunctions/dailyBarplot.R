@@ -26,14 +26,14 @@
 #' @details Daily averages are calculated from midnight-to-midnight in monitor 
 #' local time.
 #' 
-#' @param ws_monitor \emph{ws_monitor} object.
+#' @param mts_monitor \emph{mts_monitor} object.
 #' @param startdate Desired start date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param style Plot style.
 #' @param aqiStyle AQI style to add AQI color bars, lines and labels.
-#' @param monitorID Monitor ID of interest. Required if \code{ws_monitor} 
+#' @param deviceDeploymentID Monitor ID of interest. Required if \code{mts_monitor} 
 #' contains more than one monitor.
 #' @param currentNowcast Real-time current Nowcast value -- for use in plots 
 #' presented in the PWFSL monitoring site.
@@ -47,18 +47,18 @@
 #' 
 #' @export
 #' @examples
-#' NW <- PWFSLSmoke::Northwest_Megafires
+#' NW <- AirMonitor::Northwest_Megafires
 #' dailyBarplot(NW, "2015-07-01", "2015-10-01",
 #'              style = "month",
-#'              monitorID = "160690014_01",
+#'              deviceDeploymentID = "160690014_01",
 #'              title = "Daily Average PM2.5\nRuebens, Idaho")
 
-dailyBarplot <- function(ws_monitor,
+dailyBarplot <- function(mts_monitor,
                          startdate = NULL,
                          enddate = NULL,
                          style = NULL,
                          aqiStyle = NULL,
-                         monitorID = NULL,
+                         deviceDeploymentID = NULL,
                          currentNowcast = NULL,
                          currentPrediction = NULL,
                          title = "") {
@@ -69,11 +69,11 @@ dailyBarplot <- function(ws_monitor,
   if (FALSE) {
     
     # Ruebens, ID
-    ws_monitor <- PWFSLSmoke::Northwest_Megafires
+    mts_monitor <- AirMonitor::Northwest_Megafires
     startdate <- "2015-08-20"
     enddate <- "2015-08-26"
     style <- "pwfsl"
-    monitorID <- "160690014_01"
+    deviceDeploymentID <- "160690014_01"
     currentNowcast <- NULL
     currentPrediction <- NULL
     title <- "Ruebens, ID"
@@ -82,33 +82,33 @@ dailyBarplot <- function(ws_monitor,
   
   # Validate arguments ---------------------------------------------------------
   
-  # ws_monitor
-  if ( !monitor_isMonitor(ws_monitor) ) {
-    stop("Argument 'ws_monitor' is not a valid ws_monitor object")
-  } else if ( monitor_isEmpty(ws_monitor) ) {
-    stop("Argument 'ws_monitor' is empty.")
+  # mts_monitor
+  if ( !monitor_isValid(mts_monitor) ) {
+    stop("Argument 'mts_monitor' is not a valid mts_monitor object")
+  } else if ( monitor_isEmpty(mts_monitor) ) {
+    stop("Argument 'mts_monitor' is empty.")
   }
   
-  if ( nrow(ws_monitor$meta) == 1 ) {
-    monitorID <- ws_monitor$meta$monitorID[1]
+  if ( nrow(mts_monitor$meta) == 1 ) {
+    deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID[1]
   } else {
-    if ( is.null(monitorID) ) {
-      stop("Argument 'monitorID' must be defined.")
-    } else if ( !monitorID %in% ws_monitor$meta$monitorID ) {
-      stop(paste0("Monitor ", monitorID, " is not found in 'ws_monitor'"))
+    if ( is.null(deviceDeploymentID) ) {
+      stop("Argument 'deviceDeploymentID' must be defined.")
+    } else if ( !deviceDeploymentID %in% mts_monitor$meta$deviceDeploymentID ) {
+      stop(paste0("Monitor ", deviceDeploymentID, " is not found in 'mts_monitor'"))
     }
-    ws_monitor <- monitor_subset(ws_monitor, monitorIDs = monitorID)
+    mts_monitor <- monitor_subset(mts_monitor, deviceDeploymentIDs = deviceDeploymentID)
   }
   
   # startdate
   if ( is.null(startdate) ) {
-    startdate <- lubridate::floor_date(min(ws_monitor$data$datetime),
+    startdate <- lubridate::floor_date(min(mts_monitor$data$datetime),
                                        unit = "days")
   }
   
   # enddate 
   if ( is.null(enddate) ) {
-    enddate <- lubridate::floor_date(max(ws_monitor$data$datetime),
+    enddate <- lubridate::floor_date(max(mts_monitor$data$datetime),
                                      unit = "days")
   }
   
@@ -149,7 +149,7 @@ dailyBarplot <- function(ws_monitor,
   
   # Time limits ----------------------------------------------------------------
   
-  timezone <- ws_monitor$meta$timezone[1]
+  timezone <- mts_monitor$meta$timezone[1]
   
   # handle various startdates
   if ( !is.null(startdate) ) {
@@ -217,7 +217,7 @@ dailyBarplot <- function(ws_monitor,
   # Create the plot ------------------------------------------------------------
   
   ggplotBase <- dailyBarplotBase(
-    ws_monitor,
+    mts_monitor,
     startdate,
     enddate,
     colorPalette = colorPalette,

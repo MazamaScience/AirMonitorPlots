@@ -36,12 +36,12 @@
 #' @export
 #'
 #' @examples
-#' ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley,
+#' ggplot_pm25Timeseries(AirMonitor::Carmel_Valley,
 #'                       startdate = 20160801,
 #'                       enddate = 20160815) +
 #'   stat_AQCategory()
 #'
-#' ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley,
+#' ggplot_pm25Timeseries(AirMonitor::Carmel_Valley,
 #'                       startdate = 20160801,
 #'                       enddate = 20160805) +
 #'   geom_line() +

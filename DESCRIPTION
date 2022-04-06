@@ -1,10 +1,10 @@
 Type: Package
 Package: AirMonitorPlots
-Version: 0.7.0
-Title: Plot Utilities for the PWFSLSmoke Package
+Version: 0.8.0
+Title: Plot Utilities for the AirMonitor Package
 Description: A suite of ggplot2 compatible functions to be used with air quality
-    monitoring data obtained with the PWFSLSmoke package. These functions provide
-    much more flexibility than the base plot functions in PWFSLSmoke.
+    monitoring data obtained with the AirMonitor package. These functions provide
+    much more flexibility than the base plot functions in AirMonitor.
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
     person("Tate", "Brasel", email="tatebrasel6@gmail.com ", role=c("aut")),
@@ -19,13 +19,13 @@ Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 Depends:
     R (>= 3.3.0),
     ggplot2,
-    PWFSLSmoke (>= 1.1.10)
+    AirMonitor (>= 0.2.2)
 Imports:
     dplyr,
     grid,
     lubridate,
     magrittr,
-    MazamaCoreUtils (>= 0.3.10),
+    MazamaCoreUtils (>= 0.4.10),
     plyr,
     png,
     rlang,
@@ -44,4 +44,4 @@ URL: https://github.com/MazamaScience/AirMonitorPlots
 BugReports: https://github.com/MazamaScience/AirMonitorPlots/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

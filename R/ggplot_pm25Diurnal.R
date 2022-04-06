@@ -6,8 +6,8 @@
 #'
 #' @inheritParams custom_pm25DiurnalScales
 #'
-#' @param ws_data Default dataset to use when adding layers. Must be either a
-#'   \code{ws_monitor} object or \code{ws_tidy} object.
+#' @param mts_monitor Default dataset to use when adding layers. Must be either a
+#'   \code{mts_monitor} object or \code{mts_tidy} object.
 #' @param startdate Desired startdate for data to include, in a format that can
 #'   be parsed with \link{parseDatetime}.
 #' @param enddate Desired enddate for data to include, in a format that can be
@@ -25,19 +25,21 @@
 #' @export
 #'
 #' @examples
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
-#' ggplot_pm25Diurnal(ws_monitor) +
+#' mts_monitor <- AirMonitor::Carmel_Valley
+#' ggplot_pm25Diurnal(mts_monitor) +
 #'   coord_polar() +
 #'   geom_pm25Points() +
 #'   custom_aqiStackedBar(width = 1, alpha = .3)
 #'
-#' ggplot_pm25Diurnal(ws_monitor,
-#'                    startdate = 20160801,
-#'                    enddate = 20160810) +
+#' ggplot_pm25Diurnal(
+#'   mts_monitor,
+#'   startdate = 20160801,
+#'   enddate = 20160810
+#' ) +
 #'   stat_boxplot(aes(group = hour))
 #'
 ggplot_pm25Diurnal <- function(
-  ws_data,
+  mts_monitor,
   startdate = NULL,
   enddate = NULL,
   timezone = NULL,
@@ -56,21 +58,21 @@ ggplot_pm25Diurnal <- function(
   if ( !is.numeric(base_size) )
     stop("base_size must be numeric")
 
-  if ( monitor_isMonitor(ws_data) ) {
-    ws_tidy <- monitor_toTidy(ws_data)
-  } else if ( monitor_isTidy(ws_data) ) {
-    ws_tidy <- ws_data
+  if ( monitor_isValid(mts_monitor) ) {
+    mts_tidy <- monitor_toTidy(mts_monitor)
+  } else if ( monitor_isTidy(mts_monitor) ) {
+    mts_tidy <- mts_monitor
   } else {
-    stop("ws_data must be either a ws_monitor object or ws_tidy object.")
+    stop("mts_monitor must be either a mts_monitor object or mts_tidy object.")
   }
 
   # Determine the timezone (code borrowed from custom_pm25TimeseriesScales.R)
   if ( is.null(timezone) ) {
-    if ( length(unique(ws_tidy$timezone) ) > 1) {
+    if ( length(unique(mts_tidy$timezone) ) > 1) {
       timezone <- "UTC"
       xlab <- "Time of Day (UTC)"
     } else {
-      timezone <- ws_tidy$timezone[1]
+      timezone <- mts_tidy$timezone[1]
       xlab <- "Time of Day (Local)"
     }
   } else if ( is.null(xlab) ) {
@@ -79,20 +81,20 @@ ggplot_pm25Diurnal <- function(
 
   if ( !is.null(startdate) ) {
     startdate <- MazamaCoreUtils::parseDatetime(startdate, timezone = timezone)
-    if ( startdate > range(ws_tidy$datetime)[2] ) {
+    if ( startdate > range(mts_tidy$datetime)[2] ) {
       stop("startdate is outside of data date range")
     }
   } else {
-    startdate <- range(ws_tidy$datetime)[1]
+    startdate <- range(mts_tidy$datetime)[1]
   }
 
   if ( !is.null(enddate) ) {
     enddate <- MazamaCoreUtils::parseDatetime(enddate, timezone = timezone)
-    if ( enddate < range(ws_tidy$datetime)[1] ) {
+    if ( enddate < range(mts_tidy$datetime)[1] ) {
       stop("enddate is outside of data date range")
     }
   } else {
-    enddate <- range(ws_tidy$datetime)[2]
+    enddate <- range(mts_tidy$datetime)[2]
   }
 
   # ----- Prepare data ---------------------------------------------------------
@@ -108,28 +110,28 @@ ggplot_pm25Diurnal <- function(
   enddate <- dateRange[2]
 
   # Subset based on startdate and enddate
-  ws_tidy <- ws_tidy %>%
+  mts_tidy <- mts_tidy %>%
     dplyr::filter(.data$datetime >= startdate) %>%
     dplyr::filter(.data$datetime <= enddate)
 
   # Add column for 'hour'
-  ws_tidy$hour <- as.numeric(strftime(ws_tidy$datetime, "%H", tz = timezone))
-  ws_tidy$day  <- strftime(ws_tidy$datetime, "%Y%m%d", tz = timezone)
+  mts_tidy$hour <- as.numeric(strftime(mts_tidy$datetime, "%H", tz = timezone))
+  mts_tidy$day  <- strftime(mts_tidy$datetime, "%Y%m%d", tz = timezone)
 
   # ----- Create plot ----------------------------------------------------------
 
-  gg <- ggplot(ws_tidy, mapping) +
+  gg <- ggplot(mts_tidy, mapping) +
     theme_pwfsl(base_size = base_size) +
-    custom_pm25DiurnalScales(ws_tidy, xlab = xlab, ylim = ylim, ...)
+    custom_pm25DiurnalScales(mts_tidy, xlab = xlab, ylim = ylim, ...)
 
   # Calculate day/night shading
   if (shadedNight) {
     # Get the sunrise/sunset information
     ti <- timeInfo(
-      ws_tidy$datetime,
-      longitude = ws_tidy$longitude[1],
-      latitude = ws_tidy$latitude[1],
-      timezone = ws_tidy$timezone[1]
+      mts_tidy$datetime,
+      longitude = mts_tidy$longitude[1],
+      latitude = mts_tidy$latitude[1],
+      timezone = mts_tidy$timezone[1]
     )
 
     # Extract the middle row

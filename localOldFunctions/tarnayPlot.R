@@ -6,7 +6,7 @@
 #' one for daily levels, and one for hourly levels.
 #'
 #' @param monitors Monitor ID(s) to create plot for.
-#' @param data Data used to create plot (NOTE: currently must be a `ws_monitor`
+#' @param data Data used to create plot (NOTE: currently must be a `mts_monitor`
 #'   object).
 #' @param tlim Time range to subset the data by. Can either be a
 #'   character/numeric vector in form of 'yyyymmdd', or a POSIXct object.
@@ -29,7 +29,7 @@
 #'
 #' @return A **ggplot** plot of the given monitors and data.
 #'
-#' @import PWFSLSmoke
+#' @import AirMonitor
 #' @importFrom dplyr mutate
 #' @export
 #'

@@ -1,26 +1,26 @@
 #' @export
 #' @importFrom rlang .data
 #'
-#' @title Trim a ws_monitor object to full days
+#' @title Trim a mts_monitor object to full days
 #'
-#' @param ws_monitor ws_monitor \emph{ws_monitor} object.
+#' @param mts_monitor mts_monitor \emph{mts_monitor} object.
 #' @param timezone Olson timezone used to interpret dates.
 #'
-#' @description Trims the date range of a \emph{ws_monitor} object to local time date
+#' @description Trims the date range of a \emph{mts_monitor} object to local time date
 #' boundaries which are \emph{within} the range of data. This has the effect
 #' of removing partial-day data records at the start and end of the timeseries
 #' and is useful when calculating full-day statistics.
 #'
 #' Day boundaries are calculated using the specified \code{timezone} or, if
-#' \code{NULL}, from \code{ws_monitor$meta$timezone}.
+#' \code{NULL}, from \code{mts_monitor$meta$timezone}.
 #'
-#' @return A subset of the given \emph{ws_monitor} object.
+#' @return A subset of the given \emph{mts_monitor} object.
 #'
 #' @examples
 #' library(AirMonitorPlots)
 #'
-#' UTC_week <- PWFSLSmoke::monitor_subset(
-#'   PWFSLSmoke::Carmel_Valley,
+#' UTC_week <- AirMonitor::monitor_subset(
+#'   AirMonitor::Carmel_Valley,
 #'   tlim = c(20160801, 20160808),
 #'   timezone = "UTC"
 #' )
@@ -34,29 +34,29 @@
 #'
 
 monitor_trimDate <- function(
-  ws_monitor = NULL,
+  mts_monitor = NULL,
   timezone = NULL
 ) {
 
   # ----- Validate parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(ws_monitor)
+  MazamaCoreUtils::stopIfNull(mts_monitor)
 
-  if ( !monitor_isMonitor(ws_monitor) )
-    stop("Parameter 'ws_monitor' is not a valid 'ws_monitor' object.")
+  if ( !monitor_isValid(mts_monitor) )
+    stop("Parameter 'mts_monitor' is not a valid 'mts_monitor' object.")
 
-  if ( monitor_isEmpty(ws_monitor) )
-    stop("Parameter 'ws_monitor' has no data.")
+  if ( monitor_isEmpty(mts_monitor) )
+    stop("Parameter 'mts_monitor' has no data.")
 
   if ( is.null(timezone) )
-    timezone <- ws_monitor$meta$timezone
+    timezone <- mts_monitor$meta$timezone
 
   if ( !timezone %in% OlsonNames() )
     stop(sprintf("timezone '%s' is not a valid Olson timezone", timezone))
 
   # ----- Get the start and end times ------------------------------------------
 
-  timeRange <- range(ws_monitor$data$datetime)
+  timeRange <- range(mts_monitor$data$datetime)
 
   # NOTE:  The dateRange() is used to restrict the time range to days that have
   # NOTE:  complete data.
@@ -84,17 +84,17 @@ monitor_trimDate <- function(
       ceilingEnd = FALSE           # date boundary *before* the end
     )
 
-  # ----- Subset the "ws_monitor" object ---------------------------------------
+  # ----- Subset the "mts_monitor" object ---------------------------------------
 
   data <-
-    ws_monitor$data %>%
+    mts_monitor$data %>%
     dplyr::filter(.data$datetime >= dateRange[1]) %>%
     dplyr::filter(.data$datetime < dateRange[2])
 
-  ws_monitor$data <- data
+  mts_monitor$data <- data
 
   # ----- Return ---------------------------------------------------------------
 
-  return(ws_monitor)
+  return(mts_monitor)
 
 }

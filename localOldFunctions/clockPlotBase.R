@@ -10,7 +10,7 @@
 #' 
 #' Room for annotations can be created by setting \code{plotRadius = 1.2}.
 #' 
-#' @param ws_monitor \emph{ws_monitor} object containing a single monitor.
+#' @param mts_monitor \emph{mts_monitor} object containing a single monitor.
 #' @param startdate Desired start date (integer or character in Ymd format 
 #'        or \code{POSIXct}).
 #' @param enddate Desired end date (integer or character in Ymd format
@@ -35,12 +35,12 @@
 #' @import dplyr
 #' @export
 #' @examples
-#' ws_monitor <- PWFSLSmoke::Carmel_Valley
+#' mts_monitor <- AirMonitor::Carmel_Valley
 #' startdate <- "2016-08-07"
-#' clockPlotBase(ws_monitor, startdate)
+#' clockPlotBase(mts_monitor, startdate)
 
 
-clockPlotBase <- function(ws_monitor,
+clockPlotBase <- function(mts_monitor,
                           startdate = NULL,
                           enddate = NULL,
                           centerColor = "black",
@@ -61,7 +61,7 @@ clockPlotBase <- function(ws_monitor,
   if (FALSE) {
     
     # Carmel Valley
-    ws_monitor <- PWFSLSmoke::Carmel_Valley
+    mts_monitor <- AirMonitor::Carmel_Valley
     startdate <- "2016-08-07"
     enddate <- NULL
     centerColor <- "white"
@@ -79,14 +79,14 @@ clockPlotBase <- function(ws_monitor,
   
   # Validate arguments ---------------------------------------------------------
   
-  if ( !monitor_isMonitor(ws_monitor) ) {
-    stop("Required parameter 'ws_monitor' is not a valid ws_monitor object")
-  } else if ( monitor_isEmpty(ws_monitor) ) {
-    stop("Required parameter 'ws_monitor' is empty.")
+  if ( !monitor_isValid(mts_monitor) ) {
+    stop("Required parameter 'mts_monitor' is not a valid mts_monitor object")
+  } else if ( monitor_isEmpty(mts_monitor) ) {
+    stop("Required parameter 'mts_monitor' is empty.")
   }
   
-  if ( ! nrow(ws_monitor$meta) == 1 ) {
-    stop("Required parameter 'ws_monitor' must contain only one monitor.")
+  if ( ! nrow(mts_monitor$meta) == 1 ) {
+    stop("Required parameter 'mts_monitor' must contain only one monitor.")
   }
   
   if ( is.null(startdate) && is.null(enddate) ) {
@@ -117,7 +117,7 @@ clockPlotBase <- function(ws_monitor,
   
   # Subset based on startdate and enddate
   
-  timezone <- ws_monitor$meta$timezone[1]
+  timezone <- mts_monitor$meta$timezone[1]
   
   # If a startdate argument was passed, make sure it converts to a valid datetime
   if ( !is.null(startdate) ) {
@@ -154,7 +154,7 @@ clockPlotBase <- function(ws_monitor,
     enddate <- enddate + lubridate::dhours(23)
   }
   
-  mon <- monitor_subset(ws_monitor, tlim=c(startdate,enddate))
+  mon <- monitor_subset(mts_monitor, tlim=c(startdate,enddate))
   
   # Solar data -----------------------------------------------------------------
   

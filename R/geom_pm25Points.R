@@ -6,11 +6,15 @@
 #'
 #' @inheritParams ggplot2::geom_point
 #'
-#' @import ggplot2
 #' @export
+#' @import ggplot2
 #'
 #' @examples
-#' ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley) + geom_pm25Points()
+#' library(AirMonitorPlots)
+#'
+#' ggplot_pm25Timeseries(AirMonitor::Carmel_Valley) + geom_pm25Points()
+#'
+
 geom_pm25Points <- function(
   mapping = NULL,
   data = NULL,

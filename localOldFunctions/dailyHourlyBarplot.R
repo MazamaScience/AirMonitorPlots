@@ -5,8 +5,8 @@
 #' overall plot is faceted by monitor, and each facet has two sets of columns:
 #' one for daily levels, and one for hourly levels.
 #'
-#' @param ws_monitor \emph{ws_monitor} object.
-#' @param monitorIDs Optional vector of monitor IDs used to filter the data.
+#' @param mts_monitor \emph{mts_monitor} object.
+#' @param deviceDeploymentIDs Optional vector of monitor IDs used to filter the data.
 #' @param tlim Optional vector with start and end times. Can either be a
 #'   character/numeric vector in form of 'yyyymmdd', or a POSIXct object.
 #'   Defaults to `NULL` (no subsetting).
@@ -33,8 +33,8 @@
 #'
 #' @examples
 #' SF_IDs <- c("060010011_01","060010013_01","060010012_01","060750005_01")
-#' SF_daily <- loadDaily() %>% monitor_subset(monitorIDs = SF_IDs)
-#' SF_latest <- loadLatest() %>% monitor_subset(monitorIDs = SF_IDs)
+#' SF_daily <- loadDaily() %>% monitor_subset(deviceDeploymentIDs = SF_IDs)
+#' SF_latest <- loadLatest() %>% monitor_subset(deviceDeploymentIDs = SF_IDs)
 #' SF_full <- monitor_join(SF_daily, SF_latest)
 #' today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
 #' now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
@@ -47,8 +47,8 @@
 #' # Create plot using data subset by function
 #' dailyHourlyBarplot(SF_full, SF_IDs, tlim = c(starttime, now))
 
-dailyHourlyBarplot <- function(ws_monitor,
-                               monitorIDs = NULL,
+dailyHourlyBarplot <- function(mts_monitor,
+                               deviceDeploymentIDs = NULL,
                                tlim = NULL,
                                columns = 1,
                                title = NULL,
@@ -64,8 +64,8 @@ dailyHourlyBarplot <- function(ws_monitor,
   # TODO: make function work with tidy monitor data
   ##      Need to implement a `monitor_dailyStatistic()` function for tidy
   ##      monitor data
-  if (!monitor_isMonitor(ws_monitor)) {
-    stop("This function can currently only take in a `ws_monitor` object")
+  if (!monitor_isValid(mts_monitor)) {
+    stop("This function can currently only take in a `mts_monitor` object")
   }
   
   validHourlyDataTypes <- c("nowcast", "raw", "none")
@@ -83,8 +83,8 @@ dailyHourlyBarplot <- function(ws_monitor,
   
   ## Get monitors
   
-  monData <- ws_monitor %>%
-    monitor_subset(monitorIDs = monitorIDs)
+  monData <- mts_monitor %>%
+    monitor_subset(deviceDeploymentIDs = deviceDeploymentIDs)
   
   ## Get time limits
   

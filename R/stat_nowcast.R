@@ -38,7 +38,7 @@
 #' @export
 #'
 #' @examples
-#' ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley,
+#' ggplot_pm25Timeseries(AirMonitor::Carmel_Valley,
 #'                       startdate = 20160801,
 #'                       enddate = 20160810) +
 #'   geom_pm25Points() +

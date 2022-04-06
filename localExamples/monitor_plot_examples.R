@@ -21,8 +21,8 @@
 # dev.off()
 
 timeseries <- function(dataList, infoList, textList) {
-  ws_monitor <- dataList$ws_monitor
-  monitorID <- infoList$monitorid
+  mts_monitor <- dataList$mts_monitor
+  deviceDeploymentID <- infoList$monitorid
   lookbackDays <- infoList$lookbackdays
   size <- infoList$size
   
@@ -31,17 +31,17 @@ timeseries <- function(dataList, infoList, textList) {
   
   style <- ifelse(size <= 500, "small", "large")
   
-  monitor_ggTimeseries(ws_monitor,
+  monitor_ggTimeseries(mts_monitor,
                        startdate = startdate,
                        enddate = enddate,
                        style = style,
-                       monitorIDs = monitorID)
+                       deviceDeploymentIDs = deviceDeploymentID)
   
 }
 
 dailyBarplot <- function(dataList, infoList, textList) {
-  ws_monitor <- dataList$ws_monitor
-  monitorID <- infoList$monitorid
+  mts_monitor <- dataList$mts_monitor
+  deviceDeploymentID <- infoList$monitorid
   lookbackDays <- infoList$lookbackdays
   size <- infoList$size
   
@@ -50,9 +50,9 @@ dailyBarplot <- function(dataList, infoList, textList) {
   
   style <- ifelse(size <= 500, "small", "large")
   
-  monitor_ggDailyBarplot(ws_monitor,
+  monitor_ggDailyBarplot(mts_monitor,
                          startdate = startdate, 
                          enddate = enddate,
                          style = style,
-                         monitorIDs = monitorID)
+                         deviceDeploymentIDs = deviceDeploymentID)
 }

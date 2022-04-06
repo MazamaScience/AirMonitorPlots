@@ -9,16 +9,16 @@
 #' This function assembles various layers to create a production-ready
 #' archival daily barplot for one or more monitors.
 #'
-#' The full range of data in \code{ws_monitor} will be used unless both
+#' The full range of data in \code{mts_monitor} will be used unless both
 #' \code{startdate} and \code{enddate} are specified.
 #'
-#' @param ws_monitor A \code{ws_monitor} object.
+#' @param mts_monitor A \code{mts_monitor} object.
 #' @param startdate Desired start date (integer or character in ymd format or
 #'   POSIXct).
 #' @param enddate Desired end date (integer or character in ymd format or
 #'   POSIXct).
-#' @param monitorID monitorID to include in the plot. This can be NULL if
-#'   \emph{ws_monitor} only has one unique monitorID.
+#' @param deviceDeploymentID deviceDeploymentID to include in the plot. This can be NULL if
+#'   \emph{mts_monitor} only has one unique deviceDeploymentID.
 #' @param style String indicating plotting style. Either \code{"large"} or
 #'   \code{"small"}. \code{style = "large"} is suitable for plots larger than
 #'   450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.
@@ -34,24 +34,24 @@
 #' @examples
 #' library(AirMonitorPlots)
 #'
-#' PWFSLSmoke::Carmel_Valley %>%
+#' AirMonitor::Carmel_Valley %>%
 #'   monitor_trimDate() %>%
 #'   monitor_ggDailyBarplot_archival()
 #'
 #' \dontrun{
-#' ws_monitor <- airnow_loadLatest()
+#' mts_monitor <- airnow_loadLatest()
 #' monitor_ggDailyBarplot_archival(
-#'   ws_monitor,
-#'   monitorID = "410432002_01",
+#'   mts_monitor,
+#'   deviceDeploymentID = "410432002_01",
 #'   today = TRUE
 #' )
 #' }
 
 monitor_ggDailyBarplot_archival <- function(
-  ws_monitor,
+  mts_monitor,
   startdate = NULL,
   enddate = NULL,
-  monitorID = NULL,
+  deviceDeploymentID = NULL,
   style = "large",
   title = NULL,
   timezone = NULL,
@@ -61,13 +61,13 @@ monitor_ggDailyBarplot_archival <- function(
 
   # ----- Validate Parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(ws_monitor)
+  MazamaCoreUtils::stopIfNull(mts_monitor)
 
-  # Convert ws_monitor to tidy structure
-  if ( monitor_isMonitor(ws_monitor) ) {
-    ws_tidy <- monitor_toTidy(ws_monitor)
+  # Convert mts_monitor to tidy structure
+  if ( monitor_isValid(mts_monitor) ) {
+    mts_tidy <- monitor_toTidy(mts_monitor)
   } else {
-    stop("ws_monitor is not a ws_monitor object.")
+    stop("mts_monitor is not a mts_monitor object.")
   }
 
   # Check style
@@ -78,26 +78,26 @@ monitor_ggDailyBarplot_archival <- function(
   if ( !is.logical(today) )
     stop("'today' must be a logical (TRUE or FALSE).")
 
-  # Check monitorID
-  if ( is.null(monitorID) ) {
+  # Check deviceDeploymentID
+  if ( is.null(deviceDeploymentID) ) {
 
-    if (length(unique(ws_tidy$monitorID)) > 1) {
-      stop("monitorID is required if `ws_monitor` has multiple monitors.")
+    if (length(unique(mts_tidy$deviceDeploymentID)) > 1) {
+      stop("deviceDeploymentID is required if `mts_monitor` has multiple monitors.")
     } else {
-      monitorID <- ws_tidy$monitorID[1]
+      deviceDeploymentID <- mts_tidy$deviceDeploymentID[1]
     }
 
   } else {
 
-    if ( length(monitorID) > 1 ) {
-      stop("`monitorID` must contain a single monitorID.")
-    } else if (!monitorID %in% unique(ws_tidy$monitorID)) {
-      stop("monitorID not present in data.")
+    if ( length(deviceDeploymentID) > 1 ) {
+      stop("`deviceDeploymentID` must contain a single deviceDeploymentID.")
+    } else if (!deviceDeploymentID %in% unique(mts_tidy$deviceDeploymentID)) {
+      stop("deviceDeploymentID not present in data.")
     }
   }
 
   # NOTE: Include before getting timezone
-  ws_tidy <- dplyr::filter(ws_tidy, .data$monitorID == !!monitorID)
+  mts_tidy <- dplyr::filter(mts_tidy, .data$deviceDeploymentID == !!deviceDeploymentID)
 
   # Check timezone
   if ( !is.null(timezone) ) {
@@ -105,7 +105,7 @@ monitor_ggDailyBarplot_archival <- function(
       stop("Invalid timezone")
     }
   } else {
-    timezone <- unique(ws_tidy$timezone)
+    timezone <- unique(mts_tidy$timezone)
   }
 
 
@@ -113,7 +113,7 @@ monitor_ggDailyBarplot_archival <- function(
 
   # Use full time range if startdate or enddate is missing
   if ( is.null(startdate) || is.null(enddate) ) {
-    timeRange <- range(ws_tidy$datetime)
+    timeRange <- range(mts_tidy$datetime)
     startdate <- timeRange[1]
     enddate <- timeRange[2]
   }
@@ -129,7 +129,7 @@ monitor_ggDailyBarplot_archival <- function(
   startdate <- dateRange[1]
   enddate <- min(c(dateRange[2], lubridate::now(tzone = timezone)))
 
-  ws_tidy <- ws_tidy %>%
+  mts_tidy <- mts_tidy %>%
     dplyr::filter(
       .data$datetime >= startdate,
       .data$datetime < enddate
@@ -146,8 +146,8 @@ monitor_ggDailyBarplot_archival <- function(
   # Get title
   if ( is.null(title) ) {
     title <- paste0("Daily Average PM2.5\n",
-                    "Site: ", unique(ws_tidy$siteName),
-                    " (", unique(ws_tidy$monitorID), ")")
+                    "Site: ", unique(mts_tidy$siteName),
+                    " (", unique(mts_tidy$deviceDeploymentID), ")")
   }
 
   if ( style == "large" ) {
@@ -176,8 +176,8 @@ monitor_ggDailyBarplot_archival <- function(
   # Create "current nowcast" bar
   if ( today ) {
 
-    lastValidIndex <- dplyr::last(which(!is.na(ws_tidy$pm25)))
-    lastValidDatetime <- ws_tidy$datetime[lastValidIndex]
+    lastValidIndex <- dplyr::last(which(!is.na(mts_tidy$pm25)))
+    lastValidDatetime <- mts_tidy$datetime[lastValidIndex]
 
     todayHour <-
       lubridate::with_tz(lastValidDatetime, tzone = timezone) %>%
@@ -190,7 +190,7 @@ monitor_ggDailyBarplot_archival <- function(
       ## TODO: Handle missing 'current nowcast'
       currentNowcast <- 0
     } else {
-      nowcast <- .nowcast(ws_tidy$pm25)
+      nowcast <- .nowcast(mts_tidy$pm25)
       currentNowcast <- nowcast[lastValidIndex]
     }
 
@@ -249,7 +249,7 @@ monitor_ggDailyBarplot_archival <- function(
 
   plot <-
     ggplot_pm25Timeseries(
-      ws_tidy,
+      mts_tidy,
       startdate = startdate,
       enddate = enddate,
       timezone = timezone,
@@ -285,11 +285,11 @@ monitor_ggDailyBarplot_archival <- function(
 
 if ( FALSE ) {
 
-  ws_monitor <- airnow_loadLatest()
+  mts_monitor <- airnow_loadLatest()
 
   startdate = NULL
   enddate = NULL
-  monitorID = "060530002_01" # Carmel Valley
+  deviceDeploymentID = "060530002_01" # Carmel Valley
   style = "small"
   title = NULL
   timezone = NULL
@@ -297,10 +297,10 @@ if ( FALSE ) {
 
 
   monitor_ggDailyBarplot(
-    ws_monitor = ws_monitor,
+    mts_monitor = mts_monitor,
     startdate = startdate,
     enddate = enddate,
-    monitorID = monitorID,
+    deviceDeploymentID = deviceDeploymentID,
     style = style,
     title = title,
     timezone = timezone,

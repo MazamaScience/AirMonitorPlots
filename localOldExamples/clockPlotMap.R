@@ -5,18 +5,18 @@ airnow <- airnow_loadAnnual(2018)
 
 monitors <- monitor_subset(airnow, stateCodes = 'WA', tlim=c(20180815,20180901))
 
-monitorIDs <- monitors$meta$monitorID
+deviceDeploymentIDs <- monitors$meta$deviceDeploymentID
 
-goodMonitorsMask <- rep(TRUE, length(monitorIDs))
+goodMonitorsMask <- rep(TRUE, length(deviceDeploymentIDs))
 
 i <- 1
-for (monitorID in monitorIDs) {
+for (deviceDeploymentID in deviceDeploymentIDs) {
 
-  filename <- paste0(monitorID, "_clockIcon.png")
+  filename <- paste0(deviceDeploymentID, "_clockIcon.png")
   png(filename, 64, 64, bg="transparent")
   result <- try({
     print( clockPlot(monitors,
-                     monitorID,
+                     deviceDeploymentID,
                      startdate = "2018-08-25",
                      enddate = "2018-08-27",
                      style = "icon") )
@@ -30,10 +30,10 @@ for (monitorID in monitorIDs) {
   i <- i + 1
 }
 
-goodMonitors <- monitor_subset(monitors, monitorIDs=monitorIDs[goodMonitorsMask])
+goodMonitors <- monitor_subset(monitors, deviceDeploymentIDs=deviceDeploymentIDs[goodMonitorsMask])
 
 clockIcon <- icons(
-  iconUrl = file.path(getwd(), paste0(goodMonitors$meta$monitorID, "_clockIcon.png")),
+  iconUrl = file.path(getwd(), paste0(goodMonitors$meta$deviceDeploymentID, "_clockIcon.png")),
   iconWidth = 64, iconHeight = 64,
   iconAnchorX = 0, iconAnchorY = 0
 )

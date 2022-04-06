@@ -36,12 +36,12 @@ custom_pm25DiurnalScales <- function(
 
   # Validate parameters --------------------------------------------------------
 
-  if (monitor_isMonitor(data)) {
+  if (monitor_isValid(data)) {
     data <- monitor_toTidy(data)
   } else if (monitor_isTidy(data)) {
     data <- data
   } else {
-    stop("data must be either a ws_monitor object or ws_tidy object.")
+    stop("data must be either a mts_monitor object or mts_tidy object.")
   }
 
 

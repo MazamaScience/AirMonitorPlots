@@ -10,18 +10,18 @@
 #' overall plot is faceted by monitor, and each facet has two sets of columns:
 #' one for daily levels, and one for hourly levels.
 #'
-#' The full range of data in \code{ws_monitor} will be used unless both
+#' The full range of data in \code{mts_monitor} will be used unless both
 #' \code{startdate} and \code{enddate} are specified.
 #'
 #' The timezone specified or, if \code{timezone = NULL}, that of the first
 #' monitor encountered will be used for all time axes.
 #'
-#' @param ws_monitor A \code{ws_monitor} object.
+#' @param mts_monitor A \code{mts_monitor} object.
 #' @param startdate Desired start date (integer or character in ymd format or
 #'   POSIXct).
 #' @param enddate Desired end date (integer or character in ymd format or
 #'   POSIXct).
-#' @param monitorIDs Optional vector of monitor IDs used to filter the data.
+#' @param deviceDeploymentIDs Optional vector of monitor IDs used to filter the data.
 #' @param columns Number of columns the faceted plot should have (default 1).
 #' @param title The title of the plot. Defaults to specifying the types of
 #'   data present in the plot.
@@ -45,8 +45,8 @@
 #' @examples
 #' \dontrun{
 #' SF_IDs <- c("060010011_01","060010013_01","060010012_01","060750005_01")
-#' SF_daily <- loadDaily() %>% monitor_subset(monitorIDs = SF_IDs)
-#' SF_latest <- loadLatest() %>% monitor_subset(monitorIDs = SF_IDs)
+#' SF_daily <- loadDaily() %>% monitor_subset(deviceDeploymentIDs = SF_IDs)
+#' SF_latest <- loadLatest() %>% monitor_subset(deviceDeploymentIDs = SF_IDs)
 #' SF_full <- monitor_join(SF_daily, SF_latest)
 #' today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
 #' now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
@@ -54,17 +54,17 @@
 #' SF_4day <- monitor_subset(SF_full, tlim=c(starttime, now))
 #'
 #' # Create plot using pre subset data
-#' monitor_ggDailyHourlyBarplot(SF_4day, monitorIDs = SF_IDs)
+#' monitor_ggDailyHourlyBarplot(SF_4day, deviceDeploymentIDs = SF_IDs)
 #'
 #' # Create plot using data subset by function
 #' monitor_ggDailyHourlyBarplot(SF_full, starttime, now, SF_IDs)
 #' }
 
 monitor_ggDailyHourlyBarplot <- function(
-  ws_monitor,
+  mts_monitor,
   startdate = NULL,
   enddate = NULL,
-  monitorIDs = NULL,
+  deviceDeploymentIDs = NULL,
   columns = 1,
   title = NULL,
   timezone = NULL,
@@ -78,13 +78,13 @@ monitor_ggDailyHourlyBarplot <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(ws_monitor)
+  MazamaCoreUtils::stopIfNull(mts_monitor)
 
   # TODO: make function work with tidy monitor data
   #      Need to implement a `monitor_dailyStatistic()` function for tidy
   #      monitor data
-  if ( !monitor_isMonitor(ws_monitor) ) {
-    stop("This function can currently only take in a `ws_monitor` object")
+  if ( !monitor_isValid(mts_monitor) ) {
+    stop("This function can currently only take in a `mts_monitor` object")
   }
 
   validHourlyDataTypes <- c("nowcast", "raw", "none")
@@ -103,7 +103,7 @@ monitor_ggDailyHourlyBarplot <- function(
       stop("Invalid timezone")
     }
   } else {
-    timezone <- unique(ws_monitor$meta$timezone[1])
+    timezone <- unique(mts_monitor$meta$timezone[1])
   }
 
 
@@ -112,14 +112,14 @@ monitor_ggDailyHourlyBarplot <- function(
   # Get data from monitors
 
   monData <-
-    ws_monitor %>%
-    monitor_subset(monitorIDs = monitorIDs)
+    mts_monitor %>%
+    monitor_subset(deviceDeploymentIDs = deviceDeploymentIDs)
 
   # Get time limits
 
   # Use full time range if startdate or enddate is missing
   if ( is.null(startdate) || is.null(enddate) ) {
-    timeRange <- range(ws_monitor$data$datetime)
+    timeRange <- range(mts_monitor$data$datetime)
     startdate <- timeRange[1]
     enddate <- timeRange[2]
   }

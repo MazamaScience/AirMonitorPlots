@@ -2,8 +2,8 @@
 library(AirMonitorPlots)
 library(gridExtra)
 
-mon <- PWFSLSmoke::Carmel_Valley
-id <- mon$meta$monitorID[1]
+mon <- AirMonitor::Carmel_Valley
+id <- mon$meta$deviceDeploymentID[1]
 start1 <- "2016-06-01"
 start2 <- "2016-07-01"
 start3 <- "2016-08-01"

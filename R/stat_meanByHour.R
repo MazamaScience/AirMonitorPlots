@@ -36,13 +36,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' ggplot_pm25Timeseries(PWFSLSmoke::Northwest_Megafires,
+#' ggplot_pm25Timeseries(AirMonitor::Northwest_Megafires,
 #'                       startdate = 20150820,
 #'                       enddate = 20150831) +
 #'   geom_point(shape = "square", alpha = 0.05) +
 #'   stat_meanByHour(geom = "line", color = "orange", size = 3)
 #'
-#' ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley,
+#' ggplot_pm25Diurnal(AirMonitor::Carmel_Valley,
 #'                    startdate = 20160801,
 #'                    enddate = 20160810) +
 #'   geom_path(aes(group = day), color = "gray50") +

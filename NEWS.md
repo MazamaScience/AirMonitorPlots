@@ -1,3 +1,15 @@
+# AirMonitorPlots 0.8.0
+
+Version 0.8 represents a complete refactoring of the plotting code to support
+_mts_monitor_ objects found in the **AirMonitor** package. This is part of the
+large shift from "v1" data archives based on a unique `montorID` to "v2" 
+archives based on "known locations" and a unique `deviceDeploymentID`.
+
+Refactored:
+
+* `geom_PM25Points.R`
+
+
 # AirMonitorPlots 0.7.0
 
 Starting the 2021 fire season at version 0.7 with minor fixes and several new 

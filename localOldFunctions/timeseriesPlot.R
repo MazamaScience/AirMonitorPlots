@@ -18,14 +18,14 @@
 #' @details Daily averages are calculated from midnight-to-midnight in monitor 
 #' local time.
 #' 
-#' @param ws_monitor \emph{ws_monitor} object.
+#' @param mts_monitor \emph{mts_monitor} object.
 #' @param startdate Desired start date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param enddate Desired end date (integer or character in Ymd format
 #'        or \code{POSIXct}).
 #' @param style Plot style.
 #' @param aqiStyle AQI style to add AQI color bars, lines and labels.
-#' @param monitorID Monitor ID of interest. Required if \code{ws_monitor} 
+#' @param deviceDeploymentID Monitor ID of interest. Required if \code{mts_monitor} 
 #' contains more than one monitor.
 #' @param title Optional title for the plot.
 #'
@@ -35,18 +35,18 @@
 #' 
 #' @export
 #' @examples
-#' NW <- PWFSLSmoke::Northwest_Megafires
+#' NW <- AirMonitor::Northwest_Megafires
 #' timeseriesPlot(NW, "2015-08-01", "2015-08-14",
 #'                style = "pwfsl",
-#'                monitorID = "160690014_01",
+#'                deviceDeploymentID = "160690014_01",
 #'                title = "Daily Average PM2.5\nRuebens, Idaho")
 
-timeseriesPlot <- function(ws_monitor,
+timeseriesPlot <- function(mts_monitor,
                            startdate = NULL,
                            enddate = NULL,
                            style = NULL,
                            aqiStyle = NULL,
-                           monitorID = NULL,
+                           deviceDeploymentID = NULL,
                            title = "") {
   
   
@@ -55,50 +55,50 @@ timeseriesPlot <- function(ws_monitor,
   if (FALSE) {
     
     # Ruebens, ID
-    ws_monitor <- monitor_loadLatest()
+    mts_monitor <- monitor_loadLatest()
     startdate <- "2018-10-30"
     enddate <- "2018-11-05"
     style <- "pwfsl"
     aqiStyle <- "bars_lines"
-    monitorID <- "060290014_01"
+    deviceDeploymentID <- "060290014_01"
     title <- "Hourly PM2.5 Values and NowCast\nSite: Bakersfield - California Ave"
 
-    timeseriesPlot(ws_monitor, "2018-10-30", "2018-11-05",
+    timeseriesPlot(mts_monitor, "2018-10-30", "2018-11-05",
                    style = "pwfsl",
-                   monitorID = "060290014_01",
+                   deviceDeploymentID = "060290014_01",
                    title = "Hourly PM2.5 Values and NowCast\nSite: Bakersfield - California Ave")   
     
   }
   
   # Validate arguments ---------------------------------------------------------
   
-  # ws_monitor
-  if ( !monitor_isMonitor(ws_monitor) ) {
-    stop("Argument 'ws_monitor' is not a valid ws_monitor object")
-  } else if ( monitor_isEmpty(ws_monitor) ) {
-    stop("Argument 'ws_monitor' is empty.")
+  # mts_monitor
+  if ( !monitor_isValid(mts_monitor) ) {
+    stop("Argument 'mts_monitor' is not a valid mts_monitor object")
+  } else if ( monitor_isEmpty(mts_monitor) ) {
+    stop("Argument 'mts_monitor' is empty.")
   }
   
-  if ( nrow(ws_monitor$meta) == 1 ) {
-    monitorID <- ws_monitor$meta$monitorID[1]
+  if ( nrow(mts_monitor$meta) == 1 ) {
+    deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID[1]
   } else {
-    if ( is.null(monitorID) ) {
-      stop("Argument 'monitorID' must be defined.")
-    } else if ( !monitorID %in% ws_monitor$meta$monitorID ) {
-      stop(paste0("Monitor ", monitorID, " is not found in 'ws_monitor'"))
+    if ( is.null(deviceDeploymentID) ) {
+      stop("Argument 'deviceDeploymentID' must be defined.")
+    } else if ( !deviceDeploymentID %in% mts_monitor$meta$deviceDeploymentID ) {
+      stop(paste0("Monitor ", deviceDeploymentID, " is not found in 'mts_monitor'"))
     }
-    ws_monitor <- monitor_subset(ws_monitor, monitorIDs = monitorID)
+    mts_monitor <- monitor_subset(mts_monitor, deviceDeploymentIDs = deviceDeploymentID)
   }
   
   # startdate
   if ( is.null(startdate) ) {
-    startdate <- lubridate::floor_date(min(ws_monitor$data$datetime),
+    startdate <- lubridate::floor_date(min(mts_monitor$data$datetime),
                                        unit = "days")
   }
   
   # enddate 
   if ( is.null(enddate) ) {
-    enddate <- lubridate::floor_date(max(ws_monitor$data$datetime),
+    enddate <- lubridate::floor_date(max(mts_monitor$data$datetime),
                                      unit = "days")
   }
   
@@ -139,7 +139,7 @@ timeseriesPlot <- function(ws_monitor,
   
   # Time limits ----------------------------------------------------------------
   
-  timezone <- ws_monitor$meta$timezone[1]
+  timezone <- mts_monitor$meta$timezone[1]
   
   # handle various startdates
   if ( !is.null(startdate) ) {
@@ -198,7 +198,7 @@ timeseriesPlot <- function(ws_monitor,
   # Create the plot ------------------------------------------------------------
   
   ggplotBase <- timeseriesPlotBase(
-    ws_monitor,
+    mts_monitor,
     startdate,
     enddate,
     colorPalette = colorPalette,

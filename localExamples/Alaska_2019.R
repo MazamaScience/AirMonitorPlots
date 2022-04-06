@@ -1,6 +1,6 @@
 # Request to create Daily/Hourly plots for Alaska
 
-library(PWFSLSmoke)
+library(AirMonitor)
 library(AirMonitorPlots)
 
 Alaska <-
@@ -25,12 +25,12 @@ Alaska_base +
 Alaska_base +
   stat_AQCategory(color = NA) +
   stat_dailyAQCategory(alpha = .5, timezone = "America/Anchorage") +
-  facet_grid(rows = vars(monitorID)) +
+  facet_grid(rows = vars(deviceDeploymentID)) +
   ggtitle("2019 Alaska Fires")
 
 # ----- Hourly bars with daily averages -- single
 
-AlaskaIDs <- Alaska$meta$monitorID
+AlaskaIDs <- Alaska$meta$deviceDeploymentID
 
 # Pick out a few from the previous plot
 indices <- c(3,7)
@@ -38,7 +38,7 @@ IDs <- AlaskaIDs[indices]
 
 AK_sub <-
   Alaska %>%
-  monitor_subset(monitorIDs = IDs)
+  monitor_subset(deviceDeploymentIDs = IDs)
 
 AK_sub_base <- ggplot_pm25Timeseries(AK_sub,
                                      startdate = 20190622,

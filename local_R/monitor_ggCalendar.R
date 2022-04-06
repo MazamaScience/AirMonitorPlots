@@ -5,8 +5,8 @@
 #'
 #' @description Annual calendar view of a daily reading using a selected input.
 #'
-#' @param ws_monitor a \emph{ws_monitor} object.
-#' @param monitorID a monitorID in the \emph{ws_monitor} object.
+#' @param mts_monitor a \emph{mts_monitor} object.
+#' @param deviceDeploymentID a deviceDeploymentID in the \emph{mts_monitor} object.
 #' @param ncol the amount of columns in the plot.
 #' @param title an optional title.
 #' @param discrete a boolean that determines the color scale.
@@ -19,8 +19,8 @@
 #' @return ggobject
 #'
 monitor_ggCalendar <- function(
-  ws_monitor = NULL,
-  monitorID = NULL,
+  mts_monitor = NULL,
+  deviceDeploymentID = NULL,
   ncol = 4,
   title = NULL,
   discrete = TRUE,
@@ -33,25 +33,25 @@ monitor_ggCalendar <- function(
 
   # ----- Validate parameters ------------------------------------------------
 
-  if ( !PWFSLSmoke::monitor_isMonitor(ws_monitor) )
-    stop("Parameter 'ws_monitor' is not a valid 'ws_monitor' object.")
+  if ( !AirMonitor::monitor_isValid(mts_monitor) )
+    stop("Parameter 'mts_monitor' is not a valid 'mts_monitor' object.")
 
-  if ( PWFSLSmoke::monitor_isEmpty(ws_monitor) )
-    stop("Parameter 'ws_monitor' has no data")
+  if ( AirMonitor::monitor_isEmpty(mts_monitor) )
+    stop("Parameter 'mts_monitor' has no data")
 
   # Use first monitor if undefined
-  if ( is.null(monitorID) ) {
-    warning("Undefined monitorID: Using first monitor")
-    monitorID <- ws_monitor$meta$monitorID[1]
+  if ( is.null(deviceDeploymentID) ) {
+    warning("Undefined deviceDeploymentID: Using first monitor")
+    deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID[1]
   }
 
   # ----- Define the data used -----------------------------------------------
 
   monitor <-
-    PWFSLSmoke::monitor_dailyStatistic(
+    AirMonitor::monitor_dailyStatistic(
       FUN = get(stat),
-      ws_monitor = PWFSLSmoke::monitor_subset( ws_monitor = ws_monitor,
-                                               monitorIDs = monitorID )
+      mts_monitor = AirMonitor::monitor_subset( mts_monitor = mts_monitor,
+                                               deviceDeploymentIDs = deviceDeploymentID )
     )
 
   # Always specify local timezones!
@@ -117,7 +117,7 @@ monitor_ggCalendar <- function(
   }
   if ( is.null(title) ) {
     # Create the title
-    title <- paste0(unique(range(df$year)), ": ", monitor$meta$monitorID)
+    title <- paste0(unique(range(df$year)), ": ", monitor$meta$deviceDeploymentID)
   }
 
   # Determine fill type
@@ -184,8 +184,8 @@ monitor_ggCalendar <- function(
 
 if (FALSE) {
 
-  ws_monitor <- PWFSLSmoke::Northwest_Megafires
-  monitorID <- ws_monitor$meta$monitorID[1]
+  mts_monitor <- AirMonitor::Northwest_Megafires
+  deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID[1]
   ncol = 4
   discrete = TRUE
   aspect_ratio = 1
