@@ -66,5 +66,8 @@ This is a wrapper around \code{\link[ggplot2]{geom_point}} with default
 aesthetics.
 }
 \examples{
-ggplot_pm25Timeseries(PWFSLSmoke::Carmel_Valley) + geom_pm25Points()
+library(AirMonitorPlots)
+
+ggplot_pm25Timeseries(AirMonitor::Carmel_Valley) + geom_pm25Points()
+
 }

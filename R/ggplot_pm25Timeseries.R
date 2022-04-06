@@ -13,10 +13,11 @@
 #' @importFrom rlang .data
 #' @export
 #' @examples
+#' library(AirMonitorPlots)
+#'
 #' mts_monitor <- AirMonitor::Carmel_Valley
 #' ggplot_pm25Timeseries(mts_monitor) +
-#'   geom_point(shape = "square",
-#'              alpha = .2)
+#'   geom_point(shape = "square", alpha = .4)
 #'
 ggplot_pm25Timeseries <- function(
   mts_monitor,
@@ -30,7 +31,7 @@ ggplot_pm25Timeseries <- function(
 
   # ----- Validate Parameters --------------------------------------------------
 
-  if ( monitor_isValid(mts_monitor) ) {
+  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
     mts_tidy <- monitor_toTidy(mts_monitor)
   } else if ( monitor_isTidy(mts_monitor) ) {
     mts_tidy <- mts_monitor
@@ -67,7 +68,7 @@ ggplot_pm25Timeseries <- function(
   # ----- Create plot ----------------------------------------------------------
 
   gg <- ggplot(mts_tidy, aes_(x = ~datetime, y = ~pm25)) +
-      theme_pwfsl(base_size) +
+      theme_airfire(base_size) +
       custom_pm25TimeseriesScales(
         mts_tidy,
         startdate = startdate,

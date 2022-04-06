@@ -121,7 +121,7 @@ ggplot_pm25Diurnal <- function(
   # ----- Create plot ----------------------------------------------------------
 
   gg <- ggplot(mts_tidy, mapping) +
-    theme_pwfsl(base_size = base_size) +
+    theme_airfire(base_size = base_size) +
     custom_pm25DiurnalScales(mts_tidy, xlab = xlab, ylim = ylim, ...)
 
   # Calculate day/night shading

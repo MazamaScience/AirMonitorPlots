@@ -16,6 +16,6 @@ A \emph{ggplot} theme.
 }
 \description{
 Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-use when generating plots for the PWFSL monitoring site.
+use when generating plots for the AirFire monitoring site.
 }
 \keyword{internal}

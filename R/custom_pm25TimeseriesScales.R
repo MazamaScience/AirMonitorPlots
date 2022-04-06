@@ -1,7 +1,7 @@
-#' @title PWFSL PM2.5 timeseries scales
+#' @title AirFire PM2.5 timeseries scales
 #'
 #' @description
-#' Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot
+#' Add AirFire-style x-axis and y-axis scales suitable for a timeseries plot
 #' showing PM2.5 data.
 #'
 #' @param data pm25 timeseries data. Should match the default dataset of the
@@ -49,7 +49,7 @@ custom_pm25TimeseriesScales <- function(
     }
   }
 
-  if (monitor_isValid(data)) {
+  if ( AirMonitor::monitor_isValid(data) ) {
     data <- monitor_toTidy(data)
   } else if (monitor_isTidy(data)) {
     data <- data

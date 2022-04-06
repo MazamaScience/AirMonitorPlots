@@ -2,7 +2,7 @@
 % Please edit documentation in R/custom_pm25TimeseriesScales.R
 \name{custom_pm25TimeseriesScales}
 \alias{custom_pm25TimeseriesScales}
-\title{PWFSL PM2.5 timeseries scales}
+\title{AirFire PM2.5 timeseries scales}
 \usage{
 custom_pm25TimeseriesScales(
   data = NULL,
@@ -47,6 +47,6 @@ away from the axes.}
 \code{\link{custom_datetimeScale}}.}
 }
 \description{
-Add PWFSL-style x-axis and y-axis scales suitable for a timeseries plot
+Add AirFire-style x-axis and y-axis scales suitable for a timeseries plot
 showing PM2.5 data.
 }

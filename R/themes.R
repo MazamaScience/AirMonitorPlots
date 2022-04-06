@@ -1,4 +1,4 @@
-#' @title Theme for PWFSL plots
+#' @title Theme for AirFire plots
 #'
 #' @description
 #' Applies the package standard theme to a \emph{ggplot} plot object.
@@ -10,7 +10,7 @@
 #'
 #' @import ggplot2
 #' @export
-theme_pwfsl <- function(
+theme_airfire <- function(
   base_size = 11,
   base_family = ""
 ) {
@@ -99,7 +99,7 @@ theme_pwfsl <- function(
 #'
 #' @description
 #' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#' use when generating plots for the PWFSL monitoring site.
+#' use when generating plots for the AirFire monitoring site.
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is appropriate
 #'   for plots 450x450px or smaller; \code{style = large} is appropriate for
@@ -124,12 +124,12 @@ theme_custom_size <- function(size = "large") {
 }
 
 
-#' @title Theme for PWFSL timeseries plots for use in the monitoring site
+#' @title Theme for AirFire timeseries plots for use in the monitoring site
 #'
 #' @description
 #' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
 #' use with the \code{\link{monitor_ggTimeseries}} function and generates plots
-#' suitable for the PWFSL monitoring site. It is suited to display of 1-4 weeks
+#' suitable for the AirFire monitoring site. It is suited to display of 1-4 weeks
 #' of data.
 #'
 #' @param size \code{small} or \code{large}. \code{style = small} is appropriate
@@ -140,7 +140,7 @@ theme_custom_size <- function(size = "large") {
 #'
 #' @import ggplot2
 #' @export
-theme_timeseriesPlot_pwfsl <- function(size = "large") {
+theme_timeseriesPlot_airfire <- function(size = "large") {
 
   theme(
     legend.position = "top",
@@ -160,150 +160,3 @@ theme_timeseriesPlot_pwfsl <- function(size = "large") {
 }
 
 
-#' @title Theme for PWFSL daily barplot for use in the monitoring site
-#'
-#' @description
-#' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#' use with the \code{\link{monitor_ggDailyBarplot}} function and generates
-#' plots suitable for the PWFSL monitoring site. It is suited to display of 1-4
-#' weeks of data.
-#'
-#' @param size \code{small} or \code{large}. \code{style = small} is appropriate
-#'   for plots 450x450px or smaller; \code{style = large} is appropriate for
-#'   plots larger than 450x450px.
-#'
-#' @return A \emph{ggplot} theme.
-#'
-#' @import ggplot2
-#' @export
-theme_dailyBarplot_pwfsl <- function(size = "large") {
-
-  theme(
-    axis.title.x.bottom = element_blank(),
-    axis.line.x.bottom = element_blank(), # remove line on x-axis
-    panel.border = element_blank(),       # remove box around plot
-    panel.grid = element_blank(),         # remove background grid lines
-    axis.ticks.x.bottom = element_blank() # remove x-axis ticks
-  ) +
-  theme_custom_size(size = size)
-
-}
-
-
-#' @title Theme for PWFSL dailyByHour plot for use in the monitoring site
-#'
-#' @description
-#' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#' use with the \code{\link{monitor_ggDailyByHour}} function and generates plots
-#' suitable for the PWFSL monitoring site.
-#'
-#' @param size \code{small} or \code{large}. \code{style = small} is appropriate
-#'   for plots 450x450px or smaller; \code{style = large} is appropriate for
-#'   plots larger than 450x450px.
-#'
-#' @return A \emph{ggplot} theme
-#'
-#' @import ggplot2
-#' @export
-theme_dailyByHour_pwfsl <- function(size = "large") {
-
-  theme(
-    legend.key.size = unit(1, "cm"),
-    legend.position = "top",
-    legend.text.align = 1
-  ) +
-  theme_custom_size(size = size)
-
-}
-
-
-#' @title Theme for PWFSL clock plot
-#'
-#' @description
-#' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#' use with the \code{\link{monitor_ggClockPlot}} function and generates plots
-#' suitable for the PWFSL monitoring site.
-#'
-#' @param size \code{small} or \code{large}. \code{style = small} is appropriate
-#'   for plots 450x450px or smaller; \code{style = large} is appropriate for
-#'   plots larger than 450x450px.
-#'
-#' @return A \emph{ggplot} theme.
-#'
-#' @import ggplot2
-#' @export
-
-theme_clockPlot_pwfsl <- function(size = "large") {
-
-  theme(
-    axis.title = element_blank(),
-    panel.border = element_blank(),
-    axis.line = element_blank(),
-    axis.text.y =  element_blank(),
-    axis.ticks.y = element_blank(),
-    axis.ticks.length = unit(0.5, "cm"),
-    panel.grid.major.y = element_blank(),
-    panel.grid.major.x = element_line(linetype = 1)
-  ) +
-  theme_custom_size(size = size)
-
-}
-
-
-#' @title Theme for PWFSL Daily Hourly Barplot
-#'
-#' @description
-#' Applies a theme to a **ggplot** plot object. This is a minimal theme tailored
-#' for faceted bar plots.
-#'
-#' @param base_size Base font size.
-#' @param base_family Base font family.
-#'
-#' @return A **ggplot** theme
-#'
-#' @import ggplot2
-#' @export
-
-theme_dailyHourlyBarplot_pwfsl <- function(
-  base_size = 11,
-  base_family = ""
-) {
-
-  half_line <- base_size / 2
-
-  # TODO: Create theme object that can be used across the package
-  ggplot2::theme_minimal(
-    base_size = base_size,
-    base_family = base_family
-  ) +
-
-    ggplot2::theme(
-      strip.background = element_rect(fill = "#E0E0E0"),
-
-      panel.border = element_rect(color = "grey20", fill = NA),
-      panel.grid.major.x = element_blank(),
-      panel.grid.minor.x = element_line(linetype = 3, color = 'gray70'),
-      panel.grid.major.y = element_line(linetype = 3, color = 'gray40'),
-      panel.grid.minor.y = element_blank(),
-
-      axis.ticks = element_line(colour = "grey20"),
-      axis.ticks.length = unit(half_line / 4, "pt"),
-
-      legend.position = "top",
-      legend.justification = c(1, 1),
-      legend.direction = "vertical",
-      legend.box.background = element_rect(color = "black"),
-      legend.spacing = unit(0.1, "cm"),
-
-      plot.title = element_text(size = rel(2)),
-      axis.title = element_text(size = rel(1.4)),
-      axis.title.x = element_text(size = rel(.9)),
-      axis.title.y = element_text(size = rel(.9)),
-      axis.text.x = element_text(size = rel(1), angle = 30, hjust = 1),
-      axis.text.y = element_text(size = rel(1)),
-      strip.text = element_text(size = rel(.9)),
-      legend.title = element_text(size = rel(1)),
-      legend.text = element_text(size = rel(.7))
-    )
-
-}

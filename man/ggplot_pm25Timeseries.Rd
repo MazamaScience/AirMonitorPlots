@@ -5,7 +5,7 @@
 \title{Instantiate a pm25 timeseries ggplot}
 \usage{
 ggplot_pm25Timeseries(
-  ws_data,
+  mts_monitor,
   startdate = NULL,
   enddate = NULL,
   timezone = NULL,
@@ -15,8 +15,8 @@ ggplot_pm25Timeseries(
 )
 }
 \arguments{
-\item{ws_data}{Default dataset to use when adding layers. Must be either a
-\code{ws_monitor} or \code{ws_tidy} object.}
+\item{mts_monitor}{Default dataset to use when adding layers. Must be either a
+\code{mts_monitor} or \code{mts_tidy} object.}
 
 \item{startdate}{Desired start date (integer or character in ymd format or
 POSIXct).}
@@ -41,9 +41,10 @@ Create a plot using ggplot with default mappings and styling. Layers can then
 be added to this plot using \code{ggplot2} syntax.
 }
 \examples{
-ws_monitor <- PWFSLSmoke::Carmel_Valley
-ggplot_pm25Timeseries(ws_monitor) +
-  geom_point(shape = "square",
-             alpha = .2)
+library(AirMonitorPlots)
+
+mts_monitor <- AirMonitor::Carmel_Valley
+ggplot_pm25Timeseries(mts_monitor) +
+  geom_point(shape = "square", alpha = .4)
 
 }

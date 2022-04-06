@@ -61,7 +61,7 @@ monitor_ggTimeseries <- function(
   MazamaCoreUtils::stopIfNull(mts_monitor)
 
   # Convert mts_monitor to tidy structure
-  if (monitor_isValid(mts_monitor)) {
+  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
     mts_tidy <- monitor_toTidy(mts_monitor)
   } else {
     stop("mts_monitor is not a mts_monitor object.")

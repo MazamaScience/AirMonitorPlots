@@ -30,7 +30,7 @@ monitor_toTidy <- function(
   mts_monitor = NULL
 ) {
 
-  if (monitor_isValid(mts_monitor)) {
+  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
 
     monMeta <- mts_monitor[["meta"]]
     monData <- mts_monitor[["data"]]

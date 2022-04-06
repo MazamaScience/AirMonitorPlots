@@ -18,9 +18,9 @@ Author: Jonathan Callahan [aut, cre],
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 Depends:
     R (>= 3.3.0),
-    ggplot2,
-    AirMonitor (>= 0.2.2)
+    ggplot2
 Imports:
+    AirMonitor,
     dplyr,
     grid,
     lubridate,
@@ -29,6 +29,7 @@ Imports:
     plyr,
     png,
     rlang,
+    tibble,
     tidyr,
     zoo
 Suggests:

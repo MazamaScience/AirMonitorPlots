@@ -5,10 +5,10 @@
 \title{Create a timeseries plot for one or more monitors}
 \usage{
 monitor_ggTimeseries(
-  ws_monitor,
+  mts_monitor,
   startdate = NULL,
   enddate = NULL,
-  monitorIDs = NULL,
+  deviceDeploymentIDs = NULL,
   style = "small",
   title = NULL,
   aqiStyle = NULL,
@@ -17,7 +17,7 @@ monitor_ggTimeseries(
 )
 }
 \arguments{
-\item{ws_monitor}{A \code{ws_monitor} object.}
+\item{mts_monitor}{A \code{mts_monitor} object.}
 
 \item{startdate}{Desired start date (integer or character in ymd format or
 POSIXct).}
@@ -25,7 +25,7 @@ POSIXct).}
 \item{enddate}{Desired end date (integer or character in ymd format or
 POSIXct).}
 
-\item{monitorIDs}{vector of monitorIDs to include in the plot. If more than
+\item{deviceDeploymentIDs}{vector of deviceDeploymentIDs to include in the plot. If more than
 one, different monitors will be plotted in different colors.}
 
 \item{style}{Plot style. \code{small} or \code{large}. \code{style = small}
@@ -50,19 +50,19 @@ This function assembles various layers to create a production-ready
 timeseries plot for one or more monitors.
 }
 \examples{
-NM <- PWFSLSmoke::Northwest_Megafires
+NM <- AirMonitor::Northwest_Megafires
 monitor_ggTimeseries(
   NM,
   startdate = 20150815,
   enddate = 20150831,
-  monitorIDs = "160690014_01"
+  deviceDeploymentIDs = "160690014_01"
 )
 
-CV <- PWFSLSmoke::Carmel_Valley
+CV <- AirMonitor::Carmel_Valley
 monitor_ggTimeseries(CV, startdate = 20160801, enddate = 20160810)
 
 \dontrun{
-ws_monitor <- airnow_loadLatest()
-monitor_ggTimeseries(ws_monitor, monitorID = "410432002_01")
+mts_monitor <- airnow_loadLatest()
+monitor_ggTimeseries(mts_monitor, deviceDeploymentID = "410432002_01")
 }
 }
