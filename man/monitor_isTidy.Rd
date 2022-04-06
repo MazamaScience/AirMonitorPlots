@@ -21,9 +21,10 @@ with columns for information in all \emph{mts_monitor} objects.
 library(AirMonitor)
 
 mts_monitor <-
-  NW_megafires \%>\%
-  monitor_select(c('450d08fb5a3e4ea0_530470009', '40ffdacb421a5ee6_530470010')
-)
+  NW_Megafires \%>\%
+  AirMonitor::monitor_select(
+    c('450d08fb5a3e4ea0_530470009', '40ffdacb421a5ee6_530470010')
+  )
 
 mts_tidy <- monitor_toTidy(mts_monitor)
 monitor_isTidy(mts_tidy)

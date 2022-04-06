@@ -29,21 +29,22 @@
 #' @export
 #'
 #' @examples
-#' NM <- AirMonitor::Northwest_Megafires
-#' monitor_ggTimeseries(
-#'   NM,
-#'   startdate = 20150815,
-#'   enddate = 20150831,
-#'   deviceDeploymentIDs = "160690014_01"
-#')
+#' library(AirMonitorPlots)
 #'
-#' CV <- AirMonitor::Carmel_Valley
-#' monitor_ggTimeseries(CV, startdate = 20160801, enddate = 20160810)
+#' AirMonitor::NW_Megafires %>%
+#'   monitor_ggTimeseries(
+#'     startdate = 20150815,
+#'     enddate = 20150831,
+#'     deviceDeploymentIDs = "531b93756e48e29c_160690014"
+#'   )
 #'
-#' \dontrun{
-#' mts_monitor <- airnow_loadLatest()
-#' monitor_ggTimeseries(mts_monitor, deviceDeploymentID = "410432002_01")
-#' }
+#' AirMonitor::Carmel_Valley %>%
+#'   monitor_ggTimeseries(
+#'     startdate = 20160801,
+#'     enddate = 20160810
+#'   )
+#'
+
 monitor_ggTimeseries <- function(
   mts_monitor,
   startdate = NULL,
@@ -196,7 +197,7 @@ monitor_ggTimeseries <- function(
     plot <- plot + scale_color_brewer(palette = "Dark2")
   }
 
-  plot <- plot + theme_timeseriesPlot_pwfsl(size = style)
+  plot <- plot + theme_timeseriesPlot_airfire(size = style)
 
   return(plot)
 

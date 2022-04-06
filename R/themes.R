@@ -160,3 +160,33 @@ theme_timeseriesPlot_airfire <- function(size = "large") {
 }
 
 
+#' @title Theme for AirFire daily barplot for use in the monitoring site
+#'
+#' @description
+#' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
+#' use with the \code{\link{monitor_ggDailyBarplot}} function and generates
+#' plots suitable for the AirFire monitoring site. It is suited to display of 1-4
+#' weeks of data.
+#'
+#' @param size \code{small} or \code{large}. \code{style = small} is appropriate
+#'   for plots 450x450px or smaller; \code{style = large} is appropriate for
+#'   plots larger than 450x450px.
+#'
+#' @return A \emph{ggplot} theme.
+#'
+#' @import ggplot2
+#' @export
+theme_dailyBarplot_airfire <- function(size = "large") {
+
+  theme(
+    axis.title.x.bottom = element_blank(),
+    axis.line.x.bottom = element_blank(), # remove line on x-axis
+    panel.border = element_blank(),       # remove box around plot
+    panel.grid = element_blank(),         # remove background grid lines
+    axis.ticks.x.bottom = element_blank() # remove x-axis ticks
+  ) +
+    theme_custom_size(size = size)
+
+}
+
+

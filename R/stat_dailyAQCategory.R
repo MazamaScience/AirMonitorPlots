@@ -52,7 +52,7 @@
 #'   facet_wrap(~deviceDeploymentID)
 #'
 #' mts_monitor <- airnow_loadLatest()
-#' mts_monitor <- monitor_subset(mts_monitor, deviceDeploymentID = "160590004_01")
+#' mts_monitor <- monitor_subset(mts_monitor, deviceDeploymentID = "575243c65b9e4719_160690012")
 #' ggplot_pm25Timeseries(mts_monitor) + stat_dailyAQCategory()
 #' }
 stat_dailyAQCategory <- function(

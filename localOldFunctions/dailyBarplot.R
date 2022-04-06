@@ -236,12 +236,12 @@ dailyBarplot <- function(mts_monitor,
   if ( style == "pwfsl" ) {
     
     ggplotBase <- ggplotBase + 
-      theme_dailyBarplot_pwfsl()
+      theme_dailyBarplot_airfire()
     
   } else {
     
     ggplotBase <- ggplotBase + 
-      theme_dailyBarplot_pwfsl()
+      theme_dailyBarplot_airfire()
     
   }
   

@@ -13,7 +13,7 @@
 #' @import ggplot2
 #' @export
 
-theme_timeseriesPlot_pwfsl <- function(base_size = 11,
+theme_timeseriesPlot_airfire <- function(base_size = 11,
                                        base_family = "") {
   
   theme_classic(

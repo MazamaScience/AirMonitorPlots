@@ -14,8 +14,12 @@
 #' @export
 #'
 #' @examples
-#' p <- ggplot_pm25Timeseries(Carmel_Valley)
-#' p + custom_aqiLines() + custom_aqiStackedBar()
+#' library (AirMonitorPlots)
+#' AirMonitor::Carmel_Valley %>%
+#'   ggplot_pm25Timeseries() +
+#'   custom_aqiLines() +
+#'   custom_aqiStackedBar()
+
 custom_aqiStackedBar <- function(
   width = 0.02,
   position = "identity",
@@ -57,8 +61,8 @@ StatAqiBar <- ggproto(
     aqiStackedBarsData <- data.frame(
       xmin = rep(left, 6),
       xmax = rep(right, 6),
-      ymin = c(yrange[1], AQI$breaks_24[2:6]),
-      ymax = c(AQI$breaks_24[2:6], 1e6)
+      ymin = c(yrange[1], AirMonitor::US_AQI$breaks_PM2.5[2:6]),
+      ymax = c(AirMonitor::US_AQI$breaks_PM2.5[2:6], 1e6)
     )
 
     # Last bar must top out at yrange[2]
@@ -66,7 +70,7 @@ StatAqiBar <- ggproto(
       dplyr::filter(.data$ymin < yrange[2])
     barCount <- nrow(aqiStackedBarsData)
     aqiStackedBarsData$ymax[barCount] <- yrange[2]
-    aqiStackedBarsData$fill <- AQI$colors[1:barCount]
+    aqiStackedBarsData$fill <- AirMonitor::US_AQI$colors_EPA[1:barCount]
 
     return(aqiStackedBarsData)
   }
@@ -97,7 +101,7 @@ custom_aqiLines <- function(...) {
       position = "identity",
       show.legend = NA,
       inherit.aes = TRUE,
-      params = list(na.rm = TRUE, color = AQI$colors[2:6], ...)
+      params = list(na.rm = TRUE, color = AirMonitor::US_AQI$colors_EPA[2:6], ...)
     )
   )
 
@@ -118,8 +122,8 @@ StatAqiLines <- ggproto(
     aqiLinesData <- data.frame(
       x = rep(xrange[1], 5),
       xend = rep(xrange[2], 5),
-      y = c(AQI$breaks_24[2:6]),
-      yend = c(AQI$breaks_24[2:6])
+      y = c(AirMonitor::US_AQI$breaks_PM2.5[2:6]),
+      yend = c(AirMonitor::US_AQI$breaks_PM2.5[2:6])
     )
     return(aqiLinesData)
   })

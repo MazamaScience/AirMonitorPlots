@@ -12,7 +12,7 @@
 #' The full range of data in \code{mts_monitor} will be used unless both
 #' \code{startdate} and \code{enddate} are specified.
 #'
-#' @param mts_monitor A \code{mts_monitor} object.
+#' @param mts_monitor A \emph{mts_monitor} object.
 #' @param startdate Desired start date (integer or character in ymd format or
 #'   POSIXct).
 #' @param enddate Desired end date (integer or character in ymd format or
@@ -35,16 +35,9 @@
 #' library(AirMonitorPlots)
 #'
 #' AirMonitor::Carmel_Valley %>%
-#'   monitor_trimDate() %>%
+#'   AirMonitor::monitor_trimDate() %>%
 #'   monitor_ggDailyBarplot_archival()
 #'
-#' \dontrun{
-#' mts_monitor <- airnow_loadLatest()
-#' monitor_ggDailyBarplot_archival(
-#'   mts_monitor,
-#'   deviceDeploymentID = "410432002_01",
-#'   today = TRUE
-#' )
 #' }
 
 monitor_ggDailyBarplot_archival <- function(
@@ -64,7 +57,7 @@ monitor_ggDailyBarplot_archival <- function(
   MazamaCoreUtils::stopIfNull(mts_monitor)
 
   # Convert mts_monitor to tidy structure
-  if ( monitor_isValid(mts_monitor) ) {
+  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
     mts_tidy <- monitor_toTidy(mts_monitor)
   } else {
     stop("mts_monitor is not a mts_monitor object.")
@@ -198,7 +191,13 @@ monitor_ggDailyBarplot_archival <- function(
     left <- center - (0.8 / 2 * 86400)
     right <- center + (0.8 / 2 * 86400)
 
-    color <- AQI$colors[.bincode(currentNowcast, AQI$breaks_24)]
+    ###color <- AQI$colors[.bincode(currentNowcast, AQI$breaks_24)]
+    color <- AirMonitor::aqiColors(
+      x = currentNowcast,
+      pollutant = "AQI",
+      palette = "EPA",
+      na.color = "gray60"
+    )
 
     rect <- annotate(
       "rect",
@@ -275,7 +274,7 @@ monitor_ggDailyBarplot_archival <- function(
       panel.grid = element_blank()          # remove background grid lines
     ) +
     theme_custom_size(size = style)
-    #theme_dailyBarplot_pwfsl(size = style)
+    #theme_dailyBarplot_airfire(size = style)
 
   return(plot)
 

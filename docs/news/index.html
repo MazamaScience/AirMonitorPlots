@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -87,27 +87,12 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/AirMonitorPlots.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/articles/plotting_current_data.html">Plotting Current Data</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -116,7 +101,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -137,6 +122,22 @@
       <small>Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="airmonitorplots-080" class="section level1">
+<h1 class="page-header" data-toc-text="0.8.0">
+<a href="#airmonitorplots-080" class="anchor"></a>AirMonitorPlots 0.8.0</h1>
+<p>Version 0.8 represents a complete refactoring of the plotting code to support <em>mts_monitor</em> objects found in the <strong>AirMonitor</strong> package. This is part of the large shift from “v1” data archives based on a unique <code>montorID</code> to “v2” archives based on “known locations” and a unique <code>deviceDeploymentID</code>.</p>
+<p>Refactored:</p>
+<ul>
+<li><code>custom_datetimeScale.R</code></li>
+<li><code>custom_pm25TImeseriesScales.R</code></li>
+<li><code>geom_PM25Points.R</code></li>
+<li><code>ggplot_pm25Timeseries.R</code></li>
+<li><code>monitor_isTidy.R</code></li>
+<li><code>monitor_toTidy.R</code></li>
+<li><code>themes.R</code></li>
+<li><code>utils-pipe.R</code></li>
+</ul>
+</div>
     <div id="airmonitorplots-070" class="section level1">
 <h1 class="page-header" data-toc-text="0.7.0">
 <a href="#airmonitorplots-070" class="anchor"></a>AirMonitorPlots 0.7.0</h1>
@@ -144,20 +145,20 @@
 <p>New "archival plots are designed to create fully annotated, nice looking plots for longer time periods than the default plots which are designed for the most recent 10 days:</p>
 <ul>
 <li><code><a href="../reference/monitor_ggDailyBarplot_archival.html">monitor_ggDailyBarplot_archival()</a></code></li>
-<li><code><a href="../reference/monitor_ggDailyByHour_archival.html">monitor_ggDailyByHour_archival()</a></code></li>
+<li><code>monitor_ggDailyByHour_archival()</code></li>
 <li><code><a href="../reference/monitor_ggTimeseries_archival.html">monitor_ggTimeseries_archival()</a></code></li>
 </ul>
 <p>Additional helper functions:</p>
 <ul>
-<li><code><a href="../reference/monitor_trimDate.html">monitor_trimDate()</a></code></li>
+<li><code><a href="https://rdrr.io/pkg/AirMonitor/man/monitor_trimDate.html">monitor_trimDate()</a></code></li>
 </ul>
 </div>
     <div id="airmonitorplots-0511" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.11">
 <a href="#airmonitorplots-0511" class="anchor"></a>AirMonitorPlots 0.5.11</h1>
 <ul>
-<li>New <code><a href="../reference/monitor_ggDailyHourlyBarplot.html">monitor_ggDailyHourlyBarplot()</a></code> plot function.</li>
-<li>New <code><a href="../reference/theme_dailyHourlyBarplot_pwfsl.html">theme_dailyHourlyBarplot_pwfsl()</a></code> plot theme.</li>
+<li>New <code>monitor_ggDailyHourlyBarplot()</code> plot function.</li>
+<li>New <code>theme_dailyHourlyBarplot_airfire()</code> plot theme.</li>
 </ul>
 </div>
     <div id="airmonitorplots-0510" class="section level1">
@@ -171,14 +172,14 @@
 <h1 class="page-header" data-toc-text="0.5.9">
 <a href="#airmonitorplots-059" class="anchor"></a>AirMonitorPlots 0.5.9</h1>
 <ul>
-<li>Completely refactored <code><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour()</a></code> to get at that “today” bug.</li>
+<li>Completely refactored <code>monitor_ggDailyByHour()</code> to get at that “today” bug.</li>
 </ul>
 </div>
     <div id="airmonitorplots-058" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.8">
 <a href="#airmonitorplots-058" class="anchor"></a>AirMonitorPlots 0.5.8</h1>
 <ul>
-<li>Bug fix for <code><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour()</a></code> so that it doesn’t ignore data from “today”.</li>
+<li>Bug fix for <code>monitor_ggDailyByHour()</code> so that it doesn’t ignore data from “today”.</li>
 <li>Increased whitespace above titles.</li>
 </ul>
 </div>
@@ -186,7 +187,7 @@
 <h1 class="page-header" data-toc-text="0.5.7">
 <a href="#airmonitorplots-057" class="anchor"></a>AirMonitorPlots 0.5.7</h1>
 <ul>
-<li>New <code><a href="../reference/monitor_ggCalendar.html">monitor_ggCalendar()</a></code> function.</li>
+<li>New <code>monitor_ggCalendar()</code> function.</li>
 <li>Updated to use <em>MazamaCoreUtils 0.3.10</em>.</li>
 <li>Minor cleanup/refactoring.</li>
 </ul>
@@ -195,9 +196,9 @@
 <h1 class="page-header" data-toc-text="0.5.6">
 <a href="#airmonitorplots-056" class="anchor"></a>AirMonitorPlots 0.5.6</h1>
 <ul>
-<li>Added option for SCAQMD coloring in <code><a href="../reference/stat_meanByHour.html">stat_meanByHour()</a></code>, accessible by calling <code><a href="../reference/stat_meanByHour.html">stat_meanByHour(output = "scaqmd")</a></code>.</li>
+<li>Added option for SCAQMD coloring in <code>stat_meanByHour()</code>, accessible by calling <code>stat_meanByHour(output = "scaqmd")</code>.</li>
 <li>
-<code><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour()</a></code> now checks for available data for “yesterday” and “today” before attempting to plot those lines.</li>
+<code>monitor_ggDailyByHour()</code> now checks for available data for “yesterday” and “today” before attempting to plot those lines.</li>
 </ul>
 </div>
     <div id="airmonitorplots-055" class="section level1">
@@ -212,7 +213,7 @@
 <li>Now using <code><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/dateRange.html">MazamaCoreUtils::dateRange()</a></code>.</li>
 <li>Consistent ordering of monitor_* function arguments.</li>
 <li>Regularize <code><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot()</a></code>.</li>
-<li>Make <code><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour()</a></code> more consistent.</li>
+<li>Make <code>monitor_ggDailyByHour()</code> more consistent.</li>
 </ul>
 </div>
     <div id="airmonitorplots-053" class="section level1">
@@ -275,11 +276,11 @@
 <a href="#airmonitorplots-043" class="anchor"></a>AirMonitorPlots 0.4.3</h1>
 <p>Moving all base plot related code from <strong>PWFSLSmokePlot</strong> to <strong>PWFSLSmoke</strong> so that all functionality in the former is purely <strong>ggplot2</strong> based.</p>
 <ul>
-<li>removed <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/addPolygon.html">addPolygon()</a></code>, <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/addWindBarb.html">addWindBarb()</a></code> and <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/addWindBarbs.html">addWindBarbs()</a></code>
+<li>removed <code>addPolygon()</code>, <code>addWindBarb()</code> and <code>addWindBarbs()</code>
 </li>
-<li>removed <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/aqiPalette.html">aqiPalette()</a></code>
+<li>removed <code>aqiPalette()</code>
 </li>
-<li>removed <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_getDailyMean.html">monitor_getDailyMean()</a></code>
+<li>removed <code>monitor_getDailyMean()</code>
 </li>
 </ul>
 </div>
@@ -294,10 +295,10 @@
 <h1 class="page-header" data-toc-text="0.4.1">
 <a href="#airmonitorplots-041" class="anchor"></a>AirMonitorPlots 0.4.1</h1>
 <ul>
-<li>added <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_getDailyMean.html">monitor_getDailyMean()</a></code> function</li>
+<li>added <code>monitor_getDailyMean()</code> function</li>
 <li>added <code>clockPlot()</code> function</li>
 <li>added <code>clockPlotBase()</code> function</li>
-<li>added <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/aqiPalette.html">aqiPalette()</a></code> function and unit test</li>
+<li>added <code>aqiPalette()</code> function and unit test</li>
 </ul>
 </div>
     <div id="airmonitorplots-040" class="section level1">
@@ -368,9 +369,9 @@
 <ul>
 <li>Removed <code>isWSMon()</code>, This functionality is now in <a href="https://github.com/MazamaScience/PWFSLSmoke/blob/master/R/monitor_isMonitor.R"><code>PWFSLSmoke::monitor_isMonitor()</code></a>
 </li>
-<li>Renamed <code>isTidy()</code> -&gt; <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_isTidy.html">monitor_isTidy()</a></code>
+<li>Renamed <code>isTidy()</code> -&gt; <code><a href="../reference/monitor_isTidy.html">monitor_isTidy()</a></code>
 </li>
-<li>Renamed <code>wsMonToTidy()</code> -&gt; <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_toTidy.html">monitor_toTidy()</a></code>
+<li>Renamed <code>wsMonToTidy()</code> -&gt; <code><a href="../reference/monitor_toTidy.html">monitor_toTidy()</a></code>
 </li>
 </ul>
 </div>
@@ -387,7 +388,7 @@
 <h1 class="page-header" data-toc-text="0.1.0">
 <a href="#airmonitorplots-010" class="anchor"></a>AirMonitorPlots 0.1.0</h1>
 <ul>
-<li>added <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/addPolygon.html">addPolygon()</a></code> function</li>
+<li>added <code>addPolygon()</code> function</li>
 </ul>
 </div>
   </div>

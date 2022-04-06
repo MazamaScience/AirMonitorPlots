@@ -17,8 +17,9 @@
 #'
 #' mts_monitor <-
 #'   AirMonitor::NW_Megafires %>%
-#'   monitor_select(c('450d08fb5a3e4ea0_530470009', '40ffdacb421a5ee6_530470010')
-#' )
+#'   AirMonitor::monitor_select(
+#'     c('450d08fb5a3e4ea0_530470009', '40ffdacb421a5ee6_530470010')
+#'   )
 #'
 #' mts_tidy <- monitor_toTidy(mts_monitor)
 #'

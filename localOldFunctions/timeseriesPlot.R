@@ -213,12 +213,12 @@ timeseriesPlot <- function(mts_monitor,
   if ( style == "pwfsl" ) {
     
     ggplotBase <- ggplotBase + 
-      theme_timeseriesPlot_pwfsl()
+      theme_timeseriesPlot_airfire()
     
   } else {
     
     ggplotBase <- ggplotBase + 
-      theme_timeseriesPlot_pwfsl()
+      theme_timeseriesPlot_airfire()
     
   }
   

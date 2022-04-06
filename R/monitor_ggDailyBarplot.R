@@ -34,13 +34,13 @@
 #' @examples
 #' library(AirMonitorPlots)
 #'
-#' mts_monitor <- AirMonitor::Carmel_Valley
-#' monitor_ggDailyBarplot(mts_monitor, startdate = 20160801, enddate = 20160810)
+#' AirMonitor::Carmel_Valley %>%
+#'   monitor_ggDailyBarplot(
+#'     startdate = 20160801,
+#'     enddate = 20160810
+#'   )
 #'
-#' \dontrun{
-#' mts_monitor <- airnow_loadLatest()
-#' monitor_ggDailyBarplot(mts_monitor, deviceDeploymentID = "410432002_01", today = TRUE)
-#' }
+
 monitor_ggDailyBarplot <- function(
   mts_monitor,
   startdate = NULL,
@@ -58,7 +58,7 @@ monitor_ggDailyBarplot <- function(
   MazamaCoreUtils::stopIfNull(mts_monitor)
 
   # Convert mts_monitor to tidy structure
-  if ( monitor_isValid(mts_monitor) ) {
+  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
     mts_tidy <- monitor_toTidy(mts_monitor)
   } else {
     stop("mts_monitor is not a mts_monitor object.")
@@ -179,7 +179,13 @@ monitor_ggDailyBarplot <- function(
     left <- center - (0.8 / 2 * 86400)
     right <- center + (0.8 / 2 * 86400)
 
-    color <- AQI$colors[.bincode(currentNowcast, AQI$breaks_24)]
+    ###color <- AQI$colors[.bincode(currentNowcast, AQI$breaks_24)]
+    color <- AirMonitor::aqiColors(
+      x = currentNowcast,
+      pollutant = "AQI",
+      palette = "EPA",
+      na.color = "gray60"
+    )
 
     rect <- annotate(
       "rect",
@@ -250,7 +256,7 @@ monitor_ggDailyBarplot <- function(
     ggtitle(title) +
     xlab(xlab) +
     nowcastBar +
-    theme_dailyBarplot_pwfsl(size = style)
+    theme_dailyBarplot_airfire(size = style)
 
   return(plot)
 
@@ -264,7 +270,7 @@ if ( FALSE ) {
 
   startdate = NULL
   enddate = NULL
-  deviceDeploymentID = "060530002_01" # Carmel Valley
+  deviceDeploymentID = "a9572a904a4ed46d_060530002" # Carmel Valley
   style = "small"
   title = NULL
   timezone = NULL

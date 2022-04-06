@@ -81,7 +81,7 @@ archival timeseries plot for one or more monitors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -89,27 +89,12 @@ archival timeseries plot for one or more monitors." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/AirMonitorPlots.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/articles/plotting_current_data.html">Plotting Current Data</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -118,7 +103,7 @@ archival timeseries plot for one or more monitors." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,10 +131,10 @@ archival timeseries plot for one or more monitors.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span>
-  <span class='va'>ws_monitor</span>,
+  <span class='va'>mts_monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  monitorIDs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deviceDeploymentIDs <span class='op'>=</span> <span class='cn'>NULL</span>,
   style <span class='op'>=</span> <span class='st'>"large"</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   aqiStyle <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -161,8 +146,8 @@ archival timeseries plot for one or more monitors.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ws_monitor</th>
-      <td><p>A <code>ws_monitor</code> object.</p></td>
+      <th>mts_monitor</th>
+      <td><p>A <code>mts_monitor</code> object.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -175,8 +160,8 @@ POSIXct).</p></td>
 POSIXct).</p></td>
     </tr>
     <tr>
-      <th>monitorIDs</th>
-      <td><p>vector of monitorIDs to include in the plot. If more than
+      <th>deviceDeploymentIDs</th>
+      <td><p>vector of deviceDeploymentIDs to include in the plot. If more than
 one, different monitors will be plotted in different colors.</p></td>
     </tr>
     <tr>
@@ -212,21 +197,21 @@ NULL the timezone of the specified monitor will be used.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitorPlots'>AirMonitorPlots</a></span><span class='op'>)</span>
 
-<span class='fu'>PWFSLSmoke</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Northwest_Megafires.html'>Northwest_Megafires</a></span> <span class='op'>%&gt;%</span>
+<span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html'>NW_Megafires</a></span> <span class='op'>%&gt;%</span>
   <span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span>
     startdate <span class='op'>=</span> <span class='fl'>20150809</span>,
     enddate <span class='op'>=</span> <span class='fl'>20150820</span>,
-    monitorIDs <span class='op'>=</span> <span class='st'>"160690014_01"</span>,
+    deviceDeploymentIDs <span class='op'>=</span> <span class='st'>"575243c65b9e4719_160690012"</span>,
     timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span> <span class='co'># because multiple timezones are present</span>
  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3422 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3422 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries_archival-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>PWFSLSmoke</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html'>Carmel_Valley</a></span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='monitor_trimDate.html'>monitor_trimDate</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: `siteName`.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 807 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 805 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries_archival-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html'>Carmel_Valley</a></span> <span class='op'>%&gt;%</span>
+  <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/AirMonitor/man/monitor_trimDate.html'>monitor_trimDate</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 93 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 11 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries_archival-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: `siteName`.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 9 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 11 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries_archival-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>ws_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>airnow_loadLatest</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span><span class='va'>ws_monitor</span>, monitorID <span class='op'>=</span> <span class='st'>"410432002_01"</span><span class='op'>)</span>
+<span class='va'>mts_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>airnow_loadLatest</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span><span class='va'>mts_monitor</span>, deviceDeploymentID <span class='op'>=</span> <span class='st'>"410432002_01"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

@@ -247,7 +247,7 @@ monitor_ggDailyByHour <- function(
     # Title
     ggtitle(title) +
     # Theme
-    theme_dailyByHour_pwfsl(size = style)
+    theme_dailyByHour_airfire(size = style)
 
 
   # * Add legend ---------------------------------------------------------------

@@ -7,7 +7,14 @@ archives based on "known locations" and a unique `deviceDeploymentID`.
 
 Refactored:
 
+* `custom_datetimeScale.R`
+* `custom_pm25TImeseriesScales.R`
 * `geom_PM25Points.R`
+* `ggplot_pm25Timeseries.R`
+* `monitor_isTidy.R`
+* `monitor_toTidy.R`
+* `themes.R`
+* `utils-pipe.R`
 
 
 # AirMonitorPlots 0.7.0
@@ -30,7 +37,7 @@ Additional helper functions:
 # AirMonitorPlots 0.5.11
 
 * New `monitor_ggDailyHourlyBarplot()` plot function.
-* New `theme_dailyHourlyBarplot_pwfsl()` plot theme.
+* New `theme_dailyHourlyBarplot_airfire()` plot theme.
 
 # AirMonitorPlots 0.5.10
 

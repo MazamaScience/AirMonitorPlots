@@ -92,20 +92,25 @@ StatNowcast <- ggproto(
     if (params$aqiColors) {
 
       # Add column for AQI level
-      data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
+      data$aqi <- .bincode(
+        data$y,
+        AirMonitor::US_AQI$breaks_PM2.5,
+        include.lowest = TRUE
+      )
+
       if (!"colour" %in% names(data)) {
         if (params$mv4Colors) {
-          data$colour <- AQI$mv4Colors[data$aqi]
+          data$colour <- AirMonitor::US_AQI$colors_subdued[data$aqi]
         } else {
-          data$colour <- AQI$colors[data$aqi]
+          data$colour <- AirMonitor::US_AQI$colors_EPA[data$aqi]
         }
       }
 
       if (!"fill" %in% names(data)) {
         if (params$mv4Colors) {
-          data$fill <- AQI$mv4Colors[data$aqi]
+          data$fill <- AirMonitor::US_AQI$colors_subdued[data$aqi]
         } else {
-          data$fill <- AQI$mv4Colors[data$aqi]
+          data$fill <- AirMonitor::US_AQI$colors_subdued[data$aqi]
         }
       }
 

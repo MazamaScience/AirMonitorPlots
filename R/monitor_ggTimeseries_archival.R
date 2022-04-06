@@ -31,16 +31,16 @@
 #' @examples
 #' library(AirMonitorPlots)
 #'
-#' AirMonitor::Northwest_Megafires %>%
+#' AirMonitor::NW_Megafires %>%
 #'   monitor_ggTimeseries_archival(
 #'     startdate = 20150809,
 #'     enddate = 20150820,
-#'     deviceDeploymentIDs = "160690014_01",
+#'     deviceDeploymentIDs = "575243c65b9e4719_160690012",
 #'     timezone = "America/Los_Angeles" # because multiple timezones are present
 #'  )
 #'
 #' AirMonitor::Carmel_Valley %>%
-#'   monitor_trimDate() %>%
+#'   AirMonitor::monitor_trimDate() %>%
 #'   monitor_ggTimeseries_archival()
 #'
 #' \dontrun{
@@ -65,7 +65,7 @@ monitor_ggTimeseries_archival <- function(
   MazamaCoreUtils::stopIfNull(mts_monitor)
 
   # Convert mts_monitor to tidy structure
-  if (monitor_isValid(mts_monitor)) {
+  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
     mts_tidy <- monitor_toTidy(mts_monitor)
   } else {
     stop("mts_monitor is not a mts_monitor object.")
@@ -203,7 +203,7 @@ monitor_ggTimeseries_archival <- function(
     plot <- plot + scale_color_brewer(palette = "Dark2")
   }
 
-  plot <- plot + theme_timeseriesPlot_pwfsl(size = style)
+  plot <- plot + theme_timeseriesPlot_airfire(size = style)
 
   return(plot)
 

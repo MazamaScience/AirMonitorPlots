@@ -129,7 +129,7 @@ monitor_ggClockPlot <- function(
       output = "AQIColors",
       width = 1
     ) +
-    theme_clockPlot_pwfsl()
+    theme_clockPlot_airfire()
 
   # Add circle in the middle
   #

@@ -376,7 +376,7 @@ monitor_ggDailyHourlyBarplot <- function(
       y = yLabel,
       caption = caption
     ) +
-    theme_dailyHourlyBarplot_pwfsl(base_size = 12)
+    theme_dailyHourlyBarplot_airfire(base_size = 12)
 
   if (includeLegendAdvice) {
     gg <-

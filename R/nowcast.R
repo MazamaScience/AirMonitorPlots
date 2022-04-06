@@ -3,25 +3,28 @@
 #' @description
 #' This function calculates the NowCast version of the incoming data.
 #'
-#' @param x vector of ordered PM2.5 data in units of ug/m3
-#' @param version character identity specifying the type of nowcast algorithm to
-#' be used. For details see \link{monitor_nowcast}.
-#' @param includeShortTerm calculate preliminary NowCast values starting with the 2nd hour
+#' @param x vVctor of ordered PM2.5 data in units of ug/m3.
+#' @param version Character identity specifying the type of nowcast algorithm to
+#' be used. For details see \code{AirMonitor::monitor_nowcast()}.
+#' @param includeShortTerm Logical specifying whether to calculate preliminary
+#' NowCast values starting with the 2nd hour
 #'
 #' @return Vector of unitless NowCast values of the same length as \code{x}.
 #'
 #' @export
 
-.nowcast <- function(x,
-                     version = "pm",
-                     includeShortTerm = FALSE) {
+.nowcast <- function(
+  x,
+  version = "pm",
+  includeShortTerm = FALSE
+) {
 
   # Set parameters based on version
-  if (version =='pm') {
+  if (version == 'pm') {
     numHrs <- 12
     weightFactorMin <- 0.5
     digits <- 1
-  } else if (version =='pmAsian') {
+  } else if (version == 'pmAsian') {
     numHrs <- 3
     weightFactorMin <- 0.1
     digits <- 1
@@ -45,7 +48,7 @@
   for ( i in length(x):firstHr ) {
 
     # Apply nowcast algorithm to numHrs data points in order with more recent first
-    concByHour <- x[i:max(1, i-numHrs+1)]
+    concByHour <- x[i:max(1, i - numHrs + 1)]
 
     if ( sum( is.na(concByHour[1:3]) ) >= 2 ) {
 
@@ -90,7 +93,7 @@
         }
       }
 
-      x[i] <- sum(weightedConcs, na.rm=TRUE) / sum(weightFactors, na.rm=TRUE)
+      x[i] <- sum(weightedConcs, na.rm = TRUE) / sum(weightFactors, na.rm = TRUE)
 
     }
   }
@@ -109,8 +112,8 @@
 # this function if more than one of the three most recent hours is invalid.
 .weightFactor <- function(concByHour, weightFactorMin) {
 
-  min <- min(concByHour, na.rm=TRUE)
-  max <- max(concByHour, na.rm=TRUE)
+  min <- min(concByHour, na.rm = TRUE)
+  max <- max(concByHour, na.rm = TRUE)
 
   # Calculate weight factor
   # NOTE:  https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172 says that there is "no minimum
@@ -118,9 +121,9 @@
   # NOTE:    to get negative weights, even as large as -Inf (i.e. if min<0 & max=0).
   # NOTE:  Otherwise, we don't worry about negatives, per the following:
   # NOTE:    https://forum.airnowtech.org/t/how-does-airnow-handle-negative-hourly-concentrations/143
-  weightFactor <- 1-(max-min)/max
-  weightFactor <- min(weightFactor, 1, na.rm=TRUE)
-  weightFactor <- max(weightFactor, weightFactorMin, 0, na.rm=TRUE)
+  weightFactor <- 1 - (max - min)/max
+  weightFactor <- min(weightFactor, 1, na.rm = TRUE)
+  weightFactor <- max(weightFactor, weightFactorMin, 0, na.rm = TRUE)
 
   return(weightFactor)
 

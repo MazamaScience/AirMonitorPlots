@@ -200,7 +200,7 @@ monitor_ggDailyByHour_archival <- function(
     # Title
     ggtitle(title, subtitle) +
     # Theme
-    theme_dailyByHour_pwfsl(size = style)
+    theme_dailyByHour_airfire(size = style)
 
   return(gg)
 

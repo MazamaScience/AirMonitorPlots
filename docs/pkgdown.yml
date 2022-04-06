@@ -1,8 +1,6 @@
-pandoc: 2.10.1
+pandoc: 2.11.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
-articles:
-  AirMonitorPlots: AirMonitorPlots.html
-  articles/plotting_current_data: plotting_current_data.html
-last_built: 2021-04-01T21:48Z
+articles: {}
+last_built: 2022-04-06T23:24Z
 
