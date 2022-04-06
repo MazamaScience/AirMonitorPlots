@@ -110,7 +110,7 @@ StatNowcast <- ggproto(
         if (params$mv4Colors) {
           data$fill <- AirMonitor::US_AQI$colors_subdued[data$aqi]
         } else {
-          data$fill <- AirMonitor::US_AQI$colors_subdued[data$aqi]
+          data$fill <- AirMonitor::US_AQI$colors_EPA[data$aqi]
         }
       }
 

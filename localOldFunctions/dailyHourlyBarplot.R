@@ -282,7 +282,7 @@ dailyHourlyBarplot <- function(mts_monitor,
              alpha = 0.3,
              color = "grey20",
              size = .1) +
-    facet_wrap(~ siteName, ncol = columns) +
+    facet_wrap(~ locationName, ncol = columns) +
     
     # TODO: combine AQI text into single scale
     # TODO: make legend scale with plot size

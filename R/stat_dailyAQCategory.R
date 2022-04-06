@@ -126,17 +126,17 @@ StatDailyAQILevel <- ggproto(
     #  * Get Daily Mean
 
     dailyMeans <- data %>%
-      mutate(
+      dplyr::mutate(
         datetime = as.POSIXct(.data$x, tz = timezone, origin = "1970-01-01"),
         date = strftime(.data$datetime, "%Y%m%d", tz = timezone)
       ) %>%
-      group_by(date) %>%
-      summarise(
+      dplyr::group_by(date) %>%
+      dplyr::summarise(
         dailyMean = mean(.data$y),
         count = sum(!is.na(.data$y))
       ) %>%
-      mutate(
-        dailyMean = if_else(.data$count < minHours, NA_real_, .data$dailyMean),
+      dplyr::mutate(
+        dailyMean = dplyr::if_else(.data$count < minHours, NA_real_, .data$dailyMean),
         datetime = .data$date %>%
           strptime("%Y%m%d", tz = timezone) %>%
           as.POSIXct(tz = timezone) %>%
@@ -144,28 +144,28 @@ StatDailyAQILevel <- ggproto(
           as.numeric()
       )
 
-    data <- select(
+    data <- dplyr::select(
       dailyMeans,
       x = .data$datetime,
       y = .data$dailyMean
     )
 
     # Add column for AQI level
-    data$aqi <- .bincode(data$y, AQI$breaks_24, include.lowest = TRUE)
+    data$aqi <- .bincode(data$y, AirMonitor::US_AQI$breaks_PM2.5, include.lowest = TRUE)
 
     if (!"colour" %in% names(data)) {
       if (mv4Colors) {
-        data$colour <- AQI$mv4Colors[data$aqi]
+        data$colour <- AirMonitor::US_AQI$colors_subdued[data$aqi]
       } else {
-        data$colour <- AQI$colors[data$aqi]
+        data$colour <- AirMonitor::US_AQI$colors_EPA[data$aqi]
       }
     }
 
     if (!"fill" %in% names(data)) {
       if (mv4Colors) {
-        data$fill <- AQI$mv4Colors[data$aqi]
+        data$fill <- AirMonitor::US_AQI$colors_subdued[data$aqi]
       } else {
-        data$fill <- AQI$colors[data$aqi]
+        data$fill <- AirMonitor::US_AQI$colors_EPA[data$aqi]
       }
     }
 
@@ -194,7 +194,7 @@ StatDailyAQILevel <- ggproto(
       max_x <- max(data$x)
       while (max_x < scales$x$get_limits()[2]) {
         max_x <- max_x + 86400
-        data <- rbind(data, tibble(
+        data <- dplyr::bind_rows(data, tibble::tibble(
           x = max_x,
           y = NA,
           aqi = NA,
@@ -206,7 +206,7 @@ StatDailyAQILevel <- ggproto(
       min_x <- min(data$x)
       while (min_x > scales$x$get_limits()[2]) {
         min_x <- min_x - 86400
-        data <- rbind(data, tibble(
+        data <- dplyr::bind_rows(data, tibble::tibble(
           x = min_x,
           y = NA,
           aqi = NA,

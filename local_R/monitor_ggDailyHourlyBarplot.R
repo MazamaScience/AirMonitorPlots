@@ -334,7 +334,7 @@ monitor_ggDailyHourlyBarplot <- function(
       color = "grey20",
       size = .1
     ) +
-    ggplot2::facet_wrap(~ siteName, ncol = columns) +
+    ggplot2::facet_wrap(~ locationName, ncol = columns) +
 
     # TODO: combine AQI text into single scale
     # TODO: make legend scale with plot size

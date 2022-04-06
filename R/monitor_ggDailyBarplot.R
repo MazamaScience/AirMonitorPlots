@@ -134,7 +134,7 @@ monitor_ggDailyBarplot <- function(
 
   # Get title
   if ( is.null(title) ) {
-    title <- paste0("Daily Average PM2.5", "\n", "Site: ", unique(mts_tidy$siteName))
+    title <- paste0("Daily Average PM2.5", "\n", "Site: ", unique(mts_tidy$locationName))
   }
 
   if ( style == "large" ) {

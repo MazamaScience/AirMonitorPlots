@@ -129,7 +129,7 @@ monitor_ggTimeseries <- function(
     mapping_nowcast <- aes(color = !!nowcastLegendLabel)
     if (is.null(title)) {
       title <- paste0("Hourly PM2.5 Values and NowCast\n",
-                      "Site: ", unique(mts_tidy$siteName))
+                      "Site: ", unique(mts_tidy$locationName))
     }
   }
 

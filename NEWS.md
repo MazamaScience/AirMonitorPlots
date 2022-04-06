@@ -5,14 +5,22 @@ _mts_monitor_ objects found in the **AirMonitor** package. This is part of the
 large shift from "v1" data archives based on a unique `montorID` to "v2" 
 archives based on "known locations" and a unique `deviceDeploymentID`.
 
-Refactored:
+Refactored files:
 
+* `custom_aqiAnnotation.R`
 * `custom_datetimeScale.R`
 * `custom_pm25TImeseriesScales.R`
 * `geom_PM25Points.R`
 * `ggplot_pm25Timeseries.R`
+* `monitor_ggDailyBarplot_archival.R`
+* `monitor_ggDailyBarplot.R`
+* `monitor_ggDailyTimeseries_archival.R`
+* `monitor_ggTimeseries.R`
 * `monitor_isTidy.R`
 * `monitor_toTidy.R`
+* `nowcast.R`
+* `stat_AQCategory.R`
+* `stat_nowcast.R`
 * `themes.R`
 * `utils-pipe.R`
 

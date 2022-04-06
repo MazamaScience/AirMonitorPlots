@@ -46,7 +46,7 @@ AK_sub_base <- ggplot_pm25Timeseries(AK_sub,
 AK_sub_base +
   stat_AQCategory(color = NA) +
   stat_dailyAQCategory(alpha = .5, timezone = "America/Anchorage") +
-  facet_grid(rows = vars(siteName)) +
+  facet_grid(rows = vars(locationName)) +
   ylim(0, 500) +
   ggtitle("2019 Alaska Fires")
 
@@ -56,7 +56,7 @@ gg <-
   AK_sub_base +
   stat_AQCategory(color = NA) +
   stat_dailyAQCategory(alpha = .5, timezone = "America/Anchorage") +
-  facet_grid(rows = vars(siteName)) +
+  facet_grid(rows = vars(locationName)) +
   ylim(0, 500) +
   ggtitle("2019 Alaska Fires")
 

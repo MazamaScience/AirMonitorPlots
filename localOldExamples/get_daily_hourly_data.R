@@ -15,7 +15,7 @@ get_daily_hourly_data <- function(monitors, data) {
         AQI$breaks_24,
         include.lowest = TRUE,
         labels = AQI$names)) %>%
-    select(datetime, deviceDeploymentID, pm25, timezone, siteName, aqiCategory)
+    select(datetime, deviceDeploymentID, pm25, timezone, locationName, aqiCategory)
 
 
   # nowcast with short term
@@ -29,7 +29,7 @@ get_daily_hourly_data <- function(monitors, data) {
         include.lowest = TRUE,
         labels = AQI$names),
       datetime_tz = lubridate::with_tz(datetime, "America/Los_Angeles")) %>%
-    select(datetime, datetime_tz, deviceDeploymentID, pm25, timezone, siteName, aqiCategory)
+    select(datetime, datetime_tz, deviceDeploymentID, pm25, timezone, locationName, aqiCategory)
 
   # nowcast no short term
   hourlyData_nst <- monData %>%
@@ -42,7 +42,7 @@ get_daily_hourly_data <- function(monitors, data) {
         include.lowest = TRUE,
         labels = AQI$names),
       datetime_tz = lubridate::with_tz(datetime, "America/Los_Angeles")) %>%
-    select(datetime, datetime_tz, deviceDeploymentID, pm25, timezone, siteName, aqiCategory)
+    select(datetime, datetime_tz, deviceDeploymentID, pm25, timezone, locationName, aqiCategory)
 
   # raw hourly
   hourlyData_raw <- monData %>%
@@ -54,7 +54,7 @@ get_daily_hourly_data <- function(monitors, data) {
         include.lowest = TRUE,
         labels = AQI$names),
       datetime_tz = lubridate::with_tz(datetime, "America/Los_Angeles")) %>%
-    select(datetime, datetime_tz, deviceDeploymentID, pm25, timezone, siteName, aqiCategory)
+    select(datetime, datetime_tz, deviceDeploymentID, pm25, timezone, locationName, aqiCategory)
 
 
   data_list <- list(
