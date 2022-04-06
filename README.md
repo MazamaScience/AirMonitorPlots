@@ -3,6 +3,7 @@
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
 [![Downloads](http://cranlogs.r-pkg.org/badges/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
 [![Build Status](https://travis-ci.org/MazamaScience/AirMonitorPlots.svg?branch=master)](https://travis-ci.org/MazamaScience/AirMonitorPlots)
+[![DOI](https://zenodo.org/badge/123438756.svg)](https://zenodo.org/badge/latestdoi/123438756)
 
 ```
 Plot utilities for air quality monitoring data.
