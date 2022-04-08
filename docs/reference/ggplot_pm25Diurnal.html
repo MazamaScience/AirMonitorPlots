@@ -81,7 +81,7 @@ be added to this plot using ggplot2 syntax." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ be added to this plot using ggplot2 syntax." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@ be added to this plot using ggplot2 syntax." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,7 +146,7 @@ be added to this plot using <code>ggplot2</code> syntax.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span>
-  <span class='va'>ws_data</span>,
+  <span class='va'>mts_monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
   timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -161,9 +161,9 @@ be added to this plot using <code>ggplot2</code> syntax.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ws_data</th>
+      <th>mts_monitor</th>
       <td><p>Default dataset to use when adding layers. Must be either a
-<code>ws_monitor</code> object or <code>ws_tidy</code> object.</p></td>
+<code>mts_monitor</code> object or <code>mts_tidy</code> object.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -206,15 +206,17 @@ period</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>ws_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>PWFSLSmoke</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html'>Carmel_Valley</a></span>
-<span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span><span class='va'>ws_monitor</span><span class='op'>)</span> <span class='op'>+</span>
+    <pre class="examples"><div class='input'><span class='va'>mts_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html'>Carmel_Valley</a></span>
+<span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span><span class='va'>mts_monitor</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>coord_polar</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='geom_pm25Points.html'>geom_pm25Points</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='custom_aqiStackedBar.html'>custom_aqiStackedBar</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>1</span>, alpha <span class='op'>=</span> <span class='fl'>.3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 27 rows containing missing values (geom_pm25points).</span></div><div class='img'><img src='ggplot_pm25Diurnal-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span><span class='va'>ws_monitor</span>,
-                   startdate <span class='op'>=</span> <span class='fl'>20160801</span>,
-                   enddate <span class='op'>=</span> <span class='fl'>20160810</span><span class='op'>)</span> <span class='op'>+</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 9 rows containing missing values (geom_pm25points).</span></div><div class='img'><img src='ggplot_pm25Diurnal-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span>
+  <span class='va'>mts_monitor</span>,
+  startdate <span class='op'>=</span> <span class='fl'>20160801</span>,
+  enddate <span class='op'>=</span> <span class='fl'>20160810</span>
+<span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>stat_boxplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>hour</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 7 rows containing non-finite values (stat_boxplot).</span></div><div class='img'><img src='ggplot_pm25Diurnal-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>

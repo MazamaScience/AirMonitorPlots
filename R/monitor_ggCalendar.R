@@ -50,8 +50,7 @@ monitor_ggCalendar <- function(
   monitor <-
     AirMonitor::monitor_dailyStatistic(
       FUN = get(stat),
-      mts_monitor = AirMonitor::monitor_subset( mts_monitor = mts_monitor,
-                                               deviceDeploymentIDs = deviceDeploymentID )
+      mts_monitor = AirMonitor::monitor_select(mts_monitor, deviceDeploymentID)
     )
 
   # Always specify local timezones!
@@ -184,7 +183,7 @@ monitor_ggCalendar <- function(
 
 if (FALSE) {
 
-  mts_monitor <- AirMonitor::Northwest_Megafires
+  mts_monitor <- AirMonitor::NW_Megafires
   deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID[1]
   ncol = 4
   discrete = TRUE

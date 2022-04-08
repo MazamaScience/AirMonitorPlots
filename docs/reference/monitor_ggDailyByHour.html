@@ -49,7 +49,7 @@
 <meta property="og:title" content="Create a diurnal plot for one or more monitors — monitor_ggDailyByHour" />
 <meta property="og:description" content="This function assembles various layers to create a production-ready
 diurnal plot for a single monitor.
-The full range of data in ws_monitor will be used unless both
+The full range of data in mts_monitor will be used unless both
 startdate and enddate are specified." />
 <meta property="og:image" content="/logo.png" />
 
@@ -83,7 +83,7 @@ startdate and enddate are specified." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ startdate and enddate are specified." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +120,7 @@ startdate and enddate are specified." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -145,15 +145,15 @@ startdate and enddate are specified." />
     <div class="ref-description">
     <p>This function assembles various layers to create a production-ready
 diurnal plot for a single monitor.</p>
-<p>The full range of data in <code>ws_monitor</code> will be used unless both
+<p>The full range of data in <code>mts_monitor</code> will be used unless both
 <code>startdate</code> and <code>enddate</code> are specified.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_ggDailyByHour</span><span class='op'>(</span>
-  <span class='va'>ws_monitor</span>,
+  <span class='va'>mts_monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  monitorID <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deviceDeploymentID <span class='op'>=</span> <span class='cn'>NULL</span>,
   style <span class='op'>=</span> <span class='st'>"small"</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -164,8 +164,8 @@ diurnal plot for a single monitor.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ws_monitor</th>
-      <td><p>A <code>ws_monitor</code> object.</p></td>
+      <th>mts_monitor</th>
+      <td><p>A <code>mts_monitor</code> object.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -178,9 +178,9 @@ be parsed with parseDatetime.</p></td>
 parsed with parseDatetime.</p></td>
     </tr>
     <tr>
-      <th>monitorID</th>
-      <td><p>monitorID to include in the plot. This can be NULL if
-<em>ws_monitor</em> only has one unique monitorID.</p></td>
+      <th>deviceDeploymentID</th>
+      <td><p>deviceDeploymentID to include in the plot. This can be NULL if
+<em>mts_monitor</em> only has one unique deviceDeploymentID.</p></td>
     </tr>
     <tr>
       <th>style</th>
@@ -209,13 +209,14 @@ NULL the timezone of the specified monitor will be used.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>ws_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>airnow_loadLatest</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>monitor_ggDailyByHour</span><span class='op'>(</span><span class='va'>ws_monitor</span>, monitorID <span class='op'>=</span> <span class='st'>"410432002_01"</span><span class='op'>)</span>
+<span class='va'>mts_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>airnow_loadLatest</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>monitor_ggDailyByHour</span><span class='op'>(</span><span class='va'>mts_monitor</span>, deviceDeploymentID <span class='op'>=</span> <span class='st'>"51b9bcb4eaac7c9d_530330030"</span><span class='op'>)</span>
 <span class='op'>}</span>
 
-<span class='va'>ws_monitor</span> <span class='op'>&lt;-</span> <span class='va'>Carmel_Valley</span>
-<span class='fu'>monitor_ggDailyByHour</span><span class='op'>(</span><span class='va'>ws_monitor</span>, startdate <span class='op'>=</span> <span class='fl'>20160801</span>, enddate <span class='op'>=</span> <span class='fl'>20160810</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 5 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='img'><img src='monitor_ggDailyByHour-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html'>Carmel_Valley</a></span> <span class='op'>%&gt;%</span>
+  <span class='fu'>monitor_ggDailyByHour</span><span class='op'>(</span>startdate <span class='op'>=</span> <span class='fl'>20160801</span>, enddate <span class='op'>=</span> <span class='fl'>20160810</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 5 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_point).</span></div><div class='img'><img src='monitor_ggDailyByHour-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

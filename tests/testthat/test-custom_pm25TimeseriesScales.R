@@ -15,7 +15,7 @@ test_that("timezones are handled correctly", {
   expect_equal(attr(scales$x$breaks, "tzone"), timezone)
 
   # Multiple timezones should default to UTC
-  p <- p <- ggplot() + custom_pm25TimeseriesScales(AirMonitor::Northwest_Megafires)
+  p <- p <- ggplot() + custom_pm25TimeseriesScales(AirMonitor::NW_Megafires)
   scales <- layer_scales(p)
   expect_equal(attr(scales$x$breaks, "tzone"), "UTC")
 

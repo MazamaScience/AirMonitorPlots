@@ -24,14 +24,15 @@ knitr::opts_chunk$set(
 
 
 ```{r loadData}
+library(AirMonitor)
 library(AirMonitorPlots)
 # Load current Data
-ws_monitor <- loadLatest()
+mts_monitor <- monitor_loadLatest()
 ```
 
 ```{r}
 # Set parameters
-monitorID <- "060771002_01"
+deviceDeploymentID <- "0b97822d89739950_060631010"
 enddate <- lubridate::now()
 startdate <- enddate - lubridate::ddays(7)
 ```
@@ -40,10 +41,10 @@ startdate <- enddate - lubridate::ddays(7)
 
 ```{r}
 monitor_ggTimeseries(
-  ws_monitor,
+  mts_monitor,
   startdate = startdate,
   enddate = enddate,
-  monitorIDs = monitorID
+  deviceDeploymentIDs = deviceDeploymentID
 )
 ```
 
@@ -51,10 +52,10 @@ monitor_ggTimeseries(
 
 ```{r}
 monitor_ggDailyBarplot(
-  ws_monitor,
+  mts_monitor,
   startdate = startdate,
   enddate = enddate,
-  monitorID = monitorID
+  deviceDeploymentID = deviceDeploymentID
 )
 ```
 
@@ -62,9 +63,9 @@ monitor_ggDailyBarplot(
 
 ```{r}
 monitor_ggDailyByHour(
-  ws_monitor,
+  mts_monitor,
   startdate = startdate,
   enddate = enddate,
-  monitorID = monitorID
+  deviceDeploymentID = deviceDeploymentID
 ) 
 ```

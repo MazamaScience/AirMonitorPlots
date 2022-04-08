@@ -52,3 +52,10 @@ archival daily barplot for one or more monitors.
 The full range of data in \code{mts_monitor} will be used unless both
 \code{startdate} and \code{enddate} are specified.
 }
+\examples{
+library(AirMonitorPlots)
+
+AirMonitor::Carmel_Valley \%>\%
+  AirMonitor::monitor_trimDate() \%>\%
+  monitor_ggDailyBarplot_archival()
+}

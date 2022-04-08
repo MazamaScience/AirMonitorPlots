@@ -37,8 +37,7 @@
 #' AirMonitor::Carmel_Valley %>%
 #'   AirMonitor::monitor_trimDate() %>%
 #'   monitor_ggDailyBarplot_archival()
-#'
-#' }
+
 
 monitor_ggDailyBarplot_archival <- function(
   mts_monitor,

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -75,7 +75,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -89,14 +89,13 @@
 
       
 
-      </header><script src="AirMonitorPlots_files/header-attrs-2.5/header-attrs.js"></script><link href="AirMonitorPlots_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="AirMonitorPlots_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="AirMonitorPlots_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to AirMonitorPlots</h1>
-                        <h4 class="author">Helen Miller</h4>
+                        <h4 class="author">Helen Miller, Jonathan Callahan</h4>
             
-            <h4 class="date">Jan 17, 2019</h4>
+            <h4 class="date">April 08, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitorPlots/blob/master/vignettes/AirMonitorPlots.Rmd"><code>vignettes/AirMonitorPlots.Rmd</code></a></small>
       <div class="hidden name"><code>AirMonitorPlots.Rmd</code></div>
@@ -105,7 +104,7 @@
 
     
     
-<p>The <code>AirMonitorPlots</code> package provides plotting functionality to create production-ready plots for qir quality monitoring data. It builds on the <code>PWFLSmoke</code> package, integrating the data with <code>ggplot2</code> plotting functions. High-level plotting functions make it easy for users to create beautiful plots of monitoring data. Since these functions are built on <code>ggplot2</code>, users familiar with <code>ggplot2</code> can easily use the functions in this package to create custom plots.</p>
+<p>The **AirMonitorPlots<code>\** package provides plotting functionality to create  production-ready plots for air quality monitoring data. It is designed to work with the **AirMonitor** package, integrating the data with **ggplot2** plotting  functions. High-level plotting functions make it easy for users to create beautiful  plots of monitoring data. Since these functions are built on</code>ggplot2<code>, users  familiar with</code>ggplot2` can easily use the functions in this package to create custom plots.</p>
 <div id="production-ready-plots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#production-ready-plots" class="anchor"></a>Production-ready plots</h2>
@@ -115,21 +114,28 @@
 <a href="#timeseries" class="anchor"></a>Timeseries</h3>
 <p>The default Timeseries plot is optimized for one monitor.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/PWFSLSmoke">PWFSLSmoke</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor">AirMonitor</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitorPlots">AirMonitorPlots</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Northwest_Megafires.html">Northwest_Megafires</a></span>, 
-                     monitorIDs <span class="op">=</span> <span class="st">"160050015_01"</span>,
-                     startdate <span class="op">=</span> <span class="fl">20150815</span>,
-                     enddate <span class="op">=</span> <span class="fl">20150825</span><span class="op">)</span></code></pre></div>
+
+<span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span>
+  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html">NW_Megafires</a></span>, 
+  deviceDeploymentIDs <span class="op">=</span> <span class="st">"39c9acebbebc3d09_160050015"</span>,
+  startdate <span class="op">=</span> <span class="fl">20150815</span>,
+  enddate <span class="op">=</span> <span class="fl">20150825</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
-<p>If more than one monitor is present, color will be mapped to monitorID.</p>
+<p>If more than one monitor is present, color will be mapped to deviceDeploymentID.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Northwest_Megafires.html">Northwest_Megafires</a></span>,
-                     monitorIDs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"530630047_01"</span>, 
-                                    <span class="st">"530639997_01"</span>, 
-                                    <span class="st">"530639996_01"</span><span class="op">)</span>,
-                     startdate <span class="op">=</span> <span class="fl">20150815</span>,
-                     enddate <span class="op">=</span> <span class="fl">20150820</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span>
+  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html">NW_Megafires</a></span>,
+  deviceDeploymentIDs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+    <span class="st">"fa8288b1da3b2a87_530630047"</span>, 
+    <span class="st">"5b3acb7aa679dc14_530639997"</span>, 
+    <span class="st">"abde4337eb9064e4_530639996"</span>
+  <span class="op">)</span>,
+  startdate <span class="op">=</span> <span class="fl">20150815</span>,
+  enddate <span class="op">=</span> <span class="fl">20150820</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div id="daily-barplot" class="section level3">
@@ -137,16 +143,20 @@
 <a href="#daily-barplot" class="anchor"></a>Daily Barplot</h3>
 <p>Daily Barplot can show daily averages for one monitor.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span>ws_monitor <span class="op">=</span> <span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
-                       startdate <span class="op">=</span> <span class="fl">20160801</span>,
-                       enddate <span class="op">=</span> <span class="fl">20160808</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span>
+  mts_monitor <span class="op">=</span> <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+  startdate <span class="op">=</span> <span class="fl">20160801</span>,
+  enddate <span class="op">=</span> <span class="fl">20160808</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>If using current data, it will include a bar for “today”, displaying the current NowCast, if available.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/airnow_loadLatest.html">airnow_loadLatest</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span><span class="va">latest</span>,
-                       startdate <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,
-                       monitorID <span class="op">=</span> <span class="st">"060631010_01"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AirMonitor/man/airnow_loadLatest.html">airnow_loadLatest</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span>
+  <span class="va">latest</span>,
+  startdate <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,
+  deviceDeploymentID <span class="op">=</span> <span class="st">"0b97822d89739950_060631010"</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
 <div id="daily-by-hour" class="section level3">
@@ -154,15 +164,18 @@
 <a href="#daily-by-hour" class="anchor"></a>Daily By Hour</h3>
 <p>The <code>dailyByHour</code> plot is designed to view current data for only one monitor. It can show daily trends in air quality.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/airnow_loadLatest.html">airnow_loadLatest</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="va">latest</span>,
-                      monitorID <span class="op">=</span> <span class="st">"060631010_01"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span>
+  <span class="va">latest</span>,
+  deviceDeploymentID <span class="op">=</span> <span class="st">"0b97822d89739950_060631010"</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 <p>The <code>dailyByHour</code> is designed specifically to show current data, with special lines for “today” and “yesterday”. However, it can plot historical data, using the enddate for “today”.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
-                      startdate <span class="op">=</span> <span class="fl">20160801</span>, 
-                      enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span>
+  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+  startdate <span class="op">=</span> <span class="fl">20160801</span>, 
+  enddate <span class="op">=</span> <span class="fl">20160809</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
 <div id="clock-plot" class="section level3">
@@ -170,9 +183,11 @@
 <a href="#clock-plot" class="anchor"></a>Clock Plot</h3>
 <p>The colors on the clock plot show the mean AQI level (represented by color) throughout the day.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggClockPlot.html">monitor_ggClockPlot</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
-                    startdate <span class="op">=</span> <span class="fl">20160801</span>, 
-                    enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> </code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggClockPlot.html">monitor_ggClockPlot</a></span><span class="op">(</span>
+  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+  startdate <span class="op">=</span> <span class="fl">20160801</span>, 
+  enddate <span class="op">=</span> <span class="fl">20160809</span>
+<span class="op">)</span> </code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 </div>
@@ -183,12 +198,12 @@
 <div id="pm25timeseries-plots" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pm25timeseries-plots" class="anchor"></a>pm25Timeseries plots</h3>
-<p>The most basic type of plot for PWFSL monitoring data is timeseries plots: plots that have time on the x-axis and PM2.5 on the y-axis. Timeseries plots should start with a call to <code>ggplot_pm25Timeseries</code>, which accepts either a <code>ws_monitor</code> object, or a <code>ws_tidy</code> object, created from <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_toTidy.html">monitor_toTidy(ws_monitor)</a></code>. This instantiates the plot mapping the data to the correct axes, and adds some custom styling and scaling.</p>
+<p>The most basic type of plot for PWFSL monitoring data is timeseries plots: plots that have time on the x-axis and PM2.5 on the y-axis. Timeseries plots should start with a call to <code>ggplot_pm25Timeseries</code>, which accepts either a <code>mts_monitor</code> object, or a <code>ws_tidy</code> object, created from <code><a href="../reference/monitor_toTidy.html">monitor_toTidy(mts_monitor)</a></code>. This instantiates the plot mapping the data to the correct axes, and adds some custom styling and scaling.</p>
 <div id="many-monitors" class="section level4">
 <h4 class="hasAnchor">
 <a href="#many-monitors" class="anchor"></a>Many Monitors</h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nmPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggplot_pm25Timeseries.html">ggplot_pm25Timeseries</a></span><span class="op">(</span><span class="va">Northwest_Megafires</span>,
+<code class="sourceCode R"><span class="va">nmPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggplot_pm25Timeseries.html">ggplot_pm25Timeseries</a></span><span class="op">(</span><span class="va">NW_Megafires</span>,
                            startdate <span class="op">=</span> <span class="fl">20150815</span>,
                            enddate <span class="op">=</span> <span class="fl">20150825</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"2015 Northwest Megafires"</span><span class="op">)</span>
@@ -204,8 +219,7 @@
   <span class="fu"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> </code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">nmPlot</span> <span class="op">+</span> 
+<code class="sourceCode R"><span class="va">nmPlot</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.05</span>, shape <span class="op">=</span> <span class="st">"square"</span><span class="op">)</span>  <span class="op">+</span>
   <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"line"</span>, size <span class="op">=</span> <span class="fl">2</span>, output <span class="op">=</span> <span class="st">"AQIColors"</span><span class="op">)</span><span class="op">+</span> 
   <span class="fu"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -216,8 +230,13 @@
 <a href="#several-monitors" class="anchor"></a>Several Monitors</h4>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Subset out several monitors near Spokane</span>
-<span class="va">monitorIDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"530630047_01"</span>, <span class="st">"530639997_01"</span>, <span class="st">"530639996_01"</span><span class="op">)</span>
-<span class="va">spokane</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_subset.html">monitor_subset</a></span><span class="op">(</span><span class="va">Northwest_Megafires</span>, monitorIDs <span class="op">=</span> <span class="va">monitorIDs</span><span class="op">)</span>
+<span class="va">deviceDeploymentIDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  <span class="st">"fa8288b1da3b2a87_530630047"</span>, 
+  <span class="st">"5b3acb7aa679dc14_530639997"</span>, 
+  <span class="st">"abde4337eb9064e4_530639996"</span>
+<span class="op">)</span>
+
+<span class="va">spokane</span> <span class="op">&lt;-</span> <span class="fu">AirMonitor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AirMonitor/man/monitor_select.html">monitor_select</a></span><span class="op">(</span><span class="va">NW_Megafires</span>, <span class="va">deviceDeploymentIDs</span><span class="op">)</span>
 
 <span class="va">spokanePlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ggplot_pm25Timeseries.html">ggplot_pm25Timeseries</a></span><span class="op">(</span><span class="va">spokane</span>,
                                      startdate <span class="op">=</span> <span class="fl">20150815</span>,
@@ -225,29 +244,29 @@
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Smoke Monitors in Spokane, 2015"</span><span class="op">)</span>
 
 <span class="va">spokanePlot</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">monitorID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">monitorID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spokanePlot</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/stat_dailyAQCategory.html">stat_dailyAQCategory</a></span><span class="op">(</span>timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">facet_grid</span><span class="op">(</span>rows <span class="op">=</span> <span class="fu">vars</span><span class="op">(</span><span class="va">monitorID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu">facet_grid</span><span class="op">(</span>rows <span class="op">=</span> <span class="fu">vars</span><span class="op">(</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-10-2.png" width="672"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spokanePlot</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/stat_AQCategory.html">stat_AQCategory</a></span><span class="op">(</span>color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/stat_dailyAQCategory.html">stat_dailyAQCategory</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.5</span>, timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">facet_grid</span><span class="op">(</span>rows <span class="op">=</span> <span class="fu">vars</span><span class="op">(</span><span class="va">monitorID</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
+  <span class="fu">facet_grid</span><span class="op">(</span>rows <span class="op">=</span> <span class="fu">vars</span><span class="op">(</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-10-3.png" width="672"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spokanePlot</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span>, alpha <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>linetype <span class="op">=</span> <span class="va">monitorID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>linetype <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-10-4.png" width="672"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spokanePlot</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/custom_aqiLines.html">custom_aqiLines</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>linetype <span class="op">=</span> <span class="va">monitorID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>linetype <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/custom_pm25TimeseriesScales.html">custom_pm25TimeseriesScales</a></span><span class="op">(</span><span class="va">spokane</span>, startdate <span class="op">=</span> <span class="fl">20150810</span>, enddate <span class="op">=</span> <span class="fl">20150820</span><span class="op">)</span> </code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-10-5.png" width="672"></p>
 </div>
@@ -261,22 +280,21 @@
 <a href="#one-monitor" class="anchor"></a>One monitor</h4>
 <p>This type of plot is best suited for exploring one monitor, although a savvy <code>ggplot2</code> user could certainly create useful and attractive diurnal plots representing multiple monitors. Like <code>ggplot_pm25Timeseries</code>, <code>ggplot_pm25Diurnal</code> simply instantiates the plot without adding any layers yet. By default, it includes day/night shading, although this can be turned off by specifying <code>shadedNight = FALSE</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">monitorID</span> <span class="op">&lt;-</span> <span class="st">"530630047_01"</span>
-<span class="va">monroeStMonitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_subset.html">monitor_subset</a></span><span class="op">(</span><span class="va">Northwest_Megafires</span>, monitorIDs <span class="op">=</span> <span class="va">monitorID</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">deviceDeploymentID</span> <span class="op">&lt;-</span> <span class="st">"fa8288b1da3b2a87_530630047"</span>
+<span class="va">monroeStMonitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AirMonitor/man/monitor_select.html">monitor_select</a></span><span class="op">(</span><span class="va">NW_Megafires</span>, <span class="va">deviceDeploymentID</span><span class="op">)</span>
 <span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">monroeStMonitor</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>After instantiating the plot, you can add layers. <code>stat_meanByHour</code> is a stat specifically designed for this type of plot, which calculates the mean y-value for each x-value. You can also use the ‘group’ aesthetic to tell a stat to do calculations by a group such as hour or day. There is also an <code>offsetBreaks</code> option, which, if <code>TRUE</code>, will offset the x-axis guides and ticks by 0.5, which is useful for plots like boxplots where you might want the boxes to be between the hour ticks instead of lined up with them. For example:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># offsetBreaks = FALSE. Notice that bars cover the x-axis guides</span>
-<span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>, 
+<span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>, 
                    startdate <span class="op">=</span> <span class="fl">20160801</span>, 
                    enddate <span class="op">=</span> <span class="fl">20160810</span><span class="op">)</span>  <span class="op">+</span> 
   <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"AQIColors"</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># offsetBreaks = TRUE</span>
-<span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+<code class="sourceCode R"><span class="co"># offsetBreaks = TRUE</span>
+<span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                    startdate <span class="op">=</span> <span class="fl">20160801</span>, 
                    enddate <span class="op">=</span> <span class="fl">20160810</span>,
                    offsetBreaks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> 
@@ -284,8 +302,7 @@
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-12-2.png" width="672"></p>
 <p>Other examples</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                    startdate <span class="op">=</span> <span class="fl">20160801</span>, 
                    enddate <span class="op">=</span> <span class="fl">20160810</span>,
                    offsetBreaks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span>
@@ -293,23 +310,20 @@
   <span class="fu"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">monroeStMonitor</span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">monroeStMonitor</span>,
                    startdate <span class="op">=</span> <span class="fl">20150815</span>,
                    enddate <span class="op">=</span> <span class="fl">20150820</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">day</span><span class="op">)</span>, geom <span class="op">=</span> <span class="st">"path"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"line"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> </code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-13-2.png" width="672"></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">spokane</span>, 
+<code class="sourceCode R"><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">spokane</span>, 
                    startdate <span class="op">=</span> <span class="fl">20150815</span>,
                    enddate <span class="op">=</span> <span class="fl">20150820</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">monitorID</span><span class="op">)</span>, geom <span class="op">=</span> <span class="st">"path"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span>, geom <span class="op">=</span> <span class="st">"path"</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-13-3.png" width="672"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># "clock" plot</span>
+<code class="sourceCode R"><span class="co"># "clock" plot</span>
 
 <span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">monroeStMonitor</span>,
                    startdate <span class="op">=</span> <span class="fl">20150815</span>,
@@ -321,8 +335,7 @@
   <span class="fu"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-13-4.png" width="672"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span><span class="op">)</span> <span class="op">+</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">.05</span>, geom <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-13-5.png" width="672"></p>
 </div>
@@ -332,29 +345,26 @@
 <a href="#extending-the-preset-plots" class="anchor"></a>Extending the preset plots</h3>
 <p>All of the preset plots (<code>tidy_gg...</code>) generate ggplot objects, so you can start with these and add more layers or customize them by adding themes.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggClockPlot.html">monitor_ggClockPlot</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggClockPlot.html">monitor_ggClockPlot</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                     startdate <span class="op">=</span> <span class="fl">20160801</span>, 
                     enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html">adjustcolor</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="fl">.6</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Carmel Valley:\n Air quality by time of day"</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                      startdate <span class="op">=</span> <span class="fl">20160801</span>, 
                     enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-14-2.png" width="672"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                      startdate <span class="op">=</span> <span class="fl">20160801</span>, 
                     enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>group<span class="op">=</span><span class="va">day</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-14-3.png" width="672"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                      startdate <span class="op">=</span> <span class="fl">20160801</span>, 
                     enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"pm25Points"</span><span class="op">)</span></code></pre></div>

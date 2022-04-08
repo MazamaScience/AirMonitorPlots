@@ -75,6 +75,7 @@ ggplot_pm25Diurnal <- function(
       timezone <- mts_tidy$timezone[1]
       xlab <- "Time of Day (Local)"
     }
+    # TODO:  This test for xlab fails because xlab is a function!
   } else if ( is.null(xlab) ) {
     xlab <- paste0("Time of Day (", timezone, ")")
   }

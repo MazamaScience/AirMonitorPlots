@@ -1,7 +1,7 @@
 ---
 title: "Introduction to AirMonitorPlots"
-author: "Helen Miller"
-date: "Jan 17, 2019"
+author: "Helen Miller, Jonathan Callahan"
+date: "April 08, 2022"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to AirMonitorPlots}
@@ -20,11 +20,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `AirMonitorPlots` package provides plotting functionality to create production-ready plots for
-qir quality monitoring data. It builds on the `PWFLSmoke` package, integrating the data
-with `ggplot2` plotting functions. High-level plotting functions make it easy for users to create beautiful 
-plots of monitoring data. Since these functions are built on `ggplot2`, users familiar with `ggplot2` can easily 
-use the functions in this package to create custom plots. 
+The **AirMonitorPlots`\** package provides plotting functionality to create 
+production-ready plots for air quality monitoring data. It is designed to work
+with the **AirMonitor** package, integrating the data with **ggplot2** plotting 
+functions. High-level plotting functions make it easy for users to create beautiful 
+plots of monitoring data. Since these functions are built on `ggplot2`, users 
+familiar with `ggplot2` can easily  use the functions in this package to create 
+custom plots. 
 
 ## Production-ready plots
 
@@ -35,23 +37,30 @@ High-level functions in this package make it easy to create beautiful plots with
 The default Timeseries plot is optimized for one monitor. 
 
 ```{r}
-library(PWFSLSmoke)
+library(AirMonitor)
 library(AirMonitorPlots)
-monitor_ggTimeseries(PWFSLSmoke::Northwest_Megafires, 
-                     monitorIDs = "160050015_01",
-                     startdate = 20150815,
-                     enddate = 20150825)
+
+monitor_ggTimeseries(
+  AirMonitor::NW_Megafires, 
+  deviceDeploymentIDs = "39c9acebbebc3d09_160050015",
+  startdate = 20150815,
+  enddate = 20150825
+)
 ```
 
-If more than one monitor is present, color will be mapped to monitorID. 
+If more than one monitor is present, color will be mapped to deviceDeploymentID. 
 
 ```{r}
-monitor_ggTimeseries(PWFSLSmoke::Northwest_Megafires,
-                     monitorIDs = c("530630047_01", 
-                                    "530639997_01", 
-                                    "530639996_01"),
-                     startdate = 20150815,
-                     enddate = 20150820)
+monitor_ggTimeseries(
+  AirMonitor::NW_Megafires,
+  deviceDeploymentIDs = c(
+    "fa8288b1da3b2a87_530630047", 
+    "5b3acb7aa679dc14_530639997", 
+    "abde4337eb9064e4_530639996"
+  ),
+  startdate = 20150815,
+  enddate = 20150820
+)
 ```
 
 ### Daily Barplot
@@ -59,18 +68,22 @@ monitor_ggTimeseries(PWFSLSmoke::Northwest_Megafires,
 Daily Barplot can show daily averages for one monitor. 
 
 ```{r}
-monitor_ggDailyBarplot(ws_monitor = PWFSLSmoke::Carmel_Valley,
-                       startdate = 20160801,
-                       enddate = 20160808)
+monitor_ggDailyBarplot(
+  mts_monitor = AirMonitor::Carmel_Valley,
+  startdate = 20160801,
+  enddate = 20160808
+)
 ```
 
 If using current data, it will include a bar for "today", displaying the current NowCast, if available. 
 
 ```{r}
 latest <- airnow_loadLatest()
-monitor_ggDailyBarplot(latest,
-                       startdate = lubridate::now() - lubridate::ddays(7),
-                       monitorID = "060631010_01")
+monitor_ggDailyBarplot(
+  latest,
+  startdate = lubridate::now() - lubridate::ddays(7),
+  deviceDeploymentID = "0b97822d89739950_060631010"
+)
 ```
 
 ### Daily By Hour
@@ -78,18 +91,21 @@ monitor_ggDailyBarplot(latest,
 The `dailyByHour` plot is designed to view current data for only one monitor. It can show daily trends in air quality.
 
 ```{r}
-latest <- airnow_loadLatest()
-monitor_ggDailyByHour(latest,
-                      monitorID = "060631010_01")
+monitor_ggDailyByHour(
+  latest,
+  deviceDeploymentID = "0b97822d89739950_060631010"
+)
 ```
 
 The `dailyByHour` is designed specifically to show current data, with special lines for "today" and "yesterday". 
 However, it can plot historical data, using the enddate for "today". 
 
 ```{r}
-monitor_ggDailyByHour(PWFSLSmoke::Carmel_Valley,
-                      startdate = 20160801, 
-                      enddate = 20160809)
+monitor_ggDailyByHour(
+  AirMonitor::Carmel_Valley,
+  startdate = 20160801, 
+  enddate = 20160809
+)
 ```
 
 ### Clock Plot
@@ -97,9 +113,11 @@ monitor_ggDailyByHour(PWFSLSmoke::Carmel_Valley,
 The colors on the clock plot show the mean AQI level (represented by color) throughout the day. 
 
 ```{r}
-monitor_ggClockPlot(PWFSLSmoke::Carmel_Valley,
-                    startdate = 20160801, 
-                    enddate = 20160809) 
+monitor_ggClockPlot(
+  AirMonitor::Carmel_Valley,
+  startdate = 20160801, 
+  enddate = 20160809
+) 
 ```
 
 ## Custom Plots
@@ -115,14 +133,14 @@ how these pieces work together, and shows some examples of the kinds of custom p
 
 The most basic type of plot for PWFSL monitoring data is timeseries plots: plots that have time on the x-axis
 and PM2.5 on the y-axis. Timeseries plots should start with a call to `ggplot_pm25Timeseries`, which accepts
-either a `ws_monitor` object, or a `ws_tidy` object, created from `monitor_toTidy(ws_monitor)`. This 
+either a `mts_monitor` object, or a `ws_tidy` object, created from `monitor_toTidy(mts_monitor)`. This 
 instantiates the plot mapping the data to the correct axes, and adds some custom styling and scaling. 
 
 
 #### Many Monitors
 
 ```{r}
-nmPlot <- ggplot_pm25Timeseries(Northwest_Megafires,
+nmPlot <- ggplot_pm25Timeseries(NW_Megafires,
                            startdate = 20150815,
                            enddate = 20150825) + 
   ggtitle("2015 Northwest Megafires")
@@ -149,8 +167,13 @@ nmPlot +
 
 ```{r}
 # Subset out several monitors near Spokane
-monitorIDs <- c("530630047_01", "530639997_01", "530639996_01")
-spokane <- monitor_subset(Northwest_Megafires, monitorIDs = monitorIDs)
+deviceDeploymentIDs <- c(
+  "fa8288b1da3b2a87_530630047", 
+  "5b3acb7aa679dc14_530639997", 
+  "abde4337eb9064e4_530639996"
+)
+
+spokane <- AirMonitor::monitor_select(NW_Megafires, deviceDeploymentIDs)
 
 spokanePlot <- ggplot_pm25Timeseries(spokane,
                                      startdate = 20150815,
@@ -158,21 +181,21 @@ spokanePlot <- ggplot_pm25Timeseries(spokane,
   ggtitle("Smoke Monitors in Spokane, 2015")
 
 spokanePlot + 
-  geom_pm25Points(aes(color = monitorID)) + 
-  stat_nowcast(aes(color = monitorID))
+  geom_pm25Points(aes(color = deviceDeploymentID)) + 
+  stat_nowcast(aes(color = deviceDeploymentID))
 spokanePlot + 
   stat_dailyAQCategory(timezone = "America/Los_Angeles") + 
-  facet_grid(rows = vars(monitorID))
+  facet_grid(rows = vars(deviceDeploymentID))
 spokanePlot + 
   stat_AQCategory(color = NA) + 
   stat_dailyAQCategory(alpha = .5, timezone = "America/Los_Angeles") + 
-  facet_grid(rows = vars(monitorID)) 
+  facet_grid(rows = vars(deviceDeploymentID)) 
 spokanePlot + 
   custom_aqiStackedBar(width = 1, alpha = .3) + 
-  stat_nowcast(aes(linetype = monitorID))
+  stat_nowcast(aes(linetype = deviceDeploymentID))
 spokanePlot + 
   custom_aqiLines() + 
-  stat_nowcast(aes(linetype = monitorID)) + 
+  stat_nowcast(aes(linetype = deviceDeploymentID)) + 
   custom_pm25TimeseriesScales(spokane, startdate = 20150810, enddate = 20150820) 
 
 ```
@@ -188,8 +211,8 @@ diurnal plots representing multiple monitors. Like `ggplot_pm25Timeseries`, `ggp
 any layers yet. By default, it includes day/night shading, although this can be turned off by specifying `shadedNight = FALSE`. 
 
 ```{r}
-monitorID <- "530630047_01"
-monroeStMonitor <- monitor_subset(Northwest_Megafires, monitorIDs = monitorID)
+deviceDeploymentID <- "fa8288b1da3b2a87_530630047"
+monroeStMonitor <- monitor_select(NW_Megafires, deviceDeploymentID)
 ggplot_pm25Diurnal(monroeStMonitor)
 ```
 
@@ -200,13 +223,13 @@ is useful for plots like boxplots where you might want the boxes to be between t
 
 ```{r}
 # offsetBreaks = FALSE. Notice that bars cover the x-axis guides
-ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley, 
+ggplot_pm25Diurnal(AirMonitor::Carmel_Valley, 
                    startdate = 20160801, 
                    enddate = 20160810)  + 
   stat_meanByHour(output = "AQIColors")
 
 # offsetBreaks = TRUE
-ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley,
+ggplot_pm25Diurnal(AirMonitor::Carmel_Valley,
                    startdate = 20160801, 
                    enddate = 20160810,
                    offsetBreaks = TRUE) + 
@@ -218,7 +241,7 @@ ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley,
 Other examples
 ```{r}
 
-ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley,
+ggplot_pm25Diurnal(AirMonitor::Carmel_Valley,
                    startdate = 20160801, 
                    enddate = 20160810,
                    offsetBreaks = TRUE) +
@@ -234,7 +257,7 @@ ggplot_pm25Diurnal(monroeStMonitor,
 ggplot_pm25Diurnal(spokane, 
                    startdate = 20150815,
                    enddate = 20150820) +
-  stat_meanByHour(aes(color = monitorID), geom = "path")
+  stat_meanByHour(aes(color = deviceDeploymentID), geom = "path")
 
 # "clock" plot
 
@@ -247,7 +270,7 @@ ggplot_pm25Diurnal(monroeStMonitor,
   stat_meanByHour(aes(y = 75, xmin = 50), input = "pm25", output = "AQIColors", width = 1, color = adjustcolor("black", .2)) +
   geom_pm25Points()
 
-ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley) +
+ggplot_pm25Diurnal(AirMonitor::Carmel_Valley) +
   stat_nowcast(size = 5, alpha = .05, geom = "point")
 ```
 
@@ -256,23 +279,23 @@ ggplot_pm25Diurnal(PWFSLSmoke::Carmel_Valley) +
 All of the preset plots (`tidy_gg...`) generate ggplot objects, so you can start with these and add more layers or customize them by adding themes.
 
 ```{r}
-monitor_ggClockPlot(PWFSLSmoke::Carmel_Valley,
+monitor_ggClockPlot(AirMonitor::Carmel_Valley,
                     startdate = 20160801, 
                     enddate = 20160809) +
   stat_meanByHour(fill = adjustcolor("white", .6), color = "black") +
   ggtitle("Carmel Valley:\n Air quality by time of day")
 
-monitor_ggTimeseries(PWFSLSmoke::Carmel_Valley,
+monitor_ggTimeseries(AirMonitor::Carmel_Valley,
                      startdate = 20160801, 
                     enddate = 20160809) +
   theme_classic()
 
-monitor_ggDailyByHour(PWFSLSmoke::Carmel_Valley,
+monitor_ggDailyByHour(AirMonitor::Carmel_Valley,
                      startdate = 20160801, 
                     enddate = 20160809) +
   geom_line(aes(group=day), alpha = .5)
 
-monitor_ggDailyBarplot(PWFSLSmoke::Carmel_Valley,
+monitor_ggDailyBarplot(AirMonitor::Carmel_Valley,
                      startdate = 20160801, 
                     enddate = 20160809) +
   stat_nowcast(geom = "pm25Points")

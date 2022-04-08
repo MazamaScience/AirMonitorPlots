@@ -24,7 +24,7 @@
 #'
 #' \dontrun{
 #' mts_monitor <- airnow_loadLatest()
-#' monitor_ggClockPlot(mts_monitor, deviceDeploymentID = "410432002_01")
+#' monitor_ggClockPlot(mts_monitor, deviceDeploymentID = "8e3f0e62b2af8cd7_410432002")
 #' }
 #'
 monitor_ggClockPlot <- function(
@@ -38,7 +38,7 @@ monitor_ggClockPlot <- function(
 
   # Validate parameters --------------------------------------------------------
 
-  if ( monitor_isValid(mts_monitor) ) {
+  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
     mts_tidy <- monitor_toTidy(mts_monitor)
   } else {
     stop("mts_monitor must be a `mts_monitor` object.")
@@ -156,5 +156,19 @@ monitor_ggClockPlot <- function(
   #   )
 
   return(plot)
+
+}
+
+# ===== DEBUGGING ==============================================================
+
+if ( FALSE ) {
+
+  mts_monitor <- AirMonitor::monitor_loadLatest()
+  startdate <- NULL
+  enddate <- NULL
+  deviceDeploymentID = "8e3f0e62b2af8cd7_410432002"
+  timezone = NULL
+
+
 
 }

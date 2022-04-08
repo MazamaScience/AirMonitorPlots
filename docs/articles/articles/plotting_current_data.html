@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -75,7 +75,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -89,14 +89,13 @@
 
       
 
-      </header><script src="plotting_current_data_files/header-attrs-2.5/header-attrs.js"></script><link href="plotting_current_data_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="plotting_current_data_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="plotting_current_data_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Plotting Current Data</h1>
                         <h4 class="author">Helen Miller</h4>
             
-            <h4 class="date">2021-04-01</h4>
+            <h4 class="date">2022-04-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitorPlots/blob/master/vignettes/articles/plotting_current_data.Rmd"><code>vignettes/articles/plotting_current_data.Rmd</code></a></small>
       <div class="hidden name"><code>plotting_current_data.Rmd</code></div>
@@ -107,23 +106,24 @@
     
 <p><code>AirMonitorPlots</code> provides functions to easily generate stylized plots of current data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitorPlots">AirMonitorPlots</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor">AirMonitor</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitorPlots">AirMonitorPlots</a></span><span class="op">)</span>
 <span class="co"># Load current Data</span>
-<span class="va">ws_monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/loadLatest.html">loadLatest</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">mts_monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AirMonitor/man/monitor_loadLatest.html">monitor_loadLatest</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Set parameters</span>
-<span class="va">monitorID</span> <span class="op">&lt;-</span> <span class="st">"060771002_01"</span>
-<span class="va">enddate</span> <span class="op">&lt;-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">startdate</span> <span class="op">&lt;-</span> <span class="va">enddate</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
+<span class="va">deviceDeploymentID</span> <span class="op">&lt;-</span> <span class="st">"0b97822d89739950_060631010"</span>
+<span class="va">enddate</span> <span class="op">&lt;-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">startdate</span> <span class="op">&lt;-</span> <span class="va">enddate</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
 <div id="timeseries" class="section level2">
 <h2 class="hasAnchor">
 <a href="#timeseries" class="anchor"></a>Timeseries</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span>
-  <span class="va">ws_monitor</span>,
+  <span class="va">mts_monitor</span>,
   startdate <span class="op">=</span> <span class="va">startdate</span>,
   enddate <span class="op">=</span> <span class="va">enddate</span>,
-  monitorIDs <span class="op">=</span> <span class="va">monitorID</span>
+  deviceDeploymentIDs <span class="op">=</span> <span class="va">deviceDeploymentID</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="plotting_current_data_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
@@ -132,10 +132,10 @@
 <a href="#daily-barplots" class="anchor"></a>Daily Barplots</h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span>
-  <span class="va">ws_monitor</span>,
+  <span class="va">mts_monitor</span>,
   startdate <span class="op">=</span> <span class="va">startdate</span>,
   enddate <span class="op">=</span> <span class="va">enddate</span>,
-  monitorID <span class="op">=</span> <span class="va">monitorID</span>
+  deviceDeploymentID <span class="op">=</span> <span class="va">deviceDeploymentID</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="plotting_current_data_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
@@ -144,10 +144,10 @@
 <a href="#diurnal-dailybyhour" class="anchor"></a>Diurnal (dailyByHour)</h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span>
-  <span class="va">ws_monitor</span>,
+  <span class="va">mts_monitor</span>,
   startdate <span class="op">=</span> <span class="va">startdate</span>,
   enddate <span class="op">=</span> <span class="va">enddate</span>,
-  monitorID <span class="op">=</span> <span class="va">monitorID</span>
+  deviceDeploymentID <span class="op">=</span> <span class="va">deviceDeploymentID</span>
 <span class="op">)</span> </code></pre></div>
 <p><img src="plotting_current_data_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>

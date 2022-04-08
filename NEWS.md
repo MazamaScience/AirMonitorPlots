@@ -9,24 +9,27 @@ archives based on "known locations" and a unique `deviceDeploymentID`.
 
 Refactored files:
 
+* `brandPlot.R`
 * `custom_aqiAnnotation.R`
 * `custom_datetimeScale.R`
-+ `custom_pm25DiurnalScales.R`
+* `custom_pm25DiurnalScales.R`
 * `custom_pm25TImeseriesScales.R`
 * `geom_PM25Points.R`
 * `ggplot_pm25Timeseries.R`
+* `monitor_ggCalendarPlot.R`
+* `monitor_ggClockPlot.R`
 * `monitor_ggDailyBarplot_archival.R`
 * `monitor_ggDailyBarplot.R`
-+ `monitor_ggDailyByHour_archival.R`
-+ `monitor_ggDailyByHour.R`
-+ `monitor_ggDailyByHourBarplot.R`
+* `monitor_ggDailyByHour_archival.R`
+* `monitor_ggDailyByHour.R`
+* `monitor_ggDailyByHourBarplot.R`
 * `monitor_ggDailyTimeseries_archival.R`
 * `monitor_ggTimeseries.R`
 * `monitor_isTidy.R`
 * `monitor_toTidy.R`
 * `nowcast.R`
 * `stat_AQCategory.R`
-+ `stat_meanByHour.R`
+* `stat_meanByHour.R`
 * `stat_nowcast.R`
 * `themes.R`
 * `utils-pipe.R`
