@@ -190,3 +190,120 @@ theme_dailyBarplot_airfire <- function(size = "large") {
 }
 
 
+#' @title Theme for AirFire dailyByHour plot for use in the monitoring site
+#'
+#' @description
+#' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
+#' use with the \code{\link{monitor_ggDailyByHour}} function and generates plots
+#' suitable for the AirFire monitoring site.
+#'
+#' @param size \code{small} or \code{large}. \code{style = small} is appropriate
+#'   for plots 450x450px or smaller; \code{style = large} is appropriate for
+#'   plots larger than 450x450px.
+#'
+#' @return A \emph{ggplot} theme
+#'
+#' @import ggplot2
+#' @export
+theme_dailyByHour_airfire <- function(size = "large") {
+
+  theme(
+    legend.key.size = unit(1, "cm"),
+    legend.position = "top",
+    legend.text.align = 1
+  ) +
+    theme_custom_size(size = size)
+
+}
+
+
+#' @title Theme for AirFire clock plot
+#'
+#' @description
+#' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
+#`` use with the \code{monitor_ggClockPlot} function and generates plots
+#' suitable for the AirFire monitoring site.
+#'
+#' @param size \code{small} or \code{large}. \code{style = small} is appropriate
+#'   for plots 450x450px or smaller; \code{style = large} is appropriate for
+#'   plots larger than 450x450px.
+#'
+#' @return A \emph{ggplot} theme.
+#'
+#' @import ggplot2
+#' @export
+
+theme_clockPlot_airfire <- function(size = "large") {
+
+  theme(
+    axis.title = element_blank(),
+    panel.border = element_blank(),
+    axis.line = element_blank(),
+    axis.text.y =  element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.ticks.length = unit(0.5, "cm"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.major.x = element_line(linetype = 1)
+  ) +
+    theme_custom_size(size = size)
+
+}
+
+
+#' @title Theme for AirFire Daily Hourly Barplot
+#'
+#' @description
+#' Applies a theme to a **ggplot** plot object. This is a minimal theme tailored
+#' for faceted bar plots.
+#'
+#' @param base_size Base font size.
+#' @param base_family Base font family.
+#'
+#' @return A **ggplot** theme
+#'
+#' @import ggplot2
+#' @export
+
+theme_dailyHourlyBarplot_airfire <- function(
+  base_size = 11,
+  base_family = ""
+) {
+
+  half_line <- base_size / 2
+
+  # TODO: Create theme object that can be used across the package
+  ggplot2::theme_minimal(
+    base_size = base_size,
+    base_family = base_family
+  ) +
+
+    ggplot2::theme(
+      strip.background = element_rect(fill = "#E0E0E0"),
+
+      panel.border = element_rect(color = "grey20", fill = NA),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor.x = element_line(linetype = 3, color = 'gray70'),
+      panel.grid.major.y = element_line(linetype = 3, color = 'gray40'),
+      panel.grid.minor.y = element_blank(),
+
+      axis.ticks = element_line(colour = "grey20"),
+      axis.ticks.length = unit(half_line / 4, "pt"),
+
+      legend.position = "top",
+      legend.justification = c(1, 1),
+      legend.direction = "vertical",
+      legend.box.background = element_rect(color = "black"),
+      legend.spacing = unit(0.1, "cm"),
+
+      plot.title = element_text(size = rel(2)),
+      axis.title = element_text(size = rel(1.4)),
+      axis.title.x = element_text(size = rel(.9)),
+      axis.title.y = element_text(size = rel(.9)),
+      axis.text.x = element_text(size = rel(1), angle = 30, hjust = 1),
+      axis.text.y = element_text(size = rel(1)),
+      strip.text = element_text(size = rel(.9)),
+      legend.title = element_text(size = rel(1)),
+      legend.text = element_text(size = rel(.7))
+    )
+
+}

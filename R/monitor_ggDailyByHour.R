@@ -1,7 +1,7 @@
-#' @title Create an archival diurnal plot for one or more monitors
+#' @title Create a diurnal plot for one or more monitors
 #'
 #' @description
-#' This function assembles various layers to create a production-ready archival
+#' This function assembles various layers to create a production-ready
 #' diurnal plot for a single monitor.
 #'
 #' The full range of data in \code{mts_monitor} will be used unless both
@@ -27,23 +27,21 @@
 #' @export
 #'
 #' @examples
-#' library(AirMonitorPlots)
-#'
-#' AirMonitor::Carmel_Valley %>%
-#'   monitor_trimDate() %>%
-#'   monitor_ggDailyByHour_archival()
-#'
 #' \dontrun{
 #' mts_monitor <- airnow_loadLatest()
-#' monitor_ggDailyByHour_archival(mts_monitor, deviceDeploymentID = "410432002_01")
+#' monitor_ggDailyByHour(mts_monitor, deviceDeploymentID = "51b9bcb4eaac7c9d_530330030")
 #' }
+#'
+#' AirMonitor::Carmel_Valley %>%
+#'   monitor_ggDailyByHour(startdate = 20160801, enddate = 20160810)
+#'
 
-monitor_ggDailyByHour_archival <- function(
+monitor_ggDailyByHour <- function(
   mts_monitor,
   startdate = NULL,
   enddate = NULL,
   deviceDeploymentID = NULL,
-  style = "large",
+  style = "small",
   title = NULL,
   timezone = NULL,
   ...
@@ -53,10 +51,10 @@ monitor_ggDailyByHour_archival <- function(
 
   MazamaCoreUtils::stopIfNull(mts_monitor)
 
-  if ( !monitor_isValid(mts_monitor) )
+  if ( !AirMonitor::monitor_isValid(mts_monitor) )
     stop("Parameter 'mts_monitor' is not a valid mts_monitor object.")
 
-  if ( monitor_isEmpty(mts_monitor) )
+  if ( AirMonitor::monitor_isEmpty(mts_monitor) )
     stop("Parameter 'mts_monitor' contains no data.")
 
   # Check deviceDeploymentID
@@ -89,7 +87,9 @@ monitor_ggDailyByHour_archival <- function(
 
   # ----- Subset mts_monitor ----------------------------------------------------
 
-  singleMonitor <- AirMonitor::monitor_subset(mts_monitor, deviceDeploymentIDs = deviceDeploymentID)
+  singleMonitor <-
+    mts_monitor %>%
+    AirMonitor::monitor_select(deviceDeploymentID)
 
   # Get timezone
   if ( is.null(timezone) )
@@ -121,7 +121,7 @@ monitor_ggDailyByHour_archival <- function(
 
   singleMonitor <-
     singleMonitor %>%
-    monitor_subset(tlim = dateRange)
+    AirMonitor::monitor_filterDate(startdate, enddate, ceilingEnd = TRUE)
 
   # ----- Create "tidy" version ------------------------------------------------
 
@@ -137,30 +137,26 @@ monitor_ggDailyByHour_archival <- function(
       nowcast = .nowcast(.data$pm25)
     )
 
+  # * Separate data for 'yesterday' and 'today' --------------------------------
+
+  today_datestamp <-
+    dateRange[2] %>%
+    strftime("%Y%m%d", tz = timezone)
+  yesterday_datestamp <-
+    dateRange[2] %>%
+    magrittr::subtract(lubridate::days(1)) %>%
+    strftime("%Y%m%d", tz = timezone)
+
+  yesterday <- dplyr::filter(mts_tidy, .data$datestamp == yesterday_datestamp)
+  today <- dplyr::filter(mts_tidy, .data$datestamp == today_datestamp)
+
   # ----- Style ----------------------------------------------------------------
 
   # Get title
   if ( is.null(title) ) {
     title <- paste0("NowCast by Time of Day\n",
-                    "Site: ", unique(mts_tidy$locationName),
-                    " (", unique(mts_tidy$deviceDeploymentID), ")")
+                    "Site: ", unique(mts_tidy$locationName))
   }
-
-  # Create start and end date labels
-  startdateLabel <- strftime(
-    x = MazamaCoreUtils::parseDatetime(startdate, timezone = timezone),
-    tz = timezone,
-    format = "%Y/%m/%d"
-  )
-  enddateLabel <- strftime(
-    x = MazamaCoreUtils::parseDatetime(enddate, timezone = timezone),
-    tz = timezone,
-    format = "%Y/%m/%d"
-  )
-
-  # Get subtitle
-  subtitle <- paste0("Hourly values and averages: ",
-                     startdateLabel, " to ", enddateLabel)
 
   # Get labels for legend
   now_datestamp <-
@@ -168,15 +164,36 @@ monitor_ggDailyByHour_archival <- function(
     strftime("%Y%m%d", tz = timezone)
   end_datestamp <- strftime(enddate, "%Y%m%d", tz = timezone)
 
+  if ( end_datestamp == now_datestamp ) {
+    todayLabel <- "Today"
+    yesterdayLabel <- "Yesterday"
+  } else {
+    todayLabel <- dateRange[2] %>%
+      strftime("%Y-%m-%d", tz = timezone)
+
+    yesterdayLabel <- dateRange[2] %>%
+      magrittr::subtract(lubridate::days(1)) %>%
+      strftime("%Y-%m-%d", tz = timezone)
+  }
+
   meanText <- paste0(as.integer(difftime(dateRange[2], dateRange[1], units = "days")), " Day Mean")
 
   if (style == "large") {
     meanSize <- 8
+    yesterdayPointSize <- 4
+    yesterdayLineSize <- .9
+    todayPointSize <- 5
+    todayLineSize <- 1.3
     base_size <- 15
   } else if (style == "small") {
     meanSize <- 5
+    yesterdayPointSize <- 2.8
+    yesterdayLineSize <- .5
+    todayPointSize <- 3
+    todayLineSize <- 1
     base_size <- 11
   }
+
 
   # ----- Create plot ----------------------------------------------------------
 
@@ -191,16 +208,73 @@ monitor_ggDailyByHour_archival <- function(
     ) +
     custom_aqiLines() +
     custom_aqiStackedBar() +
-    # Mean bars
-    stat_meanByHour(output = "AQIColors") +
-    # Data points
-    stat_nowcast(geom = "pm25Points")
+    # large mean line
+    stat_meanByHour(
+      aes(color = !!meanText),
+      geom = "line",
+      size = meanSize,
+      alpha = .3,
+      lineend = "round"
+    )
+
+  if ( nrow(yesterday) > 0 ) {
+    gg <- gg +
+      # Yesterday line
+      geom_line(aes(color = !!yesterdayLabel), data = yesterday, size = yesterdayLineSize) +
+      # Yesterday points
+      stat_AQCategory(
+        aes(color = !!yesterdayLabel),
+        data = yesterday,
+        geom = "point",
+        nowcast = FALSE,
+        shape = 21,
+        size = yesterdayPointSize
+      )
+  }
+
+  if ( nrow(today) > 0 ) {
+    gg <- gg +
+      # Today line
+      geom_line(aes(color = todayLabel), data = today, size = todayLineSize) +
+      # Today points
+      stat_AQCategory(
+        aes(color = todayLabel),
+        data = today,
+        geom = "point",
+        nowcast = FALSE,
+        shape = 21,
+        size = todayPointSize
+      )
+  }
 
   gg <- gg +
     # Title
-    ggtitle(title, subtitle) +
+    ggtitle(title) +
     # Theme
     theme_dailyByHour_airfire(size = style)
+
+
+  # * Add legend ---------------------------------------------------------------
+
+  values <- c("black", "gray50", "black")
+  names(values) <- c(todayLabel, yesterdayLabel, meanText)
+  scale <- scale_color_manual(name = "", values = values, labels = names(values))
+  guide <- guides(
+    color = guide_legend(
+      title = "",
+      override.aes = list(
+        fill = c("green", "green", NA),
+        color = c("black", "gray50", "black"),
+        shape = c(21, 21, NA),
+        cex = c(todayPointSize, yesterdayPointSize, meanSize),
+        linetype = c(NA, NA, 1),
+        lineend = c(NA, NA, "round"),
+        alpha = c(1, 1, .1)
+      )
+    )
+  )
+
+  gg <- gg + scale + guide
 
   return(gg)
 

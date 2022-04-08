@@ -33,12 +33,13 @@ monitor_toTidy <- function(
 
   if ( AirMonitor::monitor_isValid(mts_monitor) ) {
 
-    monMeta <- mts_monitor[["meta"]]
-    monData <- mts_monitor[["data"]]
+    meta <- mts_monitor[["meta"]]
+    data <- mts_monitor[["data"]]
 
-    mts_tidy <-  monData %>%
+    mts_tidy <-
+      data %>%
       tidyr::gather("deviceDeploymentID", "pm25", -.data$datetime) %>%
-      dplyr::inner_join(monMeta, by = "deviceDeploymentID") %>%
+      dplyr::inner_join(meta, by = "deviceDeploymentID") %>%
       tibble::as_tibble()
 
   } else if (monitor_isTidy(mts_monitor)) {

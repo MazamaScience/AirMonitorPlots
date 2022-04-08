@@ -36,7 +36,7 @@ custom_pm25DiurnalScales <- function(
 
   # Validate parameters --------------------------------------------------------
 
-  if (monitor_isValid(data)) {
+  if (AirMonitor::monitor_isValid(data)) {
     data <- monitor_toTidy(data)
   } else if (monitor_isTidy(data)) {
     data <- data

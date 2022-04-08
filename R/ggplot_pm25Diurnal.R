@@ -58,7 +58,7 @@ ggplot_pm25Diurnal <- function(
   if ( !is.numeric(base_size) )
     stop("base_size must be numeric")
 
-  if ( monitor_isValid(mts_monitor) ) {
+  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
     mts_tidy <- monitor_toTidy(mts_monitor)
   } else if ( monitor_isTidy(mts_monitor) ) {
     mts_tidy <- mts_monitor
@@ -127,7 +127,7 @@ ggplot_pm25Diurnal <- function(
   # Calculate day/night shading
   if (shadedNight) {
     # Get the sunrise/sunset information
-    ti <- timeInfo(
+    ti <- MazamaTimeSeries::timeInfo(
       mts_tidy$datetime,
       longitude = mts_tidy$longitude[1],
       latitude = mts_tidy$latitude[1],

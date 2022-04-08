@@ -1,5 +1,7 @@
 # AirMonitorPlots 0.8.0
 
+_**NOTE:**  version 0.8 is not compatible with the **PWFSLSmoke** package_
+
 Version 0.8 represents a complete refactoring of the plotting code to support
 _mts_monitor_ objects found in the **AirMonitor** package. This is part of the
 large shift from "v1" data archives based on a unique `montorID` to "v2" 
@@ -9,17 +11,22 @@ Refactored files:
 
 * `custom_aqiAnnotation.R`
 * `custom_datetimeScale.R`
++ `custom_pm25DiurnalScales.R`
 * `custom_pm25TImeseriesScales.R`
 * `geom_PM25Points.R`
 * `ggplot_pm25Timeseries.R`
 * `monitor_ggDailyBarplot_archival.R`
 * `monitor_ggDailyBarplot.R`
++ `monitor_ggDailyByHour_archival.R`
++ `monitor_ggDailyByHour.R`
++ `monitor_ggDailyByHourBarplot.R`
 * `monitor_ggDailyTimeseries_archival.R`
 * `monitor_ggTimeseries.R`
 * `monitor_isTidy.R`
 * `monitor_toTidy.R`
 * `nowcast.R`
 * `stat_AQCategory.R`
++ `stat_meanByHour.R`
 * `stat_nowcast.R`
 * `themes.R`
 * `utils-pipe.R`

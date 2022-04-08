@@ -44,14 +44,19 @@
 #'
 #' @examples
 #' \dontrun{
-#' SF_IDs <- c("060010011_01","060010013_01","060010012_01","060750005_01")
-#' SF_daily <- loadDaily() %>% monitor_subset(deviceDeploymentIDs = SF_IDs)
-#' SF_latest <- loadLatest() %>% monitor_subset(deviceDeploymentIDs = SF_IDs)
+#' SF_IDs <- c(
+#'   "ccdef3f0f6591e77_060010009",
+#'   "06c3f2a66f8b708e_060010012",
+#'   "7157b3dbac7c2043_060010011",
+#'   "060750fa7ae26987a72cc4_060750005005_01"
+#' )
+#' SF_daily <- loadDaily() %>% monitor_select(deviceDeploymentIDs = SF_IDs)
+#' SF_latest <- loadLatest() %>% monitor_select(deviceDeploymentIDs = SF_IDs)
 #' SF_full <- monitor_join(SF_daily, SF_latest)
 #' today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
 #' now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
 #' starttime <- today - lubridate::ddays(4)
-#' SF_4day <- monitor_subset(SF_full, tlim=c(starttime, now))
+#' SF_4day <- monitor_filterDatetime(SF_full, starttime, now))
 #'
 #' # Create plot using pre subset data
 #' monitor_ggDailyHourlyBarplot(SF_4day, deviceDeploymentIDs = SF_IDs)
@@ -83,7 +88,7 @@ monitor_ggDailyHourlyBarplot <- function(
   # TODO: make function work with tidy monitor data
   #      Need to implement a `monitor_dailyStatistic()` function for tidy
   #      monitor data
-  if ( !monitor_isValid(mts_monitor) ) {
+  if ( !AirMonitor::monitor_isValid(mts_monitor) ) {
     stop("This function can currently only take in a `mts_monitor` object")
   }
 
@@ -111,9 +116,9 @@ monitor_ggDailyHourlyBarplot <- function(
 
   # Get data from monitors
 
-  monData <-
+  singleMonitor <-
     mts_monitor %>%
-    monitor_subset(deviceDeploymentIDs = deviceDeploymentIDs)
+    AirMonitor::monitor_select(deviceDeploymentIDs)
 
   # Get time limits
 
@@ -140,16 +145,16 @@ monitor_ggDailyHourlyBarplot <- function(
   if (includeDaily) {
 
     dailyData <-
-      monData %>%
-      monitor_dailyStatistic() %>%
-      monitor_subset(tlim = dateRange) %>%
+      singleMonitor %>%
+      AirMonitor::monitor_dailyStatistic() %>%
+      AirMonitor::monitor_filterDate(startdate, enddate, ceilingEnd = TRUE) %>%
       monitor_toTidy() %>%
       dplyr::mutate(
         aqiCategory = cut(
           .data$pm25,
-          AQI$breaks_24,
+          AirMonitor::US_AQI$breaks_PM2.5,
           include.lowest = TRUE,
-          labels = AQI$names
+          labels = AirMonitor::US_AQI$names_eng
         )
       )
 
@@ -165,16 +170,16 @@ monitor_ggDailyHourlyBarplot <- function(
     if ( hourlyDataType == "nowcast" ) {
 
       hourlyData <-
-        monData %>%
-        monitor_nowcast(includeShortTerm = TRUE) %>%
-        monitor_subset(tlim = dateRange) %>%
+        singleMonitor %>%
+        AirMonitor::monitor_nowcast(includeShortTerm = TRUE) %>%
+        AirMonitor::monitor_filterDate(startdate, enddate, ceilingEnd = TRUE) %>%
         monitor_toTidy() %>%
         dplyr::mutate(
           aqiCategory = cut(
             .data$pm25,
-            AQI$breaks_24,
+            AirMonitor::US_AQI$breaks_PM2.5,
             include.lowest = TRUE,
-            labels = AQI$names
+            labels = AirMonitor::US_AQI$names_eng
           )
         )
 
@@ -182,15 +187,15 @@ monitor_ggDailyHourlyBarplot <- function(
 
       # hourlyDataType == "raw"
       hourlyData <-
-        monData %>%
-        monitor_subset(tlim = dateRange) %>%
+        singleMonitor %>%
+        AirMonitor::monitor_filterDate(startdate, enddate, ceilingEnd = TRUE) %>%
         monitor_toTidy() %>%
         dplyr::mutate(
           aqiCategory = cut(
             .data$pm25,
-            AQI$breaks_24,
+            AirMonitor::US_AQI$breaks_PM2.5,
             include.lowest = TRUE,
-            labels = AQI$names
+            labels = AirMonitor::US_AQI$names_eng
           )
         )
     }
@@ -252,18 +257,18 @@ monitor_ggDailyHourlyBarplot <- function(
 
   # Color scale
 
-  aqiNames <- AQI$names
-  aqiActions <- AQI$actions
+  aqiNames <- AirMonitor::US_AQI$names_eng
+  aqiActions <- AirMonitor::US_AQI$actions_eng
 
   if ( palette == "epa_aqi" ) {
-    aqiColors <- AQI$colors
+    aqiColors <- AirMonitor::US_AQI$colors_EPA
   } else {
     message(
       "Color scale not recognized: ",
       palette,
       ". Defaulting to EPA AQI colors."
     )
-    aqiColors <- AQI$colors
+    aqiColors <- AirMonitor::US_AQI$colors_EPA
   }
 
   # Time scale

@@ -123,20 +123,21 @@ StatMeanByGroup <- ggproto(
 
       # Add column for AQI level
       data$aqi <- .bincode(means$mean, AQI$breaks_24, include.lowest = TRUE)
+      data$aqi <- .bincode(means$mean, AirMonitor::US_AQI$breaks_PM2.5, include.lowest = TRUE)
 
       if (!"colour" %in% names(data)) {
         if (output == "mv4Colors") {
-          data$colour <- AQI$mv4Colors[data$aqi]
+          data$colour <- AirMonitor::US_AQI$colors_subdued[data$aqi]
         } else {
-          data$colour <- AQI$colors[data$aqi]
+          data$colour <- AirMonitor::US_AQI$colors_EPA[data$aqi]
         }
       }
 
       if (!"fill" %in% names(data)) {
         if (output == "mv4Colors") {
-          data$fill <- AQI$mv4Colors[data$aqi]
+          data$fill <- AirMonitor::US_AQI$colors_subdued[data$aqi]
         } else {
-          data$fill <- AQI$colors[data$aqi]
+          data$fill <- AirMonitor::US_AQI$colors_EPA[data$aqi]
         }
       }
 
