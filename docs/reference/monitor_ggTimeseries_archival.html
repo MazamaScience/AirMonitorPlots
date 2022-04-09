@@ -81,7 +81,7 @@ archival timeseries plot for one or more monitors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
       </span>
     </div>
 
@@ -106,6 +106,9 @@ archival timeseries plot for one or more monitors." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/articles/plot_gallery.html">Plot Gallery</a>
+    </li>
     <li>
       <a href="../articles/articles/plotting_current_data.html">Plotting Current Data</a>
     </li>
@@ -217,17 +220,13 @@ NULL the timezone of the specified monitor will be used.</p></td>
     startdate <span class='op'>=</span> <span class='fl'>20150809</span>,
     enddate <span class='op'>=</span> <span class='fl'>20150820</span>,
     deviceDeploymentIDs <span class='op'>=</span> <span class='st'>"575243c65b9e4719_160690012"</span>,
-    timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span> <span class='co'># because multiple timezones are present</span>
+    timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span>
  <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 807 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 805 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries_archival-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html'>Carmel_Valley</a></span> <span class='op'>%&gt;%</span>
   <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/AirMonitor/man/monitor_trimDate.html'>monitor_trimDate</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 9 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 11 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries_archival-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>mts_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>airnow_loadLatest</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span><span class='va'>mts_monitor</span>, deviceDeploymentID <span class='op'>=</span> <span class='st'>"410432002_01"</span><span class='op'>)</span>
-<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -68,6 +68,8 @@ aesthetics.
 \examples{
 library(AirMonitorPlots)
 
-ggplot_pm25Timeseries(AirMonitor::Carmel_Valley) + geom_pm25Points()
+AirMonitor::Carmel_Valley \%>\%
+  ggplot_pm25Timeseries() +
+    geom_pm25Points()
 
 }

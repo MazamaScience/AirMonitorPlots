@@ -36,7 +36,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' ggplot_pm25Timeseries(AirMonitor::Northwest_Megafires,
+#' ggplot_pm25Timeseries(AirMonitor::NW_Megafires,
 #'                       startdate = 20150820,
 #'                       enddate = 20150831) +
 #'   geom_point(shape = "square", alpha = 0.05) +
@@ -122,7 +122,6 @@ StatMeanByGroup <- ggproto(
     if (output %in% c("AQIColors", "mv4Colors")) {
 
       # Add column for AQI level
-      data$aqi <- .bincode(means$mean, AQI$breaks_24, include.lowest = TRUE)
       data$aqi <- .bincode(means$mean, AirMonitor::US_AQI$breaks_PM2.5, include.lowest = TRUE)
 
       if (!"colour" %in% names(data)) {

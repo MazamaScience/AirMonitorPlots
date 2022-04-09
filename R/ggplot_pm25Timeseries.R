@@ -5,22 +5,24 @@
 #' be added to this plot using \code{ggplot2} syntax.
 #'
 #' @inheritParams custom_pm25TimeseriesScales
-#' @param mts_monitor Default dataset to use when adding layers. Must be either a
-#'   \code{mts_monitor} or \code{mts_tidy} object.
-#' @param base_size Base font size for theme
+#'
+#' @param monitor Monitoring data object to use when adding layers. Must be of
+#' class \code{mts_monitor} or \code{mts_tidy}.
+#' @param base_size Base font size for theme.
 #'
 #' @import ggplot2
 #' @importFrom rlang .data
 #' @export
+#'
 #' @examples
 #' library(AirMonitorPlots)
 #'
-#' mts_monitor <- AirMonitor::Carmel_Valley
-#' ggplot_pm25Timeseries(mts_monitor) +
+#' AirMonitor::Carmel_Valley %>%
+#'   ggplot_pm25Timeseries() +
 #'   geom_point(shape = "square", alpha = .4)
 #'
 ggplot_pm25Timeseries <- function(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
   timezone = NULL,
@@ -31,12 +33,12 @@ ggplot_pm25Timeseries <- function(
 
   # ----- Validate Parameters --------------------------------------------------
 
-  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
-    mts_tidy <- monitor_toTidy(mts_monitor)
-  } else if ( monitor_isTidy(mts_monitor) ) {
-    mts_tidy <- mts_monitor
+  if ( AirMonitor::monitor_isValid(monitor) ) {
+    mts_tidy <- monitor_toTidy(monitor)
+  } else if ( monitor_isTidy(monitor) ) {
+    mts_tidy <- monitor
   } else {
-    stop("mts_monitor must be either a mts_monitor object or mts_tidy object.")
+    stop("monitor must be either a mts_monitor object or mts_tidy object.")
   }
 
   # Determine the timezone (code borrowed from custom_pm25TimeseriesScales.R)
@@ -45,7 +47,7 @@ ggplot_pm25Timeseries <- function(
       timezone <- "UTC"
     } else {
       timezone <- mts_tidy$timezone[1]
-     }
+    }
   }
 
   if ( !is.null(startdate) ) {
@@ -67,16 +69,17 @@ ggplot_pm25Timeseries <- function(
 
   # ----- Create plot ----------------------------------------------------------
 
-  gg <- ggplot(mts_tidy, aes_(x = ~datetime, y = ~pm25)) +
-      theme_airfire(base_size) +
-      custom_pm25TimeseriesScales(
-        mts_tidy,
-        startdate = startdate,
-        enddate = enddate,
-        timezone = timezone,
-        ylim = ylim,
-        ...
-      )
+  gg <-
+    ggplot(mts_tidy, aes_(x = ~datetime, y = ~pm25)) +
+    theme_airfire(base_size) +
+    custom_pm25TimeseriesScales(
+      mts_tidy,
+      startdate = startdate,
+      enddate = enddate,
+      timezone = timezone,
+      ylim = ylim,
+      ...
+    )
 
   return(gg)
 

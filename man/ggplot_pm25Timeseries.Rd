@@ -5,7 +5,7 @@
 \title{Instantiate a pm25 timeseries ggplot}
 \usage{
 ggplot_pm25Timeseries(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
   timezone = NULL,
@@ -15,8 +15,8 @@ ggplot_pm25Timeseries(
 )
 }
 \arguments{
-\item{mts_monitor}{Default dataset to use when adding layers. Must be either a
-\code{mts_monitor} or \code{mts_tidy} object.}
+\item{monitor}{Monitoring data object to use when adding layers. Must be of
+class \code{mts_monitor} or \code{mts_tidy}.}
 
 \item{startdate}{Desired start date (integer or character in ymd format or
 POSIXct).}
@@ -31,7 +31,7 @@ timezones present, the default is UTC.}
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}
 
-\item{base_size}{Base font size for theme}
+\item{base_size}{Base font size for theme.}
 
 \item{...}{Additional arguments passed on to
 \code{\link{custom_datetimeScale}}.}
@@ -43,8 +43,8 @@ be added to this plot using \code{ggplot2} syntax.
 \examples{
 library(AirMonitorPlots)
 
-mts_monitor <- AirMonitor::Carmel_Valley
-ggplot_pm25Timeseries(mts_monitor) +
+AirMonitor::Carmel_Valley \%>\%
+  ggplot_pm25Timeseries() +
   geom_point(shape = "square", alpha = .4)
 
 }

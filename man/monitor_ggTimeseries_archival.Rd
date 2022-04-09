@@ -57,15 +57,11 @@ AirMonitor::NW_Megafires \%>\%
     startdate = 20150809,
     enddate = 20150820,
     deviceDeploymentIDs = "575243c65b9e4719_160690012",
-    timezone = "America/Los_Angeles" # because multiple timezones are present
+    timezone = "America/Los_Angeles"
  )
 
 AirMonitor::Carmel_Valley \%>\%
   AirMonitor::monitor_trimDate() \%>\%
   monitor_ggTimeseries_archival()
 
-\dontrun{
-mts_monitor <- airnow_loadLatest()
-monitor_ggTimeseries_archival(mts_monitor, deviceDeploymentID = "410432002_01")
-}
 }

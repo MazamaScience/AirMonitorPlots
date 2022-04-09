@@ -36,18 +36,15 @@
 #'     startdate = 20150809,
 #'     enddate = 20150820,
 #'     deviceDeploymentIDs = "575243c65b9e4719_160690012",
-#'     timezone = "America/Los_Angeles" # because multiple timezones are present
+#'     timezone = "America/Los_Angeles"
 #'  )
 #'
 #' AirMonitor::Carmel_Valley %>%
 #'   AirMonitor::monitor_trimDate() %>%
 #'   monitor_ggTimeseries_archival()
 #'
-#' \dontrun{
-#' mts_monitor <- airnow_loadLatest()
-#' monitor_ggTimeseries_archival(mts_monitor, deviceDeploymentID = "410432002_01")
-#' }
 
+# TODO:  These arguments should be harmonized with those from other plotting functions
 monitor_ggTimeseries_archival <- function(
   mts_monitor,
   startdate = NULL,
@@ -71,6 +68,7 @@ monitor_ggTimeseries_archival <- function(
     stop("mts_monitor is not a mts_monitor object.")
   }
 
+  # TODO:  use match.arg() here
   # Check style
   if (!style %in% c("small", "large"))
     stop("Invalid style. Choose from 'small' or 'large'.")
@@ -116,6 +114,7 @@ monitor_ggTimeseries_archival <- function(
 
   # ----- Prepare data ---------------------------------------------------------
 
+  # TODO:  General code style consistency
   if (!is.null(deviceDeploymentIDs)) {
     mts_tidy <- dplyr::filter(mts_tidy, .data$deviceDeploymentID %in% deviceDeploymentIDs)
   }

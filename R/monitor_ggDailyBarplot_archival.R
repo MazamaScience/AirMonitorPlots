@@ -190,7 +190,6 @@ monitor_ggDailyBarplot_archival <- function(
     left <- center - (0.8 / 2 * 86400)
     right <- center + (0.8 / 2 * 86400)
 
-    ###color <- AQI$colors[.bincode(currentNowcast, AQI$breaks_24)]
     color <- AirMonitor::aqiColors(
       x = currentNowcast,
       pollutant = "AQI",

@@ -217,39 +217,6 @@ theme_dailyByHour_airfire <- function(size = "large") {
 }
 
 
-#' @title Theme for AirFire clock plot
-#'
-#' @description
-#' Applies a theme to a \emph{ggplot} plot object. This theme is intended for
-#`` use with the \code{monitor_ggClockPlot} function and generates plots
-#' suitable for the AirFire monitoring site.
-#'
-#' @param size \code{small} or \code{large}. \code{style = small} is appropriate
-#'   for plots 450x450px or smaller; \code{style = large} is appropriate for
-#'   plots larger than 450x450px.
-#'
-#' @return A \emph{ggplot} theme.
-#'
-#' @import ggplot2
-#' @export
-
-theme_clockPlot_airfire <- function(size = "large") {
-
-  theme(
-    axis.title = element_blank(),
-    panel.border = element_blank(),
-    axis.line = element_blank(),
-    axis.text.y =  element_blank(),
-    axis.ticks.y = element_blank(),
-    axis.ticks.length = unit(0.5, "cm"),
-    panel.grid.major.y = element_blank(),
-    panel.grid.major.x = element_line(linetype = 1)
-  ) +
-    theme_custom_size(size = size)
-
-}
-
-
 #' @title Theme for AirFire Daily Hourly Barplot
 #'
 #' @description

@@ -60,7 +60,7 @@ aesthetic, specified with the \code{output} parameter.
 }
 \examples{
 \dontrun{
-ggplot_pm25Timeseries(AirMonitor::Northwest_Megafires,
+ggplot_pm25Timeseries(AirMonitor::NW_Megafires,
                       startdate = 20150820,
                       enddate = 20150831) +
   geom_point(shape = "square", alpha = 0.05) +

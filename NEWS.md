@@ -1,3 +1,8 @@
+# AirMonitorPlots 0.8.!
+
+* Removed "clockPlot" functionality.
+
+
 # AirMonitorPlots 0.8.0
 
 _**NOTE:**  version 0.8 is not compatible with the **PWFSLSmoke** package_

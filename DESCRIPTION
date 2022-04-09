@@ -1,6 +1,6 @@
 Type: Package
 Package: AirMonitorPlots
-Version: 0.8.0
+Version: 0.8.1
 Title: Plot Utilities for the AirMonitor Package
 Description: A suite of ggplot2 compatible functions to be used with air quality
     monitoring data obtained with the AirMonitor package. These functions provide

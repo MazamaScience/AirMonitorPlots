@@ -48,10 +48,9 @@ monitor_ggCalendar <- function(
   # ----- Define the data used -----------------------------------------------
 
   monitor <-
-    AirMonitor::monitor_dailyStatistic(
-      FUN = get(stat),
-      mts_monitor = AirMonitor::monitor_select(mts_monitor, deviceDeploymentID)
-    )
+    mts_monitor %>%
+    AirMonitor::monitor_select(deviceDeploymentID) %>%
+    AirMonitor::monitor_dailyStatistic(get(stat))
 
   # Always specify local timezones!
   timezone <- monitor$meta$timezone
