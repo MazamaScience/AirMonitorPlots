@@ -46,26 +46,24 @@ custom_datetimeScale <- function(
   break_width = NULL,
   minor_break_width = NULL,
   date_labels = "%b %d",
-  tick_location = c("midnight", "midday")[1],
+  tick_location = c("midnight", "midday"),
   includeFullEnddate = TRUE,
   today_label = TRUE,
   ...
 ) {
 
-  # Validate parameters --------------------------------------------------------
+  # ----- Validate parameters --------------------------------------------------
 
   if (is.null(startdate)) stop("startdate must be specified")
   if (is.null(enddate)) stop("enddate must be specified")
   if (!is.null(timezone) && !timezone %in% OlsonNames()) stop("Invalid timezone.")
   if (class(expand) != "numeric" || length(expand) != 2) stop("Invalid 'expand'.")
-  if (!tick_location %in% c("midnight", "midday")) {
-    stop("Invalid tick_location. Choose from 'midnight' or 'midday'")
-  }
+  tick_location <- match.arg(tick_location)
   if (!is.logical(includeFullEnddate)) stop("includeFullEnddate must be logical.")
   if (!is.logical(today_label)) stop("today_label must be logical.")
 
 
-  # Handle start/end dates -----------------------------------------------------
+  # ----- Handle start/end dates -----------------------------------------------
 
   # TODO: can this all just be replaced with `parseDatetime`?
 
@@ -99,7 +97,7 @@ custom_datetimeScale <- function(
   dayCount <- as.integer(difftime(enddate, startdate, units = "days")) + 1
 
 
-  # Calculate major/minor breaks -----------------------------------------------
+  # ----- Calculate major/minor breaks -----------------------------------------
 
   if (tick_location == "midnight") {
     s <- lubridate::floor_date(startdate, unit = "day")
@@ -140,7 +138,7 @@ custom_datetimeScale <- function(
   minor_breaks <- seq(s, e, by = minor_break_width)
 
 
-  # Calculate labels -----------------------------------------------------------
+  # ----- Calculate labels -----------------------------------------------------
 
   if (!today_label) {
     labels <- strftime(breaks, date_labels, tz = timezone)
@@ -156,7 +154,7 @@ custom_datetimeScale <- function(
   }
 
 
-  # Calculate padding ----------------------------------------------------------
+  # ----- Calculate padding ----------------------------------------------------
 
   # NOTE:  X-axis must be extended to fit the complete last day.
   # NOTE:  Then a little bit more for style.
@@ -173,7 +171,7 @@ custom_datetimeScale <- function(
   }
 
 
-  # Add x-axis -----------------------------------------------------------------
+  # ----- Return ---------------------------------------------------------------
 
   list(
     scale_x_datetime(

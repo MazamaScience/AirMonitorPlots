@@ -45,15 +45,21 @@
 #'
 #' @examples
 #' \dontrun{
-#' mts_monitor <- airsis_loadLatest()
-#' ggplot_pm25Timeseries(mts_monitor) +
+#' library(AirMonitorPlots)
+#'
+#' monitor <- airsis_loadLatest()
+#'
+#' ggplot_pm25Timeseries(monitor) +
 #'   stat_AQCategory(color = NA, width = 3000) +
 #'   stat_dailyAQCategory(alpha = .5, missingDataBar = FALSE, width = 1, size = 1) +
 #'   facet_wrap(~deviceDeploymentID)
 #'
-#' mts_monitor <- airnow_loadLatest()
-#' mts_monitor <- monitor_subset(mts_monitor, deviceDeploymentID = "575243c65b9e4719_160690012")
-#' ggplot_pm25Timeseries(mts_monitor) + stat_dailyAQCategory()
+#' monitor <-
+#'   airnow_loadLatest() %>%
+#'   monitor_filter(id = "575243c65b9e4719_160690012")
+#'
+#' ggplot_pm25Timeseries(mts_monitor) +
+#'   stat_dailyAQCategory()
 #' }
 stat_dailyAQCategory <- function(
   mapping = NULL,

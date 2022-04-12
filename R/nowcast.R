@@ -3,7 +3,7 @@
 #' @description
 #' This function calculates the NowCast version of the incoming data.
 #'
-#' @param x vVctor of ordered PM2.5 data in units of ug/m3.
+#' @param x Vctor of ordered PM2.5 data in units of ug/m3.
 #' @param version Character identity specifying the type of nowcast algorithm to
 #' be used. For details see \code{AirMonitor::monitor_nowcast()}.
 #' @param includeShortTerm Logical specifying whether to calculate preliminary

@@ -15,7 +15,7 @@ monitor_ggDailyHourlyBarplot(
   xLabel = NULL,
   yLabel = NULL,
   includeLink = TRUE,
-  hourlyDataType = "nowcast",
+  hourlyDataType = c("nowcast", "raw", "none"),
   palette = "epa_aqi",
   includeLegendAdvice = FALSE
 )
@@ -73,6 +73,8 @@ monitor encountered will be used for all time axes.
 }
 \examples{
 \dontrun{
+library(AirMonitorPlots)
+
 SF_IDs <- c(
   "ccdef3f0f6591e77_060010009",
   "06c3f2a66f8b708e_060010012",

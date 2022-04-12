@@ -9,7 +9,7 @@ monitor_ggDailyBarplot(
   startdate = NULL,
   enddate = NULL,
   id = NULL,
-  style = "small",
+  style = c("small", "large"),
   title = NULL,
   timezone = NULL,
   today = TRUE,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggplot_pm25Timeseries.R
 \name{ggplot_pm25Timeseries}
 \alias{ggplot_pm25Timeseries}
-\title{Instantiate a pm25 timeseries ggplot}
+\title{Create a pm25 timeseries ggplot}
 \usage{
 ggplot_pm25Timeseries(
   monitor,

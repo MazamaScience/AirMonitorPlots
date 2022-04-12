@@ -48,7 +48,7 @@ monitor_ggTimeseries_archival <- function(
   startdate = NULL,
   enddate = NULL,
   id = NULL,
-  style = "large",
+  style = c("large", "small"),
   title = NULL,
   timezone = NULL,
   ...
@@ -65,10 +65,8 @@ monitor_ggTimeseries_archival <- function(
     stop("monitor is not a mts_monitor object.")
   }
 
-  # TODO:  use match.arg() here
   # Check style
-  if (!style %in% c("small", "large"))
-    stop("Invalid style. Choose from 'small' or 'large'.")
+  style <- match.arg(style)
 
   # Check deviceDeploymentIDs
   if ( any(!id %in% unique(mts_tidy$deviceDeploymentID)) ) {
@@ -111,8 +109,7 @@ monitor_ggTimeseries_archival <- function(
 
   # ----- Prepare data ---------------------------------------------------------
 
-  # TODO:  General code style consistency
-  if (!is.null(id)) {
+  if ( !is.null(id) ) {
     mts_tidy <- dplyr::filter(mts_tidy, .data$deviceDeploymentID %in% id)
   }
 
@@ -171,7 +168,7 @@ monitor_ggTimeseries_archival <- function(
     ggtitle(title)
 
 
-  # * Handle legend ------------------------------------------------------------
+  # ----- Handle legend --------------------------------------------------------
 
   # Add legend when plotting multiple monitors
   if (length(unique(mts_tidy$deviceDeploymentID)) == 1) {
@@ -200,6 +197,8 @@ monitor_ggTimeseries_archival <- function(
   }
 
   plot <- plot + theme_timeseriesPlot_airfire(size = style)
+
+  # ----- Return ---------------------------------------------------------------
 
   return(plot)
 

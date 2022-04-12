@@ -1,7 +1,13 @@
+#' @export
+#' @import grid
+#'
 #' @title Add a logo to a ggplot object
 #'
 #' @description
-#' Add a logo to a ggplot object.
+#' Adds an image to a ggplot object. This allows the use of package internal
+#' logos associated with Mazama Science and the USFS AirFire group specified
+#' with \code{brandStyle} and \code{brandName}. User provided images can be
+#' specified by using \code{brandFilePath}.
 #'
 #' @param plot \code{ggplot} object
 #' @param brandStyle \code{"logo"} or \code{"icon"}.
@@ -16,54 +22,53 @@
 #'
 #' @return A \code{gTree} object, which can be printed with \code{grid.draw()}.
 #'
-#' @import grid
-#' @export
-#'
 #' @examples
-#' mts_monitor <- AirMonitor::Carmel_Valley
-#' mts_tidy <- monitor_toTidy(mts_monitor)
-#' p <- ggplot_pm25Timeseries(mts_tidy) +
+#' library(AirMonitorPlots)
+#'
+#' monitor <- AirMonitor::Carmel_Valley
+#' mts_tidy <- monitor_toTidy(monitor)
+#'
+#' gg <-
+#'   ggplot_pm25Timeseries(mts_tidy) +
 #'   stat_dailyAQCategory(adjustylim = TRUE)
-#' brandPlot(p, location = "topright", size = .2)
-#' brandPlot(p, location = "bottomright", brandName = "USFS")
-#' brandPlot(p, brandName = "AirFire", location = "topleft", size = .15)
+#'
+#' brandPlot(gg, location = "topright", size = .2)
+#' brandPlot(gg, location = "bottomright", brandName = "USFS")
+#' brandPlot(gg, brandName = "AirFire", location = "topleft", size = .15)
+#'
+
 brandPlot <- function(
   plot,
-  brandStyle = "logo",
-  brandName = "MazamaScience",
+  brandStyle = c("logo", "icon"),
+  brandName = c("MazamaScience", "USFS", "AirFire"),
   brandFilePath = NULL,
-  location = c("topright", "topleft", "bottomright", "bottomleft")[1],
+  location = c("topright", "topleft", "bottomright", "bottomleft"),
   size = .1
 ) {
 
-  ## Adapted from:
-  #  Inserting an image to ggplot outside the chart area
-  #  https://stackoverflow.com/a/12486301
+  # NOTE:  Adapted from:
+  # NOTE:    Inserting an image to ggplot outside the chart area
+  # NOTE:    https://stackoverflow.com/a/12486301
 
-  # Validate Parameters --------------------------------------------------------
+  # ----- Validate Parameters --------------------------------------------------
 
   # Arguments are of the correct class
   if (!is.ggplot(plot)) stop("'plot' must be a ggplot object")
   if (!is.numeric(size)) stop("size must be a number")
 
-  # Validate strings
-  if (!brandStyle %in% c("logo", "icon"))
-    stop("Invalid brandStyle. Choose from 'logo' or 'icon'.")
+  brandStyle <- match.arg(brandStyle)
+  brandName <- match.arg(brandName)
 
-  if (!brandName %in% c("MazamaScience", "USFS", "AirFire"))
-    stop("Invalid brandName. Choose from 'MazamaScience', 'USFS', or 'AirFire'.")
-
-  if (!is.null(brandFilePath) && !file.exists(brandFilePath))
+  if ( !is.null(brandFilePath) && !file.exists(brandFilePath) )
     stop("Invalid brandFilePath")
 
-  if (!location %in% c("topright", "topleft", "bottomright", "bottomleft"))
-    stop("Invalid location. Choose from 'topright', 'topleft', bottomright', or 'bottomleft")
+  location <- match.arg(location)
 
 
-  # Parameter defaults ---------------------------------------------------------
+  # ----- Parameter defaults ---------------------------------------------------
 
   # Get the logo path
-  if (is.null(brandFilePath)) {
+  if ( is.null(brandFilePath) ) {
 
     if (brandStyle == "logo") {
       brandFileName <- "logo_"
@@ -73,9 +78,13 @@ brandPlot <- function(
 
     brandFileName <- paste0(brandFileName, brandName, ".png")
     brandFilePath <- system.file("brandImages", brandFileName, package = "AirMonitorPlots")
+
   }
 
-  if (!file.exists(brandFilePath)) stop(paste0("could not find ", brandFilePath))
+  if ( !file.exists(brandFilePath) )
+    stop(paste0("could not find ", brandFilePath))
+
+  # ----- Add image ------------------------------------------------------------
 
   img <- suppressWarnings(png::readPNG(brandFilePath))
   g <- rasterGrob(img)
@@ -131,6 +140,8 @@ brandPlot <- function(
 
   # To save the object
   g <- grid.grab()
+
+  # ----- Return ---------------------------------------------------------------
 
   return(invisible(g))
 

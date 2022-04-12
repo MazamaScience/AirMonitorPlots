@@ -66,9 +66,13 @@ This function calculates the NowCast version of the data, and adds it to a
 plot. The default is to add a NowCast line.
 }
 \examples{
-ggplot_pm25Timeseries(AirMonitor::Carmel_Valley,
-                      startdate = 20160801,
-                      enddate = 20160810) +
+library(AirMonitorPlots)
+
+ggplot_pm25Timeseries(
+  AirMonitor::Carmel_Valley,
+  startdate = 20160801,
+  enddate = 20160810
+) +
   geom_pm25Points() +
   stat_nowcast()
 }

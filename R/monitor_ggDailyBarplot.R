@@ -46,7 +46,7 @@ monitor_ggDailyBarplot <- function(
   startdate = NULL,
   enddate = NULL,
   id = NULL,
-  style = "small",
+  style = c("small", "large"),
   title = NULL,
   timezone = NULL,
   today = TRUE,
@@ -58,8 +58,7 @@ monitor_ggDailyBarplot <- function(
   MazamaCoreUtils::stopIfNull(monitor)
 
   # Check style
-  if ( !style %in% c("small", "large") )
-    stop("Invalid style. Choose from 'small' or 'large'.")
+  style <- match.arg(style)
 
   # Check today bar inclusion
   if ( !is.logical(today) )

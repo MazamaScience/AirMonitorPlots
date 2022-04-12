@@ -183,7 +183,7 @@ and is useful when calculating full-day statistics.</p>
 
 <span class='co'># UTC day boundaries</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>UTC_week</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              datetime 060530002_01
+</div><div class='output co'>#&gt;              datetime a9572a904a4ed46d_060530002
 #&gt; 1 2016-08-01 00:00:00           NA
 #&gt; 2 2016-08-01 01:00:00           16
 #&gt; 3 2016-08-01 02:00:00           18
@@ -193,7 +193,7 @@ and is useful when calculating full-day statistics.</p>
 <span class='co'># Trim to local time day boundaries</span>
 <span class='va'>local_week</span> <span class='op'>&lt;-</span> <span class='fu'>monitor_trimDate</span><span class='op'>(</span><span class='va'>UTC_week</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>local_week</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              datetime 060530002_01
+</div><div class='output co'>#&gt;              datetime a9572a904a4ed46d_060530002
 #&gt; 1 2016-08-01 07:00:00           17
 #&gt; 2 2016-08-01 08:00:00           15
 #&gt; 3 2016-08-01 09:00:00           14

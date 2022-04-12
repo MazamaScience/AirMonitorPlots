@@ -60,17 +60,23 @@ the data by AQ cateogry when it is added to a plot. The default is to add
 them as bars.
 }
 \examples{
-ggplot_pm25Timeseries(AirMonitor::Carmel_Valley,
-                      startdate = 20160801,
-                      enddate = 20160815) +
+ggplot_pm25Timeseries(
+  AirMonitor::Carmel_Valley,
+  startdate = 20160801,
+  enddate = 20160815
+) +
   stat_AQCategory()
 
-ggplot_pm25Timeseries(AirMonitor::Carmel_Valley,
-                      startdate = 20160801,
-                      enddate = 20160805) +
+ggplot_pm25Timeseries(
+  AirMonitor::Carmel_Valley,
+  startdate = 20160801,
+  enddate = 20160805
+) +
   geom_line() +
-  stat_AQCategory(geom = "point",
-                  size = 2,
-                  shape = 21,
-                  color = 1)
+  stat_AQCategory(
+    geom = "point",
+    size = 2,
+    shape = 21,
+    color = 1
+  )
 }

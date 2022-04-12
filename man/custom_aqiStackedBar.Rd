@@ -10,9 +10,9 @@ custom_aqiStackedBar(width = 0.02, position = "identity", ...)
 \item{width}{Width of bars as a fraction of plot width.}
 
 \item{position}{Position adjustment, either as a string, or the result of a
-call to a position adjustment function}
+call to a position adjustment function.}
 
-\item{...}{additional arguments passed on to layer, such as alpha.}
+\item{...}{Additional arguments passed on to layer, such as alpha.}
 }
 \value{
 A \emph{ggplot} plot object with AQ category annotations.
@@ -22,6 +22,7 @@ Adds AQ category stacked bars to a plot.
 }
 \examples{
 library (AirMonitorPlots)
+
 AirMonitor::Carmel_Valley \%>\%
   ggplot_pm25Timeseries() +
   custom_aqiLines() +

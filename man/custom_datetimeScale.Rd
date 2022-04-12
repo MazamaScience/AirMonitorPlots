@@ -12,7 +12,7 @@ custom_datetimeScale(
   break_width = NULL,
   minor_break_width = NULL,
   date_labels = "\%b \%d",
-  tick_location = c("midnight", "midday")[1],
+  tick_location = c("midnight", "midday"),
   includeFullEnddate = TRUE,
   today_label = TRUE,
   ...

@@ -2,8 +2,8 @@
 #'
 #' @description
 #' Changes \emph{mts_monitor} formatted data into a
-#' 'tidy' format that is useful for 'tidyverse' functions. If the given data is
-#' already in tidy format, it is returned as is.
+#' 'mts_tidy' format that is useful for 'tidyverse' functions. If the given data
+#' is already in tidy format, it is returned as is.
 #'
 #' @param monitor \emph{mts_monitor} object.
 #'
@@ -23,18 +23,15 @@
 #'
 #' mts_tidy <- monitor_toTidy(monitor)
 #'
-#' \dontrun{
-#' mts_tidy2 <- monitor_toTidy(mts_tidy)
-#' }
-#'
+
 monitor_toTidy <- function(
   monitor = NULL
 ) {
 
   if ( AirMonitor::monitor_isValid(monitor) ) {
 
-    meta <- monitor[["meta"]]
-    data <- monitor[["data"]]
+    meta <- monitor$meta
+    data <- monitor$data
 
     mts_tidy <-
       data %>%

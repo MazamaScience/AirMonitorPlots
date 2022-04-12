@@ -176,7 +176,9 @@ theme_timeseriesPlot_airfire <- function(size = "large") {
 #'
 #' @import ggplot2
 #' @export
-theme_dailyBarplot_airfire <- function(size = "large") {
+theme_dailyBarplot_airfire <- function(
+  size = "large"
+) {
 
   theme(
     axis.title.x.bottom = element_blank(),
@@ -205,7 +207,9 @@ theme_dailyBarplot_airfire <- function(size = "large") {
 #'
 #' @import ggplot2
 #' @export
-theme_dailyByHour_airfire <- function(size = "large") {
+theme_dailyByHour_airfire <- function(
+  size = "large"
+) {
 
   theme(
     legend.key.size = unit(1, "cm"),

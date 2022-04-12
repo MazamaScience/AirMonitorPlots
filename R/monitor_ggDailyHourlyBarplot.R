@@ -1,5 +1,4 @@
 #' @export
-#'
 #' @import ggplot2
 #' @importFrom rlang .data
 #'
@@ -44,6 +43,8 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(AirMonitorPlots)
+#'
 #' SF_IDs <- c(
 #'   "ccdef3f0f6591e77_060010009",
 #'   "06c3f2a66f8b708e_060010012",
@@ -76,7 +77,7 @@ monitor_ggDailyHourlyBarplot <- function(
   xLabel = NULL,
   yLabel = NULL,
   includeLink = TRUE,
-  hourlyDataType = "nowcast",
+  hourlyDataType = c("nowcast", "raw", "none"),
   palette = "epa_aqi",
   includeLegendAdvice = FALSE
 ) {
@@ -104,15 +105,8 @@ monitor_ggDailyHourlyBarplot <- function(
     ))
   }
 
-  validHourlyDataTypes <- c("nowcast", "raw", "none")
-  if ( !(hourlyDataType %in% validHourlyDataTypes) ) {
-    stop(
-      paste0(
-        hourlyDataType, " is not a valid hourlyDataType. \n",
-        "Please choose from: ", paste0(validHourlyDataTypes, collapse = ", ")
-      )
-    )
-  }
+  # Check hourlyDataType
+  hourlyDataType <- match.arg(hourlyDataType)
 
   # Check timezone
   if ( !is.null(timezone) ) {

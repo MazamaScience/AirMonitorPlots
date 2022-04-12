@@ -38,16 +38,21 @@
 #' @export
 #'
 #' @examples
-#' ggplot_pm25Timeseries(AirMonitor::Carmel_Valley,
-#'                       startdate = 20160801,
-#'                       enddate = 20160810) +
+#' library(AirMonitorPlots)
+#'
+#' ggplot_pm25Timeseries(
+#'   AirMonitor::Carmel_Valley,
+#'   startdate = 20160801,
+#'   enddate = 20160810
+#' ) +
 #'   geom_pm25Points() +
 #'   stat_nowcast()
+
 stat_nowcast <- function(
   mapping = NULL,
   data = NULL,
   version= "pm",
-  includeShortTerm=FALSE,
+  includeShortTerm = FALSE,
   geom = "path",
   aqiColors = FALSE,
   mv4Colors = FALSE,
@@ -121,4 +126,5 @@ StatNowcast <- ggproto(
   # END setup_data function
 
   required_aes = c("x", "y")
+
 )

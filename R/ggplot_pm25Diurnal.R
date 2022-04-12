@@ -1,45 +1,45 @@
-#' @title Instantiate a pm25 diurnal ggplot
+#' @export
+#' @import ggplot2
+#' @importFrom rlang .data
+#'
+#' @title Create a pm25 diurnal ggplot
 #'
 #' @description
-#' Create a plot using ggplot with default mappings and styling. Layers can then
+#' Create a plot with default mappings and styling. Layers can then
 #' be added to this plot using \code{ggplot2} syntax.
 #'
 #' @inheritParams custom_pm25DiurnalScales
 #'
-#' @param mts_monitor Default dataset to use when adding layers. Must be either a
+#' @param monitor Default dataset to use when adding layers. Must be either a
 #'   \emph{mts_monitor} object or \code{mts_tidy} object.
 #' @param startdate Desired startdate for data to include, in a format that can
 #'   be parsed with \link{parseDatetime}.
 #' @param enddate Desired enddate for data to include, in a format that can be
 #'   parsed with \link{parseDatetime}.
-#' @param timezone Timezone to use to set hours of the day
+#' @param timezone Timezone to use to set hours of the day.
 #' @param shadedNight add nighttime shading based on of middle day in selected
-#'   period
-#' @param mapping Default mapping for the plot
-#' @param base_size Base font size for theme
+#'   period.
+#' @param mapping Default mapping for the plot.
+#' @param base_size Base font size for theme.
 #' @param ... Additional arguments passed on to
 #'   \code{\link{custom_pm25DiurnalScales}}.
 #'
-#' @import ggplot2
-#' @importFrom rlang .data
-#' @export
-#'
 #' @examples
-#' mts_monitor <- AirMonitor::Carmel_Valley
-#' ggplot_pm25Diurnal(mts_monitor) +
+#' monitor <- AirMonitor::Carmel_Valley
+#' ggplot_pm25Diurnal(monitor) +
 #'   coord_polar() +
 #'   geom_pm25Points() +
 #'   custom_aqiStackedBar(width = 1, alpha = .3)
 #'
 #' ggplot_pm25Diurnal(
-#'   mts_monitor,
+#'   monitor,
 #'   startdate = 20160801,
 #'   enddate = 20160810
 #' ) +
 #'   stat_boxplot(aes(group = hour))
 #'
 ggplot_pm25Diurnal <- function(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
   timezone = NULL,
@@ -58,26 +58,25 @@ ggplot_pm25Diurnal <- function(
   if ( !is.numeric(base_size) )
     stop("base_size must be numeric")
 
-  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
-    mts_tidy <- monitor_toTidy(mts_monitor)
-  } else if ( monitor_isTidy(mts_monitor) ) {
-    mts_tidy <- mts_monitor
+  if ( AirMonitor::monitor_isValid(monitor) ) {
+    mts_tidy <- monitor_toTidy(monitor)
+  } else if ( monitor_isTidy(monitor) ) {
+    mts_tidy <- monitor
   } else {
-    stop("mts_monitor must be either a mts_monitor object or mts_tidy object.")
+    stop("monitor must be either a mts_monitor object or mts_tidy object.")
   }
 
   # Determine the timezone (code borrowed from custom_pm25TimeseriesScales.R)
   if ( is.null(timezone) ) {
     if ( length(unique(mts_tidy$timezone) ) > 1) {
       timezone <- "UTC"
-      xlab <- "Time of Day (UTC)"
+      xlabel <- "Time of Day (UTC)"
     } else {
       timezone <- mts_tidy$timezone[1]
-      xlab <- "Time of Day (Local)"
+      xlabel <- "Time of Day (Local)"
     }
-    # TODO:  This test for xlab fails because xlab is a function!
-  } else if ( is.null(xlab) ) {
-    xlab <- paste0("Time of Day (", timezone, ")")
+  } else if ( !exists("xlabel") || is.null(xlabel) ) {
+    xlabel <- paste0("Time of Day (", timezone, ")")
   }
 
   if ( !is.null(startdate) ) {
@@ -123,7 +122,7 @@ ggplot_pm25Diurnal <- function(
 
   gg <- ggplot(mts_tidy, mapping) +
     theme_airfire(base_size = base_size) +
-    custom_pm25DiurnalScales(mts_tidy, xlab = xlab, ylim = ylim, ...)
+    custom_pm25DiurnalScales(mts_tidy, xlab = xlabel, ylim = ylim, ...)
 
   # Calculate day/night shading
   if (shadedNight) {

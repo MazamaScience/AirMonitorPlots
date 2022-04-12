@@ -86,7 +86,7 @@ custom_pm25DiurnalScales <- function(
   }
 
 
-  # ----- Add scales -----------------------------------------------------------
+  # ----- Return ---------------------------------------------------------------
 
   list(
     scale_x_continuous(
@@ -101,8 +101,7 @@ custom_pm25DiurnalScales <- function(
       expand = c(0, 0)
     ),
     ylab(ylab),
-    xlab(xlab
-    )
+    xlab(xlab)
   )
 
 }

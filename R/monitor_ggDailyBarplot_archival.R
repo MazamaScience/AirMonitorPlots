@@ -44,7 +44,7 @@ monitor_ggDailyBarplot_archival <- function(
   startdate = NULL,
   enddate = NULL,
   id = NULL,
-  style = "large",
+  style = c("large", "small"),
   title = NULL,
   timezone = NULL,
   today = TRUE,
@@ -56,12 +56,11 @@ monitor_ggDailyBarplot_archival <- function(
   MazamaCoreUtils::stopIfNull(monitor)
 
   # Check style
-  if ( !style %in% c("small", "large") )
-    stop("Invalid style. Choose from 'small' or 'large'.")
+  style <- match.arg(style)
 
   # Check today bar inclusion
   if ( !is.logical(today) )
-    stop("'today' must be a logical (TRUE or FALSE).")
+    stop("Parameter 'today' must be a logical (TRUE or FALSE).")
 
   # Convert monitor to tidy structure
   mts_tidy <- monitor_toTidy(monitor)
@@ -70,7 +69,7 @@ monitor_ggDailyBarplot_archival <- function(
   if ( is.null(id) ) {
 
     if (length(unique(mts_tidy$deviceDeploymentID)) > 1) {
-      stop("id is required if monitor has multiple monitors")
+      stop("Parameter 'id' is required if monitor has multiple monitors")
     } else {
       id <- mts_tidy$deviceDeploymentID[1]
     }
@@ -78,7 +77,7 @@ monitor_ggDailyBarplot_archival <- function(
   } else {
 
     if ( length(id) > 1 ) {
-      stop("`id` must contain a single deviceDeploymentID.")
+      stop("Parameter 'id' must contain a single deviceDeploymentID.")
     } else if (!id %in% unique(mts_tidy$deviceDeploymentID)) {
       stop("deviceDeploymentID not present in data.")
     }
@@ -278,11 +277,11 @@ monitor_ggDailyBarplot_archival <- function(
 
 if ( FALSE ) {
 
-  mts_monitor <- airnow_loadLatest()
+  monitor <- airnow_loadLatest()
 
   startdate = NULL
   enddate = NULL
-  id = "060530002_01" # Carmel Valley
+  id = "a9572a904a4ed46d_060530002" # Carmel Valley
   style = "small"
   title = NULL
   timezone = NULL
@@ -290,7 +289,7 @@ if ( FALSE ) {
 
 
   monitor_ggDailyBarplot(
-    mts_monitor = mts_monitor,
+    monitor = monitor,
     startdate = startdate,
     enddate = enddate,
     id = id,

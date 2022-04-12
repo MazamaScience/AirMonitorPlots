@@ -7,7 +7,7 @@
 .nowcast(x, version = "pm", includeShortTerm = FALSE)
 }
 \arguments{
-\item{x}{vVctor of ordered PM2.5 data in units of ug/m3.}
+\item{x}{Vctor of ordered PM2.5 data in units of ug/m3.}
 
 \item{version}{Character identity specifying the type of nowcast algorithm to
 be used. For details see \code{AirMonitor::monitor_nowcast()}.}

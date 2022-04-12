@@ -5,16 +5,17 @@
 #'
 #' @description Annual calendar view of a daily reading using a selected input.
 #'
-#' @param monitor a \emph{mts_monitor} object.
-#' @param id a deviceDeploymentID in the \emph{mts_monitor} object.
-#' @param ncol the amount of columns in the plot.
-#' @param title an optional title.
-#' @param discrete a boolean that determines the color scale.
-#' @param breaks the color scale break points.
-#' @param break_labels the scale breaks names.
-#' @param aspect_ratio the plot aspect ratio.
-#' @param legend_title an optional title used in the legend.
-#' @param stat the statistic used for daily aggregation (default: "mean").
+#' @param monitor A \emph{mts_monitor} object.
+#' @param id deviceDeploymentID to include in the plot. This can be NULL if
+#'   \code{monitor} only has one unique deviceDeploymentID.
+#' @param ncol Number of columns in the plot.
+#' @param title Optional title.
+#' @param discrete Logical specifying use of a discrete color scale.
+#' @param breaks Color scale break points.
+#' @param break_labels Scale breaks names.
+#' @param aspect_ratio Plot aspect ratio.
+#' @param legend_title Optional title used in the legend.
+#' @param stat Statistic used for daily aggregation (default: "mean").
 #'
 #' @return ggobject
 #'

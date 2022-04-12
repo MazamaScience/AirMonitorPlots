@@ -1,3 +1,6 @@
+#' @export
+#' @import ggplot2
+#'
 #' @title Add AQ category stacked bars to a plot
 #'
 #' @description
@@ -5,16 +8,14 @@
 #'
 #' @param width Width of bars as a fraction of plot width.
 #' @param position Position adjustment, either as a string, or the result of a
-#'   call to a position adjustment function
-#' @param ... additional arguments passed on to layer, such as alpha.
+#'   call to a position adjustment function.
+#' @param ... Additional arguments passed on to layer, such as alpha.
 #'
 #' @return A \emph{ggplot} plot object with AQ category annotations.
 #'
-#' @import ggplot2
-#' @export
-#'
 #' @examples
 #' library (AirMonitorPlots)
+#'
 #' AirMonitor::Carmel_Valley %>%
 #'   ggplot_pm25Timeseries() +
 #'   custom_aqiLines() +
@@ -26,8 +27,11 @@ custom_aqiStackedBar <- function(
   ...
 ) {
 
-  # Validate parameters
-  if (!is.numeric(width)) stop("width must be a number")
+  # ----- Validate parameters --------------------------------------------------
+
+  if ( !is.numeric(width) ) stop("width must be a number")
+
+  # ----- Return ---------------------------------------------------------------
 
   list(
     layer(
@@ -40,6 +44,7 @@ custom_aqiStackedBar <- function(
       axis.line.y = element_blank()
     )
   )
+
 }
 
 StatAqiBar <- ggproto(
@@ -75,7 +80,6 @@ StatAqiBar <- ggproto(
     return(aqiStackedBarsData)
   }
   # END compute_group function
-
 )
 
 #' @title Add AQI lines to a plot
@@ -126,4 +130,6 @@ StatAqiLines <- ggproto(
       yend = c(AirMonitor::US_AQI$breaks_PM2.5[2:6])
     )
     return(aqiLinesData)
-  })
+  }
+  # END compute_group function
+)

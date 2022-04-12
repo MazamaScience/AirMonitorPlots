@@ -1,4 +1,8 @@
-#' @title Instantiate a pm25 timeseries ggplot
+#' @export
+#' @import ggplot2
+#' @importFrom rlang .data
+#'
+#' @title Create a pm25 timeseries ggplot
 #'
 #' @description
 #' Create a plot using ggplot with default mappings and styling. Layers can then
@@ -9,10 +13,6 @@
 #' @param monitor Monitoring data object to use when adding layers. Must be of
 #' class \code{mts_monitor} or \code{mts_tidy}.
 #' @param base_size Base font size for theme.
-#'
-#' @import ggplot2
-#' @importFrom rlang .data
-#' @export
 #'
 #' @examples
 #' library(AirMonitorPlots)

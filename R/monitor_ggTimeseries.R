@@ -48,13 +48,13 @@ monitor_ggTimeseries <- function(
   startdate = NULL,
   enddate = NULL,
   id = NULL,
-  style = "small",
+  style = c("small", "large"),
   title = NULL,
   timezone = NULL,
   ...
 ) {
 
-  # Validate Parameters --------------------------------------------------------
+  # ----- Validate Parameters --------------------------------------------------
 
   MazamaCoreUtils::stopIfNull(monitor)
 
@@ -66,8 +66,7 @@ monitor_ggTimeseries <- function(
   }
 
   # Check style
-  if (!style %in% c("small", "large"))
-    stop("Invalid style. Choose from 'small' or 'large'.")
+  style <- match.arg(style)
 
   # Check deviceDeploymentIDs
   if ( any(!id %in% unique(mts_tidy$deviceDeploymentID)) ) {
@@ -108,7 +107,7 @@ monitor_ggTimeseries <- function(
     }
   }
 
-  # Prepare data ---------------------------------------------------------------
+  # ----- Prepare data ---------------------------------------------------------
 
   if ( !is.null(id) ) {
     mts_tidy <- dplyr::filter(mts_tidy, .data$deviceDeploymentID %in% id)
@@ -130,7 +129,7 @@ monitor_ggTimeseries <- function(
     }
   }
 
-  # Style ----------------------------------------------------------------------
+  # ----- Style ----------------------------------------------------------------
 
   if (style == "large") {
     pointsize <- 2
@@ -146,7 +145,7 @@ monitor_ggTimeseries <- function(
     base_size <- 11
   }
 
-  # Create plot ----------------------------------------------------------------
+  # ----- Create plot ----------------------------------------------------------
 
   plot <-
     ggplot_pm25Timeseries(
@@ -166,7 +165,7 @@ monitor_ggTimeseries <- function(
     ggtitle(title)
 
 
-  # * Handle legend ------------------------------------------------------------
+  # ----- Handle legend --------------------------------------------------------
 
   # Add legend when plotting multiple monitors
   if (length(unique(mts_tidy$deviceDeploymentID)) == 1) {
@@ -195,6 +194,8 @@ monitor_ggTimeseries <- function(
   }
 
   plot <- plot + theme_timeseriesPlot_airfire(size = style)
+
+  # ----- Return ---------------------------------------------------------------
 
   return(plot)
 

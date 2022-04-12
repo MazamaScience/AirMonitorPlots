@@ -69,7 +69,7 @@ custom_pm25TimeseriesScales <- function(
 
   # ----- Handle start/end dates -----------------------------------------------
 
-  # TODO: can this all just be replaced with ``?
+  # TODO: Can creation of start/enddate be made simpler?
 
   # Handle various startdates
   if (!is.null(startdate)) {
@@ -126,7 +126,7 @@ custom_pm25TimeseriesScales <- function(
   }
 
 
-  # ----- Add scales -----------------------------------------------------------
+  # ----- Return ---------------------------------------------------------------
 
   list(
     custom_datetimeScale(

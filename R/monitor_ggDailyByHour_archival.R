@@ -43,7 +43,7 @@ monitor_ggDailyByHour_archival <- function(
   startdate = NULL,
   enddate = NULL,
   id = NULL,
-  style = "large",
+  style = c("large", "small"),
   title = NULL,
   timezone = NULL,
   ...
@@ -78,8 +78,8 @@ monitor_ggDailyByHour_archival <- function(
 
   }
 
-  if ( !style %in% c("small", "large") )
-    stop(sprintf("Invalid style = '%s'. Choose from 'small' or 'large'.", style))
+  # Check style
+  style <- match.arg(style)
 
   if ( !is.null(timezone) ) {
     if ( !timezone %in% OlsonNames() ) {

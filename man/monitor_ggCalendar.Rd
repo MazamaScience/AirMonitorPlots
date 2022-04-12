@@ -18,25 +18,26 @@ monitor_ggCalendar(
 )
 }
 \arguments{
-\item{monitor}{a \emph{mts_monitor} object.}
+\item{monitor}{A \emph{mts_monitor} object.}
 
-\item{id}{a deviceDeploymentID in the \emph{mts_monitor} object.}
+\item{id}{deviceDeploymentID to include in the plot. This can be NULL if
+\code{monitor} only has one unique deviceDeploymentID.}
 
-\item{ncol}{the amount of columns in the plot.}
+\item{ncol}{Number of columns in the plot.}
 
-\item{title}{an optional title.}
+\item{title}{Optional title.}
 
-\item{discrete}{a boolean that determines the color scale.}
+\item{discrete}{Logical specifying use of a discrete color scale.}
 
-\item{breaks}{the color scale break points.}
+\item{breaks}{Color scale break points.}
 
-\item{break_labels}{the scale breaks names.}
+\item{break_labels}{Scale breaks names.}
 
-\item{aspect_ratio}{the plot aspect ratio.}
+\item{aspect_ratio}{Plot aspect ratio.}
 
-\item{legend_title}{an optional title used in the legend.}
+\item{legend_title}{Optional title used in the legend.}
 
-\item{stat}{the statistic used for daily aggregation (default: "mean").}
+\item{stat}{Statistic used for daily aggregation (default: "mean").}
 }
 \value{
 ggobject

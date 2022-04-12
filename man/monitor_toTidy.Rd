@@ -14,8 +14,8 @@ Tidy formatted \emph{mts_monitor} data.
 }
 \description{
 Changes \emph{mts_monitor} formatted data into a
-'tidy' format that is useful for 'tidyverse' functions. If the given data is
-already in tidy format, it is returned as is.
+'mts_tidy' format that is useful for 'tidyverse' functions. If the given data
+is already in tidy format, it is returned as is.
 }
 \examples{
 library(AirMonitorPlots)
@@ -27,9 +27,5 @@ monitor <-
   )
 
 mts_tidy <- monitor_toTidy(monitor)
-
-\dontrun{
-mts_tidy2 <- monitor_toTidy(mts_tidy)
-}
 
 }

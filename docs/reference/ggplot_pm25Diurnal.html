@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Instantiate a pm25 diurnal ggplot — ggplot_pm25Diurnal • AirMonitorPlots</title>
+<title>Create a pm25 diurnal ggplot — ggplot_pm25Diurnal • AirMonitorPlots</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Instantiate a pm25 diurnal ggplot — ggplot_pm25Diurnal" />
-<meta property="og:description" content="Create a plot using ggplot with default mappings and styling. Layers can then
+<meta property="og:title" content="Create a pm25 diurnal ggplot — ggplot_pm25Diurnal" />
+<meta property="og:description" content="Create a plot with default mappings and styling. Layers can then
 be added to this plot using ggplot2 syntax." />
 <meta property="og:image" content="/logo.png" />
 
@@ -138,18 +138,18 @@ be added to this plot using ggplot2 syntax." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Instantiate a pm25 diurnal ggplot</h1>
+    <h1>Create a pm25 diurnal ggplot</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitorPlots/blob/master/R/ggplot_pm25Diurnal.R'><code>R/ggplot_pm25Diurnal.R</code></a></small>
     <div class="hidden name"><code>ggplot_pm25Diurnal.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a plot using ggplot with default mappings and styling. Layers can then
+    <p>Create a plot with default mappings and styling. Layers can then
 be added to this plot using <code>ggplot2</code> syntax.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span>
-  <span class='va'>mts_monitor</span>,
+  <span class='va'>monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
   timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -164,7 +164,7 @@ be added to this plot using <code>ggplot2</code> syntax.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mts_monitor</th>
+      <th>monitor</th>
       <td><p>Default dataset to use when adding layers. Must be either a
 <em>mts_monitor</em> object or <code>mts_tidy</code> object.</p></td>
     </tr>
@@ -180,7 +180,7 @@ parsed with parseDatetime.</p></td>
     </tr>
     <tr>
       <th>timezone</th>
-      <td><p>Timezone to use to set hours of the day</p></td>
+      <td><p>Timezone to use to set hours of the day.</p></td>
     </tr>
     <tr>
       <th>ylim</th>
@@ -190,15 +190,15 @@ depending on the data.</p></td>
     <tr>
       <th>shadedNight</th>
       <td><p>add nighttime shading based on of middle day in selected
-period</p></td>
+period.</p></td>
     </tr>
     <tr>
       <th>mapping</th>
-      <td><p>Default mapping for the plot</p></td>
+      <td><p>Default mapping for the plot.</p></td>
     </tr>
     <tr>
       <th>base_size</th>
-      <td><p>Base font size for theme</p></td>
+      <td><p>Base font size for theme.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -209,14 +209,14 @@ period</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>mts_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html'>Carmel_Valley</a></span>
-<span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span><span class='va'>mts_monitor</span><span class='op'>)</span> <span class='op'>+</span>
+    <pre class="examples"><div class='input'><span class='va'>monitor</span> <span class='op'>&lt;-</span> <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html'>Carmel_Valley</a></span>
+<span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>coord_polar</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='geom_pm25Points.html'>geom_pm25Points</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='custom_aqiStackedBar.html'>custom_aqiStackedBar</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>1</span>, alpha <span class='op'>=</span> <span class='fl'>.3</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 9 rows containing missing values (geom_pm25points).</span></div><div class='img'><img src='ggplot_pm25Diurnal-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>ggplot_pm25Diurnal</span><span class='op'>(</span>
-  <span class='va'>mts_monitor</span>,
+  <span class='va'>monitor</span>,
   startdate <span class='op'>=</span> <span class='fl'>20160801</span>,
   enddate <span class='op'>=</span> <span class='fl'>20160810</span>
 <span class='op'>)</span> <span class='op'>+</span>

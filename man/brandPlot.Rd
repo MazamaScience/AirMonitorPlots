@@ -6,10 +6,10 @@
 \usage{
 brandPlot(
   plot,
-  brandStyle = "logo",
-  brandName = "MazamaScience",
+  brandStyle = c("logo", "icon"),
+  brandName = c("MazamaScience", "USFS", "AirFire"),
   brandFilePath = NULL,
-  location = c("topright", "topleft", "bottomright", "bottomleft")[1],
+  location = c("topright", "topleft", "bottomright", "bottomleft"),
   size = 0.1
 )
 }
@@ -34,14 +34,23 @@ printed. Options are: \code{"topright"}, \code{"topleft"},
 A \code{gTree} object, which can be printed with \code{grid.draw()}.
 }
 \description{
-Add a logo to a ggplot object.
+Adds an image to a ggplot object. This allows the use of package internal
+logos associated with Mazama Science and the USFS AirFire group specified
+with \code{brandStyle} and \code{brandName}. User provided images can be
+specified by using \code{brandFilePath}.
 }
 \examples{
-mts_monitor <- AirMonitor::Carmel_Valley
-mts_tidy <- monitor_toTidy(mts_monitor)
-p <- ggplot_pm25Timeseries(mts_tidy) +
+library(AirMonitorPlots)
+
+monitor <- AirMonitor::Carmel_Valley
+mts_tidy <- monitor_toTidy(monitor)
+
+gg <-
+  ggplot_pm25Timeseries(mts_tidy) +
   stat_dailyAQCategory(adjustylim = TRUE)
-brandPlot(p, location = "topright", size = .2)
-brandPlot(p, location = "bottomright", brandName = "USFS")
-brandPlot(p, brandName = "AirFire", location = "topleft", size = .15)
+
+brandPlot(gg, location = "topright", size = .2)
+brandPlot(gg, location = "bottomright", brandName = "USFS")
+brandPlot(gg, brandName = "AirFire", location = "topleft", size = .15)
+
 }

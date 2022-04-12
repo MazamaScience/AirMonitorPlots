@@ -4,7 +4,7 @@
 * Removed unused `aqiStyle` argument from plotting functions.
 * Change `mts_monitor` argument name to `monitor` to match the **AirMonitor** package.
 * Change `deviceDeploymentID` argument name to `id` to match the **AirMonitor** package.
-
+* Various cleanup.
 
 # AirMonitorPlots 0.8.0
 
