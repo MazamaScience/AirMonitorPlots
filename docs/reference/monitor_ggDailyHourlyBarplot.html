@@ -50,7 +50,7 @@
 <meta property="og:description" content="Create a time series barplot showing PM2.5 data for the given monitors. The
 overall plot is faceted by monitor, and each facet has two sets of columns:
 one for daily levels, and one for hourly levels.
-The full range of data in mts_monitor will be used unless both
+The full range of data in monitor will be used unless both
 startdate and enddate are specified.
 The timezone specified or, if timezone = NULL, that of the first
 monitor encountered will be used for all time axes." />
@@ -152,17 +152,17 @@ monitor encountered will be used for all time axes." />
     <p>Create a time series barplot showing PM2.5 data for the given monitors. The
 overall plot is faceted by monitor, and each facet has two sets of columns:
 one for daily levels, and one for hourly levels.</p>
-<p>The full range of data in <code>mts_monitor</code> will be used unless both
+<p>The full range of data in <code>monitor</code> will be used unless both
 <code>startdate</code> and <code>enddate</code> are specified.</p>
 <p>The timezone specified or, if <code>timezone = NULL</code>, that of the first
 monitor encountered will be used for all time axes.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_ggDailyHourlyBarplot</span><span class='op'>(</span>
-  <span class='va'>mts_monitor</span>,
+  <span class='va'>monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  deviceDeploymentIDs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
   columns <span class='op'>=</span> <span class='fl'>1</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -178,8 +178,8 @@ monitor encountered will be used for all time axes.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mts_monitor</th>
-      <td><p>A <code>mts_monitor</code> object.</p></td>
+      <th>monitor</th>
+      <td><p>A <em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -192,8 +192,8 @@ POSIXct).</p></td>
 POSIXct).</p></td>
     </tr>
     <tr>
-      <th>deviceDeploymentIDs</th>
-      <td><p>Optional vector of monitor IDs used to filter the data.</p></td>
+      <th>id</th>
+      <td><p>Optional vector of deviceDeploymentIDs used to filter the data.</p></td>
     </tr>
     <tr>
       <th>columns</th>

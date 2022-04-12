@@ -5,10 +5,10 @@
 \title{Create a diurnal plot for one or more monitors}
 \usage{
 monitor_ggDailyByHour(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
-  deviceDeploymentID = NULL,
+  id = NULL,
   style = "small",
   title = NULL,
   timezone = NULL,
@@ -16,7 +16,7 @@ monitor_ggDailyByHour(
 )
 }
 \arguments{
-\item{mts_monitor}{A \code{mts_monitor} object.}
+\item{monitor}{A \emph{mts_monitor} object.}
 
 \item{startdate}{Desired startdate for data to include, in a format that can
 be parsed with \link{parseDatetime}.}
@@ -24,8 +24,8 @@ be parsed with \link{parseDatetime}.}
 \item{enddate}{Desired enddate for data to include, in a format that can be
 parsed with \link{parseDatetime}.}
 
-\item{deviceDeploymentID}{deviceDeploymentID to include in the plot. This can be NULL if
-\emph{mts_monitor} only has one unique deviceDeploymentID.}
+\item{id}{deviceDeploymentID to include in the plot. This can be NULL if
+\code{monitor} only has one unique deviceDeploymentID.}
 
 \item{style}{String indicating plotting style. Either \code{"large"} or
 \code{"small"}. \code{style = "large"} is suitable for plots larger than
@@ -45,13 +45,13 @@ A \emph{ggplot} object.
 This function assembles various layers to create a production-ready
 diurnal plot for a single monitor.
 
-The full range of data in \code{mts_monitor} will be used unless both
+The full range of data in \code{monitor} will be used unless both
 \code{startdate} and \code{enddate} are specified.
 }
 \examples{
 \dontrun{
-mts_monitor <- airnow_loadLatest()
-monitor_ggDailyByHour(mts_monitor, deviceDeploymentID = "51b9bcb4eaac7c9d_530330030")
+monitor <- airnow_loadLatest()
+monitor_ggDailyByHour(monitor, id = "51b9bcb4eaac7c9d_530330030")
 }
 
 AirMonitor::Carmel_Valley \%>\%

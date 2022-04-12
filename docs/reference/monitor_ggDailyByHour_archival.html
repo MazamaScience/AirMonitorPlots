@@ -49,7 +49,7 @@
 <meta property="og:title" content="Create an archival diurnal plot for one or more monitors — monitor_ggDailyByHour_archival" />
 <meta property="og:description" content="This function assembles various layers to create a production-ready archival
 diurnal plot for a single monitor.
-The full range of data in mts_monitor will be used unless both
+The full range of data in monitor will be used unless both
 startdate and enddate are specified." />
 <meta property="og:image" content="/logo.png" />
 
@@ -148,15 +148,15 @@ startdate and enddate are specified." />
     <div class="ref-description">
     <p>This function assembles various layers to create a production-ready archival
 diurnal plot for a single monitor.</p>
-<p>The full range of data in <code>mts_monitor</code> will be used unless both
+<p>The full range of data in <code>monitor</code> will be used unless both
 <code>startdate</code> and <code>enddate</code> are specified.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_ggDailyByHour_archival</span><span class='op'>(</span>
-  <span class='va'>mts_monitor</span>,
+  <span class='va'>monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  deviceDeploymentID <span class='op'>=</span> <span class='cn'>NULL</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
   style <span class='op'>=</span> <span class='st'>"large"</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -167,8 +167,8 @@ diurnal plot for a single monitor.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mts_monitor</th>
-      <td><p>A <code>mts_monitor</code> object.</p></td>
+      <th>monitor</th>
+      <td><p>A <em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -181,9 +181,9 @@ be parsed with parseDatetime.</p></td>
 parsed with parseDatetime.</p></td>
     </tr>
     <tr>
-      <th>deviceDeploymentID</th>
+      <th>id</th>
       <td><p>deviceDeploymentID to include in the plot. This can be NULL if
-<em>mts_monitor</em> only has one unique deviceDeploymentID.</p></td>
+<code>monitor</code> only has one unique deviceDeploymentID.</p></td>
     </tr>
     <tr>
       <th>style</th>
@@ -218,8 +218,8 @@ NULL the timezone of the specified monitor will be used.</p></td>
   <span class='fu'>monitor_ggDailyByHour_archival</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 23 rows containing missing values (geom_pm25points).</span></div><div class='img'><img src='monitor_ggDailyByHour_archival-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>mts_monitor</span> <span class='op'>&lt;-</span> <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/AirMonitor/man/airnow_loadLatest.html'>airnow_loadLatest</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>monitor_ggDailyByHour_archival</span><span class='op'>(</span><span class='va'>mts_monitor</span>, deviceDeploymentID <span class='op'>=</span> <span class='st'>"51b9bcb4eaac7c9d_530330030"</span><span class='op'>)</span>
+<span class='va'>monitor</span> <span class='op'>&lt;-</span> <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/AirMonitor/man/airnow_loadLatest.html'>airnow_loadLatest</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>monitor_ggDailyByHour_archival</span><span class='op'>(</span><span class='va'>monitor</span>, id <span class='op'>=</span> <span class='st'>"51b9bcb4eaac7c9d_530330030"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

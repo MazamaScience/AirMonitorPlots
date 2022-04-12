@@ -7,7 +7,7 @@
 #' @inheritParams custom_pm25DiurnalScales
 #'
 #' @param mts_monitor Default dataset to use when adding layers. Must be either a
-#'   \code{mts_monitor} object or \code{mts_tidy} object.
+#'   \emph{mts_monitor} object or \code{mts_tidy} object.
 #' @param startdate Desired startdate for data to include, in a format that can
 #'   be parsed with \link{parseDatetime}.
 #' @param enddate Desired enddate for data to include, in a format that can be

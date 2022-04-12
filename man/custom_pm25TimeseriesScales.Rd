@@ -5,7 +5,7 @@
 \title{AirFire PM2.5 timeseries scales}
 \usage{
 custom_pm25TimeseriesScales(
-  data = NULL,
+  monitor = NULL,
   startdate = NULL,
   enddate = NULL,
   ylim = NULL,
@@ -17,8 +17,8 @@ custom_pm25TimeseriesScales(
 )
 }
 \arguments{
-\item{data}{pm25 timeseries data. Should match the default dataset of the
-plot}
+\item{monitor}{A \emph{mts_monitor} object.Should match the default dataset
+of the plot.}
 
 \item{startdate}{Desired start date (integer or character in ymd format or
 POSIXct).}
@@ -30,7 +30,7 @@ POSIXct).}
 depending on the data.}
 
 \item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
-present in the data, the data timezone will be used. If NULL and multiple
+present in \code{monitor}, that timezone will be used. If NULL and multiple
 timezones present, the default is UTC.}
 
 \item{xlab}{Custom xlab. If \code{NULL} a default xlab will be generated.}

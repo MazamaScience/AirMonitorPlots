@@ -42,7 +42,7 @@ library(AirMonitorPlots)
 
 monitor_ggTimeseries(
   AirMonitor::NW_Megafires, 
-  deviceDeploymentIDs = "39c9acebbebc3d09_160050015",
+  id = "39c9acebbebc3d09_160050015",
   startdate = 20150815,
   enddate = 20150825
 )
@@ -53,7 +53,7 @@ If more than one monitor is present, color will be mapped to deviceDeploymentID.
 ```{r}
 monitor_ggTimeseries(
   AirMonitor::NW_Megafires,
-  deviceDeploymentIDs = c(
+  id = c(
     "fa8288b1da3b2a87_530630047", 
     "5b3acb7aa679dc14_530639997", 
     "abde4337eb9064e4_530639996"
@@ -69,7 +69,7 @@ Daily Barplot can show daily averages for one monitor.
 
 ```{r}
 monitor_ggDailyBarplot(
-  mts_monitor = AirMonitor::Carmel_Valley,
+  AirMonitor::Carmel_Valley,
   startdate = 20160801,
   enddate = 20160808
 )
@@ -82,7 +82,7 @@ latest <- airnow_loadLatest()
 monitor_ggDailyBarplot(
   latest,
   startdate = lubridate::now() - lubridate::ddays(7),
-  deviceDeploymentID = "0b97822d89739950_060631010"
+  id = "0b97822d89739950_060631010"
 )
 ```
 
@@ -93,7 +93,7 @@ The `dailyByHour` plot is designed to view current data for only one monitor. It
 ```{r}
 monitor_ggDailyByHour(
   latest,
-  deviceDeploymentID = "0b97822d89739950_060631010"
+  id = "0b97822d89739950_060631010"
 )
 ```
 

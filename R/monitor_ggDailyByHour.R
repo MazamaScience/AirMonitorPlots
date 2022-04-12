@@ -4,13 +4,13 @@
 #' This function assembles various layers to create a production-ready
 #' diurnal plot for a single monitor.
 #'
-#' The full range of data in \code{mts_monitor} will be used unless both
+#' The full range of data in \code{monitor} will be used unless both
 #' \code{startdate} and \code{enddate} are specified.
 #'
 #' @inheritParams ggplot_pm25Diurnal
-#' @param mts_monitor A \code{mts_monitor} object.
-#' @param deviceDeploymentID deviceDeploymentID to include in the plot. This can be NULL if
-#'   \emph{mts_monitor} only has one unique deviceDeploymentID.
+#' @param monitor A \emph{mts_monitor} object.
+#' @param id deviceDeploymentID to include in the plot. This can be NULL if
+#'   \code{monitor} only has one unique deviceDeploymentID.
 #' @param style String indicating plotting style. Either \code{"large"} or
 #'   \code{"small"}. \code{style = "large"} is suitable for plots larger than
 #'   450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.
@@ -28,8 +28,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' mts_monitor <- airnow_loadLatest()
-#' monitor_ggDailyByHour(mts_monitor, deviceDeploymentID = "51b9bcb4eaac7c9d_530330030")
+#' monitor <- airnow_loadLatest()
+#' monitor_ggDailyByHour(monitor, id = "51b9bcb4eaac7c9d_530330030")
 #' }
 #'
 #' AirMonitor::Carmel_Valley %>%
@@ -37,10 +37,10 @@
 #'
 
 monitor_ggDailyByHour <- function(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
-  deviceDeploymentID = NULL,
+  id = NULL,
   style = "small",
   title = NULL,
   timezone = NULL,
@@ -49,29 +49,29 @@ monitor_ggDailyByHour <- function(
 
   # ----- Validate Parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(mts_monitor)
+  MazamaCoreUtils::stopIfNull(monitor)
 
-  if ( !AirMonitor::monitor_isValid(mts_monitor) )
-    stop("Parameter 'mts_monitor' is not a valid mts_monitor object.")
+  if ( !AirMonitor::monitor_isValid(monitor) )
+    stop("Parameter 'monitor' is not a valid mts_monitor object.")
 
-  if ( AirMonitor::monitor_isEmpty(mts_monitor) )
-    stop("Parameter 'mts_monitor' contains no data.")
+  if ( AirMonitor::monitor_isEmpty(monitor) )
+    stop("Parameter 'monitor' contains no data.")
 
   # Check deviceDeploymentID
-  if ( is.null(deviceDeploymentID) ) {
+  if ( is.null(id) ) {
 
-    if ( nrow(mts_monitor$meta) > 1 ) {
-      stop("Parameter 'deviceDeploymentID' is required if 'mts_monitor' has multiple monitors.")
+    if ( nrow(monitor$meta) > 1 ) {
+      stop("Parameter 'id' is required if 'monitor' has multiple monitors.")
     } else {
-      deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID
+      id <- monitor$meta$deviceDeploymentID
     }
 
   } else {
 
-    if ( length(deviceDeploymentID) > 1 ) {
-      stop("Parameter 'deviceDeploymentID' must contain a single deviceDeploymentID.")
-    } else if ( !deviceDeploymentID %in% mts_monitor$meta$deviceDeploymentID ) {
-      stop(sprintf("deviceDeploymentID '%s' is not found in 'mts_monitor'.", deviceDeploymentID))
+    if ( length(id) > 1 ) {
+      stop("Parameter 'id' must contain a single deviceDeploymentID.")
+    } else if ( !id %in% monitor$meta$deviceDeploymentID ) {
+      stop(sprintf("deviceDeploymentID '%s' is not found in 'monitor'.", id))
     }
 
   }
@@ -85,11 +85,11 @@ monitor_ggDailyByHour <- function(
     }
   }
 
-  # ----- Subset mts_monitor ----------------------------------------------------
+  # ----- Subset monitor ----------------------------------------------------
 
   singleMonitor <-
-    mts_monitor %>%
-    AirMonitor::monitor_select(deviceDeploymentID)
+    monitor %>%
+    AirMonitor::monitor_select(id)
 
   # Get timezone
   if ( is.null(timezone) )
@@ -108,7 +108,7 @@ monitor_ggDailyByHour <- function(
 
   if ( (startdate < timeRange[1] && enddate < timeRange[1]) ||
        (startdate > timeRange[2] && enddate > timeRange[2]) ) {
-    stop("Both 'startdate' and 'enddate' are outside the 'mts_monitor' time range")
+    stop("Both 'startdate' and 'enddate' are outside the 'monitor' time range")
   }
 
   dateRange <- MazamaCoreUtils::dateRange(
@@ -128,7 +128,7 @@ monitor_ggDailyByHour <- function(
   # NOTE:  Prefixing 'timezone' with '!!' tells dplyr to use the local variable
   # NOTE:  'timezone' instead of the mts_tidy$timezone column.
 
-  # Convert mts_monitor to tidy structure with 'hour', 'datestamp' and 'nowcast
+  # Convert monitor to tidy structure with 'hour', 'datestamp' and 'nowcast
   mts_tidy <-
     monitor_toTidy(singleMonitor) %>%
     dplyr::mutate(
@@ -288,8 +288,8 @@ if ( FALSE ) {
   # Most likely issue is today/yesterday tibbles with zero rows. We should
   # check for this before these separate, custom points
 
-  mts_monitor <- airnow_loadLatest()
-  deviceDeploymentID <- "060431001_01"
+  monitor <- airnow_loadLatest()
+  id <- "060431001_01"
   style <- "large"
   title <- NULL
   timezone <- NULL
@@ -320,10 +320,10 @@ if ( FALSE ) {
 
 
   monitor_ggDailyByHour(
-    mts_monitor = mts_monitor,
+    monitor = monitor,
     startdate = startdate,
     enddate = enddate,
-    deviceDeploymentID = deviceDeploymentID,
+    id = id,
     style = style,
     title = title,
     timezone = timezone

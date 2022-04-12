@@ -5,19 +5,18 @@
 \title{Create an archival timeseries plot for one or more monitors}
 \usage{
 monitor_ggTimeseries_archival(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
-  deviceDeploymentIDs = NULL,
+  id = NULL,
   style = "large",
   title = NULL,
-  aqiStyle = NULL,
   timezone = NULL,
   ...
 )
 }
 \arguments{
-\item{mts_monitor}{A \code{mts_monitor} object.}
+\item{monitor}{A \emph{mts_monitor} object.}
 
 \item{startdate}{Desired start date (integer or character in ymd format or
 POSIXct).}
@@ -25,7 +24,7 @@ POSIXct).}
 \item{enddate}{Desired end date (integer or character in ymd format or
 POSIXct).}
 
-\item{deviceDeploymentIDs}{vector of deviceDeploymentIDs to include in the plot. If more than
+\item{id}{vector of deviceDeploymentIDs to include in the plot. If more than
 one, different monitors will be plotted in different colors.}
 
 \item{style}{Plot style. \code{small} or \code{large}. \code{style = small}
@@ -33,9 +32,6 @@ is appropriate for plots 450x450px or smaller; \code{style = large} is
 appropriate for plots larger than 450x450px.}
 
 \item{title}{Plot title. If NULL, a suitable title will be constructed.}
-
-\item{aqiStyle}{AQI style to add AQI color bars, lines, and labels. Not
-currently supported.}
 
 \item{timezone}{Olson timezone name for x-axis scale and date parsing. If
 NULL the timezone of the specified monitor will be used.}
@@ -56,7 +52,7 @@ AirMonitor::NW_Megafires \%>\%
   monitor_ggTimeseries_archival(
     startdate = 20150809,
     enddate = 20150820,
-    deviceDeploymentIDs = "575243c65b9e4719_160690012",
+    id = "575243c65b9e4719_160690012",
     timezone = "America/Los_Angeles"
  )
 

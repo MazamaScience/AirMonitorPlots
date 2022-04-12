@@ -4,19 +4,17 @@
 #' This function assembles various layers to create a production-ready
 #' timeseries plot for one or more monitors.
 #'
-#' @param mts_monitor A \code{mts_monitor} object.
+#' @param monitor A \emph{mts_monitor} object.
 #' @param startdate Desired start date (integer or character in ymd format or
 #'   POSIXct).
 #' @param enddate Desired end date (integer or character in ymd format or
 #'   POSIXct).
-#' @param deviceDeploymentIDs vector of deviceDeploymentIDs to include in the plot. If more than
+#' @param id vector of deviceDeploymentIDs to include in the plot. If more than
 #'   one, different monitors will be plotted in different colors.
 #' @param style Plot style. \code{small} or \code{large}. \code{style = small}
 #'   is appropriate for plots 450x450px or smaller; \code{style = large} is
 #'   appropriate for plots larger than 450x450px.
 #' @param title Plot title. If NULL, a suitable title will be constructed.
-#' @param aqiStyle AQI style to add AQI color bars, lines, and labels. Not
-#'   currently supported.
 #' @param timezone Olson timezone name for x-axis scale and date parsing. If
 #'   NULL the timezone of the specified monitor will be used.
 #' @param ... Arguments passed onto \code{\link{ggplot_pm25Timeseries}}.
@@ -35,7 +33,7 @@
 #'   monitor_ggTimeseries(
 #'     startdate = 20150815,
 #'     enddate = 20150831,
-#'     deviceDeploymentIDs = "531b93756e48e29c_160690014"
+#'     id = "531b93756e48e29c_160690014"
 #'   )
 #'
 #' AirMonitor::Carmel_Valley %>%
@@ -46,26 +44,25 @@
 #'
 
 monitor_ggTimeseries <- function(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
-  deviceDeploymentIDs = NULL,
+  id = NULL,
   style = "small",
   title = NULL,
-  aqiStyle = NULL,
   timezone = NULL,
   ...
 ) {
 
   # Validate Parameters --------------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(mts_monitor)
+  MazamaCoreUtils::stopIfNull(monitor)
 
-  # Convert mts_monitor to tidy structure
-  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
-    mts_tidy <- monitor_toTidy(mts_monitor)
+  # Convert monitor to tidy structure
+  if ( AirMonitor::monitor_isValid(monitor) ) {
+    mts_tidy <- monitor_toTidy(monitor)
   } else {
-    stop("mts_monitor is not a mts_monitor object.")
+    stop("monitor is not a mts_monitor object.")
   }
 
   # Check style
@@ -73,10 +70,10 @@ monitor_ggTimeseries <- function(
     stop("Invalid style. Choose from 'small' or 'large'.")
 
   # Check deviceDeploymentIDs
-  if ( any(!deviceDeploymentIDs %in% unique(mts_tidy$deviceDeploymentID)) ) {
-    invalidIDs <- deviceDeploymentIDs[which(!deviceDeploymentIDs %in% unique(mts_tidy$deviceDeploymentID))]
+  if ( any(!id %in% unique(mts_tidy$deviceDeploymentID)) ) {
+    invalidIDs <- id[which(!id %in% unique(mts_tidy$deviceDeploymentID))]
     stop(paste0(
-      "Invalid deviceDeploymentIDs. MonitorIDs not present in data: ",
+      "Invalid ids specified. 'monitor' does not contain deviceDeploymentIDs: ",
       paste0(invalidIDs, collapse = ", ")
     ))
   }
@@ -113,8 +110,8 @@ monitor_ggTimeseries <- function(
 
   # Prepare data ---------------------------------------------------------------
 
-  if (!is.null(deviceDeploymentIDs)) {
-    mts_tidy <- dplyr::filter(mts_tidy, .data$deviceDeploymentID %in% deviceDeploymentIDs)
+  if ( !is.null(id) ) {
+    mts_tidy <- dplyr::filter(mts_tidy, .data$deviceDeploymentID %in% id)
   }
 
   pm25LegendLabel <- "Hourly PM2.5 Values"

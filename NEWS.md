@@ -1,6 +1,9 @@
-# AirMonitorPlots 0.8.!
+# AirMonitorPlots 0.8.1
 
 * Removed "clockPlot" functionality.
+* Removed unused `aqiStyle` argument from plotting functions.
+* Change `mts_monitor` argument name to `monitor` to match the **AirMonitor** package.
+* Change `deviceDeploymentID` argument name to `id` to match the **AirMonitor** package.
 
 
 # AirMonitorPlots 0.8.0

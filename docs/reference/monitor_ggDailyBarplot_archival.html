@@ -49,7 +49,7 @@
 <meta property="og:title" content="Create an archival daily barplot for one or more monitors — monitor_ggDailyBarplot_archival" />
 <meta property="og:description" content="This function assembles various layers to create a production-ready
 archival daily barplot for one or more monitors.
-The full range of data in mts_monitor will be used unless both
+The full range of data in monitor will be used unless both
 startdate and enddate are specified." />
 <meta property="og:image" content="/logo.png" />
 
@@ -148,15 +148,15 @@ startdate and enddate are specified." />
     <div class="ref-description">
     <p>This function assembles various layers to create a production-ready
 archival daily barplot for one or more monitors.</p>
-<p>The full range of data in <code>mts_monitor</code> will be used unless both
+<p>The full range of data in <code>monitor</code> will be used unless both
 <code>startdate</code> and <code>enddate</code> are specified.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_ggDailyBarplot_archival</span><span class='op'>(</span>
-  <span class='va'>mts_monitor</span>,
+  <span class='va'>monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  deviceDeploymentID <span class='op'>=</span> <span class='cn'>NULL</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
   style <span class='op'>=</span> <span class='st'>"large"</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -168,7 +168,7 @@ archival daily barplot for one or more monitors.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mts_monitor</th>
+      <th>monitor</th>
       <td><p>A <em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
@@ -182,9 +182,9 @@ POSIXct).</p></td>
 POSIXct).</p></td>
     </tr>
     <tr>
-      <th>deviceDeploymentID</th>
+      <th>id</th>
       <td><p>deviceDeploymentID to include in the plot. This can be NULL if
-<em>mts_monitor</em> only has one unique deviceDeploymentID.</p></td>
+<code>monitor</code> only has one unique deviceDeploymentID.</p></td>
     </tr>
     <tr>
       <th>style</th>

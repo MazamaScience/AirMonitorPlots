@@ -5,7 +5,7 @@
 \title{PWFSL PM2.5 diurnal scales}
 \usage{
 custom_pm25DiurnalScales(
-  data = NULL,
+  monitor = NULL,
   ylim = NULL,
   xlab = NULL,
   ylab = "PM2.5 (µg/m3)",
@@ -15,8 +15,8 @@ custom_pm25DiurnalScales(
 )
 }
 \arguments{
-\item{data}{pm25 timeseries data. Should match the default dataset of the
-plot.}
+\item{monitor}{A \emph{mts_monitor} object.Should match the default dataset
+of the plot.}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit
 depending on the data.}

@@ -149,7 +149,7 @@ showing PM2.5 data.</p>
     </div>
 
     <pre class="usage"><span class='fu'>custom_pm25TimeseriesScales</span><span class='op'>(</span>
-  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  monitor <span class='op'>=</span> <span class='cn'>NULL</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
   ylim <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -164,9 +164,9 @@ showing PM2.5 data.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>pm25 timeseries data. Should match the default dataset of the
-plot</p></td>
+      <th>monitor</th>
+      <td><p>A <em>mts_monitor</em> object.Should match the default dataset
+of the plot.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -186,7 +186,7 @@ depending on the data.</p></td>
     <tr>
       <th>timezone</th>
       <td><p>Timezone for x-axis scale. If NULL and only one timezone
-present in the data, the data timezone will be used. If NULL and multiple
+present in <code>monitor</code>, that timezone will be used. If NULL and multiple
 timezones present, the default is UTC.</p></td>
     </tr>
     <tr>

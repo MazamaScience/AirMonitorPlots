@@ -4,8 +4,8 @@
 #' Add PWFSL-style x-axis and y-axis scales suitable for a plot showing PM2.5
 #' data as a funciton of hour of the day.
 #'
-#' @param data pm25 timeseries data. Should match the default dataset of the
-#'   plot.
+#' @param monitor A \emph{mts_monitor} object.Should match the default dataset
+#'   of the plot.
 #' @param ylim custom y-axis limits. This function will apply a default limit
 #'   depending on the data.
 #' @param xlab Custom x-axis label. If \code{NULL} a default xlab will be
@@ -24,7 +24,7 @@
 #' @import ggplot2
 #' @export
 custom_pm25DiurnalScales <- function(
-  data = NULL,
+  monitor = NULL,
   ylim = NULL,
   xlab = NULL,
   ylab = "PM2.5 (\u00b5g/m3)",
@@ -34,23 +34,17 @@ custom_pm25DiurnalScales <- function(
 ) {
 
 
-  # Validate parameters --------------------------------------------------------
+  # ----- Validate parameters --------------------------------------------------
 
-  if (AirMonitor::monitor_isValid(data)) {
-    data <- monitor_toTidy(data)
-  } else if (monitor_isTidy(data)) {
-    data <- data
-  } else {
-    stop("data must be either a mts_monitor object or mts_tidy object.")
-  }
+  # Convert to mts_tidy
+  mts_tidy <- monitor_toTidy(monitor)
 
-
-  # Calculate axis limits ----------------------------------------------------
+  # ----- Calculate axis limits ------------------------------------------------
 
   # Default to well defined y-axis limits for visual stability
   if (is.null(ylim)) {
     ylo <- 0
-    ymax <- max(data$pm25, na.rm = TRUE)
+    ymax <- max(mts_tidy$pm25, na.rm = TRUE)
 
     yhi <- dplyr::case_when(
       ymax <= 50   ~ 50,
@@ -73,7 +67,7 @@ custom_pm25DiurnalScales <- function(
   xmax <- 23 + (23 * xexp[2])
 
 
-  # Calculate breaks -----------------------------------------------------------
+  # ----- Calculate breaks -----------------------------------------------------
 
   ## NOTE:
   #  `ifelse` is not used, because the condition `offsetBreaks` is length 1,
@@ -92,7 +86,7 @@ custom_pm25DiurnalScales <- function(
   }
 
 
-  # Add scales -----------------------------------------------------------------
+  # ----- Add scales -----------------------------------------------------------
 
   list(
     scale_x_continuous(

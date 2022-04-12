@@ -4,8 +4,8 @@
 #' Add AirFire-style x-axis and y-axis scales suitable for a timeseries plot
 #' showing PM2.5 data.
 #'
-#' @param data pm25 timeseries data. Should match the default dataset of the
-#'   plot
+#' @param monitor A \emph{mts_monitor} object.Should match the default dataset
+#'   of the plot.
 #' @param startdate Desired start date (integer or character in ymd format or
 #'   POSIXct).
 #' @param enddate Desired end date (integer or character in ymd format or
@@ -13,7 +13,7 @@
 #' @param ylim custom y-axis limits. This function will apply a default limit
 #'   depending on the data.
 #' @param timezone Timezone for x-axis scale. If NULL and only one timezone
-#'   present in the data, the data timezone will be used. If NULL and multiple
+#'   present in \code{monitor}, that timezone will be used. If NULL and multiple
 #'   timezones present, the default is UTC.
 #' @param xlab Custom xlab. If \code{NULL} a default xlab will be generated.
 #' @param yexp Vector of range expansion constants used to add some padding
@@ -29,7 +29,7 @@
 #' @import ggplot2
 #' @export
 custom_pm25TimeseriesScales <- function(
-  data = NULL,
+  monitor = NULL,
   startdate = NULL,
   enddate = NULL,
   ylim = NULL,
@@ -40,32 +40,26 @@ custom_pm25TimeseriesScales <- function(
   ...
 ) {
 
+  # ----- Validate parameters --------------------------------------------------
 
-  # Validate parameters --------------------------------------------------------
-
-  if (is.null(data)) {
+  if (is.null(monitor)) {
     if (is.null(startdate) || is.null(enddate) || is.null(ylim)) {
-      stop("at least one of data, startdate, enddate, and ylim must be specified.")
+      stop("at least one of monitor, startdate, enddate, and ylim must be specified.")
     }
   }
 
-  if ( AirMonitor::monitor_isValid(data) ) {
-    data <- monitor_toTidy(data)
-  } else if (monitor_isTidy(data)) {
-    data <- data
-  } else {
-    stop("data must be either a mts_monitor object or mts_tidy object.")
-  }
+  # Convert to mts_tidy
+  mts_tidy <- monitor_toTidy(monitor)
 
-  if (is.null(startdate)) startdate <- min(data$datetime)
-  if (is.null(enddate)) enddate <- max(data$datetime)
+  if (is.null(startdate)) startdate <- min(mts_tidy$datetime)
+  if (is.null(enddate)) enddate <- max(mts_tidy$datetime)
 
   if (is.null(timezone)) {
-    if (length(unique(data$timezone)) > 1) {
+    if (length(unique(mts_tidy$timezone)) > 1) {
       timezone <- "UTC"
       xlab <- "Time (UTC)"
     } else {
-      timezone <- data$timezone[1]
+      timezone <- mts_tidy$timezone[1]
       xlab <- "Local Time"
     }
   } else if (is.null(xlab)) {
@@ -73,7 +67,7 @@ custom_pm25TimeseriesScales <- function(
   }
 
 
-  # Handle start/end dates -----------------------------------------------------
+  # ----- Handle start/end dates -----------------------------------------------
 
   # TODO: can this all just be replaced with ``?
 
@@ -104,12 +98,12 @@ custom_pm25TimeseriesScales <- function(
   }
 
 
-  # Calculate axis limits ------------------------------------------------------
+  # ----- Calculate axis limits ------------------------------------------------
 
   # Default to well defined y-axis limits for visual stability
   if (is.null(ylim)) {
     ylo <- 0
-    ymax <- data %>%
+    ymax <- mts_tidy %>%
       dplyr::filter(.data$datetime >= startdate & .data$datetime <= enddate) %>%
       magrittr::use_series("pm25") %>%
       max(na.rm = TRUE)
@@ -132,7 +126,7 @@ custom_pm25TimeseriesScales <- function(
   }
 
 
-  # Add scales -----------------------------------------------------------------
+  # ----- Add scales -----------------------------------------------------------
 
   list(
     custom_datetimeScale(

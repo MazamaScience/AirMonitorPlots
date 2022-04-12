@@ -5,8 +5,8 @@
 #'
 #' @description Annual calendar view of a daily reading using a selected input.
 #'
-#' @param mts_monitor a \emph{mts_monitor} object.
-#' @param deviceDeploymentID a deviceDeploymentID in the \emph{mts_monitor} object.
+#' @param monitor a \emph{mts_monitor} object.
+#' @param id a deviceDeploymentID in the \emph{mts_monitor} object.
 #' @param ncol the amount of columns in the plot.
 #' @param title an optional title.
 #' @param discrete a boolean that determines the color scale.
@@ -19,8 +19,8 @@
 #' @return ggobject
 #'
 monitor_ggCalendar <- function(
-  mts_monitor = NULL,
-  deviceDeploymentID = NULL,
+  monitor = NULL,
+  id = NULL,
   ncol = 4,
   title = NULL,
   discrete = TRUE,
@@ -33,23 +33,23 @@ monitor_ggCalendar <- function(
 
   # ----- Validate parameters ------------------------------------------------
 
-  if ( !AirMonitor::monitor_isValid(mts_monitor) )
-    stop("Parameter 'mts_monitor' is not a valid 'mts_monitor' object.")
+  if ( !AirMonitor::monitor_isValid(monitor) )
+    stop("Parameter 'monitor' is not a valid 'mts_monitor' object.")
 
-  if ( AirMonitor::monitor_isEmpty(mts_monitor) )
-    stop("Parameter 'mts_monitor' has no data")
+  if ( AirMonitor::monitor_isEmpty(monitor) )
+    stop("Parameter 'monitor' has no data")
 
   # Use first monitor if undefined
-  if ( is.null(deviceDeploymentID) ) {
+  if ( is.null(id) ) {
     warning("Undefined deviceDeploymentID: Using first monitor")
-    deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID[1]
+    id <- monitor$meta$deviceDeploymentID[1]
   }
 
   # ----- Define the data used -----------------------------------------------
 
   monitor <-
-    mts_monitor %>%
-    AirMonitor::monitor_select(deviceDeploymentID) %>%
+    monitor %>%
+    AirMonitor::monitor_select(id) %>%
     AirMonitor::monitor_dailyStatistic(get(stat))
 
   # Always specify local timezones!
@@ -182,8 +182,8 @@ monitor_ggCalendar <- function(
 
 if (FALSE) {
 
-  mts_monitor <- AirMonitor::NW_Megafires
-  deviceDeploymentID <- mts_monitor$meta$deviceDeploymentID[1]
+  monitor <- AirMonitor::NW_Megafires
+  id <- monitor$meta$deviceDeploymentID[1]
   ncol = 4
   discrete = TRUE
   aspect_ratio = 1

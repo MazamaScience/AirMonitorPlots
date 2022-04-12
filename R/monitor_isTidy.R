@@ -14,17 +14,17 @@
 #' @examples
 #' library(AirMonitor)
 #'
-#' mts_monitor <-
+#' monitor <-
 #'   NW_Megafires %>%
 #'   AirMonitor::monitor_select(
 #'     c('450d08fb5a3e4ea0_530470009', '40ffdacb421a5ee6_530470010')
 #'   )
 #'
-#' mts_tidy <- monitor_toTidy(mts_monitor)
+#' mts_tidy <- monitor_toTidy(monitor)
 #' monitor_isTidy(mts_tidy)
 #'
 #' \dontrun{
-#' monitor_isTidy(mts_monitor)
+#' monitor_isTidy(monitor)
 #' }
 #'
 

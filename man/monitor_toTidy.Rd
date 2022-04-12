@@ -4,10 +4,10 @@
 \alias{monitor_toTidy}
 \title{Convert mts_monitor data to a tidy format}
 \usage{
-monitor_toTidy(mts_monitor = NULL)
+monitor_toTidy(monitor = NULL)
 }
 \arguments{
-\item{mts_monitor}{\emph{mts_monitor} object.}
+\item{monitor}{\emph{mts_monitor} object.}
 }
 \value{
 Tidy formatted \emph{mts_monitor} data.
@@ -15,18 +15,18 @@ Tidy formatted \emph{mts_monitor} data.
 \description{
 Changes \emph{mts_monitor} formatted data into a
 'tidy' format that is useful for 'tidyverse' functions. If the given data is
-already in a tidy format, it is returned as is.
+already in tidy format, it is returned as is.
 }
 \examples{
 library(AirMonitorPlots)
 
-mts_monitor <-
+monitor <-
   AirMonitor::NW_Megafires \%>\%
   AirMonitor::monitor_select(
     c('450d08fb5a3e4ea0_530470009', '40ffdacb421a5ee6_530470010')
   )
 
-mts_tidy <- monitor_toTidy(mts_monitor)
+mts_tidy <- monitor_toTidy(monitor)
 
 \dontrun{
 mts_tidy2 <- monitor_toTidy(mts_tidy)

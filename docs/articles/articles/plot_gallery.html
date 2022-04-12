@@ -122,7 +122,7 @@
 
 <span class="fu"><a href="../../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span>
   <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html">NW_Megafires</a></span>, 
-  deviceDeploymentIDs <span class="op">=</span> <span class="st">"39c9acebbebc3d09_160050015"</span>,
+  id <span class="op">=</span> <span class="st">"39c9acebbebc3d09_160050015"</span>,
   startdate <span class="op">=</span> <span class="fl">20150815</span>,
   enddate <span class="op">=</span> <span class="fl">20150825</span>
 <span class="op">)</span></code></pre></div>
@@ -131,7 +131,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span>
   <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html">NW_Megafires</a></span>,
-  deviceDeploymentIDs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
     <span class="st">"fa8288b1da3b2a87_530630047"</span>, 
     <span class="st">"5b3acb7aa679dc14_530639997"</span>, 
     <span class="st">"abde4337eb9064e4_530639996"</span>
@@ -147,7 +147,7 @@
 <p>Daily Barplot can show daily averages for one monitor.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span>
-  mts_monitor <span class="op">=</span> <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
+  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
   startdate <span class="op">=</span> <span class="fl">20160801</span>,
   enddate <span class="op">=</span> <span class="fl">20160808</span>
 <span class="op">)</span></code></pre></div>
@@ -158,7 +158,7 @@
 <span class="fu"><a href="../../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span>
   <span class="va">latest</span>,
   startdate <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,
-  deviceDeploymentID <span class="op">=</span> <span class="st">"0b97822d89739950_060631010"</span>
+  id <span class="op">=</span> <span class="st">"0b97822d89739950_060631010"</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="plot_gallery_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
@@ -169,7 +169,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span>
   <span class="va">latest</span>,
-  deviceDeploymentID <span class="op">=</span> <span class="st">"0b97822d89739950_060631010"</span>
+  id <span class="op">=</span> <span class="st">"0b97822d89739950_060631010"</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="plot_gallery_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 <p>The <code>dailyByHour</code> is designed specifically to show current data, with special lines for “today” and “yesterday”. However, it can plot historical data, using the enddate for “today”.</p>

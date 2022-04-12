@@ -65,7 +65,7 @@ monitor_ggTimeseries_archival(
   AirMonitor::NW_Megafires, 
   startdate = 20150815,
   enddate = 20150825,
-  deviceDeploymentIDs = "39c9acebbebc3d09_160050015"
+  id = "39c9acebbebc3d09_160050015"
 )
 ```
 
@@ -76,7 +76,7 @@ monitor_ggTimeseries(
   AirMonitor::NW_Megafires,
   startdate = 20150815,
   enddate = 20150820,
-  deviceDeploymentIDs = c(
+  id = c(
     "fa8288b1da3b2a87_530630047", 
     "5b3acb7aa679dc14_530639997", 
     "abde4337eb9064e4_530639996"
@@ -90,7 +90,7 @@ The `DailyBarplot` shows daily averages for one monitor.
 
 ```{r}
 monitor_ggDailyBarplot(
-  mts_monitor = AirMonitor::Carmel_Valley,
+  AirMonitor::Carmel_Valley,
   startdate = 20160801,
   enddate = 20160808
 )

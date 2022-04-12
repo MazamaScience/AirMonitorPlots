@@ -3,9 +3,9 @@
 #' @description
 #' Changes \emph{mts_monitor} formatted data into a
 #' 'tidy' format that is useful for 'tidyverse' functions. If the given data is
-#' already in a tidy format, it is returned as is.
+#' already in tidy format, it is returned as is.
 #'
-#' @param mts_monitor \emph{mts_monitor} object.
+#' @param monitor \emph{mts_monitor} object.
 #'
 #' @return Tidy formatted \emph{mts_monitor} data.
 #'
@@ -15,26 +15,26 @@
 #' @examples
 #' library(AirMonitorPlots)
 #'
-#' mts_monitor <-
+#' monitor <-
 #'   AirMonitor::NW_Megafires %>%
 #'   AirMonitor::monitor_select(
 #'     c('450d08fb5a3e4ea0_530470009', '40ffdacb421a5ee6_530470010')
 #'   )
 #'
-#' mts_tidy <- monitor_toTidy(mts_monitor)
+#' mts_tidy <- monitor_toTidy(monitor)
 #'
 #' \dontrun{
 #' mts_tidy2 <- monitor_toTidy(mts_tidy)
 #' }
 #'
 monitor_toTidy <- function(
-  mts_monitor = NULL
+  monitor = NULL
 ) {
 
-  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
+  if ( AirMonitor::monitor_isValid(monitor) ) {
 
-    meta <- mts_monitor[["meta"]]
-    data <- mts_monitor[["data"]]
+    meta <- monitor[["meta"]]
+    data <- monitor[["data"]]
 
     mts_tidy <-
       data %>%
@@ -42,16 +42,16 @@ monitor_toTidy <- function(
       dplyr::inner_join(meta, by = "deviceDeploymentID") %>%
       tibble::as_tibble()
 
-  } else if (monitor_isTidy(mts_monitor)) {
+  } else if ( monitor_isTidy(monitor) ) {
 
-    message("Data is already in a tidy format.")
-    mts_tidy <- mts_monitor
+    mts_tidy <- monitor
 
   } else {
 
-    stop("Data is not in a reconized format.")
+    stop("monitor is not a 'mts_monitor' object.")
 
   }
 
   return(mts_tidy)
+
 }

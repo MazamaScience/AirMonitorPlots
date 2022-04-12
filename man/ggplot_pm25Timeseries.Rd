@@ -25,7 +25,7 @@ POSIXct).}
 POSIXct).}
 
 \item{timezone}{Timezone for x-axis scale. If NULL and only one timezone
-present in the data, the data timezone will be used. If NULL and multiple
+present in \code{monitor}, that timezone will be used. If NULL and multiple
 timezones present, the default is UTC.}
 
 \item{ylim}{custom y-axis limits. This function will apply a default limit

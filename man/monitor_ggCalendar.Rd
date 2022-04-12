@@ -5,8 +5,8 @@
 \title{Calendar plot}
 \usage{
 monitor_ggCalendar(
-  mts_monitor = NULL,
-  deviceDeploymentID = NULL,
+  monitor = NULL,
+  id = NULL,
   ncol = 4,
   title = NULL,
   discrete = TRUE,
@@ -18,9 +18,9 @@ monitor_ggCalendar(
 )
 }
 \arguments{
-\item{mts_monitor}{a \emph{mts_monitor} object.}
+\item{monitor}{a \emph{mts_monitor} object.}
 
-\item{deviceDeploymentID}{a deviceDeploymentID in the \emph{mts_monitor} object.}
+\item{id}{a deviceDeploymentID in the \emph{mts_monitor} object.}
 
 \item{ncol}{the amount of columns in the plot.}
 

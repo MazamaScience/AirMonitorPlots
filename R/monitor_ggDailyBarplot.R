@@ -9,16 +9,16 @@
 #' This function assembles various layers to create a production-ready
 #' daily barplot for one or more monitors.
 #'
-#' The full range of data in \code{mts_monitor} will be used unless both
+#' The full range of data in \code{monitor} will be used unless both
 #' \code{startdate} and \code{enddate} are specified.
 #'
-#' @param mts_monitor A \code{mts_monitor} object.
+#' @param monitor A \emph{mts_monitor} object.
 #' @param startdate Desired start date (integer or character in ymd format or
 #'   POSIXct).
 #' @param enddate Desired end date (integer or character in ymd format or
 #'   POSIXct).
-#' @param deviceDeploymentID deviceDeploymentID to include in the plot. This can be NULL if
-#'   \emph{mts_monitor} only has one unique deviceDeploymentID.
+#' @param id deviceDeploymentID to include in the plot. This can be NULL if
+#'   \code{monitor} only has one unique deviceDeploymentID.
 #' @param style String indicating plotting style. Either \code{"large"} or
 #'   \code{"small"}. \code{style = "large"} is suitable for plots larger than
 #'   450x450px, and \code{"small"} is suitable for plots 450x450px or smaller.
@@ -42,10 +42,10 @@
 #'
 
 monitor_ggDailyBarplot <- function(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
-  deviceDeploymentID = NULL,
+  id = NULL,
   style = "small",
   title = NULL,
   timezone = NULL,
@@ -55,14 +55,7 @@ monitor_ggDailyBarplot <- function(
 
   # ----- Validate Parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(mts_monitor)
-
-  # Convert mts_monitor to tidy structure
-  if ( AirMonitor::monitor_isValid(mts_monitor) ) {
-    mts_tidy <- monitor_toTidy(mts_monitor)
-  } else {
-    stop("mts_monitor is not a mts_monitor object.")
-  }
+  MazamaCoreUtils::stopIfNull(monitor)
 
   # Check style
   if ( !style %in% c("small", "large") )
@@ -72,26 +65,29 @@ monitor_ggDailyBarplot <- function(
   if ( !is.logical(today) )
     stop("'today' must be a logical (TRUE or FALSE).")
 
+  # Convert monitor to tidy structure
+  mts_tidy <- monitor_toTidy(monitor)
+
   # Check deviceDeploymentID
-  if ( is.null(deviceDeploymentID) ) {
+  if ( is.null(id) ) {
 
     if (length(unique(mts_tidy$deviceDeploymentID)) > 1) {
-      stop("deviceDeploymentID is required if `mts_monitor` has multiple monitors.")
+      stop("id is required if monitor has multiple monitors.")
     } else {
-      deviceDeploymentID <- mts_tidy$deviceDeploymentID[1]
+      id <- mts_tidy$deviceDeploymentID[1]
     }
 
   } else {
 
-    if ( length(deviceDeploymentID) > 1 ) {
-      stop("`deviceDeploymentID` must contain a single deviceDeploymentID.")
-    } else if (!deviceDeploymentID %in% unique(mts_tidy$deviceDeploymentID)) {
+    if ( length(id) > 1 ) {
+      stop("'id' must contain a single deviceDeploymentID.")
+    } else if (!id %in% unique(mts_tidy$deviceDeploymentID)) {
       stop("deviceDeploymentID not present in data.")
     }
   }
 
   # NOTE: Include before getting timezone
-  mts_tidy <- dplyr::filter(mts_tidy, .data$deviceDeploymentID == !!deviceDeploymentID)
+  mts_tidy <- dplyr::filter(mts_tidy, .data$deviceDeploymentID == !!id)
 
   # Check timezone
   if ( !is.null(timezone) ) {
@@ -265,11 +261,11 @@ monitor_ggDailyBarplot <- function(
 
 if ( FALSE ) {
 
-  mts_monitor <- airnow_loadLatest()
+  monitor <- airnow_loadLatest()
 
   startdate = NULL
   enddate = NULL
-  deviceDeploymentID = "a9572a904a4ed46d_060530002" # Carmel Valley
+  id = "a9572a904a4ed46d_060530002" # Carmel Valley
   style = "small"
   title = NULL
   timezone = NULL
@@ -277,10 +273,10 @@ if ( FALSE ) {
 
 
   monitor_ggDailyBarplot(
-    mts_monitor = mts_monitor,
+    monitor = monitor,
     startdate = startdate,
     enddate = enddate,
-    deviceDeploymentID = deviceDeploymentID,
+    id = id,
     style = style,
     title = title,
     timezone = timezone,

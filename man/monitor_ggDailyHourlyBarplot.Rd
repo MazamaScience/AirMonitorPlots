@@ -5,10 +5,10 @@
 \title{Create a Daily-Hourly plot for many monitors}
 \usage{
 monitor_ggDailyHourlyBarplot(
-  mts_monitor,
+  monitor,
   startdate = NULL,
   enddate = NULL,
-  deviceDeploymentIDs = NULL,
+  id = NULL,
   columns = 1,
   title = NULL,
   timezone = NULL,
@@ -21,7 +21,7 @@ monitor_ggDailyHourlyBarplot(
 )
 }
 \arguments{
-\item{mts_monitor}{A \code{mts_monitor} object.}
+\item{monitor}{A \emph{mts_monitor} object.}
 
 \item{startdate}{Desired start date (integer or character in ymd format or
 POSIXct).}
@@ -29,7 +29,7 @@ POSIXct).}
 \item{enddate}{Desired end date (integer or character in ymd format or
 POSIXct).}
 
-\item{deviceDeploymentIDs}{Optional vector of monitor IDs used to filter the data.}
+\item{id}{Optional vector of deviceDeploymentIDs used to filter the data.}
 
 \item{columns}{Number of columns the faceted plot should have (default 1).}
 
@@ -65,7 +65,7 @@ Create a time series barplot showing PM2.5 data for the given monitors. The
 overall plot is faceted by monitor, and each facet has two sets of columns:
 one for daily levels, and one for hourly levels.
 
-The full range of data in \code{mts_monitor} will be used unless both
+The full range of data in \code{monitor} will be used unless both
 \code{startdate} and \code{enddate} are specified.
 
 The timezone specified or, if \code{timezone = NULL}, that of the first
@@ -79,8 +79,8 @@ SF_IDs <- c(
   "7157b3dbac7c2043_060010011",
   "060750fa7ae26987a72cc4_060750005005_01"
 )
-SF_daily <- loadDaily() \%>\% monitor_select(deviceDeploymentIDs = SF_IDs)
-SF_latest <- loadLatest() \%>\% monitor_select(deviceDeploymentIDs = SF_IDs)
+SF_daily <- loadDaily() \%>\% monitor_select(id = SF_IDs)
+SF_latest <- loadLatest() \%>\% monitor_select(id = SF_IDs)
 SF_full <- monitor_join(SF_daily, SF_latest)
 today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
 now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
@@ -88,7 +88,7 @@ starttime <- today - lubridate::ddays(4)
 SF_4day <- monitor_filterDatetime(SF_full, starttime, now))
 
 # Create plot using pre subset data
-monitor_ggDailyHourlyBarplot(SF_4day, deviceDeploymentIDs = SF_IDs)
+monitor_ggDailyHourlyBarplot(SF_4day, id = SF_IDs)
 
 # Create plot using data subset by function
 monitor_ggDailyHourlyBarplot(SF_full, starttime, now, SF_IDs)

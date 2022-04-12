@@ -149,13 +149,12 @@ archival timeseries plot for one or more monitors.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span>
-  <span class='va'>mts_monitor</span>,
+  <span class='va'>monitor</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  deviceDeploymentIDs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
   style <span class='op'>=</span> <span class='st'>"large"</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
-  aqiStyle <span class='op'>=</span> <span class='cn'>NULL</span>,
   timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -164,8 +163,8 @@ archival timeseries plot for one or more monitors.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mts_monitor</th>
-      <td><p>A <code>mts_monitor</code> object.</p></td>
+      <th>monitor</th>
+      <td><p>A <em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
       <th>startdate</th>
@@ -178,7 +177,7 @@ POSIXct).</p></td>
 POSIXct).</p></td>
     </tr>
     <tr>
-      <th>deviceDeploymentIDs</th>
+      <th>id</th>
       <td><p>vector of deviceDeploymentIDs to include in the plot. If more than
 one, different monitors will be plotted in different colors.</p></td>
     </tr>
@@ -191,11 +190,6 @@ appropriate for plots larger than 450x450px.</p></td>
     <tr>
       <th>title</th>
       <td><p>Plot title. If NULL, a suitable title will be constructed.</p></td>
-    </tr>
-    <tr>
-      <th>aqiStyle</th>
-      <td><p>AQI style to add AQI color bars, lines, and labels. Not
-currently supported.</p></td>
     </tr>
     <tr>
       <th>timezone</th>
@@ -219,7 +213,7 @@ NULL the timezone of the specified monitor will be used.</p></td>
   <span class='fu'>monitor_ggTimeseries_archival</span><span class='op'>(</span>
     startdate <span class='op'>=</span> <span class='fl'>20150809</span>,
     enddate <span class='op'>=</span> <span class='fl'>20150820</span>,
-    deviceDeploymentIDs <span class='op'>=</span> <span class='st'>"575243c65b9e4719_160690012"</span>,
+    id <span class='op'>=</span> <span class='st'>"575243c65b9e4719_160690012"</span>,
     timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span>
  <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 807 rows containing missing values (geom_pm25points).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 805 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='monitor_ggTimeseries_archival-1.png' alt='' width='700' height='433' /></div><div class='input'>

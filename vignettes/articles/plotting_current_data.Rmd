@@ -44,7 +44,7 @@ monitor_ggTimeseries(
   mts_monitor,
   startdate = startdate,
   enddate = enddate,
-  deviceDeploymentIDs = deviceDeploymentID
+  id = deviceDeploymentID
 )
 ```
 
@@ -55,7 +55,7 @@ monitor_ggDailyBarplot(
   mts_monitor,
   startdate = startdate,
   enddate = enddate,
-  deviceDeploymentID = deviceDeploymentID
+  id = deviceDeploymentID
 )
 ```
 
@@ -66,6 +66,6 @@ monitor_ggDailyByHour(
   mts_monitor,
   startdate = startdate,
   enddate = enddate,
-  deviceDeploymentID = deviceDeploymentID
+  id = deviceDeploymentID
 ) 
 ```
