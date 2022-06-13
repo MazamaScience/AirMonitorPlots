@@ -86,7 +86,7 @@ monitor encountered will be used for all time axes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@ monitor encountered will be used for all time axes." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -105,7 +105,7 @@ monitor encountered will be used for all time axes." />
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -123,7 +123,7 @@ monitor encountered will be used for all time axes." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -248,9 +248,9 @@ AQI level advice. Currently in testing (default `False`).</p></td>
 <span class='va'>SF_daily</span> <span class='op'>&lt;-</span> <span class='fu'>loadDaily</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>monitor_subset</span><span class='op'>(</span>monitorIDs <span class='op'>=</span> <span class='va'>SF_IDs</span><span class='op'>)</span>
 <span class='va'>SF_latest</span> <span class='op'>&lt;-</span> <span class='fu'>loadLatest</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>monitor_subset</span><span class='op'>(</span>monitorIDs <span class='op'>=</span> <span class='va'>SF_IDs</span><span class='op'>)</span>
 <span class='va'>SF_full</span> <span class='op'>&lt;-</span> <span class='fu'>monitor_join</span><span class='op'>(</span><span class='va'>SF_daily</span>, <span class='va'>SF_latest</span><span class='op'>)</span>
-<span class='va'>today</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/now.html'>now</a></span><span class='op'>(</span><span class='st'>'America/Los_Angeles'</span><span class='op'>)</span>, unit<span class='op'>=</span><span class='st'>'day'</span><span class='op'>)</span>
-<span class='va'>now</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/now.html'>now</a></span><span class='op'>(</span><span class='st'>'America/Los_Angeles'</span><span class='op'>)</span>, unit<span class='op'>=</span><span class='st'>'hour'</span><span class='op'>)</span>
-<span class='va'>starttime</span> <span class='op'>&lt;-</span> <span class='va'>today</span> <span class='op'>-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/duration.html'>ddays</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span>
+<span class='va'>today</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/now.html'>now</a></span><span class='op'>(</span><span class='st'>'America/Los_Angeles'</span><span class='op'>)</span>, unit<span class='op'>=</span><span class='st'>'day'</span><span class='op'>)</span>
+<span class='va'>now</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/now.html'>now</a></span><span class='op'>(</span><span class='st'>'America/Los_Angeles'</span><span class='op'>)</span>, unit<span class='op'>=</span><span class='st'>'hour'</span><span class='op'>)</span>
+<span class='va'>starttime</span> <span class='op'>&lt;-</span> <span class='va'>today</span> <span class='op'>-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/duration.html'>ddays</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span>
 <span class='va'>SF_4day</span> <span class='op'>&lt;-</span> <span class='fu'>monitor_subset</span><span class='op'>(</span><span class='va'>SF_full</span>, tlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>starttime</span>, <span class='va'>now</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Create plot using pre subset data</span>

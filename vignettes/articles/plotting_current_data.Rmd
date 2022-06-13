@@ -31,7 +31,7 @@ ws_monitor <- loadLatest()
 
 ```{r}
 # Set parameters
-monitorID <- "060771002_01"
+monitorID <- "060631010_01"
 enddate <- lubridate::now()
 startdate <- enddate - lubridate::ddays(7)
 ```

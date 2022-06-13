@@ -177,13 +177,13 @@ monitor_ggDailyByHour <- function(
   if (style == "large") {
     meanSize <- 8
     yesterdayPointSize <- 4
-    yesterdayLineSize <- .9
-    todayPointSize <- 5
-    todayLineSize <- 1.3
+    yesterdayLineSize <- .6
+    todayPointSize <- 8
+    todayLineSize <- 1.2
     base_size <- 15
   } else if (style == "small") {
     meanSize <- 5
-    yesterdayPointSize <- 2.8
+    yesterdayPointSize <- 1.5
     yesterdayLineSize <- .5
     todayPointSize <- 3
     todayLineSize <- 1
@@ -259,7 +259,7 @@ monitor_ggDailyByHour <- function(
     color = guide_legend(
       title = "",
       override.aes = list(
-        fill = c("green", "green", NA),
+        fill = c(NA, NA, NA),
         color = c("black", "gray50", "black"),
         shape = c(21, 21, NA),
         cex = c(todayPointSize, yesterdayPointSize, meanSize),

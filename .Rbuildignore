@@ -22,3 +22,6 @@
 
 # Ignore configuration files for other tools
 ^\.travis\.yml$
+
+# Note-to-self README
+README_THIS_IS_BRANCH*

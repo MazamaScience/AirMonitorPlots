@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -57,7 +57,7 @@
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -75,7 +75,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -89,14 +89,13 @@
 
       
 
-      </header><script src="plotting_current_data_files/header-attrs-2.5/header-attrs.js"></script><link href="plotting_current_data_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="plotting_current_data_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="plotting_current_data_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Plotting Current Data</h1>
                         <h4 class="author">Helen Miller</h4>
             
-            <h4 class="date">2021-04-01</h4>
+            <h4 class="date">2022-06-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitorPlots/blob/master/vignettes/articles/plotting_current_data.Rmd"><code>vignettes/articles/plotting_current_data.Rmd</code></a></small>
       <div class="hidden name"><code>plotting_current_data.Rmd</code></div>
@@ -105,16 +104,17 @@
 
     
     
-<p><code>AirMonitorPlots</code> provides functions to easily generate stylized plots of current data.</p>
+<p><code>AirMonitorPlots</code> provides functions to easily generate
+stylized plots of current data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitorPlots">AirMonitorPlots</a></span><span class="op">)</span>
 <span class="co"># Load current Data</span>
 <span class="va">ws_monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/loadLatest.html">loadLatest</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Set parameters</span>
-<span class="va">monitorID</span> <span class="op">&lt;-</span> <span class="st">"060771002_01"</span>
-<span class="va">enddate</span> <span class="op">&lt;-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">startdate</span> <span class="op">&lt;-</span> <span class="va">enddate</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
+<span class="va">monitorID</span> <span class="op">&lt;-</span> <span class="st">"060631010_01"</span>
+<span class="va">enddate</span> <span class="op">&lt;-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">startdate</span> <span class="op">&lt;-</span> <span class="va">enddate</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
 <div id="timeseries" class="section level2">
 <h2 class="hasAnchor">
 <a href="#timeseries" class="anchor"></a>Timeseries</h2>

@@ -1,3 +1,8 @@
+# AirMonitorPlots 0.7.1
+
+* Minor updates to `monitor_ggDailyByHour()` based on comments from the 2022 
+ARA training.
+
 # AirMonitorPlots 0.7.0
 
 Starting the 2021 fire season at version 0.7 with minor fixes and several new 

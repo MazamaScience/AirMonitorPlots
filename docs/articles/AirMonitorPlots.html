@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -57,7 +57,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -75,7 +75,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/AirMonitorPlots/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -89,8 +89,7 @@
 
       
 
-      </header><script src="AirMonitorPlots_files/header-attrs-2.5/header-attrs.js"></script><link href="AirMonitorPlots_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="AirMonitorPlots_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="AirMonitorPlots_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to AirMonitorPlots</h1>
@@ -105,11 +104,19 @@
 
     
     
-<p>The <code>AirMonitorPlots</code> package provides plotting functionality to create production-ready plots for qir quality monitoring data. It builds on the <code>PWFLSmoke</code> package, integrating the data with <code>ggplot2</code> plotting functions. High-level plotting functions make it easy for users to create beautiful plots of monitoring data. Since these functions are built on <code>ggplot2</code>, users familiar with <code>ggplot2</code> can easily use the functions in this package to create custom plots.</p>
+<p>The <code>AirMonitorPlots</code> package provides plotting
+functionality to create production-ready plots for qir quality
+monitoring data. It builds on the <code>PWFLSmoke</code> package,
+integrating the data with <code>ggplot2</code> plotting functions.
+High-level plotting functions make it easy for users to create beautiful
+plots of monitoring data. Since these functions are built on
+<code>ggplot2</code>, users familiar with <code>ggplot2</code> can
+easily use the functions in this package to create custom plots.</p>
 <div id="production-ready-plots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#production-ready-plots" class="anchor"></a>Production-ready plots</h2>
-<p>High-level functions in this package make it easy to create beautiful plots with very few lines of code.</p>
+<p>High-level functions in this package make it easy to create beautiful
+plots with very few lines of code.</p>
 <div id="timeseries" class="section level3">
 <h3 class="hasAnchor">
 <a href="#timeseries" class="anchor"></a>Timeseries</h3>
@@ -122,7 +129,8 @@
                      startdate <span class="op">=</span> <span class="fl">20150815</span>,
                      enddate <span class="op">=</span> <span class="fl">20150825</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
-<p>If more than one monitor is present, color will be mapped to monitorID.</p>
+<p>If more than one monitor is present, color will be mapped to
+monitorID.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Northwest_Megafires.html">Northwest_Megafires</a></span>,
                      monitorIDs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"530630047_01"</span>, 
@@ -141,24 +149,28 @@
                        startdate <span class="op">=</span> <span class="fl">20160801</span>,
                        enddate <span class="op">=</span> <span class="fl">20160808</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
-<p>If using current data, it will include a bar for “today”, displaying the current NowCast, if available.</p>
+<p>If using current data, it will include a bar for “today”, displaying
+the current NowCast, if available.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/airnow_loadLatest.html">airnow_loadLatest</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span><span class="va">latest</span>,
-                       startdate <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,
+                       startdate <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html">now</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,
                        monitorID <span class="op">=</span> <span class="st">"060631010_01"</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
 <div id="daily-by-hour" class="section level3">
 <h3 class="hasAnchor">
 <a href="#daily-by-hour" class="anchor"></a>Daily By Hour</h3>
-<p>The <code>dailyByHour</code> plot is designed to view current data for only one monitor. It can show daily trends in air quality.</p>
+<p>The <code>dailyByHour</code> plot is designed to view current data
+for only one monitor. It can show daily trends in air quality.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/airnow_loadLatest.html">airnow_loadLatest</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="va">latest</span>,
                       monitorID <span class="op">=</span> <span class="st">"060631010_01"</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
-<p>The <code>dailyByHour</code> is designed specifically to show current data, with special lines for “today” and “yesterday”. However, it can plot historical data, using the enddate for “today”.</p>
+<p>The <code>dailyByHour</code> is designed specifically to show current
+data, with special lines for “today” and “yesterday”. However, it can
+plot historical data, using the enddate for “today”.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                       startdate <span class="op">=</span> <span class="fl">20160801</span>, 
@@ -168,7 +180,8 @@
 <div id="clock-plot" class="section level3">
 <h3 class="hasAnchor">
 <a href="#clock-plot" class="anchor"></a>Clock Plot</h3>
-<p>The colors on the clock plot show the mean AQI level (represented by color) throughout the day.</p>
+<p>The colors on the clock plot show the mean AQI level (represented by
+color) throughout the day.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggClockPlot.html">monitor_ggClockPlot</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                     startdate <span class="op">=</span> <span class="fl">20160801</span>, 
@@ -179,11 +192,28 @@
 <div id="custom-plots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-plots" class="anchor"></a>Custom Plots</h2>
-<p>High-level plotting functions create plots by adding custom layers and styling, returing a <code>ggplot</code> object. The package extends <code>ggplot2</code>, including custom geoms, stats, and themes, as well as some <code>custom_*</code> functions which combine layers and other styling options to make consistent and appropriately styled plots. A plot can be instantiated with a <code>ggplot_*</code> function. Choose the correct function, depending on the type of plot. Then, layers and styling can be added with functions from this package or <code>ggplot2</code> functions. This section demonstrates how these pieces work together, and shows some examples of the kinds of custom plots that can be made using this functionality.</p>
+<p>High-level plotting functions create plots by adding custom layers
+and styling, returing a <code>ggplot</code> object. The package extends
+<code>ggplot2</code>, including custom geoms, stats, and themes, as well
+as some <code>custom_*</code> functions which combine layers and other
+styling options to make consistent and appropriately styled plots. A
+plot can be instantiated with a <code>ggplot_*</code> function. Choose
+the correct function, depending on the type of plot. Then, layers and
+styling can be added with functions from this package or
+<code>ggplot2</code> functions. This section demonstrates how these
+pieces work together, and shows some examples of the kinds of custom
+plots that can be made using this functionality.</p>
 <div id="pm25timeseries-plots" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pm25timeseries-plots" class="anchor"></a>pm25Timeseries plots</h3>
-<p>The most basic type of plot for PWFSL monitoring data is timeseries plots: plots that have time on the x-axis and PM2.5 on the y-axis. Timeseries plots should start with a call to <code>ggplot_pm25Timeseries</code>, which accepts either a <code>ws_monitor</code> object, or a <code>ws_tidy</code> object, created from <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_toTidy.html">monitor_toTidy(ws_monitor)</a></code>. This instantiates the plot mapping the data to the correct axes, and adds some custom styling and scaling.</p>
+<p>The most basic type of plot for PWFSL monitoring data is timeseries
+plots: plots that have time on the x-axis and PM2.5 on the y-axis.
+Timeseries plots should start with a call to
+<code>ggplot_pm25Timeseries</code>, which accepts either a
+<code>ws_monitor</code> object, or a <code>ws_tidy</code> object,
+created from <code><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_toTidy.html">monitor_toTidy(ws_monitor)</a></code>. This instantiates
+the plot mapping the data to the correct axes, and adds some custom
+styling and scaling.</p>
 <div id="many-monitors" class="section level4">
 <h4 class="hasAnchor">
 <a href="#many-monitors" class="anchor"></a>Many Monitors</h4>
@@ -255,17 +285,33 @@
 <div id="pm25diurnal-plots" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pm25diurnal-plots" class="anchor"></a>pm25Diurnal plots</h3>
-<p>There are also some functions designed to create diurnal plots – plots designed to show daily trends. They should start with a call to <code>ggplot_pm25Diurnal</code>.</p>
+<p>There are also some functions designed to create diurnal plots –
+plots designed to show daily trends. They should start with a call to
+<code>ggplot_pm25Diurnal</code>.</p>
 <div id="one-monitor" class="section level4">
 <h4 class="hasAnchor">
 <a href="#one-monitor" class="anchor"></a>One monitor</h4>
-<p>This type of plot is best suited for exploring one monitor, although a savvy <code>ggplot2</code> user could certainly create useful and attractive diurnal plots representing multiple monitors. Like <code>ggplot_pm25Timeseries</code>, <code>ggplot_pm25Diurnal</code> simply instantiates the plot without adding any layers yet. By default, it includes day/night shading, although this can be turned off by specifying <code>shadedNight = FALSE</code>.</p>
+<p>This type of plot is best suited for exploring one monitor, although
+a savvy <code>ggplot2</code> user could certainly create useful and
+attractive diurnal plots representing multiple monitors. Like
+<code>ggplot_pm25Timeseries</code>, <code>ggplot_pm25Diurnal</code>
+simply instantiates the plot without adding any layers yet. By default,
+it includes day/night shading, although this can be turned off by
+specifying <code>shadedNight = FALSE</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">monitorID</span> <span class="op">&lt;-</span> <span class="st">"530630047_01"</span>
 <span class="va">monroeStMonitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/monitor_subset.html">monitor_subset</a></span><span class="op">(</span><span class="va">Northwest_Megafires</span>, monitorIDs <span class="op">=</span> <span class="va">monitorID</span><span class="op">)</span>
 <span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">monroeStMonitor</span><span class="op">)</span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
-<p>After instantiating the plot, you can add layers. <code>stat_meanByHour</code> is a stat specifically designed for this type of plot, which calculates the mean y-value for each x-value. You can also use the ‘group’ aesthetic to tell a stat to do calculations by a group such as hour or day. There is also an <code>offsetBreaks</code> option, which, if <code>TRUE</code>, will offset the x-axis guides and ticks by 0.5, which is useful for plots like boxplots where you might want the boxes to be between the hour ticks instead of lined up with them. For example:</p>
+<p>After instantiating the plot, you can add layers.
+<code>stat_meanByHour</code> is a stat specifically designed for this
+type of plot, which calculates the mean y-value for each x-value. You
+can also use the ‘group’ aesthetic to tell a stat to do calculations by
+a group such as hour or day. There is also an <code>offsetBreaks</code>
+option, which, if <code>TRUE</code>, will offset the x-axis guides and
+ticks by 0.5, which is useful for plots like boxplots where you might
+want the boxes to be between the hour ticks instead of lined up with
+them. For example:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># offsetBreaks = FALSE. Notice that bars cover the x-axis guides</span>
 <span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>, 
@@ -330,7 +376,9 @@
 <div id="extending-the-preset-plots" class="section level3">
 <h3 class="hasAnchor">
 <a href="#extending-the-preset-plots" class="anchor"></a>Extending the preset plots</h3>
-<p>All of the preset plots (<code>tidy_gg...</code>) generate ggplot objects, so you can start with these and add more layers or customize them by adding themes.</p>
+<p>All of the preset plots (<code>tidy_gg...</code>) generate ggplot
+objects, so you can start with these and add more layers or customize
+them by adding themes.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggClockPlot.html">monitor_ggClockPlot</a></span><span class="op">(</span><span class="fu">PWFSLSmoke</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/PWFSLSmoke/man/Carmel_Valley.html">Carmel_Valley</a></span>,
                     startdate <span class="op">=</span> <span class="fl">20160801</span>, 
