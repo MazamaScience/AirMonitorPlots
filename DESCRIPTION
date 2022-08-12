@@ -4,7 +4,7 @@ Version: 0.8.1
 Title: Plot Utilities for the AirMonitor Package
 Description: A suite of ggplot2 compatible functions to be used with air quality
     monitoring data obtained with the AirMonitor package. These functions provide
-    much more flexibility than the base plot functions in AirMonitor.
+    much more flexibility than the base plot functions in the AirMonitor package.
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
     person("Tate", "Brasel", email="tatebrasel6@gmail.com ", role=c("aut")),
