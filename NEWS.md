@@ -1,3 +1,7 @@
+# AirMonitorPlots 0.8.2
+
+* Minor tweak to appearance of `monitor_ggDailyByHour()`.
+
 # AirMonitorPlots 0.8.1
 
 * Removed "clockPlot" functionality.
