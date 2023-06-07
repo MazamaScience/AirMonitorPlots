@@ -52,7 +52,7 @@ AirMonitor::NW_Megafires \%>\%
   monitor_ggTimeseries_archival(
     startdate = 20150809,
     enddate = 20150820,
-    id = "575243c65b9e4719_160690012",
+    id = "d01b991c53583048_160690012_03",
     timezone = "America/Los_Angeles"
  )
 

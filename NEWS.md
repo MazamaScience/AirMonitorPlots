@@ -1,3 +1,9 @@
+# AirMonitorPlots 0.8.4
+
+Updates to work with **AirMonitor** 0.3.11.
+
+* Minotor updates to pass R CMD check.
+
 # AirMonitorPlots 0.8.2
 
 * Minor tweak to appearance of `monitor_ggDailyByHour()`.

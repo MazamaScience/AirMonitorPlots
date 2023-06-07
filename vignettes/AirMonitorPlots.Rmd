@@ -65,7 +65,7 @@ monitor_ggTimeseries_archival(
   AirMonitor::NW_Megafires, 
   startdate = 20150815,
   enddate = 20150825,
-  id = "39c9acebbebc3d09_160050015"
+  id = "feab1759d87c91e5_160050015_03"
 )
 ```
 
@@ -77,9 +77,10 @@ monitor_ggTimeseries(
   startdate = 20150815,
   enddate = 20150820,
   id = c(
-    "fa8288b1da3b2a87_530630047", 
-    "5b3acb7aa679dc14_530639997", 
-    "abde4337eb9064e4_530639996"
+    "753019dc7f401908_410390101_03", 
+    "3d1ac393596c511a_410390059_03", 
+    "c69d9483556acb85_410391009_03",
+    "eba98496f2495d0f_410390060_03"
   )
 )
 ```

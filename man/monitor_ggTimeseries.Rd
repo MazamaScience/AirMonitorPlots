@@ -52,7 +52,7 @@ AirMonitor::NW_Megafires \%>\%
   monitor_ggTimeseries(
     startdate = 20150815,
     enddate = 20150831,
-    id = "531b93756e48e29c_160690014"
+    id = "d01b991c53583048_160690012_03"
   )
 
 AirMonitor::Carmel_Valley \%>\%

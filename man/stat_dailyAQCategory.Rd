@@ -88,7 +88,7 @@ ggplot_pm25Timeseries(monitor) +
 
 monitor <-
   airnow_loadLatest() \%>\%
-  monitor_filter(id = "575243c65b9e4719_160690012")
+  monitor_filter(id = "a18dacf2eabb6c79_160590004_04")
 
 ggplot_pm25Timeseries(mts_monitor) +
   stat_dailyAQCategory()

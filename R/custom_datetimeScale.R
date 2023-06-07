@@ -57,7 +57,7 @@ custom_datetimeScale <- function(
   if (is.null(startdate)) stop("startdate must be specified")
   if (is.null(enddate)) stop("enddate must be specified")
   if (!is.null(timezone) && !timezone %in% OlsonNames()) stop("Invalid timezone.")
-  if (class(expand) != "numeric" || length(expand) != 2) stop("Invalid 'expand'.")
+  if (!is.numeric(expand) || length(expand) != 2) stop("Invalid 'expand'.")
   tick_location <- match.arg(tick_location)
   if (!is.logical(includeFullEnddate)) stop("includeFullEnddate must be logical.")
   if (!is.logical(today_label)) stop("today_label must be logical.")
