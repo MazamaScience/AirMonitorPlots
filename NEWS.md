@@ -1,8 +1,9 @@
-# AirMonitorPlots 0.8.4
+# AirMonitorPlots 0.8.3
 
 Updates to work with **AirMonitor** 0.3.11.
 
-* Minotor updates to pass R CMD check.
+* Minor updates to pass R CMD check.
+* Minor documentation improvements.
 
 # AirMonitorPlots 0.8.2
 

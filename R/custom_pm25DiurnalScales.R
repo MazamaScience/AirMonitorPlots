@@ -1,8 +1,8 @@
-#' @title PWFSL PM2.5 diurnal scales
+#' @title USFS AirFire PM2.5 diurnal scales
 #'
 #' @description
-#' Add PWFSL-style x-axis and y-axis scales suitable for a plot showing PM2.5
-#' data as a funciton of hour of the day.
+#' Add USFS AirFire-style x-axis and y-axis scales suitable for a plot showing PM2.5
+#' data as a function of hour of the day.
 #'
 #' @param monitor A \emph{mts_monitor} object.Should match the default dataset
 #'   of the plot.

@@ -1,7 +1,7 @@
-#' @title AirFire PM2.5 timeseries scales
+#' @title USFS AirFire PM2.5 timeseries scales
 #'
 #' @description
-#' Add AirFire-style x-axis and y-axis scales suitable for a timeseries plot
+#' Add USFS AirFire-style x-axis and y-axis scales suitable for a timeseries plot
 #' showing PM2.5 data.
 #'
 #' @param monitor A \emph{mts_monitor} object.Should match the default dataset

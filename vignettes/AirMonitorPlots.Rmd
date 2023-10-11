@@ -1,7 +1,7 @@
 ---
 title: "Introduction to AirMonitorPlots"
 author: "Jonathan Callahan"
-date: "April 09, 2022"
+date: "October 11, 2023"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to AirMonitorPlots}
@@ -30,23 +30,14 @@ Install the latest version from GitHub with:
 
 ## Background
 
-The **AirMonitorPlots`\** package provides plotting functionality to create 
+The **AirMonitorPlots** package provides plotting functionality to create 
 production-ready plots for air quality monitoring data. It is designed to work
-with the **AirMonitor** package, integrating the data with **ggplot2** plotting 
+with the [AirMonitor](https://mazamascience.github.io/AirMonitor/) package, 
+integrating the data with [ggplot2](https://ggplot2.tidyverse.org) plotting 
 functions. High-level plotting functions make it easy for users to create beautiful 
-plots of monitoring data. Since these functions are built on `ggplot2`, users 
-familiar with `ggplot2` can easily  use the functions in this package to create 
+plots of monitoring data. Since these functions are built on **ggplot2**, users 
+familiar with **ggplot2** can easily  use the functions in this package to create 
 custom plots. 
-
-## Production-ready plots
-
-High-level functions in this package make it easy to create beautiful,
-publication-ready plots with very few lines of code.
-
-The following plot types are provided:
-
-**TODO**
-
 
 ## Examples
 
@@ -61,11 +52,11 @@ The default `Timeseries` plot is optimized for one monitor.
 library(AirMonitor)
 library(AirMonitorPlots)
 
-monitor_ggTimeseries_archival(
+monitor_ggTimeseries(
   AirMonitor::NW_Megafires, 
   startdate = 20150815,
   enddate = 20150825,
-  id = "feab1759d87c91e5_160050015_03"
+  id = "753019dc7f401908_410390101_03"
 )
 ```
 

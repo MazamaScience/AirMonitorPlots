@@ -32,7 +32,7 @@ mts_monitor <- monitor_loadLatest()
 
 ```{r}
 # Set parameters
-deviceDeploymentID <- "0b97822d89739950_060631010"
+deviceDeploymentID <- "9f7489899d373324_840060431001"
 enddate <- lubridate::now()
 startdate <- enddate - lubridate::ddays(7)
 ```

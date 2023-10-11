@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/AirMonitorPlots.html">Get started</a>
 </li>
@@ -57,17 +53,17 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/articles/plot_gallery.html">Plot Gallery</a>
+      <a href="../articles/plot_gallery.html">Plot Gallery</a>
     </li>
     <li>
-      <a href="../articles/articles/plotting_current_data.html">Plotting Current Data</a>
+      <a href="../articles/plotting_current_data.html">Plotting Current Data</a>
     </li>
   </ul>
 </li>
@@ -77,7 +73,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/MazamaScience/AirMonitorPlots/">
+  <a href="https://github.com/MazamaScience/AirMonitorPlots/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -92,95 +88,103 @@
 
       
 
-      </header><script src="AirMonitorPlots_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to AirMonitorPlots</h1>
-                        <h4 class="author">Jonathan Callahan</h4>
+                        <h4 data-toc-skip class="author">Jonathan
+Callahan</h4>
             
-            <h4 class="date">April 09, 2022</h4>
+            <h4 data-toc-skip class="date">October 11, 2023</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitorPlots/blob/master/vignettes/AirMonitorPlots.Rmd"><code>vignettes/AirMonitorPlots.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitorPlots/blob/HEAD/vignettes/AirMonitorPlots.Rmd" class="external-link"><code>vignettes/AirMonitorPlots.Rmd</code></a></small>
       <div class="hidden name"><code>AirMonitorPlots.Rmd</code></div>
 
     </div>
 
     
     
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p><em>NOTE: This package is not yet available on CRAN.</em></p>
 <p>Install the latest version from GitHub with:</p>
-<p><code><a href="https://devtools.r-lib.org/reference/remote-reexports.html">devtools::install_github('mazamascience/AirMonitorPlots')</a></code></p>
+<p><code>devtools::install_github('mazamascience/AirMonitorPlots')</code></p>
 </div>
-<div id="background" class="section level2">
-<h2 class="hasAnchor">
-<a href="#background" class="anchor"></a>Background</h2>
-<p>The **AirMonitorPlots<code>\** package provides plotting functionality to create  production-ready plots for air quality monitoring data. It is designed to work with the **AirMonitor** package, integrating the data with **ggplot2** plotting  functions. High-level plotting functions make it easy for users to create beautiful  plots of monitoring data. Since these functions are built on</code>ggplot2<code>, users  familiar with</code>ggplot2` can easily use the functions in this package to create custom plots.</p>
+<div class="section level2">
+<h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
+</h2>
+<p>The <strong>AirMonitorPlots</strong> package provides plotting
+functionality to create production-ready plots for air quality
+monitoring data. It is designed to work with the <a href="https://mazamascience.github.io/AirMonitor/" class="external-link">AirMonitor</a>
+package, integrating the data with <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a> plotting functions.
+High-level plotting functions make it easy for users to create beautiful
+plots of monitoring data. Since these functions are built on
+<strong>ggplot2</strong>, users familiar with <strong>ggplot2</strong>
+can easily use the functions in this package to create custom plots.</p>
 </div>
-<div id="production-ready-plots" class="section level2">
-<h2 class="hasAnchor">
-<a href="#production-ready-plots" class="anchor"></a>Production-ready plots</h2>
-<p>High-level functions in this package make it easy to create beautiful, publication-ready plots with very few lines of code.</p>
-<p>The following plot types are provided:</p>
-<p><strong>TODO</strong></p>
-</div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
-<p>The following examples use example <em>mts_monitor</em> objects from the <strong>AirMonitor</strong> package.</p>
-<div id="timeseries" class="section level3">
-<h3 class="hasAnchor">
-<a href="#timeseries" class="anchor"></a>Timeseries</h3>
-<p>The default <code>Timeseries</code> plot is optimized for one monitor.</p>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<p>The following examples use example <em>mts_monitor</em> objects from
+the <strong>AirMonitor</strong> package.</p>
+<div class="section level3">
+<h3 id="timeseries">Timeseries<a class="anchor" aria-label="anchor" href="#timeseries"></a>
+</h3>
+<p>The default <code>Timeseries</code> plot is optimized for one
+monitor.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor">AirMonitor</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitorPlots">AirMonitorPlots</a></span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/monitor_ggTimeseries_archival.html">monitor_ggTimeseries_archival</a></span><span class="op">(</span>
-  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html">NW_Megafires</a></span>, 
-  startdate <span class="op">=</span> <span class="fl">20150815</span>,
-  enddate <span class="op">=</span> <span class="fl">20150825</span>,
-  id <span class="op">=</span> <span class="st">"39c9acebbebc3d09_160050015"</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor" class="external-link">AirMonitor</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitorPlots" class="external-link">AirMonitorPlots</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span></span>
+<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html" class="external-link">NW_Megafires</a></span>, </span>
+<span>  startdate <span class="op">=</span> <span class="fl">20150815</span>,</span>
+<span>  enddate <span class="op">=</span> <span class="fl">20150825</span>,</span>
+<span>  id <span class="op">=</span> <span class="st">"753019dc7f401908_410390101_03"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
-<p>If more than one monitor is present, color will be mapped to deviceDeploymentID.</p>
+<p>If more than one monitor is present, color will be mapped to
+deviceDeploymentID.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span>
-  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html">NW_Megafires</a></span>,
-  startdate <span class="op">=</span> <span class="fl">20150815</span>,
-  enddate <span class="op">=</span> <span class="fl">20150820</span>,
-  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-    <span class="st">"fa8288b1da3b2a87_530630047"</span>, 
-    <span class="st">"5b3acb7aa679dc14_530639997"</span>, 
-    <span class="st">"abde4337eb9064e4_530639996"</span>
-  <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span></span>
+<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html" class="external-link">NW_Megafires</a></span>,</span>
+<span>  startdate <span class="op">=</span> <span class="fl">20150815</span>,</span>
+<span>  enddate <span class="op">=</span> <span class="fl">20150820</span>,</span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"753019dc7f401908_410390101_03"</span>, </span>
+<span>    <span class="st">"3d1ac393596c511a_410390059_03"</span>, </span>
+<span>    <span class="st">"c69d9483556acb85_410391009_03"</span>,</span>
+<span>    <span class="st">"eba98496f2495d0f_410390060_03"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
-<div id="daily-barplot" class="section level3">
-<h3 class="hasAnchor">
-<a href="#daily-barplot" class="anchor"></a>Daily Barplot</h3>
-<p>The <code>DailyBarplot</code> shows daily averages for one monitor.</p>
+<div class="section level3">
+<h3 id="daily-barplot">Daily Barplot<a class="anchor" aria-label="anchor" href="#daily-barplot"></a>
+</h3>
+<p>The <code>DailyBarplot</code> shows daily averages for one
+monitor.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span>
-  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
-  startdate <span class="op">=</span> <span class="fl">20160801</span>,
-  enddate <span class="op">=</span> <span class="fl">20160808</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span></span>
+<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
+<span>  startdate <span class="op">=</span> <span class="fl">20160801</span>,</span>
+<span>  enddate <span class="op">=</span> <span class="fl">20160808</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
-<div id="daily-by-hour" class="section level3">
-<h3 class="hasAnchor">
-<a href="#daily-by-hour" class="anchor"></a>Daily By Hour</h3>
-<p>The <code>dailyByHour</code> is designed specifically to show current data, with special lines for “today” and “yesterday”. However, it can plot historical data, using the enddate for “today”.</p>
+<div class="section level3">
+<h3 id="daily-by-hour">Daily By Hour<a class="anchor" aria-label="anchor" href="#daily-by-hour"></a>
+</h3>
+<p>The <code>dailyByHour</code> is designed specifically to show current
+data, with special lines for “today” and “yesterday”. However, it can
+plot historical data, using the enddate for “today”.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span>
-  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html">Carmel_Valley</a></span>,
-  startdate <span class="op">=</span> <span class="fl">20160801</span>, 
-  enddate <span class="op">=</span> <span class="fl">20160809</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span></span>
+<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
+<span>  startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
+<span>  enddate <span class="op">=</span> <span class="fl">20160809</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="AirMonitorPlots_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
 </div>
@@ -197,11 +201,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Jonathan Callahan, Tate Brasel, Helen Miller, Spencer Pease.</p>
+  <p></p>
+<p>Developed by Jonathan Callahan, Tate Brasel, Helen Miller, Spencer Pease.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -209,6 +215,8 @@
 
   
 
+
+  
 
   </body>
 </html>

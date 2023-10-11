@@ -2,7 +2,7 @@
 % Please edit documentation in R/custom_pm25DiurnalScales.R
 \name{custom_pm25DiurnalScales}
 \alias{custom_pm25DiurnalScales}
-\title{PWFSL PM2.5 diurnal scales}
+\title{USFS AirFire PM2.5 diurnal scales}
 \usage{
 custom_pm25DiurnalScales(
   monitor = NULL,
@@ -38,6 +38,6 @@ away from the axes.}
 0.5.}
 }
 \description{
-Add PWFSL-style x-axis and y-axis scales suitable for a plot showing PM2.5
-data as a funciton of hour of the day.
+Add USFS AirFire-style x-axis and y-axis scales suitable for a plot showing PM2.5
+data as a function of hour of the day.
 }
