@@ -19,18 +19,17 @@ The USFS [AirFire](http://www.airfire.org)
 team works to model wildland fire emissions and has created the BlueSky Modeling
 Framework. This system  integrates a wide collection of models along the smoke 
 modeling pipeline (fire  information, fuel loadings, consumption modeling, 
-emissions modeling, time rate ofemissions modeling, plume height estimations, 
+emissions modeling, time rate of emissions modeling, plume height estimations, 
 and smoke trajectory and dispersion  modeling). The resulting model output has 
 been integrated into many different smoke  prediction systems and scientific 
 modeling efforts;
 
-The [AirMonitor](https://mazamascience.github.io/AirMonitor/) R package is  
-maintained and ergularly enhanced for to help modelers and 
-scientists more easily work with PM2.5 data from monitoring locations across 
-North America.
+The [AirMonitor](https://mazamascience.github.io/AirMonitor/) R package is
+maintained and regularly enhanced for to help modelers and scientists more 
+easily work with PM2.5 data from monitoring locations across North America.
 
 **AirMonitorPlots** provides plotting 
-componenents for building up  custom plots needed by air quality specialists.
+components for building up  custom plots needed by air quality specialists.
 
 ## Installation
 
@@ -41,8 +40,7 @@ versions of this package that may not yet be available on CRAN.
 devtools::install_github('mazamascience/AirMonitorPlots', build_vignettes=TRUE)
 ```
 
-----
+------------------------------------------------------------------------
 
-This project is being funded in part by the USFS AirFire team.
-
+This project is supported by the [USFS AirFire](https://www.airfire.org) group.
 

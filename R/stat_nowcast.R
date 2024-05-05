@@ -96,10 +96,13 @@ StatNowcast <- ggproto(
 
     if (params$aqiColors) {
 
+      # NOTE:  To use the new AirMonitor::US_AQI$breaks_PM2.5_2024, data$y
+      # NOTE:  should be rounded to the nearest integer before being .bincoded
       # Add column for AQI level
       data$aqi <- .bincode(
-        data$y,
-        AirMonitor::US_AQI$breaks_PM2.5,
+        round(data$y, digits = 0),
+        AirMonitor::US_AQI$breaks_PM2.5_2024,
+        right = TRUE,
         include.lowest = TRUE
       )
 

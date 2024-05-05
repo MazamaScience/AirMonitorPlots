@@ -1,6 +1,6 @@
 # AirMonitorPlots 0.9.0
 
-Version 0.9.0 includes updatepackage dependencies and changes throughout the 
+Version 0.9.0 includes updated package dependencies and changes throughout the 
 code base to support the upcoming change to the PM_NAAQS See:
 [PM_NAAQS update](https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf).
 
@@ -10,6 +10,9 @@ Updated dependencies:
 * **MazamaTimeSeries** => 0.3.0
 * **AirMonitor** => 0.4.0
 * **gridExtra** => removed
+
+* Updated several functions to use the new PM2.5 NAAQS thresholds as defined in
+`AirMonitor::US_AQI$breaks_PM2.5_2024`.
 
 # AirMonitorPlots 0.8.3
 

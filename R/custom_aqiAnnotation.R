@@ -66,8 +66,8 @@ StatAqiBar <- ggproto(
     aqiStackedBarsData <- data.frame(
       xmin = rep(left, 6),
       xmax = rep(right, 6),
-      ymin = c(yrange[1], AirMonitor::US_AQI$breaks_PM2.5[2:6]),
-      ymax = c(AirMonitor::US_AQI$breaks_PM2.5[2:6], 1e6)
+      ymin = c(yrange[1], AirMonitor::US_AQI$breaks_PM2.5_2024[2:6]),
+      ymax = c(AirMonitor::US_AQI$breaks_PM2.5_2024[2:6], 1e6)
     )
 
     # Last bar must top out at yrange[2]
@@ -126,8 +126,8 @@ StatAqiLines <- ggproto(
     aqiLinesData <- data.frame(
       x = rep(xrange[1], 5),
       xend = rep(xrange[2], 5),
-      y = c(AirMonitor::US_AQI$breaks_PM2.5[2:6]),
-      yend = c(AirMonitor::US_AQI$breaks_PM2.5[2:6])
+      y = c(AirMonitor::US_AQI$breaks_PM2.5_2024[2:6]),
+      yend = c(AirMonitor::US_AQI$breaks_PM2.5_2024[2:6])
     )
     return(aqiLinesData)
   }

@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
@@ -126,7 +126,7 @@ plots with very few lines of code.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitorPlots" class="external-link">AirMonitorPlots</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span></span>
-<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html" class="external-link">NW_Megafires</a></span>, </span>
+<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/NW_Megafires.html" class="external-link">NW_Megafires</a></span>, </span>
 <span>  startdate <span class="op">=</span> <span class="fl">20150815</span>,</span>
 <span>  enddate <span class="op">=</span> <span class="fl">20150825</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"753019dc7f401908_410390101_03"</span></span>
@@ -136,7 +136,7 @@ plots with very few lines of code.</p>
 deviceDeploymentID.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span></span>
-<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/NW_Megafires.html" class="external-link">NW_Megafires</a></span>,</span>
+<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/NW_Megafires.html" class="external-link">NW_Megafires</a></span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"753019dc7f401908_410390101_03"</span>, </span>
 <span>    <span class="st">"3d1ac393596c511a_410390059_03"</span>, </span>
@@ -153,7 +153,7 @@ deviceDeploymentID.</p>
 </h3>
 <p>Daily Barplot can show daily averages for one monitor.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span></span>
 <span>    startdate <span class="op">=</span> <span class="fl">20160801</span>,</span>
 <span>    enddate <span class="op">=</span> <span class="fl">20160810</span></span>
@@ -162,7 +162,7 @@ deviceDeploymentID.</p>
 <p>If using current data, it will include a bar for “today”, displaying
 the current NowCast, if available.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AirMonitor/man/airnow_loadLatest.html" class="external-link">airnow_loadLatest</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">latest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://mazamascience.github.io/AirMonitor/reference/airnow_loadLatest.html" class="external-link">airnow_loadLatest</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">latest</span>,</span>
 <span>  startdate <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">now</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,</span>
@@ -186,7 +186,7 @@ data, with special lines for “today” and “yesterday”. However, it can
 plot historical data, using the enddate for “today”.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span></span>
-<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
+<span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
 <span>  startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>  enddate <span class="op">=</span> <span class="fl">20160809</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -260,7 +260,7 @@ scaling.</p>
 <span>  <span class="st">"eba98496f2495d0f_410390060_03"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">Everett</span> <span class="op">&lt;-</span> <span class="fu">AirMonitor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AirMonitor/man/monitor_select.html" class="external-link">monitor_select</a></span><span class="op">(</span><span class="va">NW_Megafires</span>, <span class="va">deviceDeploymentIDs</span><span class="op">)</span></span>
+<span><span class="va">Everett</span> <span class="op">&lt;-</span> <span class="fu">AirMonitor</span><span class="fu">::</span><span class="fu"><a href="https://mazamascience.github.io/AirMonitor/reference/monitor_select.html" class="external-link">monitor_select</a></span><span class="op">(</span><span class="va">NW_Megafires</span>, <span class="va">deviceDeploymentIDs</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">EverettPlot</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/ggplot_pm25Timeseries.html">ggplot_pm25Timeseries</a></span><span class="op">(</span></span>
@@ -316,7 +316,7 @@ it includes day/night shading, although this can be turned off by
 specifying <code>shadedNight = FALSE</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">deviceDeploymentID</span> <span class="op">&lt;-</span> <span class="st">"753019dc7f401908_410390101_03"</span></span>
-<span><span class="va">Eugene_monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AirMonitor/man/monitor_select.html" class="external-link">monitor_select</a></span><span class="op">(</span><span class="va">NW_Megafires</span>, <span class="va">deviceDeploymentID</span><span class="op">)</span></span>
+<span><span class="va">Eugene_monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://mazamascience.github.io/AirMonitor/reference/monitor_select.html" class="external-link">monitor_select</a></span><span class="op">(</span><span class="va">NW_Megafires</span>, <span class="va">deviceDeploymentID</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">Eugene_monitor</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_gallery_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>After instantiating the plot, you can add layers.
@@ -330,7 +330,7 @@ want the boxes to be between the hour ticks instead of lined up with
 them. For example:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># offsetBreaks = FALSE. Notice that bars cover the x-axis guides</span></span>
-<span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>, </span>
+<span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>, </span>
 <span>                   startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                   enddate <span class="op">=</span> <span class="fl">20160810</span><span class="op">)</span>  <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"AQIColors"</span><span class="op">)</span></span></code></pre></div>
@@ -338,7 +338,7 @@ them. For example:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># offsetBreaks = TRUE</span></span>
-<span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
+<span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
 <span>                   startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                   enddate <span class="op">=</span> <span class="fl">20160810</span>,</span>
 <span>                   offsetBreaks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -347,7 +347,7 @@ them. For example:</p>
 <p>Other examples</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
+<span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
 <span>                   startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                   enddate <span class="op">=</span> <span class="fl">20160810</span>,</span>
 <span>                   offsetBreaks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
@@ -384,7 +384,7 @@ them. For example:</p>
 <p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-4.png" width="672"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">.05</span>, geom <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-5.png" width="672"></p>
 </div>
@@ -396,21 +396,21 @@ them. For example:</p>
 objects, so you can start with these and add more layers or customize
 them by adding themes.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/monitor_ggTimeseries.html">monitor_ggTimeseries</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
 <span>                     startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                     enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_gallery_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
+<span><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
 <span>                      startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                      enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">day</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_gallery_files/figure-html/unnamed-chunk-13-2.png" width="672"></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/AirMonitor/man/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
+<span><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
 <span>                       startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                       enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"pm25Points"</span><span class="op">)</span></span></code></pre></div>
@@ -436,7 +436,7 @@ them by adding themes.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

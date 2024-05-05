@@ -157,8 +157,9 @@ monitor_ggDailyHourlyBarplot <- function(
       monitor_toTidy() %>%
       dplyr::mutate(
         aqiCategory = cut(
-          .data$pm25,
-          AirMonitor::US_AQI$breaks_PM2.5,
+          round(.data$pm25, digits = 0),
+          AirMonitor::US_AQI$breaks_PM2.5_2024,
+          right = TRUE,
           include.lowest = TRUE,
           labels = AirMonitor::US_AQI$names_eng
         )
@@ -182,8 +183,9 @@ monitor_ggDailyHourlyBarplot <- function(
         monitor_toTidy() %>%
         dplyr::mutate(
           aqiCategory = cut(
-            .data$pm25,
-            AirMonitor::US_AQI$breaks_PM2.5,
+            round(.data$pm25, digits = 0),
+            AirMonitor::US_AQI$breaks_PM2.5_2024,
+            right = TRUE,
             include.lowest = TRUE,
             labels = AirMonitor::US_AQI$names_eng
           )
@@ -198,8 +200,9 @@ monitor_ggDailyHourlyBarplot <- function(
         monitor_toTidy() %>%
         dplyr::mutate(
           aqiCategory = cut(
-            .data$pm25,
-            AirMonitor::US_AQI$breaks_PM2.5,
+            round(.data$pm25, digits = 0),
+            AirMonitor::US_AQI$breaks_PM2.5_2024,
+            right = TRUE,
             include.lowest = TRUE,
             labels = AirMonitor::US_AQI$names_eng
           )
