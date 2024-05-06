@@ -1,3 +1,7 @@
+# AirMonitorPlots 0.9.1
+
+Updated additional functions to use the new PM_NAAQS as the default.
+
 # AirMonitorPlots 0.9.0
 
 Version 0.9.0 includes updated package dependencies and changes throughout the 

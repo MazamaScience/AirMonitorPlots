@@ -122,8 +122,8 @@ monitor_ggCalendar <- function(
   # Determine fill type
   if ( discrete ) { # Discrete color scale
     if (is.null(breaks) ) {
-      breaks <- c(0, 12, 35, 55, 75, 1000)
-      labels <- c("0-12", "12-35", "35-55", "55-75", ">75")
+      breaks <- c(0, 9, 35, 55, 75, 1000)
+      labels <- c("0-9", "12-35", "35-55", "55-75", ">75")
     }
     if ( length(breaks) - length(labels) != 1 ) {
       warning("Break-labels and breaks length must differ by 1.")

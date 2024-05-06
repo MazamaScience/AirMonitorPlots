@@ -30,7 +30,7 @@
 #'   data.
 #' @param yLabel The y-axis label of the plot. Defaults to PM2.5.
 #' @param includeLink Option to include a link to an AQI help page at the bottom
-#'   of the plot (default `TRUE`).
+#'   of the plot (default \code{TRUE}).
 #' @param hourlyDataType The type of hourly data to include in the plot. The
 #'   options include "nowcast" (hourly nowcast values), "raw" (raw hourly values),
 #'   or "none" (no hourly data at all) (default "nowcast").
@@ -39,7 +39,7 @@
 #' @param includeLegendAdvice Option to include a third column in the legend for
 #'   AQI level advice. Currently in testing (default `False`).
 #'
-#' @return A **ggplot** plot of the given monitors and data.
+#' @return A \strong{ggplot} plot of the given monitors and data.
 #'
 #' @examples
 #' \dontrun{
