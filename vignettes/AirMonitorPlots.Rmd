@@ -22,7 +22,9 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-_NOTE: This package is not yet available on CRAN._
+Install from CRAN with:
+
+`install.packages('AirMonitorPlots')`
 
 Install the latest version from GitHub with:
 
@@ -91,8 +93,8 @@ monitor_ggDailyBarplot(
 ### Daily By Hour
 
 The `dailyByHour` is designed specifically to show current data, with special 
-lines for "today" and "yesterday". However, it can plot historical data, using 
-the enddate for "today". 
+lines for "today" and "yesterday". However, it can plot historical data, in 
+which case `enddate` will be styled as "today".
 
 ```{r}
 monitor_ggDailyByHour(

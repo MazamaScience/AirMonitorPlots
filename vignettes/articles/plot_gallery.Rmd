@@ -140,7 +140,7 @@ nmPlot <-
 nmPlot
 ```
 
-Once the plot is initiated, you can add layers.
+Once the plot is initialized, you can add layers.
 
 ```{r}
 nmPlot + 
@@ -150,8 +150,8 @@ nmPlot +
   custom_aqiStackedBar(width = 0.01) 
 
 nmPlot + 
-  geom_pm25Points(alpha = 0.05, shape = "square")  +
-  stat_meanByHour(geom = "line", size = 2, output = "AQIColors")+ 
+  geom_pm25Points(alpha = 0.05, shape = "square") +
+  stat_meanByHour(geom = "line", size = 2, output = "AQIColors") + 
   custom_aqiStackedBar()
 ```
 

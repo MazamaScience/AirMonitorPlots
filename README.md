@@ -1,5 +1,5 @@
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
-[![Downloads](http://cranlogs.r-pkg.org/badges/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
+[![Downloads](https://cranlogs.r-pkg.org/badges/AirMonitorPlots)](https://cran.r-project.org/package=AirMonitorPlots)
 [![DOI](https://zenodo.org/badge/123438756.svg)](https://zenodo.org/badge/latestdoi/123438756)
 
 
@@ -15,32 +15,37 @@ Plot utilities for air quality monitoring data.
 
 ## Background
 
-The USFS [AirFire](http://www.airfire.org) 
-team works to model wildland fire emissions and has created the BlueSky Modeling
-Framework. This system  integrates a wide collection of models along the smoke 
-modeling pipeline (fire  information, fuel loadings, consumption modeling, 
-emissions modeling, time rate of emissions modeling, plume height estimations, 
-and smoke trajectory and dispersion  modeling). The resulting model output has 
-been integrated into many different smoke  prediction systems and scientific 
-modeling efforts;
+The USFS [AirFire](http://www.airfire.org) team works with air quality 
+measurements associated with wildfire smoke and maintains both historical and 
+real-time databases of PM2.5 monitoring data obtained from stationary monitors. 
+This data is used in operational displays and for retrospective analysis. Data 
+ingest and management of air quality “stationary time series” are important 
+ongoing activities.
 
-The [AirMonitor](https://mazamascience.github.io/AirMonitor/) R package is
-maintained and regularly enhanced for to help modelers and scientists more 
-easily work with PM2.5 data from monitoring locations across North America.
+## Related Packages
 
-**AirMonitorPlots** provides plotting 
-components for building up  custom plots needed by air quality specialists.
+The [AirMonitor](https://mazamascience.github.io/AirMonitor/) package contains 
+data access functions to easily download harmonized data files as well as data 
+manipulation functions that make it easy to create “recipe style” analysis 
+pipelines. This combination allows analysts to work efficiently with short, 
+readable R scripts. Interactive and base R plotting functions allow for visual 
+review of the data.
+
+**AirMonitorPlots** contains ggplot2 based plotting functions for advanced plots
+and also provides plotting components for building up custom plots needed by 
+air quality specialists.
 
 ## Installation
 
-Users will want to install the **devtools** package to have access to latest 
-versions of this package that may not yet be available on CRAN.
+Install from CRAN with:
 
-```
-devtools::install_github('mazamascience/AirMonitorPlots', build_vignettes=TRUE)
-```
+`install.packages('AirMonitorPlots')`
+
+Install the latest version from GitHub with:
+
+`devtools::install_github('mazamascience/AirMonitorPlots')`
 
 ------------------------------------------------------------------------
 
-This project is supported by the [USFS AirFire](https://www.airfire.org) group.
+This project is supported by the [USFS AirFire](https://www.airfire.org) team.
 
