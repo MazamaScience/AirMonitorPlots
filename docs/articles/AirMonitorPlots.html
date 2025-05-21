@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitorPlots</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.2</span>
       </span>
     </div>
 
@@ -107,7 +107,8 @@ Callahan</h4>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><em>NOTE: This package is not yet available on CRAN.</em></p>
+<p>Install from CRAN with:</p>
+<p><code>install.packages('AirMonitorPlots')</code></p>
 <p>Install the latest version from GitHub with:</p>
 <p><code>devtools::install_github('mazamascience/AirMonitorPlots')</code></p>
 </div>
@@ -178,7 +179,8 @@ monitor.</p>
 </h3>
 <p>The <code>dailyByHour</code> is designed specifically to show current
 data, with special lines for “today” and “yesterday”. However, it can
-plot historical data, using the enddate for “today”.</p>
+plot historical data, in which case <code>enddate</code> will be styled
+as “today”.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span></span>
 <span>  <span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>

@@ -47,6 +47,9 @@
 #' \dontrun{
 #' library(AirMonitorPlots)
 #'
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
 #' monitor <- airsis_loadLatest()
 #'
 #' ggplot_pm25Timeseries(monitor) +
@@ -60,7 +63,10 @@
 #'
 #' ggplot_pm25Timeseries(mts_monitor) +
 #'   stat_dailyAQCategory()
+#'
+#' }, silent = FALSE)
 #' }
+#'
 stat_dailyAQCategory <- function(
   mapping = NULL,
   data = NULL,

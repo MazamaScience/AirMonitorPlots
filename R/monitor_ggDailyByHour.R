@@ -27,14 +27,16 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' monitor <- airnow_loadLatest()
-#' monitor_ggDailyByHour(monitor, id = "51b9bcb4eaac7c9d_530330030")
-#' }
-#'
 #' AirMonitor::Carmel_Valley %>%
 #'   monitor_ggDailyByHour(startdate = 20160801, enddate = 20160810)
 #'
+#' \dontrun{
+#' # Fail gracefully if any resources are not available
+#' try({
+#' monitor <- airnow_loadLatest()
+#' monitor_ggDailyByHour(monitor, id = "51b9bcb4eaac7c9d_530330030")
+#' }, silent = FALSE)
+#' }
 
 monitor_ggDailyByHour <- function(
   monitor,

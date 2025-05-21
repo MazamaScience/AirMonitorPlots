@@ -45,7 +45,7 @@ data.}
 \item{yLabel}{The y-axis label of the plot. Defaults to PM2.5.}
 
 \item{includeLink}{Option to include a link to an AQI help page at the bottom
-of the plot (default `TRUE`).}
+of the plot (default \code{TRUE}).}
 
 \item{hourlyDataType}{The type of hourly data to include in the plot. The
 options include "nowcast" (hourly nowcast values), "raw" (raw hourly values),
@@ -58,7 +58,7 @@ category. Currently defaults to (and only accepts) "epa_aqi".}
 AQI level advice. Currently in testing (default `False`).}
 }
 \value{
-A **ggplot** plot of the given monitors and data.
+A \strong{ggplot} plot of the given monitors and data.
 }
 \description{
 Create a time series barplot showing PM2.5 data for the given monitors. The
@@ -73,7 +73,11 @@ monitor encountered will be used for all time axes.
 }
 \examples{
 \dontrun{
+library(AirMonitor)
 library(AirMonitorPlots)
+
+# Fail gracefully if any resources are not available
+try({
 
 SF_IDs <- c(
   "ccdef3f0f6591e77_060010009",
@@ -87,12 +91,14 @@ SF_full <- monitor_join(SF_daily, SF_latest)
 today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
 now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
 starttime <- today - lubridate::ddays(4)
-SF_4day <- monitor_filterDatetime(SF_full, starttime, now))
+SF_4day <- monitor_filterDatetime(SF_full, starttime, now)
 
 # Create plot using pre subset data
 monitor_ggDailyHourlyBarplot(SF_4day, id = SF_IDs)
 
 # Create plot using data subset by function
 monitor_ggDailyHourlyBarplot(SF_full, starttime, now, SF_IDs)
+
+}, silent = FALSE)
 }
 }

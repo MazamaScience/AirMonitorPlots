@@ -34,8 +34,11 @@
 #'   monitor_ggDailyByHour_archival()
 #'
 #' \dontrun{
+#' # Fail gracefully if any resources are not available
+#' try({
 #' monitor <- AirMonitor::airnow_loadLatest()
 #' monitor_ggDailyByHour_archival(monitor, id = "51b9bcb4eaac7c9d_530330030")
+#' }, silent = FALSE)
 #' }
 
 monitor_ggDailyByHour_archival <- function(

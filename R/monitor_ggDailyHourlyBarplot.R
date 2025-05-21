@@ -43,7 +43,11 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(AirMonitor)
 #' library(AirMonitorPlots)
+#'
+#' # Fail gracefully if any resources are not available
+#' try({
 #'
 #' SF_IDs <- c(
 #'   "ccdef3f0f6591e77_060010009",
@@ -57,13 +61,15 @@
 #' today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
 #' now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
 #' starttime <- today - lubridate::ddays(4)
-#' SF_4day <- monitor_filterDatetime(SF_full, starttime, now))
+#' SF_4day <- monitor_filterDatetime(SF_full, starttime, now)
 #'
 #' # Create plot using pre subset data
 #' monitor_ggDailyHourlyBarplot(SF_4day, id = SF_IDs)
 #'
 #' # Create plot using data subset by function
 #' monitor_ggDailyHourlyBarplot(SF_full, starttime, now, SF_IDs)
+#'
+#' }, silent = FALSE)
 #' }
 
 monitor_ggDailyHourlyBarplot <- function(
