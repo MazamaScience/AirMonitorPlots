@@ -176,8 +176,7 @@ Complete refactoring of the code to utilize low level `ggplot` concepts.
 
 # AirMonitorPlots 0.4.4
 
-Adding standard plots used in the
-[USFS Monitoring site](https://tools.airfire.org/monitoring/v4).
+Adding standard plots used in the USFS Monitoring site Mv4.
 
  * added `dailyBarplot()` and `dailyBarplotBase()`
  * added `timeseriesPlot()` and `timeseriesPlotBase()`
