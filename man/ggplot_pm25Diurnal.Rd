@@ -21,10 +21,10 @@ ggplot_pm25Diurnal(
 \emph{mts_monitor} object or \code{mts_tidy} object.}
 
 \item{startdate}{Desired startdate for data to include, in a format that can
-be parsed with \link{parseDatetime}.}
+be parsed with \link[MazamaCoreUtils]{parseDatetime}.}
 
 \item{enddate}{Desired enddate for data to include, in a format that can be
-parsed with \link{parseDatetime}.}
+parsed with \link[MazamaCoreUtils]{parseDatetime}.}
 
 \item{timezone}{Timezone to use to set hours of the day.}
 

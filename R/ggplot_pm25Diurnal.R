@@ -13,9 +13,9 @@
 #' @param monitor Default dataset to use when adding layers. Must be either a
 #'   \emph{mts_monitor} object or \code{mts_tidy} object.
 #' @param startdate Desired startdate for data to include, in a format that can
-#'   be parsed with \link{parseDatetime}.
+#'   be parsed with \link[MazamaCoreUtils]{parseDatetime}.
 #' @param enddate Desired enddate for data to include, in a format that can be
-#'   parsed with \link{parseDatetime}.
+#'   parsed with \link[MazamaCoreUtils]{parseDatetime}.
 #' @param timezone Timezone to use to set hours of the day.
 #' @param shadedNight add nighttime shading based on of middle day in selected
 #'   period.

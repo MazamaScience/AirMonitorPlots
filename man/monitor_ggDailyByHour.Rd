@@ -19,10 +19,10 @@ monitor_ggDailyByHour(
 \item{monitor}{A \emph{mts_monitor} object.}
 
 \item{startdate}{Desired startdate for data to include, in a format that can
-be parsed with \link{parseDatetime}.}
+be parsed with \link[MazamaCoreUtils]{parseDatetime}.}
 
 \item{enddate}{Desired enddate for data to include, in a format that can be
-parsed with \link{parseDatetime}.}
+parsed with \link[MazamaCoreUtils]{parseDatetime}.}
 
 \item{id}{deviceDeploymentID to include in the plot. This can be NULL if
 \code{monitor} only has one unique deviceDeploymentID.}

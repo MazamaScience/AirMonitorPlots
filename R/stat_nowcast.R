@@ -15,7 +15,7 @@
 #'   return value must be a \code{data.frame}, and will be used as the layer
 #'   data.
 #' @param version character identity specifying the type of nowcast algorithm to
-#'   be used. For details see \link{monitor_nowcast}.
+#'   be used. For details see \link[AirMonitor]{monitor_nowcast}.
 #' @param includeShortTerm calculate preliminary NowCast values starting with
 #'   the 2nd hour.
 #' @param geom The geometic object to display the data
