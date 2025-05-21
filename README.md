@@ -15,7 +15,7 @@ Plot utilities for air quality monitoring data.
 
 ## Background
 
-The USFS [AirFire](http://www.airfire.org) team works with air quality 
+The USFS [AirFire](https://www.airfire.org) team works with air quality 
 measurements associated with wildfire smoke and maintains both historical and 
 real-time databases of PM2.5 monitoring data obtained from stationary monitors. 
 This data is used in operational displays and for retrospective analysis. Data 
