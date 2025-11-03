@@ -63,7 +63,7 @@ stat_AQCategory <- function(
   nowcast = TRUE,
   geom = "bar",
   position = "identity",
-  na.rm = FALSE,
+  na.rm = TRUE,
   show.legend = NA,
   inherit.aes = TRUE,
   ...

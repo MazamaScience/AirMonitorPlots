@@ -21,7 +21,7 @@ geom_pm25Points <- function(
   mapping = NULL,
   data = NULL,
   position = "identity",
-  na.rm = FALSE,
+  na.rm = TRUE,
   show.legend = NA,
   inherit.aes = TRUE,
   stat = "identity",

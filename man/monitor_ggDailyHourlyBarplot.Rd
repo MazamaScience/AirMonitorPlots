@@ -14,10 +14,9 @@ monitor_ggDailyHourlyBarplot(
   timezone = NULL,
   xLabel = NULL,
   yLabel = NULL,
-  includeLink = TRUE,
   hourlyDataType = c("nowcast", "raw", "none"),
   palette = "epa_aqi",
-  includeLegendAdvice = FALSE
+  includeLegend = TRUE
 )
 }
 \arguments{
@@ -31,7 +30,7 @@ POSIXct).}
 
 \item{id}{Optional vector of deviceDeploymentIDs used to filter the data.}
 
-\item{columns}{Number of columns the faceted plot should have (default 1).}
+\item{columns}{Number of columns the faceted plot should have.}
 
 \item{title}{The title of the plot. Defaults to specifying the types of
 data present in the plot.}
@@ -44,18 +43,14 @@ data.}
 
 \item{yLabel}{The y-axis label of the plot. Defaults to PM2.5.}
 
-\item{includeLink}{Option to include a link to an AQI help page at the bottom
-of the plot (default \code{TRUE}).}
-
 \item{hourlyDataType}{The type of hourly data to include in the plot. The
 options include "nowcast" (hourly nowcast values), "raw" (raw hourly values),
-or "none" (no hourly data at all) (default "nowcast").}
+or "none" (no hourly data at all).}
 
 \item{palette}{The ordered color palette used to represent each AQI
 category. Currently defaults to (and only accepts) "epa_aqi".}
 
-\item{includeLegendAdvice}{Option to include a third column in the legend for
-AQI level advice. Currently in testing (default `False`).}
+\item{includeLegend}{Option to include a legend..}
 }
 \value{
 A \strong{ggplot} plot of the given monitors and data.
@@ -85,9 +80,9 @@ SF_IDs <- c(
   "7157b3dbac7c2043_060010011",
   "060750fa7ae26987a72cc4_060750005005_01"
 )
-SF_daily <- loadDaily() \%>\% monitor_select(id = SF_IDs)
-SF_latest <- loadLatest() \%>\% monitor_select(id = SF_IDs)
-SF_full <- monitor_join(SF_daily, SF_latest)
+SF_daily <- monitor_loadDaily() \%>\% monitor_select(id = SF_IDs)
+SF_latest <- monitor_loadLatest() \%>\% monitor_select(id = SF_IDs)
+SF_full <- monitor_combine(SF_daily, SF_latest)
 today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
 now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
 starttime <- today - lubridate::ddays(4)

@@ -57,7 +57,7 @@ stat_nowcast <- function(
   aqiColors = FALSE,
   mv4Colors = FALSE,
   position = "identity",
-  na.rm = FALSE,
+  na.rm = TRUE,
   show.legend = NA,
   inherit.aes = TRUE,
   ...

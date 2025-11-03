@@ -11,7 +11,7 @@ ggplot_pm25Diurnal(
   timezone = NULL,
   ylim = NULL,
   shadedNight = TRUE,
-  mapping = aes_(x = ~hour, y = ~pm25),
+  mapping = aes(x = .data[["hour"]], y = .data[["pm25"]]),
   base_size = 11,
   ...
 )

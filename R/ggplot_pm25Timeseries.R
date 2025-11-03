@@ -20,7 +20,7 @@
 #' AirMonitor::Carmel_Valley %>%
 #'   ggplot_pm25Timeseries() +
 #'   geom_point(shape = "square", alpha = .4)
-#'
+
 ggplot_pm25Timeseries <- function(
   monitor,
   startdate = NULL,
@@ -70,7 +70,7 @@ ggplot_pm25Timeseries <- function(
   # ----- Create plot ----------------------------------------------------------
 
   gg <-
-    ggplot(mts_tidy, aes_(x = ~datetime, y = ~pm25)) +
+    ggplot(mts_tidy, aes(x = .data[["datetime"]], y = .data[["pm25"]])) +
     theme_airfire(base_size) +
     custom_pm25TimeseriesScales(
       mts_tidy,

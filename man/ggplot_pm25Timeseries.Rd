@@ -46,5 +46,4 @@ library(AirMonitorPlots)
 AirMonitor::Carmel_Valley \%>\%
   ggplot_pm25Timeseries() +
   geom_point(shape = "square", alpha = .4)
-
 }

@@ -1,6 +1,11 @@
+# AirMonitorPlots 0.9.3
+
+* Updated/simplified `monitor_ggDailyHourBarplot()`.
+* Handling _some_ deprecation errors from **ggplot2 4.0.0**.
+
 # AirMonitorPlots 0.9.1
 
-Updated additional functions to use the new PM_NAAQS as the default.
+* Updated additional functions to use the new PM_NAAQS as the default.
 
 # AirMonitorPlots 0.9.0
 

@@ -15,7 +15,7 @@ stat_dailyAQCategory(
   missingDataBar = TRUE,
   geom = "bar",
   position = "identity",
-  na.rm = FALSE,
+  na.rm = TRUE,
   show.legend = NA,
   inherit.aes = TRUE,
   ...
