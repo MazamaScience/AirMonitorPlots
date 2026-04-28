@@ -128,7 +128,7 @@ plots with very few lines of code.</p>
 <span>  enddate <span class="op">=</span> <span class="fl">20150825</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"753019dc7f401908_410390101_03"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-1-1.png" class="r-plt" width="672"></p>
 <p>If more than one monitor is present, color will be mapped to
 deviceDeploymentID.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -143,7 +143,7 @@ deviceDeploymentID.</p>
 <span>  startdate <span class="op">=</span> <span class="fl">20150815</span>,</span>
 <span>  enddate <span class="op">=</span> <span class="fl">20150820</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="daily-barplot">Daily Barplot<a class="anchor" aria-label="anchor" href="#daily-barplot"></a>
@@ -155,7 +155,7 @@ deviceDeploymentID.</p>
 <span>    startdate <span class="op">=</span> <span class="fl">20160801</span>,</span>
 <span>    enddate <span class="op">=</span> <span class="fl">20160810</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="672"></p>
 <p>If using current data, it will include a bar for “today”, displaying
 the current NowCast, if available.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -165,7 +165,7 @@ the current NowCast, if available.</p>
 <span>  startdate <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">now</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">ddays</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"67d1d0fc965cb106_840060631010"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="daily-by-hour">Daily By Hour<a class="anchor" aria-label="anchor" href="#daily-by-hour"></a>
@@ -177,7 +177,7 @@ for only one monitor. It can show daily trends in air quality.</p>
 <span>  <span class="va">latest</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"67d1d0fc965cb106_840060631010"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="672"></p>
 <p>The <code>dailyByHour</code> is designed specifically to show current
 data, with special lines for “today” and “yesterday”. However, it can
 plot historical data, using the enddate for “today”.</p>
@@ -187,7 +187,7 @@ plot historical data, using the enddate for “today”.</p>
 <span>  startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>  enddate <span class="op">=</span> <span class="fl">20160809</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="672"></p>
 </div>
 </div>
 <div class="section level2">
@@ -228,7 +228,7 @@ scaling.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"2015 Northwest Megafires"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">nmPlot</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="672"></p>
 <p>Once the plot is initialized, you can add layers.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nmPlot</span> <span class="op">+</span> </span>
@@ -236,14 +236,14 @@ scaling.</p>
 <span>  <span class="fu"><a href="../reference/stat_dailyAQCategory.html">stat_dailyAQCategory</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">nmPlot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.05</span>, shape <span class="op">=</span> <span class="st">"square"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"line"</span>, size <span class="op">=</span> <span class="fl">2</span>, output <span class="op">=</span> <span class="st">"AQIColors"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-8-2.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-8-2.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level4">
 <h4 id="several-monitors">Several Monitors<a class="anchor" aria-label="anchor" href="#several-monitors"></a>
@@ -270,29 +270,29 @@ scaling.</p>
 <span><span class="va">EverettPlot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">EverettPlot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_dailyAQCategory.html">stat_dailyAQCategory</a></span><span class="op">(</span>timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-2.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-2.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">EverettPlot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_AQCategory.html">stat_AQCategory</a></span><span class="op">(</span>color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_dailyAQCategory.html">stat_dailyAQCategory</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.5</span>, timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-3.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-3.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">EverettPlot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span>, alpha <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-4.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-4.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">EverettPlot</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/custom_aqiLines.html">custom_aqiLines</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/custom_pm25TimeseriesScales.html">custom_pm25TimeseriesScales</a></span><span class="op">(</span><span class="va">Everett</span>, startdate <span class="op">=</span> <span class="fl">20150810</span>, enddate <span class="op">=</span> <span class="fl">20150820</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-5.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-9-5.png" class="r-plt" width="672"></p>
 </div>
 </div>
 <div class="section level3">
@@ -315,7 +315,7 @@ specifying <code>shadedNight = FALSE</code>.</p>
 <code class="sourceCode R"><span><span class="va">deviceDeploymentID</span> <span class="op">&lt;-</span> <span class="st">"753019dc7f401908_410390101_03"</span></span>
 <span><span class="va">Eugene_monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://mazamascience.github.io/AirMonitor/reference/monitor_select.html" class="external-link">monitor_select</a></span><span class="op">(</span><span class="va">NW_Megafires</span>, <span class="va">deviceDeploymentID</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">Eugene_monitor</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="672"></p>
 <p>After instantiating the plot, you can add layers.
 <code>stat_meanByHour</code> is a stat specifically designed for this
 type of plot, which calculates the mean y-value for each x-value. You
@@ -331,7 +331,7 @@ them. For example:</p>
 <span>                   startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                   enddate <span class="op">=</span> <span class="fl">20160810</span><span class="op">)</span>  <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"AQIColors"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># offsetBreaks = TRUE</span></span>
@@ -340,7 +340,7 @@ them. For example:</p>
 <span>                   enddate <span class="op">=</span> <span class="fl">20160810</span>,</span>
 <span>                   offsetBreaks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"AQIColors"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-11-2.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-11-2.png" class="r-plt" width="672"></p>
 <p>Other examples</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -350,7 +350,7 @@ them. For example:</p>
 <span>                   offsetBreaks <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">hour</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/custom_aqiStackedBar.html">custom_aqiStackedBar</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">Eugene_monitor</span>,</span>
@@ -358,14 +358,14 @@ them. For example:</p>
 <span>                   enddate <span class="op">=</span> <span class="fl">20150820</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">day</span><span class="op">)</span>, geom <span class="op">=</span> <span class="st">"path"</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"line"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-2.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-2.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="va">Everett</span>, </span>
 <span>                   startdate <span class="op">=</span> <span class="fl">20150815</span>,</span>
 <span>                   enddate <span class="op">=</span> <span class="fl">20150820</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">deviceDeploymentID</span><span class="op">)</span>, geom <span class="op">=</span> <span class="st">"path"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-3.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-3.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># "clock" plot</span></span>
@@ -378,12 +378,12 @@ them. For example:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_radial.html" class="external-link">coord_polar</a></span><span class="op">(</span>start <span class="op">=</span> <span class="va">pi</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/stat_meanByHour.html">stat_meanByHour</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fl">75</span>, xmin <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>, input <span class="op">=</span> <span class="st">"pm25"</span>, output <span class="op">=</span> <span class="st">"AQIColors"</span>, width <span class="op">=</span> <span class="fl">1</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html" class="external-link">adjustcolor</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="fl">.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_pm25Points.html">geom_pm25Points</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-4.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-4.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/ggplot_pm25Diurnal.html">ggplot_pm25Diurnal</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">.05</span>, geom <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-5.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-12-5.png" class="r-plt" width="672"></p>
 </div>
 </div>
 <div class="section level3">
@@ -397,21 +397,21 @@ them by adding themes.</p>
 <span>                     startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                     enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/monitor_ggDailyByHour.html">monitor_ggDailyByHour</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
 <span>                      startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                      enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">day</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-13-2.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-13-2.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/monitor_ggDailyBarplot.html">monitor_ggDailyBarplot</a></span><span class="op">(</span><span class="fu">AirMonitor</span><span class="fu">::</span><span class="va"><a href="https://mazamascience.github.io/AirMonitor/reference/Carmel_Valley.html" class="external-link">Carmel_Valley</a></span>,</span>
 <span>                       startdate <span class="op">=</span> <span class="fl">20160801</span>, </span>
 <span>                       enddate <span class="op">=</span> <span class="fl">20160809</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/stat_nowcast.html">stat_nowcast</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"pm25Points"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="plot_gallery_files/figure-html/unnamed-chunk-13-3.png" width="672"></p>
+<p><img src="plot_gallery_files/figure-html/unnamed-chunk-13-3.png" class="r-plt" width="672"></p>
 </div>
 </div>
   </div>
@@ -431,7 +431,7 @@ them by adding themes.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
