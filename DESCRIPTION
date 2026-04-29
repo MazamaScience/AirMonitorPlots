@@ -1,6 +1,6 @@
 Type: Package
 Package: AirMonitorPlots
-Version: 0.9.3
+Version: 0.9.4
 Title: Plot Utilities for the AirMonitor Package
 Description: A suite of ggplot2 compatible functions to be used with air quality
     monitoring data obtained with the AirMonitor package. These functions provide
@@ -20,13 +20,13 @@ Depends:
     R (>= 4.0.0),
     ggplot2
 Imports:
-    AirMonitor (>= 0.4.3),
+    AirMonitor (>= 0.4.6),
     dplyr,
     grid,
     lubridate,
     magrittr,
-    MazamaCoreUtils (>= 0.5.3),
-    MazamaTimeSeries (>= 0.3.1),
+    MazamaCoreUtils (>= 0.6.0),
+    MazamaTimeSeries (>= 0.3.2),
     plyr,
     png,
     rlang,

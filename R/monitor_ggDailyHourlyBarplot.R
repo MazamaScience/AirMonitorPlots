@@ -32,6 +32,9 @@
 #' @param hourlyDataType The type of hourly data to include in the plot. The
 #'   options include "nowcast" (hourly nowcast values), "raw" (raw hourly values),
 #'   or "none" (no hourly data at all).
+#' @param hourlyBarWidth Fractional width of hourly bars relative to one hour.
+#'   Defaults to 0.45. Values near 1 produce wide bars with little spacing,
+#'   while smaller values produce narrower bars with more separation.
 #' @param palette The ordered color palette used to represent each AQI
 #'   category. Currently defaults to (and only accepts) "epa_aqi".
 #' @param includeLegend Option to include a legend..
@@ -46,25 +49,23 @@
 #' # Fail gracefully if any resources are not available
 #' try({
 #'
-#' SF_IDs <- c(
-#'   "ccdef3f0f6591e77_060010009",
-#'   "06c3f2a66f8b708e_060010012",
-#'   "7157b3dbac7c2043_060010011",
-#'   "060750fa7ae26987a72cc4_060750005005_01"
-#' )
-#' SF_daily <- monitor_loadDaily() %>% monitor_select(id = SF_IDs)
-#' SF_latest <- monitor_loadLatest() %>% monitor_select(id = SF_IDs)
-#' SF_full <- monitor_combine(SF_daily, SF_latest)
-#' today <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='day')
-#' now <- lubridate::floor_date(lubridate::now('America/Los_Angeles'), unit='hour')
-#' starttime <- today - lubridate::ddays(4)
-#' SF_4day <- monitor_filterDatetime(SF_full, starttime, now)
+#' now <- lubridate::now('America/Los_Angeles')
+#' start <- now - lubridate::ddays(6)
 #'
-#' # Create plot using pre subset data
-#' monitor_ggDailyHourlyBarplot(SF_4day, id = SF_IDs)
+#' SF <-
+#'   monitor_loadLatest() %>%
+#'   monitor_filterByDistance(
+#'     longitude = -122.42,
+#'     latitude = 37.77,
+#'     radius = 20000,
+#'     count = 4
+#'   ) %>%
+#'   monitor_filterDate(
+#'     startdate = start,
+#'     enddate = now
+#'   )
 #'
-#' # Create plot using data subset by function
-#' monitor_ggDailyHourlyBarplot(SF_full, starttime, now, SF_IDs)
+#' monitor_ggDailyHourlyBarplot(SF)
 #'
 #' }, silent = FALSE)
 #' }
@@ -80,8 +81,9 @@ monitor_ggDailyHourlyBarplot <- function(
     xLabel = NULL,
     yLabel = NULL,
     hourlyDataType = c("nowcast", "raw", "none"),
+    hourlyBarWidth = 0.6,
     palette = "epa_aqi",
-    includeLegend = TRUE
+    includeLegend = FALSE
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -98,6 +100,19 @@ monitor_ggDailyHourlyBarplot <- function(
   # Convert monitor to tidy structure
   mts_tidy <- monitor_toTidy(monitor)
 
+  # If no ids are provided, use all deviceDeploymentIDs in monitor$meta
+  if ( is.null(id) ) {
+    id <- unique(monitor$meta$deviceDeploymentID)
+    if ( length(id) > 30 ) {
+      stop(
+        paste0(
+          "This monitor contains ", length(id), " deviceDeploymentIDs.\n\n",
+          "Please use the 'id' argument to select 30 or fewer time series."
+        )
+      )
+    }
+  }
+
   # Check deviceDeploymentIDs
   if ( any(!id %in% unique(mts_tidy$deviceDeploymentID)) ) {
     invalidIDs <- id[which(!id %in% unique(mts_tidy$deviceDeploymentID))]
@@ -109,6 +124,15 @@ monitor_ggDailyHourlyBarplot <- function(
 
   # Check hourlyDataType
   hourlyDataType <- match.arg(hourlyDataType)
+
+  # Check hourlyBarWidth
+  if ( !is.numeric(hourlyBarWidth) || length(hourlyBarWidth) != 1 || is.na(hourlyBarWidth) ) {
+    stop("'hourlyBarWidth' must be a single numeric value.")
+  }
+
+  if ( hourlyBarWidth <= 0 || hourlyBarWidth > 1 ) {
+    stop("'hourlyBarWidth' must be > 0 and <= 1.")
+  }
 
   # Check timezone
   if ( !is.null(timezone) ) {
@@ -325,8 +349,9 @@ monitor_ggDailyHourlyBarplot <- function(
     ggplot2::geom_col(
       data = hourlyData,
       ggplot2::aes_(fill = ~aqiCategory, color = ~ aqiCategory),
-      width = 3600 * .45,
-      size = 0,
+      width = 3600 * hourlyBarWidth,
+      linewidth = 0,
+      na.rm = TRUE,
       show.legend = includeLegend
     ) +
     ggplot2::geom_col(
@@ -335,7 +360,8 @@ monitor_ggDailyHourlyBarplot <- function(
       width = 86400,
       alpha = 0.3,
       color = "grey20",
-      size = .05,
+      linewidth = .2,
+      na.rm = TRUE,
       show.legend = includeLegend
     ) +
 
